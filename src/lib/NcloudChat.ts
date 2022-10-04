@@ -8,7 +8,11 @@ export function initialize() {
   nc.initialize("2ef56fa4-c935-4c6c-ac64-ceb4fbbc73b6");
 }
 
-export async function connect(id: string, name: string, profile: string = "") {
+export async function connect(
+  id: string,
+  name: string,
+  profile: string = null
+) {
   nc.setUser({ id: id, name: name, profile: profile });
   return await nc.connect({ id: id, name: name, profile: profile });
 }

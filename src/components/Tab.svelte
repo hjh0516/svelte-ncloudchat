@@ -15,7 +15,7 @@
       >
         <div
           class={item === activeItem
-            ? "border-b-2 leading-10 border-b-cyan-400"
+            ? "border-b-2 leading-10 border-b-cyan-500"
             : "border-b-2 leading-10 border-b-gray-100"}
         >
           {item}

@@ -1,18 +1,6 @@
 <script lang="ts">
-  import { sendMessage } from "../lib/NcloudChat";
-
-  export let channel_id: string;
-  let message = "";
-
-  function send() {
-    console.log(channel_id);
-    console.log(message);
-    if (message) {
-      const test = sendMessage(channel_id, "text", message);
-      console.log(test);
-    }
-    message = "";
-  }
+  export let message = "";
+  export let send = () => {};
 </script>
 
 <div
@@ -58,7 +46,7 @@
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      class="w-10 h-10 mr-1 text-cyan-400 hover:text-cyan-300"
+      class="w-10 h-10 mr-1 text-cyan-500 hover:text-cyan-400"
       on:click={send}
     >
       <path

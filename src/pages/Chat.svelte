@@ -2,10 +2,12 @@
   import ChatSendItem from "../components/ChatSendItem.svelte";
   import ChatReceiveItem from "../components/ChatReceiveItem.svelte";
   import MessageInput from "../components/MessageInput.svelte";
-  import { getMessages, isConnected } from "../lib/NcloudChat";
+  import { getMessages, isConnected, sendMessage } from "../lib/NcloudChat";
   import { user } from "../store/store";
+  import type { MessageType } from "../lib/types/MessageType";
 
   export let params: any;
+  let message: string;
   let userValue: any;
 
   user.subscribe((value) => {
@@ -16,7 +18,26 @@
     location.href = "/";
   }
 
-  const promise = getMessages(params.id, 0, 20);
+  async function send() {
+    const send = await sendMessage(params.id, "text", message);
+    const m: MessageType = {
+      channel_id: send.channelId,
+      sender: send.user,
+      content: send.message,
+      message_type: send.type,
+      sort_id: Date.now().toString(),
+    };
+    message = "";
+
+    new ChatSendItem({
+      props: {
+        message: m,
+      },
+      target: document.getElementById("messages"),
+    });
+  }
+
+  let promise = getMessages(params.id, 0, 20);
 </script>
 
 <div
@@ -27,7 +48,7 @@
       <div class="text-lg font-medium">채팅 내용을 불러오는 중...</div>
     </div>
   {:then messages}
-    <div>
+    <div id="messages">
       {#each messages as message}
         {#if message.sender.id !== userValue.id}
           <ChatReceiveItem {message} />
@@ -38,4 +59,4 @@
     </div>
   {/await}
 </div>
-<MessageInput channel_id={params.id} />
+<MessageInput {send} bind:message />
