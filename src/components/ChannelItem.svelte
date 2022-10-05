@@ -1,17 +1,33 @@
 <script lang="ts">
+  import { bind, unbindall } from "../lib/NcloudChat";
+  import { onDestroy, onMount } from "svelte";
   import { convertDate } from "../lib/Date";
   import type { ChannelType } from "../lib/types/ChannelType";
+  import type { MessageType } from "src/lib/types/MessageType";
 
   export let channel: ChannelType;
 
-  function clickItem(id: string) {
+  async function clickItem(id: string) {
     location.href = `/#/chat/${id}`;
   }
+
+  onMount(async () => {
+    await bind(
+      "onMessageReceived",
+      function (_channel: string, message: MessageType) {
+        channel.last_message = message;
+      }
+    );
+  });
+
+  onDestroy(async () => {
+    await unbindall("onMessageReceived");
+  });
 </script>
 
 <div
   class="h-24 mt-5 ml-5 mr-5 flex items-center gap-4 p-4 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
-  on:click={() => clickItem(channel.id)}
+  on:click={async () => await clickItem(channel.id)}
 >
   {#if channel.image_url}
     <img

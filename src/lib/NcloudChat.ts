@@ -8,21 +8,21 @@ export function initialize() {
   nc.initialize("2ef56fa4-c935-4c6c-ac64-ceb4fbbc73b6");
 }
 
-export async function connect(
-  id: string,
-  name: string,
-  profile: string = null
-) {
-  nc.setUser({ id: id, name: name, profile: profile });
-  return await nc.connect({ id: id, name: name, profile: profile });
+export async function connect(id: string, name: string) {
+  nc.setUser({ id: id, name: name });
+  return await nc.connect({ id: id, name: name });
 }
 
 export async function disconnect() {
   await nc.disconnect();
 }
 
-export function bind(id: string, fn: any) {
-  nc.bind(id, fn);
+export async function bind(id: string, fn: any) {
+  await nc.bind(id, fn);
+}
+
+export async function unbindall(id: string) {
+  await nc.unbindall(id);
 }
 
 export function isConnected() {
@@ -44,6 +44,18 @@ export async function unsubscribe(channel_id: string) {
 export async function getChannels(offset: number, per_page: number) {
   return await nc.getChannels(
     { state: true },
+    { created_at: -1 },
+    { offset: offset, per_page: per_page }
+  );
+}
+
+export async function getSubscriptions(
+  user_id: string,
+  offset: number,
+  per_page: number
+) {
+  return await nc.getSubscriptions(
+    { user_id: user_id },
     { created_at: -1 },
     { offset: offset, per_page: per_page }
   );
@@ -97,7 +109,7 @@ export async function getMessages(
 ) {
   return await nc.getMessages(
     { channel_id: channel_id },
-    { created_at: 1 },
+    { created_at: -1 },
     { offset: offset, per_page: per_page }
   );
 }

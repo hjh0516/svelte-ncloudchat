@@ -14,8 +14,12 @@ export function convertDate(value: string | number | Date) {
   const minutes = date.getMinutes();
 
   if (hours > 12) {
-    return `오후 ${hours - 12}:${minutes}`;
+    return `오후 ${pad(hours - 12)}:${pad(minutes)}`;
   } else {
-    return `오전 ${hours}:${minutes}`;
+    return `오전 ${pad(hours)}:${pad(minutes)}`;
   }
+}
+
+function pad(date: number) {
+  return date.toString().padStart(2, "0");
 }

@@ -1,12 +1,29 @@
 <script lang="ts">
+  import { user } from "../store/store";
   import { retryAsync } from "ts-retry";
   import ChannelItem from "../components/ChannelItem.svelte";
   import FloatingActionButton from "../components/FloatingActionButton.svelte";
-  import { getChannels } from "../lib/NcloudChat";
+  import { getChannel, getSubscriptions } from "../lib/NcloudChat";
+
+  let userValue: any;
+
+  user.subscribe((value) => {
+    userValue = value;
+  });
+
+  if (!userValue) {
+    location.href = "/";
+  }
 
   let promise = retryAsync(
     async () => {
-      return await getChannels(0, 20);
+      const subscriptions = await getSubscriptions(userValue.id, 0, 20);
+
+      let channels = [];
+      for (let subscription of subscriptions) {
+        channels = [...channels, await getChannel(subscription.channel_id)];
+      }
+      return channels;
     },
     { delay: 100, maxTry: 5 }
   );

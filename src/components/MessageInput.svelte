@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let message = "";
+  export let input = "";
   export let send = () => {};
 </script>
 
@@ -25,7 +25,7 @@
     <input
       class="w-full h-7 ml-3 mr-1 pl-1 pr-1 focus:outline-0"
       type="text"
-      bind:value={message}
+      bind:value={input}
     />
     <svg
       xmlns="http://www.w3.org/2000/svg"

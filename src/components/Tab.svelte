@@ -6,11 +6,11 @@
   export let activeItem: string;
 </script>
 
-<div class="flex items-center relative h-10">
-  <ul class="w-full flex justify-around">
+<div class="w-full h-10">
+  <ul class="flex justify-around">
     {#each tabItems as item}
       <li
-        class="w-full text-center font-medium"
+        class="w-full text-center text-lg font-bold"
         on:click={() => dispatch("tabChange", item)}
       >
         <div

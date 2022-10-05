@@ -2,14 +2,14 @@
   import { convertDate } from "../lib/Date";
   import type { MessageType } from "../lib/types/MessageType";
 
-  export let message: MessageType;
+  export let item: MessageType;
 </script>
 
-<div class="flex pt-5">
-  {#if message.sender.profile}
+<div class="flex pt-5 h-24">
+  {#if item.sender.profile}
     <img
       class="w-12 h-12 rounded-full"
-      src={message.sender.profile}
+      src={item.sender.profile}
       alt="sender_profile_image"
     />
   {:else}
@@ -27,14 +27,14 @@
     </svg>
   {/if}
   <div class="flex flex-col ml-3">
-    <span class="text-base font-bold">{message.sender.name}</span>
+    <span class="text-base font-bold">{item.sender.name}</span>
     <div
       class="bg-white border border-gray-200 pt-1 pb-2 pl-3 pr-3 rounded-b-xl rounded-r-xl"
     >
-      <span class="text-gray-500 text-sm">{message.content}</span>
+      <span class="text-gray-500 text-sm">{item.content}</span>
     </div>
     <span class="text-gray-400 text-xs mt-1">
-      {convertDate(Number(message.sort_id))}
+      {convertDate(Number(item.sort_id))}
     </span>
   </div>
 </div>
