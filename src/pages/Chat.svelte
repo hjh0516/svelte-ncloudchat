@@ -22,9 +22,10 @@
 
   let input: string;
   let userValue: MemberType;
+  let element: HTMLElement;
+
   let offset = 0;
   let data: MessageType[] = [];
-  let newData: MessageType[] = [];
 
   user.subscribe((value) => {
     userValue = value;
@@ -51,8 +52,6 @@
     });
   }
 
-  $: data = [...newData.reverse(), ...data];
-
   onMount(() => {
     bind(
       "onMessageReceived",
@@ -62,16 +61,17 @@
             props: {
               item: message,
             },
-            target: document.getElementById("messages"),
+            target: element,
           });
         } else {
           new ChatReceiveItem({
             props: {
               item: message,
             },
-            target: document.getElementById("messages"),
+            target: element,
           });
         }
+        element.scrollTop = element.scrollHeight;
       }
     );
   });
@@ -82,15 +82,12 @@
 </script>
 
 <div
-  class="w-full h-screen bg-gray-100 pl-5 pr-5 pb-20 overflow-y-auto flex flex-col"
+  bind:this={element}
+  class="w-full h-screen bg-gray-100 pl-5 pr-5 pb-20 overflow-y-auto flex flex-col scrollbar-hide"
 >
   <InfiniteLoading on:infinite={loadMessages} direction="top">
-    <div slot="noMore" class="text-sm text-gray-400 font-bold pt-5">
-      마지막 메시지에요!
-    </div>
-    <div slot="noResults" class="text-sm text-gray-400 font-bold pt-5">
-      메시지가 없어요!
-    </div>
+    <div slot="noMore" />
+    <div slot="noResults" />
     <Spinner slot="spinner" />
   </InfiniteLoading>
 

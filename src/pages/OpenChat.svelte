@@ -1,9 +1,10 @@
 <script lang="ts">
+  import ChannelItem from "../components/ChannelItem.svelte";
+  import Spinner from "../components/Spinner.svelte";
   import { getChannels, getSubscriptions } from "../lib/NcloudChat";
   import { retryAsync } from "ts-retry";
   import type { MemberType } from "../lib/types/MemberType";
   import { user } from "../store/store";
-  import ChannelItem from "../components/ChannelItem.svelte";
   import type { ChannelType, SubscriptionType } from "../lib/types/ChannelType";
 
   let userValue: MemberType;
@@ -32,7 +33,9 @@
   );
 </script>
 
-<div class="h-10 border border-gray-200 rounded-2xl m-5 flex items-center">
+<div
+  class="h-10 border border-gray-200 rounded-2xl m-5 flex items-center shadow-md"
+>
   <input
     class="w-full h-7 ml-3 mr-1 pl-1 pr-1 focus:outline-none"
     type="text"
@@ -55,13 +58,13 @@
 
 {#await promise}
   <div class="w-full h-[calc(100vh-7.5rem)] flex justify-center items-center">
-    <div class="text-xl font-bold">채팅 리스트를 불러오는 중...</div>
+    <Spinner />
   </div>
 {:then channels}
   {#if channels.length > 0}
     <div class="w-full h-[calc(100vh-7.5rem)] flex flex-col overflow-y-auto">
-      {#each channels as channel}
-        <ChannelItem {channel} />
+      {#each channels as item}
+        <ChannelItem {item} />
       {/each}
     </div>
   {:else}
