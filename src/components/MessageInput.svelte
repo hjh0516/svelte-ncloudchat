@@ -23,7 +23,7 @@
     class="w-full h-10 border border-gray-200 rounded-2xl m-2 flex items-center"
   >
     <input
-      class="w-full h-7 ml-3 mr-1 pl-1 pr-1 focus:outline-0"
+      class="w-full h-7 ml-3 mr-1 pl-1 pr-1 focus:outline-none"
       type="text"
       bind:value={input}
     />

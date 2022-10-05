@@ -12,7 +12,6 @@
 
 <main>
   <Navigation />
-
   {#if activeItemValue === "My 채팅"}
     <MyChat />
   {:else if activeItemValue === "오픈 채팅"}

@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { onMount, onDestroy } from "svelte";
   import ChatSendItem from "../components/ChatSendItem.svelte";
   import ChatReceiveItem from "../components/ChatReceiveItem.svelte";
   import MessageInput from "../components/MessageInput.svelte";
+  import InfiniteLoading from "svelte-infinite-loading";
   import {
     getMessages,
     isConnected,
@@ -10,12 +12,19 @@
     unbindall,
   } from "../lib/NcloudChat";
   import { user } from "../store/store";
-  import { onMount, onDestroy } from "svelte";
+  import type { MemberType } from "../lib/types/MemberType";
   import type { MessageType } from "../lib/types/MessageType";
+  import Spinner from "../components/Spinner.svelte";
 
   export let params: any;
+
+  const per_page = 20;
+
   let input: string;
-  let userValue: any;
+  let userValue: MemberType;
+  let offset = 0;
+  let data: MessageType[] = [];
+  let newData: MessageType[] = [];
 
   user.subscribe((value) => {
     userValue = value;
@@ -30,10 +39,22 @@
     input = "";
   }
 
-  let promise = getMessages(params.id, 0, 20);
+  function loadMessages({ detail: { loaded, complete } }) {
+    getMessages(params.id, offset, per_page).then((newData) => {
+      if (newData.length) {
+        offset += per_page;
+        data = [...newData.reverse(), ...data];
+        loaded();
+      } else {
+        complete();
+      }
+    });
+  }
 
-  onMount(async () => {
-    await bind(
+  $: data = [...newData.reverse(), ...data];
+
+  onMount(() => {
+    bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
         if (message.sender.id === userValue.id) {
@@ -55,28 +76,30 @@
     );
   });
 
-  onDestroy(async () => {
-    await unbindall("onMessageReceived");
+  onDestroy(() => {
+    unbindall("onMessageReceived");
   });
 </script>
 
 <div
-  class="w-full h-screen bg-gray-100 pl-5 pr-5 pb-20 overflow-y-auto flex flex-col-reverse"
+  class="w-full h-screen bg-gray-100 pl-5 pr-5 pb-20 overflow-y-auto flex flex-col"
 >
-  {#await promise}
-    <div class="w-full h-screen flex justify-center items-center">
-      <div class="text-lg font-medium">채팅 내용을 불러오는 중...</div>
+  <InfiniteLoading on:infinite={loadMessages} direction="top">
+    <div slot="noMore" class="text-sm text-gray-400 font-bold pt-5">
+      마지막 메시지에요!
     </div>
-  {:then messages}
-    <div id="messages">
-      {#each messages.reverse() as item}
-        {#if item.sender.id !== userValue.id}
-          <ChatReceiveItem {item} />
-        {:else}
-          <ChatSendItem {item} />
-        {/if}
-      {/each}
+    <div slot="noResults" class="text-sm text-gray-400 font-bold pt-5">
+      메시지가 없어요!
     </div>
-  {/await}
+    <Spinner slot="spinner" />
+  </InfiniteLoading>
+
+  {#each data as item}
+    {#if item.sender.id !== userValue.id}
+      <ChatReceiveItem {item} />
+    {:else}
+      <ChatSendItem {item} />
+    {/if}
+  {/each}
 </div>
 <MessageInput {send} bind:input />

@@ -4,8 +4,9 @@
   import ChannelItem from "../components/ChannelItem.svelte";
   import FloatingActionButton from "../components/FloatingActionButton.svelte";
   import { getChannel, getSubscriptions } from "../lib/NcloudChat";
+  import type { MemberType } from "src/lib/types/MemberType";
 
-  let userValue: any;
+  let userValue: MemberType;
 
   user.subscribe((value) => {
     userValue = value;
@@ -31,10 +32,10 @@
 
 {#await promise}
   <div class="w-full h-[calc(100vh-2.5rem)] flex justify-center items-center">
-    <div class="text-lg font-medium">채팅 리스트를 불러오는 중...</div>
+    <div class="text-xl font-bold">채팅 리스트를 불러오는 중...</div>
   </div>
 {:then channels}
-  {#if channels}
+  {#if channels.length > 0}
     <div class="w-full h-[calc(100vh-2.5rem)] flex flex-col overflow-y-auto">
       {#each channels as channel}
         <ChannelItem {channel} />
@@ -43,7 +44,7 @@
   {:else}
     <div class="w-full h-[calc(100vh-2.5rem)] flex justify-center items-center">
       <div class="text-center">
-        <div class="mb-2 text-lg font-medium">
+        <div class="mb-2 text-xl font-bold">
           <span>참여중인 채팅이 없어요!</span>
         </div>
         <div class="text-gray-400">

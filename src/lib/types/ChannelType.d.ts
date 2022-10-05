@@ -18,3 +18,18 @@ export interface ChannelType {
   created_at: string;
   updated_at: string;
 }
+
+export interface SubscriptionType {
+  id: string;
+  channel_id: string;
+  user_id: string;
+  created_at: string;
+  online: boolean;
+  push: boolean;
+  language: string;
+  mark: {
+    user_id: string;
+    message_id: string;
+    sort_id: string;
+  };
+}

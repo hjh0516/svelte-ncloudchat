@@ -3,7 +3,7 @@
   import { onDestroy, onMount } from "svelte";
   import { convertDate } from "../lib/Date";
   import type { ChannelType } from "../lib/types/ChannelType";
-  import type { MessageType } from "src/lib/types/MessageType";
+  import type { MessageType } from "../lib/types/MessageType";
 
   export let channel: ChannelType;
 
@@ -11,8 +11,8 @@
     location.href = `/#/chat/${id}`;
   }
 
-  onMount(async () => {
-    await bind(
+  onMount(() => {
+    bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
         channel.last_message = message;
@@ -20,8 +20,8 @@
     );
   });
 
-  onDestroy(async () => {
-    await unbindall("onMessageReceived");
+  onDestroy(() => {
+    unbindall("onMessageReceived");
   });
 </script>
 

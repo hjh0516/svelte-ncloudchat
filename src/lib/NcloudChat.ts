@@ -1,6 +1,8 @@
-import { Chat } from "ncloudchat";
-import type { ChannelType } from "ncloudchat/esm/Type";
 import { v4 as uuidv4 } from "uuid";
+import { Chat } from "ncloudchat";
+import type { ChannelType as CType } from "ncloudchat/esm/Type";
+import type { ChannelType, SubscriptionType } from "./types/ChannelType";
+import type { MessageType } from "./types/MessageType";
 
 export const nc = new Chat();
 
@@ -41,7 +43,10 @@ export async function unsubscribe(channel_id: string) {
   await nc.unsubscribe(channel_id);
 }
 
-export async function getChannels(offset: number, per_page: number) {
+export async function getChannels(
+  offset: number,
+  per_page: number
+): Promise<ChannelType[]> {
   return await nc.getChannels(
     { state: true },
     { created_at: -1 },
@@ -53,7 +58,7 @@ export async function getSubscriptions(
   user_id: string,
   offset: number,
   per_page: number
-) {
+): Promise<SubscriptionType[]> {
   return await nc.getSubscriptions(
     { user_id: user_id },
     { created_at: -1 },
@@ -65,7 +70,7 @@ export async function getChannel(id: string) {
   return await nc.getChannel(id);
 }
 
-export async function createChannel(type: ChannelType, name: string) {
+export async function createChannel(type: CType, name: string) {
   const uuid = uuidv4();
   return await nc.createChannel({
     id: uuid,
@@ -82,11 +87,7 @@ export async function createChannel(type: ChannelType, name: string) {
   });
 }
 
-export async function updateChannel(
-  id: string,
-  type: ChannelType,
-  name: string
-) {
+export async function updateChannel(id: string, type: CType, name: string) {
   return await nc.updateChannel(id, {
     id: id,
     type: type,
@@ -106,7 +107,7 @@ export async function getMessages(
   channel_id: string,
   offset: number,
   per_page: number
-) {
+): Promise<MessageType[]> {
   return await nc.getMessages(
     { channel_id: channel_id },
     { created_at: -1 },
@@ -114,7 +115,10 @@ export async function getMessages(
   );
 }
 
-export async function getMessage(channel_id: string, message_id: string) {
+export async function getMessage(
+  channel_id: string,
+  message_id: string
+): Promise<MessageType> {
   return await nc.getMessage(channel_id, message_id);
 }
 

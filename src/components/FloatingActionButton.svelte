@@ -2,7 +2,7 @@
   <div>
     <button
       type="button"
-      class="inline-block rounded-full bg-cyan-500 text-white leading-normal uppercase shadow-md hover:bg-cyan-500 hover:shadow-lg focus:bg-cyan-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-300 active:shadow-lg transition duration-150 ease-in-out w-10 h-10"
+      class="inline-block rounded-full bg-cyan-500 text-white leading-normal uppercase shadow-md hover:bg-cyan-500 hover:shadow-lg focus:bg-cyan-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-300 active:shadow-lg transition duration-150 ease-in-out w-14 h-14"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@
         viewBox="0 0 24 24"
         stroke-width="2"
         stroke="currentColor"
-        class="w-6 mx-auto"
+        class="w-8 mx-auto"
       >
         <path
           stroke-linecap="round"

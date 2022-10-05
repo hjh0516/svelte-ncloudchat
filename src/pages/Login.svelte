@@ -6,6 +6,10 @@
   let name: string;
 
   async function login() {
+    if (!id || !name) {
+      return;
+    }
+
     initialize();
     await connect(id, name);
     user.set({ id: id, name: id });
@@ -25,7 +29,7 @@
   <div class="mb-5 ml-10">
     <span class="text-cyan-500 font-bold text-2xl drop-shadow-md">ID</span>
     <input
-      class="h-10 border border-gray-50 rounded-md ml-5 pl-2 pr-2 shadow-md focus:outline-0"
+      class="h-10 border border-gray-50 rounded-md ml-5 pl-2 pr-2 shadow-md focus:outline-none"
       type="text"
       placeholder="ID"
       bind:value={id}
@@ -34,7 +38,7 @@
   <div class="mb-10">
     <span class="text-cyan-500 font-bold text-2xl drop-shadow-md">NAME</span>
     <input
-      class="h-10 border border-gray-50 rounded-md ml-5 pl-2 pr-2 shadow-md focus:outline-0"
+      class="h-10 border border-gray-50 rounded-md ml-5 pl-2 pr-2 shadow-md focus:outline-none"
       type="text"
       placeholder="NAME"
       bind:value={name}
@@ -42,7 +46,7 @@
   </div>
   <button
     on:click={login}
-    class="bg-cyan-500 w-28 h-10 rounded-md text-gray-50 font-bold shadow-md"
+    class="bg-cyan-500 w-28 h-10 rounded-md text-gray-50 font-bold shadow-md hover:bg-cyan-400"
     >로그인</button
   >
 </div>
