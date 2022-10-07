@@ -1,13 +1,13 @@
+import type { ChannelType as CType } from "ncloudchat/esm/Type";
+import type { ChannelType, SubscriptionType } from "$types/ChannelType";
+import type { MessageType } from "$types/MessageType";
 import { v4 as uuidv4 } from "uuid";
 import { Chat } from "ncloudchat";
-import type { ChannelType as CType } from "ncloudchat/esm/Type";
-import type { ChannelType, SubscriptionType } from "./types/ChannelType";
-import type { MessageType } from "./types/MessageType";
 
 export const nc = new Chat();
 
 export function initialize() {
-  nc.initialize("2ef56fa4-c935-4c6c-ac64-ceb4fbbc73b6");
+  nc.initialize(import.meta.env.VITE_PROJECT_ID);
 }
 
 export async function connect(id: string, name: string) {
@@ -44,29 +44,25 @@ export async function unsubscribe(channel_id: string) {
 }
 
 export async function getChannels(
+  filter: any,
   offset: number,
   per_page: number
 ): Promise<ChannelType[]> {
   return await nc.getChannels(
-    { state: true },
-    { created_at: "asc" },
+    filter,
+    // { "last_message.sort_id": -1, unique_id: -1 },
+    { unique_id: -1 },
     { offset: offset, per_page: per_page }
   );
 }
 
 export async function getSubscriptions(
-  user_id: string,
-  offset: number,
-  per_page: number
+  filter: any
 ): Promise<SubscriptionType[]> {
-  return await nc.getSubscriptions(
-    { user_id: user_id, online: true },
-    { created_at: "asc" },
-    { offset: offset, per_page: per_page }
-  );
+  return await nc.getSubscriptions(filter, { created_at: 1 }, { offset: 0 });
 }
 
-export async function getChannel(id: string) {
+export async function getChannel(id: string): Promise<ChannelType> {
   return await nc.getChannel(id);
 }
 
@@ -79,7 +75,7 @@ export async function createChannel(
     id: uuid,
     type: type,
     name: name,
-    uniqueId: uuid,
+    uniqueId: Date.now().toString(),
     translation: false,
     disabled: false,
     push: false,
@@ -90,12 +86,17 @@ export async function createChannel(
   });
 }
 
-export async function updateChannel(id: string, type: CType, name: string) {
+export async function updateChannel(
+  id: string,
+  type: CType,
+  name: string,
+  unique_id: string
+) {
   return await nc.updateChannel(id, {
     id: id,
     type: type,
     name: name,
-    uniqueId: id,
+    uniqueId: unique_id,
     translation: false,
     disabled: false,
     push: false,
@@ -104,6 +105,10 @@ export async function updateChannel(id: string, type: CType, name: string) {
     imageUrl: "",
     members: [],
   });
+}
+
+export async function deleteChannel(id: string) {
+  return await nc.deleteChannel(id);
 }
 
 export async function getMessages(

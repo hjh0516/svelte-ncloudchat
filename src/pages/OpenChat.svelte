@@ -2,9 +2,9 @@
   import type { MemberType } from "$lib/types/MemberType";
   import type { ChannelType } from "$lib/types/ChannelType";
 
-  import ChannelItem from "$components/ChannelItem.svelte";
-  import Spinner from "$components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
+  import OpenChannelItem from "$components/OpenChannelItem.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import { getChannels, getSubscriptions } from "$lib/NcloudChat";
   import { user } from "$store/store";
 
@@ -36,19 +36,15 @@
   }
 
   async function fetchChannels(offset: number, per_page: number) {
-    const subscriptions = await getSubscriptions(
-      userValue.id,
+    const subscriptions = await getSubscriptions({
+      user_id: { $ne: userValue.id },
+    });
+
+    return await getChannels(
+      { id: subscriptions.map((s) => s.channel_id), state: true },
       offset,
       per_page
     );
-    let channels = await getChannels(offset, per_page);
-
-    channels = channels.filter((channel) => {
-      return !subscriptions
-        .map((subscription) => subscription.channel_id)
-        .includes(channel.id);
-    });
-    return channels;
   }
 </script>
 
@@ -82,7 +78,7 @@
   class="fixed w-full h-full pt-32 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
-    <ChannelItem {item} />
+    <OpenChannelItem {item} />
   {/each}
 
   <InfiniteLoading on:infinite={loadChannels}>

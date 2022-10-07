@@ -89,7 +89,12 @@
   <InfiniteLoading on:infinite={loadMessages} direction="top">
     <div slot="noMore" />
     <div slot="noResults" />
-    <Spinner slot="spinner" />
+    <div
+      slot="spinner"
+      class="fixed left-[calc(50%-1rem)] top-[calc(50%-2.25rem)]"
+    >
+      <Spinner />
+    </div>
   </InfiniteLoading>
 
   {#each data as item}

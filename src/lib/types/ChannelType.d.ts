@@ -1,12 +1,14 @@
+import type { ChannelType as CType } from "ncloudchat/esm/Type";
 import type { MessageType } from "$types/MessageType";
+import type { MemberType } from "$types/MemberType";
 
 export interface ChannelType {
   id: string;
   project_id: string;
   unique_id: string;
   name: string;
-  user_id: string;
-  user_id: array;
+  type: CType;
+  user_id: MemberType;
   unique_id: string;
   default_lang: string;
   lang: string;

@@ -1,10 +1,16 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import type { MemberType } from "$lib/types/MemberType";
+  import type { ChannelType } from "$lib/types/ChannelType";
+  import type { MessageType } from "$lib/types/MessageType";
+
+  import { onDestroy, onMount } from "svelte";
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
-  import { bind } from "$lib/NcloudChat";
-  import { activeItem, isConnected } from "$store/store";
+  import { bind, getChannel, unbindall, updateChannel } from "$lib/NcloudChat";
+  import { activeItem, isConnected, user } from "$store/store";
+
+  let channel: ChannelType;
 
   let isConnectedValue: boolean;
   isConnected.subscribe((value) => {
@@ -16,6 +22,11 @@
     activeItemValue = value;
   });
 
+  let userValue: MemberType;
+  user.subscribe((value) => {
+    userValue = value;
+  });
+
   onMount(() => {
     bind("onConnected", function (_socket: any) {
       isConnected.set(true);
@@ -23,8 +34,26 @@
 
     bind("onDisconnected", function (reason: any) {
       console.log(reason);
-      // location.href = "/";
     });
+
+    bind(
+      "onMessageReceived",
+      async function (_channel: string, _message: MessageType) {
+        channel = await getChannel(_channel);
+        if (channel.user_id.name == userValue.name) {
+          await updateChannel(
+            channel.id,
+            channel.type,
+            channel.name,
+            Date.now().toString()
+          );
+        }
+      }
+    );
+  });
+
+  onDestroy(() => {
+    unbindall("onMessageReceived");
   });
 </script>
 

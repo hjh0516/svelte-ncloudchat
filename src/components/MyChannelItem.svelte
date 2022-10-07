@@ -1,29 +1,19 @@
 <script lang="ts">
   import type { ChannelType } from "$lib/types/ChannelType";
-  import type { MessageType } from "$lib/types/MessageType";
 
-  import { onDestroy, onMount } from "svelte";
-  import { bind, unbindall } from "$lib/NcloudChat";
   import { convertDate } from "$lib/Date";
+  import { activeItem } from "$store/store";
 
   export let item: ChannelType;
+
+  let activeItemValue: string;
+  activeItem.subscribe((value) => {
+    activeItemValue = value;
+  });
 
   async function clickItem(id: string) {
     location.href = `/#/chat/${id}`;
   }
-
-  onMount(() => {
-    bind(
-      "onMessageReceived",
-      function (_channel: string, message: MessageType) {
-        item.last_message = message;
-      }
-    );
-  });
-
-  onDestroy(() => {
-    unbindall("onMessageReceived");
-  });
 </script>
 
 <div

@@ -2,9 +2,9 @@
   import type { MemberType } from "$lib/types/MemberType";
   import type { ChannelType } from "$lib/types/ChannelType";
 
-  import ChannelItem from "$components/ChannelItem.svelte";
   import CreateChannelModal from "$components/CreateChannelModal.svelte";
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
+  import MyChannelItem from "$components/MyChannelItem.svelte";
   import Spinner from "$components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
   import { user } from "$store/store";
@@ -36,29 +36,19 @@
   }
 
   async function fetchChannels(offset: number, per_page: number) {
-    const subscriptions = await getSubscriptions(
-      userValue.id,
+    const subscriptions = await getSubscriptions({ user_id: userValue.id });
+
+    return await getChannels(
+      { id: subscriptions.map((s) => s.channel_id), state: true },
       offset,
       per_page
     );
-    let channels = await getChannels(offset, per_page);
-    channels = channels.filter((channel) => {
-      return subscriptions
-        .map((subscription) => subscription.channel_id)
-        .includes(channel.id);
-    });
-    return channels;
   }
 
   function onModalClose() {
     showModal = false;
     if (newChannel) {
-      new ChannelItem({
-        props: {
-          item: newChannel,
-        },
-        target: element,
-      });
+      data = [newChannel, ...data];
     }
   }
 </script>
@@ -68,9 +58,7 @@
   bind:this={element}
 >
   {#each data as item}
-    {#if item}
-      <ChannelItem {item} />
-    {/if}
+    <MyChannelItem {item} />
   {/each}
 
   <InfiniteLoading on:infinite={loadChannels}>
