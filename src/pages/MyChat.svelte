@@ -1,31 +1,30 @@
 <script lang="ts">
-  import InfiniteLoading from "svelte-infinite-loading";
-  import { retryAsync } from "ts-retry";
-  import ChannelItem from "../components/ChannelItem.svelte";
-  import FloatingActionButton from "../components/FloatingActionButton.svelte";
-  import Spinner from "../components/Spinner.svelte";
-  import { user } from "../store/store";
-  import { getChannel, getSubscriptions } from "../lib/NcloudChat";
   import type { MemberType } from "../lib/types/MemberType";
   import type { ChannelType } from "../lib/types/ChannelType";
+
+  import ChannelItem from "../components/ChannelItem.svelte";
+  import CreateChannelModal from "../components/CreateChannelModal.svelte";
+  import FloatingActionButton from "../components/FloatingActionButton.svelte";
+  import Spinner from "../components/Spinner.svelte";
+  import InfiniteLoading from "svelte-infinite-loading";
+  import { user } from "../store/store";
+  import { getChannels, getSubscriptions } from "../lib/NcloudChat";
 
   const per_page = 20;
 
   let userValue: MemberType;
-
+  let element: HTMLElement;
   let offset = 0;
   let data: ChannelType[] = [];
+  let showModal = false;
+  let newChannel: ChannelType = null;
 
   user.subscribe((value) => {
     userValue = value;
   });
 
-  if (!userValue) {
-    location.href = "/";
-  }
-
   function loadChannels({ detail: { loaded, complete } }) {
-    getChannels(offset, per_page).then((newData) => {
+    fetchChannels(offset, per_page).then((newData) => {
       if (newData.length) {
         offset += per_page;
         data = [...data, ...newData];
@@ -36,31 +35,42 @@
     });
   }
 
-  async function getChannels(offset: number, per_page: number) {
-    return await retryAsync(
-      async () => {
-        const subscriptions = await getSubscriptions(
-          userValue.id,
-          offset,
-          per_page
-        );
-
-        let channels: ChannelType[] = [];
-        for (let subscription of subscriptions) {
-          channels = [...channels, await getChannel(subscription.channel_id)];
-        }
-        return channels;
-      },
-      { delay: 100, maxTry: 5 }
+  async function fetchChannels(offset: number, per_page: number) {
+    const subscriptions = await getSubscriptions(
+      userValue.id,
+      offset,
+      per_page
     );
+    let channels = await getChannels(offset, per_page);
+    channels = channels.filter((channel) => {
+      return subscriptions
+        .map((subscription) => subscription.channel_id)
+        .includes(channel.id);
+    });
+    return channels;
+  }
+
+  function onModalClose() {
+    showModal = false;
+    if (newChannel) {
+      new ChannelItem({
+        props: {
+          item: newChannel,
+        },
+        target: element,
+      });
+    }
   }
 </script>
 
 <div
-  class="w-full h-[calc(100vh - 2.5rem)] pt-5 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full h-full pt-14 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
+  bind:this={element}
 >
   {#each data as item}
-    <ChannelItem {item} />
+    {#if item}
+      <ChannelItem {item} />
+    {/if}
   {/each}
 
   <InfiniteLoading on:infinite={loadChannels}>
@@ -68,10 +78,14 @@
     <div slot="noResults" />
     <div
       slot="spinner"
-      class="w-full h-[calc(100vh-2.5rem)] flex justify-center items-center"
+      class="fixed left-[calc(50%-1rem)] top-[calc(50%-2.25rem)]"
     >
       <Spinner />
     </div>
   </InfiniteLoading>
 </div>
-<FloatingActionButton />
+<FloatingActionButton on:click={() => (showModal = true)} />
+
+{#if showModal}
+  <CreateChannelModal on:close={onModalClose} bind:newChannel />
+{/if}

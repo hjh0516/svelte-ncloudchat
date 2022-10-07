@@ -49,7 +49,7 @@ export async function getChannels(
 ): Promise<ChannelType[]> {
   return await nc.getChannels(
     { state: true },
-    { created_at: -1 },
+    { created_at: 1 },
     { offset: offset, per_page: per_page }
   );
 }
@@ -60,8 +60,8 @@ export async function getSubscriptions(
   per_page: number
 ): Promise<SubscriptionType[]> {
   return await nc.getSubscriptions(
-    { user_id: user_id },
-    { created_at: -1 },
+    { user_id: user_id, online: true },
+    { created_at: 1 },
     { offset: offset, per_page: per_page }
   );
 }
@@ -70,7 +70,10 @@ export async function getChannel(id: string) {
   return await nc.getChannel(id);
 }
 
-export async function createChannel(type: CType, name: string) {
+export async function createChannel(
+  type: CType,
+  name: string
+): Promise<ChannelType> {
   const uuid = uuidv4();
   return await nc.createChannel({
     id: uuid,

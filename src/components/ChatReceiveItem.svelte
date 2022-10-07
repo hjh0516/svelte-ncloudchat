@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { convertDate } from "../lib/Date";
   import type { MessageType } from "../lib/types/MessageType";
+
+  import { convertDate } from "../lib/Date";
 
   export let item: MessageType;
 </script>

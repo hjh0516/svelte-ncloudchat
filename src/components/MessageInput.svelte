@@ -11,6 +11,7 @@
     viewBox="0 0 24 24"
     fill="currentColor"
     class="w-10 h-10 ml-2 hover:text-gray-500"
+    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
   >
     <path
       fill-rule="evenodd"
@@ -34,6 +35,7 @@
       stroke-width="2"
       stroke="currentColor"
       class="w-10 h-10 text-gray-400 hover:text-gray-300"
+      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
     >
       <path
         stroke-linecap="round"
@@ -47,6 +49,7 @@
       viewBox="0 0 24 24"
       fill="currentColor"
       class="w-10 h-10 mr-1 text-cyan-500 hover:text-cyan-400"
+      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
       on:click={send}
     >
       <path

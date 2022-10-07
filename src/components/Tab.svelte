@@ -6,7 +6,7 @@
   export let activeItem: string;
 </script>
 
-<div class="w-full h-10">
+<div class="fixed w-full bg-white z-10">
   <ul class="flex justify-around">
     {#each tabItems as item}
       <li

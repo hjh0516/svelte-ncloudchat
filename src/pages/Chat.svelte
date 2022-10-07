@@ -1,8 +1,12 @@
 <script lang="ts">
+  import type { MemberType } from "../lib/types/MemberType";
+  import type { MessageType } from "../lib/types/MessageType";
+
   import { onMount, onDestroy } from "svelte";
   import ChatSendItem from "../components/ChatSendItem.svelte";
   import ChatReceiveItem from "../components/ChatReceiveItem.svelte";
   import MessageInput from "../components/MessageInput.svelte";
+  import Spinner from "../components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
   import {
     getMessages,
@@ -12,9 +16,6 @@
     unbindall,
   } from "../lib/NcloudChat";
   import { user } from "../store/store";
-  import type { MemberType } from "../lib/types/MemberType";
-  import type { MessageType } from "../lib/types/MessageType";
-  import Spinner from "../components/Spinner.svelte";
 
   export let params: any;
 
@@ -82,8 +83,8 @@
 </script>
 
 <div
+  class="fixed w-full h-full bg-gray-100 pl-5 pr-5 pb-20 overflow-y-auto flex flex-col scrollbar-hide"
   bind:this={element}
-  class="w-full h-screen bg-gray-100 pl-5 pr-5 pb-20 overflow-y-auto flex flex-col scrollbar-hide"
 >
   <InfiniteLoading on:infinite={loadMessages} direction="top">
     <div slot="noMore" />

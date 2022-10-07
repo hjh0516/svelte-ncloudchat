@@ -19,7 +19,7 @@
 </script>
 
 <div
-  class="w-full h-screen bg-gray-100 flex flex-col justify-center items-center"
+  class="fixed w-full h-full bg-gray-100 flex flex-col justify-center items-center"
 >
   <div class="mb-14">
     <span class="text-cyan-500 font-bold text-3xl drop-shadow-md"
@@ -45,7 +45,7 @@
     />
   </div>
   <button
-    on:click={login}
+    on:click={async () => await login()}
     class="bg-cyan-500 w-28 h-10 rounded-md text-gray-50 font-bold shadow-md hover:bg-cyan-400"
     >로그인</button
   >
