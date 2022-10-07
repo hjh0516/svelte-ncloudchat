@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { ChannelType } from "../lib/types/ChannelType";
-  import type { MessageType } from "../lib/types/MessageType";
+  import type { ChannelType } from "$lib/types/ChannelType";
+  import type { MessageType } from "$lib/types/MessageType";
 
   import { onDestroy, onMount } from "svelte";
-  import { bind, unbindall } from "../lib/NcloudChat";
-  import { convertDate } from "../lib/Date";
+  import { bind, unbindall } from "$lib/NcloudChat";
+  import { convertDate } from "$lib/Date";
 
   export let item: ChannelType;
 

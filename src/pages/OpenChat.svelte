@@ -1,15 +1,14 @@
 <script lang="ts">
-  import type { MemberType } from "../lib/types/MemberType";
-  import type { ChannelType } from "../lib/types/ChannelType";
+  import type { MemberType } from "$lib/types/MemberType";
+  import type { ChannelType } from "$lib/types/ChannelType";
 
-  import ChannelItem from "../components/ChannelItem.svelte";
-  import Spinner from "../components/Spinner.svelte";
+  import ChannelItem from "$components/ChannelItem.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
-  import { getChannels, getSubscriptions } from "../lib/NcloudChat";
-  import { retryAsync } from "ts-retry";
-  import { user } from "../store/store";
+  import { getChannels, getSubscriptions } from "$lib/NcloudChat";
+  import { user } from "$store/store";
 
-  const per_page = 10;
+  const per_page = 20;
 
   let userValue: MemberType;
 
@@ -37,24 +36,19 @@
   }
 
   async function fetchChannels(offset: number, per_page: number) {
-    return await retryAsync(
-      async () => {
-        const subscriptions = await getSubscriptions(
-          userValue.id,
-          offset,
-          per_page
-        );
-        let channels = await getChannels(offset, per_page);
-
-        channels = channels.filter((channel) => {
-          return !subscriptions
-            .map((subscription) => subscription.channel_id)
-            .includes(channel.id);
-        });
-        return channels;
-      },
-      { delay: 50, maxTry: 5 }
+    const subscriptions = await getSubscriptions(
+      userValue.id,
+      offset,
+      per_page
     );
+    let channels = await getChannels(offset, per_page);
+
+    channels = channels.filter((channel) => {
+      return !subscriptions
+        .map((subscription) => subscription.channel_id)
+        .includes(channel.id);
+    });
+    return channels;
   }
 </script>
 

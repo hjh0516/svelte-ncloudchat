@@ -1,7 +1,7 @@
 <script lang="ts">
   import { get } from "svelte/store";
-  import { activeItem, tabItems } from "../store/store";
-  import Tab from "./Tab.svelte";
+  import { activeItem, tabItems } from "$store/store";
+  import Tab from "$components/Tab.svelte";
 
   let activeItemValues: string;
 

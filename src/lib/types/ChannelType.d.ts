@@ -1,4 +1,4 @@
-import type { MessageType } from "./MessageType";
+import type { MessageType } from "$types/MessageType";
 
 export interface ChannelType {
   id: string;

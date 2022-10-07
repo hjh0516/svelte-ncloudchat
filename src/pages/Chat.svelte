@@ -1,21 +1,21 @@
 <script lang="ts">
-  import type { MemberType } from "../lib/types/MemberType";
-  import type { MessageType } from "../lib/types/MessageType";
+  import type { MemberType } from "$lib/types/MemberType";
+  import type { MessageType } from "$lib/types/MessageType";
 
   import { onMount, onDestroy } from "svelte";
-  import ChatSendItem from "../components/ChatSendItem.svelte";
-  import ChatReceiveItem from "../components/ChatReceiveItem.svelte";
-  import MessageInput from "../components/MessageInput.svelte";
-  import Spinner from "../components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
+  import ChatSendItem from "$components/ChatSendItem.svelte";
+  import ChatReceiveItem from "$components/ChatReceiveItem.svelte";
+  import MessageInput from "$components/MessageInput.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import {
     getMessages,
     isConnected,
     sendMessage,
     bind,
     unbindall,
-  } from "../lib/NcloudChat";
-  import { user } from "../store/store";
+  } from "$lib/NcloudChat";
+  import { user } from "$store/store";
 
   export let params: any;
 

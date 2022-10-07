@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { MemberType } from "../lib/types/MemberType";
-  import type { ChannelType } from "../lib/types/ChannelType";
+  import type { MemberType } from "$lib/types/MemberType";
+  import type { ChannelType } from "$lib/types/ChannelType";
 
-  import ChannelItem from "../components/ChannelItem.svelte";
-  import CreateChannelModal from "../components/CreateChannelModal.svelte";
-  import FloatingActionButton from "../components/FloatingActionButton.svelte";
-  import Spinner from "../components/Spinner.svelte";
+  import ChannelItem from "$components/ChannelItem.svelte";
+  import CreateChannelModal from "$components/CreateChannelModal.svelte";
+  import FloatingActionButton from "$components/FloatingActionButton.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
-  import { user } from "../store/store";
-  import { getChannels, getSubscriptions } from "../lib/NcloudChat";
+  import { user } from "$store/store";
+  import { getChannels, getSubscriptions } from "$lib/NcloudChat";
 
   const per_page = 20;
 

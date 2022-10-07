@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { user } from "../store/store";
-  import { connect, initialize } from "../lib/NcloudChat";
+  import { user } from "$store/store";
+  import { connect, initialize } from "$lib/NcloudChat";
 
   let id: string;
   let name: string;

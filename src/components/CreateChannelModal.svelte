@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { ChannelType } from "../lib/types/ChannelType";
+  import type { ChannelType } from "$lib/types/ChannelType";
 
   import { createEventDispatcher } from "svelte";
   import { ChannelType as CType } from "ncloudchat/esm/Type";
-  import { createChannel, subscribe } from "../lib/NcloudChat";
-  import Spinner from "./Spinner.svelte";
+  import { createChannel, subscribe } from "$lib/NcloudChat";
+  import Spinner from "$components/Spinner.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");

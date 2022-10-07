@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Navigation from "../components/Navigation.svelte";
-  import MyChat from "./MyChat.svelte";
-  import OpenChat from "./OpenChat.svelte";
   import { onMount } from "svelte";
-  import { bind } from "../lib/NcloudChat";
-  import { activeItem, isConnected } from "../store/store";
+  import Navigation from "$components/Navigation.svelte";
+  import MyChat from "$pages/MyChat.svelte";
+  import OpenChat from "$pages/OpenChat.svelte";
+  import { bind } from "$lib/NcloudChat";
+  import { activeItem, isConnected } from "$store/store";
 
   let isConnectedValue: boolean;
   isConnected.subscribe((value) => {
