@@ -1,26 +1,37 @@
 <script lang="ts">
-  import type { ChannelType } from "$lib/types/ChannelType";
+  import type { Channel, User } from "$lib/types/type";
 
   import { convertDate } from "$lib/Date";
-  import { activeItem } from "$store/store";
+  import { activeItem, user } from "$store/store";
   import { subscribe } from "$lib/NcloudChat";
+  import { apiSubscribe } from "$lib/api";
 
-  export let item: ChannelType;
+  export let item: Channel;
 
   let activeItemValue: string;
   activeItem.subscribe((value) => {
     activeItemValue = value;
   });
 
-  async function clickItem(id: string) {
-    await subscribe(id);
-    location.href = `/#/chat/${id}`;
+  let userValue: User;
+  user.subscribe((value) => {
+    userValue = value;
+  });
+
+  async function clickItem(channel_id: string) {
+    try {
+      await subscribe(channel_id);
+      await apiSubscribe(Number(userValue.id), channel_id);
+    } catch (err) {
+      console.error(err);
+    }
+    location.href = `/#/chat/${channel_id}`;
   }
 </script>
 
 <div
   class="mb-5 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
-  on:click={async () => await clickItem(item.id)}
+  on:click={async () => await clickItem(item.channel_id)}
 >
   <div class="w-12 h-auto">
     {#if item.image_url}
@@ -46,13 +57,13 @@
     <div class="flex justify-between items-center">
       <strong>{item.name}</strong>
       <span class="text-gray-300 text-xs"
-        >{item.last_message
-          ? convertDate(Number(item.last_message.sort_id))
+        >{item.last_chat_at
+          ? convertDate(item.last_chat_at)
           : convertDate(item.created_at)}</span
       >
     </div>
-    {#if item.last_message}
-      <span class="text-gray-400 text-sm">{item.last_message.content}</span>
+    {#if item.message}
+      <span class="text-gray-400 text-sm">{item.message}</span>
     {/if}
   </div>
 </div>

@@ -1,16 +1,15 @@
 <script lang="ts">
-  import type { MemberType } from "$lib/types/MemberType";
-  import type { ChannelType } from "$lib/types/ChannelType";
-  import type { MessageType } from "$lib/types/MessageType";
+  import type { Chat, User } from "$lib/types/type";
+  import type { MessageType } from "$types/MessageType";
 
   import { onDestroy, onMount } from "svelte";
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
-  import { bind, getChannel, unbindall, updateChannel } from "$lib/NcloudChat";
+  import { bind, unbindall } from "$lib/NcloudChat";
   import { activeItem, isConnected, user } from "$store/store";
 
-  let channel: ChannelType;
+  let chat: Chat;
 
   let isConnectedValue: boolean;
   isConnected.subscribe((value) => {
@@ -22,7 +21,7 @@
     activeItemValue = value;
   });
 
-  let userValue: MemberType;
+  let userValue: User;
   user.subscribe((value) => {
     userValue = value;
   });
@@ -36,20 +35,16 @@
       console.log(reason);
     });
 
-    bind(
-      "onMessageReceived",
-      async function (_channel: string, _message: MessageType) {
-        channel = await getChannel(_channel);
-        if (channel.user_id.name == userValue.name) {
-          await updateChannel(
-            channel.id,
-            channel.type,
-            channel.name,
-            Date.now().toString()
-          );
-        }
-      }
-    );
+    bind("onMessageReceived", function (channel: string, message: MessageType) {
+      chat = {
+        channel_id: channel,
+        nickname: message.sender.name,
+        profile: message.sender.profile,
+        type: message.message_type,
+        message: message.content,
+        created_at: message.created_at,
+      };
+    });
   });
 
   onDestroy(() => {
@@ -59,11 +54,13 @@
 
 <main>
   <Navigation />
-  {#if isConnectedValue}
-    {#if activeItemValue === "My 채팅"}
-      <MyChat />
-    {:else if activeItemValue === "오픈 채팅"}
-      <OpenChat />
+  {#key isConnectedValue}
+    {#if isConnectedValue}
+      {#if activeItemValue === "My 채팅"}
+        <MyChat {chat} />
+      {:else if activeItemValue === "오픈 채팅"}
+        <OpenChat />
+      {/if}
     {/if}
-  {/if}
+  {/key}
 </main>

@@ -1,15 +1,23 @@
 <script lang="ts">
-  import type { ChannelType } from "$lib/types/ChannelType";
+  import type { Channel, User } from "$lib/types/type";
 
   import { createEventDispatcher } from "svelte";
-  import { ChannelType as CType } from "ncloudchat/esm/Type";
+  import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
   import Spinner from "$components/Spinner.svelte";
+  import { user } from "$store/store";
+  import { apiCreateChannel, apiSubscribe } from "$lib/api";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
-  export let newChannel: ChannelType = null;
+  export let newChannel: Channel = null;
+
+  let userValue: User;
+  user.subscribe((value) => {
+    userValue = value;
+  });
+
   let name: string;
   let loading = false;
   let back: HTMLElement;
@@ -19,9 +27,24 @@
     loading = true;
     addPointerEventNone();
 
-    const channel = await createChannel(CType.PUBLIC, name);
-    await subscribe(channel.id);
-    newChannel = channel;
+    try {
+      const channel = await createChannel(ChannelType.PUBLIC, name);
+      const chat_list = await apiCreateChannel(
+        channel.id,
+        channel.name,
+        channel.type.toString(),
+        channel.image_url,
+        channel.link_url,
+        channel.push
+      );
+
+      await subscribe(channel.id);
+      await apiSubscribe(Number(userValue.id), chat_list.idx);
+
+      newChannel = channel;
+    } catch (err) {
+      console.error(err);
+    }
 
     loading = false;
     removePointerEventNone();

@@ -1,16 +1,16 @@
 <script lang="ts">
-  import type { MessageType } from "$lib/types/MessageType";
+  import type { Chat } from "$lib/types/type";
 
   import { convertDate } from "$lib/Date";
 
-  export let item: MessageType;
+  export let item: Chat;
 </script>
 
 <div class="flex pt-5 h-24">
-  {#if item.sender.profile}
+  {#if item.profile}
     <img
       class="w-12 h-12 rounded-full"
-      src={item.sender.profile}
+      src={item.profile}
       alt="sender_profile_image"
     />
   {:else}
@@ -28,14 +28,14 @@
     </svg>
   {/if}
   <div class="flex flex-col ml-3">
-    <span class="text-base font-bold">{item.sender.name}</span>
+    <span class="text-base font-bold">{item.nickname}</span>
     <div
       class="bg-white border border-gray-200 pt-1 pb-2 pl-3 pr-3 rounded-b-xl rounded-r-xl"
     >
-      <span class="text-gray-500 text-sm">{item.content}</span>
+      <span class="text-gray-500 text-sm">{item.message}</span>
     </div>
     <span class="text-gray-400 text-xs mt-1">
-      {convertDate(Number(item.sort_id))}
+      {convertDate(item.created_at)}
     </span>
   </div>
 </div>

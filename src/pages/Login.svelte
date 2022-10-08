@@ -1,20 +1,32 @@
 <script lang="ts">
-  import { user } from "$store/store";
+  import { token, user } from "$store/store";
   import { connect, initialize } from "$lib/NcloudChat";
+  import { apiGetUser } from "$lib/api";
 
-  let id: string;
-  let name: string;
+  let tokenValue: string;
+  token.subscribe((value) => {
+    tokenValue = value;
+  });
 
-  async function login() {
-    if (!id || !name) {
+  async function _login() {
+    if (!tokenValue) {
       return;
     }
 
-    initialize();
-    await connect(id, name);
-    user.set({ id: id, name: id });
+    token.set(tokenValue);
 
-    location.href = "/#/home";
+    try {
+      const userInfo = await apiGetUser();
+      const id = "chat_" + userInfo.idx;
+
+      initialize();
+      await connect(id, userInfo.nickname, userInfo.profile);
+      user.set({ id: userInfo.idx, name: userInfo.nickname });
+
+      location.href = "/#/home";
+    } catch (err) {
+      console.error(err);
+    }
   }
 </script>
 
@@ -26,26 +38,16 @@
       >이모만세 - 채팅 로그인</span
     >
   </div>
-  <div class="mb-5 ml-10">
-    <span class="text-cyan-500 font-bold text-2xl drop-shadow-md">ID</span>
+  <div class="w-3/4 mb-5">
     <input
-      class="h-10 border border-gray-50 rounded-md ml-5 pl-2 pr-2 shadow-md focus:outline-none"
+      class="w-full h-14 border border-gray-50 rounded-md pl-2 pr-2 shadow-md focus:outline-none"
       type="text"
-      placeholder="ID"
-      bind:value={id}
-    />
-  </div>
-  <div class="mb-10">
-    <span class="text-cyan-500 font-bold text-2xl drop-shadow-md">NAME</span>
-    <input
-      class="h-10 border border-gray-50 rounded-md ml-5 pl-2 pr-2 shadow-md focus:outline-none"
-      type="text"
-      placeholder="NAME"
-      bind:value={name}
+      placeholder="Access Token을 입력해주세요."
+      bind:value={tokenValue}
     />
   </div>
   <button
-    on:click={async () => await login()}
+    on:click={async () => await _login()}
     class="bg-cyan-500 w-28 h-10 rounded-md text-gray-50 font-bold shadow-md hover:bg-cyan-400"
     >로그인</button
   >

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { MemberType } from "$lib/types/MemberType";
-  import type { ChannelType } from "$lib/types/ChannelType";
+  import type { Chat, Channel, User } from "$lib/types/type";
 
   import CreateChannelModal from "$components/CreateChannelModal.svelte";
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
@@ -8,41 +7,48 @@
   import Spinner from "$components/Spinner.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
   import { user } from "$store/store";
-  import { getChannels, getSubscriptions } from "$lib/NcloudChat";
+  import { apiGetChannels } from "$lib/api";
 
-  const per_page = 20;
+  export let chat: Chat;
 
-  let userValue: MemberType;
+  let page = 1;
+  let userValue: User;
   let element: HTMLElement;
-  let offset = 0;
-  let data: ChannelType[] = [];
+  let data: Channel[] = [];
   let showModal = false;
-  let newChannel: ChannelType = null;
+  let newChannel: Channel = null;
+
+  $: {
+    if (chat) {
+      const index = data.findIndex((x) => x.channel_id === chat.channel_id);
+      if (index >= 0) {
+        data[index].message = chat.message;
+        data[index].last_chat_at = chat.created_at;
+
+        const refresh = data.splice(index, 1);
+        data = [...refresh, ...data];
+      }
+    }
+  }
 
   user.subscribe((value) => {
     userValue = value;
   });
 
   function loadChannels({ detail: { loaded, complete } }) {
-    fetchChannels(offset, per_page).then((newData) => {
-      if (newData.length) {
-        offset += per_page;
-        data = [...data, ...newData];
-        loaded();
-      } else {
-        complete();
-      }
-    });
-  }
-
-  async function fetchChannels(offset: number, per_page: number) {
-    const subscriptions = await getSubscriptions({ user_id: userValue.id });
-
-    return await getChannels(
-      { id: subscriptions.map((s) => s.channel_id), state: true },
-      offset,
-      per_page
-    );
+    try {
+      apiGetChannels("my", page).then((newData) => {
+        if (newData.data.length) {
+          page++;
+          data = [...data, ...newData.data];
+          loaded();
+        } else {
+          complete();
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function onModalClose() {

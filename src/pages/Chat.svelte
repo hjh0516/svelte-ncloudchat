@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { MemberType } from "$lib/types/MemberType";
-  import type { MessageType } from "$lib/types/MessageType";
+  import type { User, Chat } from "$lib/types/type";
+  import type { MessageType } from "$types/MessageType";
 
   import { onMount, onDestroy } from "svelte";
   import InfiniteLoading from "svelte-infinite-loading";
@@ -8,25 +8,18 @@
   import ChatReceiveItem from "$components/ChatReceiveItem.svelte";
   import MessageInput from "$components/MessageInput.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import {
-    getMessages,
-    isConnected,
-    sendMessage,
-    bind,
-    unbindall,
-  } from "$lib/NcloudChat";
+  import { isConnected, sendMessage, bind, unbindall } from "$lib/NcloudChat";
   import { user } from "$store/store";
+  import { apiGetMessages, apiCreateMessage } from "$lib/api";
 
   export let params: any;
 
-  const per_page = 20;
-
   let input: string;
-  let userValue: MemberType;
+  let userValue: User;
   let element: HTMLElement;
 
-  let offset = 0;
-  let data: MessageType[] = [];
+  let page = 1;
+  let data: Chat[] = [];
 
   user.subscribe((value) => {
     userValue = value;
@@ -37,37 +30,54 @@
   }
 
   async function send() {
-    await sendMessage(params.id, "text", input);
+    try {
+      const message = await sendMessage(params.id, "text", input);
+      await apiCreateMessage(message.channelId, message.type, message.message);
+    } catch (err) {
+      console.error(err);
+    }
     input = "";
   }
 
   function loadMessages({ detail: { loaded, complete } }) {
-    getMessages(params.id, offset, per_page).then((newData) => {
-      if (newData.length) {
-        offset += per_page;
-        data = [...newData.reverse(), ...data];
-        loaded();
-      } else {
-        complete();
-      }
-    });
+    try {
+      apiGetMessages(params.id, page).then((newData) => {
+        if (newData.data.length) {
+          page++;
+          data = [...newData.data.reverse(), ...data];
+          loaded();
+        } else {
+          complete();
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   onMount(() => {
     bind(
       "onMessageReceived",
-      function (_channel: string, message: MessageType) {
-        if (message.sender.id === userValue.id) {
+      async function (_channel: string, message: MessageType) {
+        const chat: Chat = {
+          nickname: message.sender.name,
+          profile: message.sender.profile,
+          type: message.message_type,
+          message: message.content,
+          created_at: message.created_at,
+        };
+
+        if (Number(message.sender.id.split("_")[1]) === Number(userValue.id)) {
           new ChatSendItem({
             props: {
-              item: message,
+              item: chat,
             },
             target: element,
           });
         } else {
           new ChatReceiveItem({
             props: {
-              item: message,
+              item: chat,
             },
             target: element,
           });
@@ -98,7 +108,7 @@
   </InfiniteLoading>
 
   {#each data as item}
-    {#if item.sender.id !== userValue.id}
+    {#if item.user_idx !== Number(userValue.id)}
       <ChatReceiveItem {item} />
     {:else}
       <ChatSendItem {item} />

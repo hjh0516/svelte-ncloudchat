@@ -1,50 +1,34 @@
 <script lang="ts">
-  import type { MemberType } from "$lib/types/MemberType";
-  import type { ChannelType } from "$lib/types/ChannelType";
+  import type { Channel, User } from "$lib/types/type";
 
   import InfiniteLoading from "svelte-infinite-loading";
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { getChannels, getSubscriptions } from "$lib/NcloudChat";
   import { user } from "$store/store";
+  import { apiGetChannels } from "$lib/api";
 
-  const per_page = 20;
-
-  let userValue: MemberType;
-
-  let offset = 0;
-  let data: ChannelType[] = [];
+  let page = 1;
+  let userValue: User;
+  let data: Channel[] = [];
 
   user.subscribe((value) => {
     userValue = value;
   });
 
-  if (!userValue) {
-    location.href = "/";
-  }
-
   function loadChannels({ detail: { loaded, complete } }) {
-    fetchChannels(offset, per_page).then((newData) => {
-      if (newData.length) {
-        offset += per_page;
-        data = [...data, ...newData];
-        loaded();
-      } else {
-        complete();
-      }
-    });
-  }
-
-  async function fetchChannels(offset: number, per_page: number) {
-    const subscriptions = await getSubscriptions({
-      user_id: { $ne: userValue.id },
-    });
-
-    return await getChannels(
-      { id: subscriptions.map((s) => s.channel_id), state: true },
-      offset,
-      per_page
-    );
+    try {
+      apiGetChannels("open", page).then((newData) => {
+        if (newData.data.length) {
+          page++;
+          data = [...data, ...newData.data];
+          loaded();
+        } else {
+          complete();
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 </script>
 
