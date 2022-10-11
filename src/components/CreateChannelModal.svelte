@@ -1,11 +1,10 @@
 <script lang="ts">
-  import type { Channel, User } from "$lib/types/type";
+  import type { Channel } from "$lib/types/type";
 
   import { createEventDispatcher } from "svelte";
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
   import Spinner from "$components/Spinner.svelte";
-  import { store } from "$store/store";
   import { apiCreateChannel, apiSubscribe } from "$lib/api";
 
   const dispatch = createEventDispatcher();
@@ -34,9 +33,9 @@
       );
 
       await subscribe(channel.id);
-      await apiSubscribe(Number($store.user.id), chat_list.idx);
+      await apiSubscribe(chat_list.idx);
 
-      newChannel = channel;
+      newChannel = chat_list;
     } catch (err) {
       console.error(err);
     }

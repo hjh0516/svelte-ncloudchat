@@ -28,7 +28,7 @@ export async function apiCreateChannel(
   link_url?: string,
   push?: boolean
 ) {
-  const response = await fetch(API_URL, {
+  const response = await fetch(API_URL + `channels`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
@@ -43,13 +43,12 @@ export async function apiCreateChannel(
   return await handleResponse(response);
 }
 
-export async function apiSubscribe(user_idx: number, channel_id: string) {
+export async function apiSubscribe(channel_idx: number) {
   const response = await fetch(API_URL + `channels/subscriptions`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
-      user_idx: user_idx,
-      channel_id: channel_id,
+      channel_idx: channel_idx,
     }),
   });
   return await handleResponse(response);
@@ -93,6 +92,6 @@ async function handleResponse(response: Response) {
   if (res.code === 0) {
     return res.data;
   } else {
-    throw new Error(res.message);
+    throw new Error(JSON.stringify(res));
   }
 }
