@@ -79,6 +79,7 @@
   {/each}
 
   <InfiniteScroll
+    reverse
     hasMore={newData.length > 0}
     threshold={200}
     on:loadMore={async () => {

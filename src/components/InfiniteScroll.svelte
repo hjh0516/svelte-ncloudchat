@@ -2,7 +2,6 @@
   import { onDestroy, createEventDispatcher } from "svelte";
 
   export let threshold = 0;
-  export let horizontal = false;
   export let elementScroll = null;
   export let hasMore = true;
   export let reverse = false;
@@ -16,24 +15,8 @@
   $: if (component || elementScroll) {
     const element = elementScroll ? elementScroll : component.parentNode;
 
-    if (reverse) {
-      element.scrollTop = element.scrollHeight;
-    }
-
     element.addEventListener("scroll", onScroll);
     element.addEventListener("resize", onScroll);
-  }
-
-  $: if (isLoadMore && reverse) {
-    const element = elementScroll ? elementScroll : component.parentNode;
-
-    element.scrollTop =
-      element.scrollHeight - beforeScrollHeight + beforeScrollTop;
-
-    console.log(element.scrollTop);
-    console.log(element.scrollHeight);
-    console.log(beforeScrollHeight);
-    console.log(beforeScrollTop);
   }
 
   const onScroll = (e) => {
@@ -42,11 +25,11 @@
     let offset = 0;
 
     if (reverse) {
-      offset = horizontal ? e.target.scrollLeft : e.target.scrollTop;
+      offset =
+        e.target.scrollHeight - e.target.clientHeight + e.target.scrollTop;
     } else {
-      offset = horizontal
-        ? e.target.scrollWidth - e.target.clientWidth - e.target.scrollLeft
-        : e.target.scrollHeight - e.target.clientHeight + e.target.scrollTop;
+      offset =
+        e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop;
     }
 
     if (offset <= threshold) {
