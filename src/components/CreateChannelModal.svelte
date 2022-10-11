@@ -5,18 +5,13 @@
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
   import Spinner from "$components/Spinner.svelte";
-  import { user } from "$store/store";
+  import { store } from "$store/store";
   import { apiCreateChannel, apiSubscribe } from "$lib/api";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
   export let newChannel: Channel = null;
-
-  let userValue: User;
-  user.subscribe((value) => {
-    userValue = value;
-  });
 
   let name: string;
   let loading = false;
@@ -39,7 +34,7 @@
       );
 
       await subscribe(channel.id);
-      await apiSubscribe(Number(userValue.id), chat_list.idx);
+      await apiSubscribe(Number($store.user.id), chat_list.idx);
 
       newChannel = channel;
     } catch (err) {

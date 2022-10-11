@@ -1,27 +1,17 @@
 <script lang="ts">
-  import type { Channel, User } from "$lib/types/type";
+  import type { Channel } from "$lib/types/type";
 
+  import { store } from "$store/store";
   import { convertDate } from "$lib/Date";
-  import { activeItem, user } from "$store/store";
   import { subscribe } from "$lib/NcloudChat";
   import { apiSubscribe } from "$lib/api";
 
   export let item: Channel;
 
-  let activeItemValue: string;
-  activeItem.subscribe((value) => {
-    activeItemValue = value;
-  });
-
-  let userValue: User;
-  user.subscribe((value) => {
-    userValue = value;
-  });
-
   async function clickItem(channel_id: string) {
     try {
       await subscribe(channel_id);
-      await apiSubscribe(Number(userValue.id), channel_id);
+      await apiSubscribe(Number($store.user.id), channel_id);
     } catch (err) {
       console.error(err);
     }

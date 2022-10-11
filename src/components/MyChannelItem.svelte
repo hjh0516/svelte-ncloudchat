@@ -2,14 +2,8 @@
   import type { Channel } from "$lib/types/type";
 
   import { convertDate } from "$lib/Date";
-  import { activeItem } from "$store/store";
 
   export let item: Channel;
-
-  let activeItemValue: string;
-  activeItem.subscribe((value) => {
-    activeItemValue = value;
-  });
 
   async function clickItem(channel_id: string) {
     location.href = `/#/chat/${channel_id}`;

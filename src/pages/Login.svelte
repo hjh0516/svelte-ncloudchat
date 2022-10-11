@@ -1,31 +1,44 @@
 <script lang="ts">
-  import { token, user } from "$store/store";
+  import { store } from "$store/store";
   import { connect, initialize } from "$lib/NcloudChat";
   import { apiGetUser } from "$lib/api";
 
-  let tokenValue: string;
-  token.subscribe((value) => {
-    tokenValue = value;
-  });
+  let token: string;
+  let user: any;
+  let id: string;
 
   async function _login() {
-    if (!tokenValue) {
+    if (!token) {
       return;
     }
 
-    token.set(tokenValue);
+    $store.token = token;
 
     try {
-      const userInfo = await apiGetUser();
-      const id = "chat_" + userInfo.idx;
+      user = await apiGetUser();
+      id = "chat_" + user.idx;
 
+      $store.token = token;
+      $store.user = {
+        id: user.idx,
+        name: user.nickname,
+        profile: user.profile,
+      };
+
+      window.sessionStorage.setItem("store", JSON.stringify($store));
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+
+    try {
       initialize();
-      await connect(id, userInfo.nickname, userInfo.profile);
-      user.set({ id: userInfo.idx, name: userInfo.nickname });
+      await connect(id, user.nickname, user.profile);
 
       location.href = "/#/home";
     } catch (err) {
       console.error(err);
+      return;
     }
   }
 </script>
@@ -43,7 +56,7 @@
       class="w-full h-14 border border-gray-50 rounded-md pl-2 pr-2 shadow-md focus:outline-none"
       type="text"
       placeholder="Access Token을 입력해주세요."
-      bind:value={tokenValue}
+      bind:value={token}
     />
   </div>
   <button

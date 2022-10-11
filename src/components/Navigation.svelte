@@ -1,22 +1,22 @@
 <script lang="ts">
   import { get } from "svelte/store";
-  import { activeItem, tabItems } from "$store/store";
+  import { store } from "$store/store";
   import Tab from "$components/Tab.svelte";
 
   let activeItemValues: string;
 
-  activeItem.subscribe((value) => {
-    activeItemValues = value;
-  });
+  // activeItem.subscribe((value) => {
+  //   activeItemValues = value;
+  // });
 
   const triggerTabChange = (event: { detail: string }) => {
     activeItemValues = event.detail;
-    activeItem.set(activeItemValues);
+    $store.activeItem = activeItemValues;
   };
 </script>
 
 <Tab
-  tabItems={get(tabItems)}
-  activeItem={activeItemValues}
+  tabItems={$store.tabItems}
+  activeItem={$store.activeItem}
   on:tabChange={triggerTabChange}
 />

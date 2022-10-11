@@ -15,6 +15,8 @@ export function convertDate(value: string | number | Date) {
 
   if (hours > 12) {
     return `오후 ${pad(hours - 12)}:${pad(minutes)}`;
+  } else if (hours === 12) {
+    return `오후 ${pad(hours)}:${pad(minutes)}`;
   } else {
     return `오전 ${pad(hours)}:${pad(minutes)}`;
   }

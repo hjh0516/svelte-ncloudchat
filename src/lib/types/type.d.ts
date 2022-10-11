@@ -37,4 +37,5 @@ export interface Chat {
 export interface User {
   id: string;
   name: string;
+  profile: string;
 }

@@ -1,5 +1,5 @@
+import { store } from "$store/store";
 import { get } from "svelte/store";
-import { token } from "$store/store";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -80,9 +80,8 @@ export async function apiCreateMessage(
 }
 
 function setHeader() {
-  const _token = get(token);
   return {
-    Authorization: `Bearer ${_token.trim()}`,
+    Authorization: `Bearer ${get(store).token.trim()}`,
     "X-Authorization": API_KEY,
     "Content-Type": "application/json",
   };
@@ -90,5 +89,10 @@ function setHeader() {
 
 async function handleResponse(response: Response) {
   const res = await response.json();
-  return res.code === 0 ? res.data : res.message;
+
+  if (res.code === 0) {
+    return res.data;
+  } else {
+    throw new Error(res.message);
+  }
 }

@@ -1,35 +1,29 @@
 <script lang="ts">
-  import type { Channel, User } from "$lib/types/type";
+  import type { Channel } from "$lib/types/type";
 
-  import InfiniteLoading from "svelte-infinite-loading";
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
-  import Spinner from "$components/Spinner.svelte";
-  import { user } from "$store/store";
+  import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import { apiGetChannels } from "$lib/api";
+  import { onMount } from "svelte";
 
   let page = 1;
-  let userValue: User;
   let data: Channel[] = [];
+  let newData: Channel[] = [];
 
-  user.subscribe((value) => {
-    userValue = value;
-  });
-
-  function loadChannels({ detail: { loaded, complete } }) {
+  async function loadChannels() {
     try {
-      apiGetChannels("open", page).then((newData) => {
-        if (newData.data.length) {
-          page++;
-          data = [...data, ...newData.data];
-          loaded();
-        } else {
-          complete();
-        }
-      });
+      const res = await apiGetChannels("open", page);
+      newData = res.data;
+      data = [...data, ...newData];
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      return;
     }
   }
+
+  onMount(async () => {
+    await loadChannels();
+  });
 </script>
 
 <div class="fixed w-11/12 top-14 left-1/2 -translate-x-1/2 z-10">
@@ -65,14 +59,12 @@
     <OpenChannelItem {item} />
   {/each}
 
-  <InfiniteLoading on:infinite={loadChannels}>
-    <div slot="noMore" />
-    <div slot="noResults" />
-    <div
-      slot="spinner"
-      class="fixed left-[calc(50%-1rem)] top-[calc(50%-2.25rem)]"
-    >
-      <Spinner />
-    </div>
-  </InfiniteLoading>
+  <InfiniteScroll
+    hasMore={newData.length > 0}
+    threshold={100}
+    on:loadMore={async () => {
+      page++;
+      await loadChannels();
+    }}
+  />
 </div>
