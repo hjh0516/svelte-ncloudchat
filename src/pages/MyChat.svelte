@@ -11,7 +11,6 @@
   export let chat: Chat;
 
   let page = 1;
-  let element: HTMLElement;
   let data: Channel[] = [];
   let newData: Channel[] = [];
   let showModal = false;
@@ -55,7 +54,6 @@
 
 <div
   class="fixed w-full h-full pt-14 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
-  bind:this={element}
 >
   {#each data as item}
     <MyChannelItem {item} />

@@ -43,12 +43,12 @@ export async function apiCreateChannel(
   return await handleResponse(response);
 }
 
-export async function apiSubscribe(channel_idx: number) {
+export async function apiSubscribe(channel_id: string) {
   const response = await fetch(API_URL + `channels/subscriptions`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
-      channel_idx: channel_idx,
+      channel_id: channel_id,
     }),
   });
   return await handleResponse(response);

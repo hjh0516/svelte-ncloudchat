@@ -14,7 +14,6 @@
   export let params: any;
 
   let input: string;
-  let element: HTMLElement;
 
   let page = 1;
   let data: Chat[] = [];
@@ -68,7 +67,6 @@
 
 <div
   class="fixed w-full h-full bg-gray-100 pl-5 pr-5 pb-20 flex flex-col-reverse overflow-scroll scrollbar-hide"
-  bind:this={element}
 >
   {#each data as item}
     {#if item.user_idx !== Number($store.user.id)}

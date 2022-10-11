@@ -1,20 +1,24 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
-  import { store } from "$store/store";
   import { convertDate } from "$lib/Date";
   import { subscribe } from "$lib/NcloudChat";
   import { apiSubscribe } from "$lib/api";
+  import Spinner from "$components/Spinner.svelte";
 
   export let item: Channel;
 
+  let loading = false;
+
   async function clickItem(channel_id: string) {
+    loading = true;
     try {
       await subscribe(channel_id);
-      await apiSubscribe(Number($store.user.id), channel_id);
+      await apiSubscribe(channel_id);
     } catch (err) {
       console.error(err);
     }
+    loading = false;
     location.href = `/#/chat/${channel_id}`;
   }
 </script>
@@ -56,4 +60,10 @@
       <span class="text-gray-400 text-sm">{item.message}</span>
     {/if}
   </div>
+
+  {#if loading}
+    <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
+      <Spinner />
+    </div>
+  {/if}
 </div>

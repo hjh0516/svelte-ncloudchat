@@ -33,7 +33,7 @@
       );
 
       await subscribe(channel.id);
-      await apiSubscribe(chat_list.idx);
+      await apiSubscribe(channel.id);
 
       newChannel = chat_list;
     } catch (err) {
