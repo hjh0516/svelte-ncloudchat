@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
-  import { convertDate } from "$lib/Date";
+  import { convertLastChat } from "$lib/Date";
   import { subscribe } from "$lib/NcloudChat";
   import { apiSubscribe } from "$lib/api";
   import Spinner from "$components/Spinner.svelte";
@@ -27,7 +27,7 @@
   class="mb-5 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
   on:click={async () => await clickItem(item.channel_id)}
 >
-  <div class="w-12 h-auto">
+  <div class="w-20 rounded-full border border-gray-200">
     {#if item.image_url}
       <img class="rounded-full" src={item.image_url} alt="channel_image" />
     {:else}
@@ -49,16 +49,29 @@
   </div>
   <div class="w-full flex flex-col">
     <div class="flex justify-between items-center">
-      <strong>{item.name}</strong>
-      <span class="text-gray-300 text-xs"
-        >{item.last_chat_at
-          ? convertDate(item.last_chat_at)
-          : convertDate(item.created_at)}</span
+      <div class="flex justify-center items-center">
+        <strong>{item.name}</strong>
+        <div
+          class="h-5 bg-gray-500 text-gray-100 rounded-md flex items-center text-sm pl-1 pr-1 ml-2"
+        >
+          {item.subscriptions_count}명
+        </div>
+      </div>
+    </div>
+    {#if item.tags}
+      <div class="text-gray-400 text-sm">
+        {item.tags.map((t) => "#" + t.tag).join(" ")}
+      </div>
+    {/if}
+    <div class="flex justify-start items-center mt-2">
+      {#if item.profile}
+        <img class="w-5 rounded-full" src={item.profile} alt="channel_image" />
+      {/if}
+      <span class="text-sm ml-1">{item.nickname}</span>
+      <span class="text-gray-400 text-sm ml-1"
+        >| {convertLastChat(item.last_chat_at)}</span
       >
     </div>
-    {#if item.message}
-      <span class="text-gray-400 text-sm">{item.message}</span>
-    {/if}
   </div>
 
   {#if loading}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Channel } from "$lib/types/type";
+  import type { Channel, Chat } from "$types/type";
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";

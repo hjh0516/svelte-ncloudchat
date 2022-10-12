@@ -13,11 +13,29 @@
   export let newChannel: Channel = null;
 
   let name: string;
+  let tag: string;
   let loading = false;
+
   let back: HTMLElement;
   let element: HTMLElement;
+  let inputName: HTMLElement;
+  let nameDiv: HTMLElement;
+  let inputTag: HTMLElement;
+  let tagDiv: HTMLElement;
 
   async function submit() {
+    if (!name) {
+      inputName.focus();
+      nameDiv.classList.add("border-red-300");
+      return;
+    }
+
+    if (!tag || !tag.includes("#")) {
+      inputTag.focus();
+      tagDiv.classList.add("border-red-300");
+      return;
+    }
+
     loading = true;
     addPointerEventNone();
 
@@ -29,7 +47,8 @@
         channel.type.toString(),
         channel.image_url,
         channel.link_url,
-        channel.push
+        channel.push,
+        tag
       );
 
       await subscribe(channel.id);
@@ -68,7 +87,8 @@
   <div class="w-full flex flex-col justify-center items-center">
     <span class="font-bold text-xl mb-5">채팅방 만들기</span>
     <div
-      class="w-full h-12 border border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
+      class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
+      bind:this={nameDiv}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -86,11 +106,13 @@
         class="w-full h-10 pl-2 pr-2 focus:outline-none text-base"
         type="text"
         placeholder="채팅방 이름을 입력해주세요."
+        bind:this={inputName}
         bind:value={name}
       />
     </div>
     <div
-      class="w-full h-12 border border-gray-300 rounded-xl flex justify-center items-center p-2 mb-10"
+      class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-10"
+      bind:this={tagDiv}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -108,6 +130,8 @@
         class="w-full h-10 pl-2 pr-2 focus:outline-none text-base"
         type="text"
         placeholder="해시태그로 채팅방을 소개해주세요."
+        bind:this={inputTag}
+        bind:value={tag}
       />
     </div>
     <button

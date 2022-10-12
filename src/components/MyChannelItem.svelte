@@ -14,7 +14,7 @@
   class="mb-5 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
   on:click={async () => await clickItem(item.channel_id)}
 >
-  <div class="w-12 h-auto">
+  <div class="w-20 rounded-full border border-gray-200">
     {#if item.image_url}
       <img class="rounded-full" src={item.image_url} alt="channel_image" />
     {:else}
@@ -22,7 +22,7 @@
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        stroke-width="1.25"
+        stroke-width="1"
         stroke="currentColor"
         class="rounded-full"
       >
@@ -36,7 +36,14 @@
   </div>
   <div class="w-full flex flex-col">
     <div class="flex justify-between items-center">
-      <strong>{item.name}</strong>
+      <div class="flex items-center">
+        <span class="font-bold">{item.name}</span>
+        {#if item.type === "PUBLIC"}
+          <span class="text-base text-gray-500 ml-1"
+            >({item.subscriptions_count}명)</span
+          >
+        {/if}
+      </div>
       <span class="text-gray-300 text-xs"
         >{item.last_chat_at
           ? convertDate(item.last_chat_at)

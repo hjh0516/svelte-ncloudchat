@@ -25,3 +25,24 @@ export function convertDate(value: string | number | Date) {
 function pad(date: number) {
   return date.toString().padStart(2, "0");
 }
+
+export function convertLastChat(value: string) {
+  if (!value) {
+    return "대화 없음";
+  }
+
+  const now = new Date().getTime();
+  const lastChat = new Date(value).getTime();
+
+  const diff = now - lastChat;
+  const min = Math.round(diff / 1000 / 60);
+  const hour = Math.round(diff / 1000 / 60 / 60);
+
+  if (hour > 1) {
+    return `${hour}시간 전 대화`;
+  } else if (min < 1) {
+    return `방금 전 대화`;
+  } else {
+    return `${min}분 전 대화`;
+  }
+}

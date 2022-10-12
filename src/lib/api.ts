@@ -26,7 +26,8 @@ export async function apiCreateChannel(
   type: string,
   image_url?: string,
   link_url?: string,
-  push?: boolean
+  push?: boolean,
+  tag?: string
 ) {
   const response = await fetch(API_URL + `channels`, {
     method: "POST",
@@ -38,6 +39,7 @@ export async function apiCreateChannel(
       image_url: image_url,
       link_url: link_url,
       push: push,
+      tag: tag,
     }),
   });
   return await handleResponse(response);
