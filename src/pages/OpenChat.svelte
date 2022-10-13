@@ -57,7 +57,7 @@
 </div>
 
 <div
-  class="fixed w-full top-48 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full h-full top-48 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
     <OpenChannelItem {item} />
