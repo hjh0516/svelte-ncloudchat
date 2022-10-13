@@ -37,12 +37,15 @@ export function convertLastChat(value: string) {
   const diff = now - lastChat;
   const min = Math.round(diff / 1000 / 60);
   const hour = Math.round(diff / 1000 / 60 / 60);
+  const day = Math.round(diff / 1000 / 60 / 60 / 24);
 
-  if (hour > 1) {
+  if (hour > 24) {
+    return `${day}일 전 대화`;
+  } else if (hour > 1) {
     return `${hour}시간 전 대화`;
-  } else if (min < 1) {
-    return `방금 전 대화`;
-  } else {
+  } else if (min > 1) {
     return `${min}분 전 대화`;
+  } else {
+    return `방금 전 대화`;
   }
 }

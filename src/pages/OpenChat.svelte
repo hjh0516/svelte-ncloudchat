@@ -1,9 +1,11 @@
 <script lang="ts">
-  import type { Channel, Chat } from "$types/type";
+  import type { Channel } from "$types/type";
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
+  import ChatSubscriptionModal from "$components/modals/ChatSubscriptionModal.svelte";
   import { apiGetChannels } from "$lib/api";
+  import { store } from "$store/store";
   import { onMount } from "svelte";
 
   let page = 1;
@@ -22,11 +24,13 @@
   }
 
   onMount(async () => {
+    $store.activeItem = "오픈 채팅";
+    window.sessionStorage.setItem("store", JSON.stringify($store));
     await loadChannels();
   });
 </script>
 
-<div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2 z-10">
+<div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2">
   <div
     class="w-full h-12 border border-gray-300 bg-white mb-5 rounded-2xl flex justify-center items-center"
   >
@@ -53,7 +57,7 @@
 </div>
 
 <div
-  class="fixed w-full h-full pt-48 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full top-48 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
     <OpenChannelItem {item} />

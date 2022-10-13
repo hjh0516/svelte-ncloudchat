@@ -1,5 +1,5 @@
 <div
-  class="fixed w-full z-10 p-5 bg-white flex justify-between"
+  class="fixed w-full p-5 bg-white flex justify-between"
   style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
 >
   <button class="hover:text-gray-400">

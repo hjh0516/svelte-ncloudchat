@@ -1,11 +1,12 @@
 <script lang="ts">
   import type { Chat, Channel } from "$lib/types/type";
 
-  import { onMount } from "svelte";
-  import CreateChannelModal from "$components/CreateChannelModal.svelte";
-  import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import MyChannelItem from "$components/MyChannelItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
+  import FloatingActionButton from "$components/FloatingActionButton.svelte";
+  import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
+  import { onMount } from "svelte";
+  import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
 
   export let chat: Chat;
@@ -48,12 +49,14 @@
   }
 
   onMount(async () => {
+    $store.activeItem = "My 채팅";
+    window.sessionStorage.setItem("store", JSON.stringify($store));
     await loadChannels();
   });
 </script>
 
 <div
-  class="fixed w-full h-full pt-32 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full top-32 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
     <MyChannelItem {item} />

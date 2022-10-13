@@ -2,17 +2,14 @@
   import { createEventDispatcher, onMount } from "svelte";
   import { store } from "$store/store";
   import { apiGetChannel } from "$lib/api";
-  import ChatOutModal from "./ChatOutModal.svelte";
+  import ChatOutModal from "$components/modals/ChatOutModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
   export let channel_id: string;
 
-  let back: HTMLElement;
-  let element: HTMLElement;
   let showOutModal = false;
-
   let subscriptions = [];
 
   function closeOutModal() {
@@ -32,16 +29,14 @@
 <div
   class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
   on:click={close}
-  bind:this={back}
 />
 <div
   class="w-full h-[31rem] fixed bottom-0 left-0 p-10 rounded-2xl mx-auto text-center bg-white"
-  bind:this={element}
 >
   <div class="w-full flex flex-col justify-center items-center">
     <span class="font-semibold text-xl mb-5">채팅방 설정</span>
     <span class="w-full font-semibold text-base text-left">대화 상대</span>
-    <div class="w-full h-72 mt-3 flex flex-col items-center">
+    <div class="w-full h-72 mt-3 flex flex-col items-center overscroll-y-auto">
       <div
         class="w-full h-20 p-3 border-2 border-orange-200 flex items-center rounded-lg shadow-md"
       >

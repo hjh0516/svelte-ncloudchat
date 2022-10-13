@@ -5,27 +5,21 @@
   import { subscribe } from "$lib/NcloudChat";
   import { apiSubscribe } from "$lib/api";
   import Spinner from "$components/Spinner.svelte";
+  import ChatSubscriptionModal from "./modals/ChatSubscriptionModal.svelte";
 
   export let item: Channel;
 
   let loading = false;
+  let showSubscriptionModal = false;
 
-  async function clickItem(channel_id: string) {
-    loading = true;
-    try {
-      await subscribe(channel_id);
-      await apiSubscribe(channel_id);
-    } catch (err) {
-      console.error(err);
-    }
-    loading = false;
-    location.href = `/#/chat/${channel_id}`;
+  function closeChatSubscriptionModal() {
+    showSubscriptionModal = false;
   }
 </script>
 
 <div
   class="w-full mb-5 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
-  on:click={async () => await clickItem(item.channel_id)}
+  on:click={() => (showSubscriptionModal = true)}
 >
   {#if item.image_url}
     <img
@@ -73,3 +67,10 @@
     </div>
   {/if}
 </div>
+
+{#if showSubscriptionModal}
+  <ChatSubscriptionModal
+    channel_id={item.channel_id}
+    on:close={closeChatSubscriptionModal}
+  />
+{/if}

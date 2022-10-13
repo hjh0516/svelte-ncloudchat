@@ -2,13 +2,13 @@
   import type { Chat } from "$lib/types/type";
   import type { MessageType } from "$types/MessageType";
 
-  import { onDestroy, onMount } from "svelte";
+  import HomeHeader from "$components/HomeHeader.svelte";
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
-  import { bind, unbindall } from "$lib/NcloudChat";
+  import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
-  import HomeHeader from "$components/HomeHeader.svelte";
+  import { bind, unbindall } from "$lib/NcloudChat";
 
   let chat: Chat;
 

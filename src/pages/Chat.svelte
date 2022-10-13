@@ -1,17 +1,17 @@
 <script lang="ts">
-  import type { Channel, Chat } from "$types/type";
+  import type { Chat } from "$types/type";
   import type { MessageType } from "$types/MessageType";
 
-  import { onMount, onDestroy } from "svelte";
-  import { store } from "$store/store";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import ChatSendItem from "$components/ChatSendItem.svelte";
   import ChatReceiveItem from "$components/ChatReceiveItem.svelte";
   import MessageInput from "$components/MessageInput.svelte";
+  import ChatHeader from "$components/ChatHeader.svelte";
+  import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
+  import { onMount, onDestroy } from "svelte";
+  import { store } from "$store/store";
   import { sendMessage, bind, unbindall } from "$lib/NcloudChat";
   import { apiGetMessages, apiCreateMessage } from "$lib/api";
-  import ChatHeader from "$components/ChatHeader.svelte";
-  import ChatSettingModal from "$components/ChatSettingModal.svelte";
 
   export let params: any;
 
