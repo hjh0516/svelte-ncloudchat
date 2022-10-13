@@ -30,9 +30,9 @@
   });
 </script>
 
-<div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2">
+<div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2 rounded-2xl z-10">
   <div
-    class="w-full h-12 border border-gray-300 bg-white mb-5 rounded-2xl flex justify-center items-center"
+    class="w-full h-12 border border-gray-300 bg-white rounded-2xl flex justify-center items-center"
   >
     <input
       class="w-full h-10 ml-3 mr-1 pl-1 pr-1 focus:outline-none text-base"
@@ -57,7 +57,7 @@
 </div>
 
 <div
-  class="fixed w-full h-full top-48 pl-5 pr-5 pb-48 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full h-full pt-48 pl-5 pr-5 pb-48 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
     <OpenChannelItem {item} />
