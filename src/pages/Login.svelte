@@ -27,7 +27,7 @@
 
       window.sessionStorage.setItem("store", JSON.stringify($store));
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
 

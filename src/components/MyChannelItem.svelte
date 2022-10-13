@@ -26,7 +26,7 @@
   {:else}
     <img
       class="w-12 h-12 border border-gray-200 rounded-full"
-      src="src/assets/default_channel_image.svg"
+      src="/default_channel_image.svg"
       alt="channel_image"
     />
   {/if}
