@@ -26,9 +26,9 @@
   });
 </script>
 
-<div class="fixed w-11/12 top-14 left-1/2 -translate-x-1/2 z-10">
+<div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2 z-10">
   <div
-    class="w-full h-12 border border-gray-200 bg-white mb-5 rounded-2xl flex justify-center items-center shadow-md"
+    class="w-full h-12 border border-gray-300 bg-white mb-5 rounded-2xl flex justify-center items-center"
   >
     <input
       class="w-full h-10 ml-3 mr-1 pl-1 pr-1 focus:outline-none text-base"
@@ -41,7 +41,7 @@
       viewBox="0 0 24 24"
       stroke-width="2"
       stroke="currentColor"
-      class="w-8 h-8 mr-3 text-gray-400 hover:text-gray-300"
+      class="w-6 mr-5 hover:text-gray-400"
     >
       <path
         stroke-linecap="round"
@@ -53,7 +53,7 @@
 </div>
 
 <div
-  class="fixed w-full h-full pt-32 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full h-full pt-48 pl-5 pr-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
     <OpenChannelItem {item} />

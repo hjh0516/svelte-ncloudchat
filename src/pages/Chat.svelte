@@ -1,15 +1,17 @@
 <script lang="ts">
-  import type { Chat } from "$lib/types/type";
+  import type { Channel, Chat } from "$types/type";
   import type { MessageType } from "$types/MessageType";
 
   import { onMount, onDestroy } from "svelte";
+  import { store } from "$store/store";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import ChatSendItem from "$components/ChatSendItem.svelte";
   import ChatReceiveItem from "$components/ChatReceiveItem.svelte";
   import MessageInput from "$components/MessageInput.svelte";
   import { sendMessage, bind, unbindall } from "$lib/NcloudChat";
-  import { store } from "$store/store";
   import { apiGetMessages, apiCreateMessage } from "$lib/api";
+  import ChatHeader from "$components/ChatHeader.svelte";
+  import ChatSettingModal from "$components/ChatSettingModal.svelte";
 
   export let params: any;
 
@@ -18,6 +20,8 @@
   let page = 1;
   let data: Chat[] = [];
   let newData: Chat[] = [];
+
+  let showSettingModal = false;
 
   async function send() {
     const inputMessage = input;
@@ -38,6 +42,10 @@
     } catch (err) {
       console.error(err);
     }
+  }
+
+  function closeSettingModal() {
+    showSettingModal = false;
   }
 
   onMount(async () => {
@@ -65,8 +73,9 @@
   });
 </script>
 
+<ChatHeader bind:showSettingModal />
 <div
-  class="fixed w-full h-full bg-gray-100 pl-5 pr-5 pb-20 flex flex-col-reverse overflow-scroll scrollbar-hide"
+  class="fixed w-full h-full bg-gray-100 pl-5 pr-5 pt-16 pb-20 flex flex-col-reverse overflow-scroll scrollbar-hide"
 >
   {#each data as item}
     {#if item.user_idx !== Number($store.user.id)}
@@ -87,3 +96,7 @@
   />
 </div>
 <MessageInput {send} bind:input />
+
+{#if showSettingModal}
+  <ChatSettingModal channel_id={params.id} on:close={closeSettingModal} />
+{/if}

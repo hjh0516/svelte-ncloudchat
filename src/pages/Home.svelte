@@ -8,6 +8,7 @@
   import OpenChat from "$pages/OpenChat.svelte";
   import { bind, unbindall } from "$lib/NcloudChat";
   import { store } from "$store/store";
+  import HomeHeader from "$components/HomeHeader.svelte";
 
   let chat: Chat;
 
@@ -30,6 +31,7 @@
 </script>
 
 <main>
+  <HomeHeader />
   <Navigation />
   {#if $store.activeItem === "My 채팅"}
     <MyChat {chat} />

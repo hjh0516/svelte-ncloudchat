@@ -20,6 +20,14 @@ export async function apiGetChannels(type: string, page: number) {
   return await handleResponse(response);
 }
 
+export async function apiGetChannel(channel_id: string) {
+  const response = await fetch(API_URL + `channels/${channel_id}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 export async function apiCreateChannel(
   channel_id: string,
   name: string,
@@ -53,6 +61,17 @@ export async function apiSubscribe(channel_id: string) {
       channel_id: channel_id,
     }),
   });
+  return await handleResponse(response);
+}
+
+export async function apiUnsubscribe(channel_id: string) {
+  const response = await fetch(
+    API_URL + `channels/subscriptions/${channel_id}`,
+    {
+      method: "DELETE",
+      headers: setHeader(),
+    }
+  );
   return await handleResponse(response);
 }
 

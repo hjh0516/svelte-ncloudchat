@@ -24,6 +24,8 @@ export interface Subscription {
   user_idx: number;
   channel_idx: number;
   created_at: string;
+  nickname: string;
+  profile: string;
 }
 
 export interface Chat {

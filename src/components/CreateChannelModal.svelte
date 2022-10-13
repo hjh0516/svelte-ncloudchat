@@ -30,7 +30,7 @@
       return;
     }
 
-    if (!tag || !tag.includes("#")) {
+    if (tag && !tag.includes("#")) {
       inputTag.focus();
       tagDiv.classList.add("border-red-300");
       return;
@@ -81,11 +81,11 @@
   bind:this={back}
 />
 <div
-  class="w-full h-80 fixed bottom-0 left-0 p-5 rounded-2xl mx-auto text-center bg-white"
+  class="w-full h-[21rem] fixed bottom-0 left-0 p-10 rounded-2xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full flex flex-col justify-center items-center">
-    <span class="font-bold text-xl mb-5">채팅방 만들기</span>
+    <span class="font-semibold text-xl mb-5">채팅방 만들기</span>
     <div
       class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
       bind:this={nameDiv}
