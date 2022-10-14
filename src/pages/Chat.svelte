@@ -75,7 +75,7 @@
 
 <ChatHeader bind:showSettingModal />
 <div
-  class="fixed w-full h-full bg-gray-100 pl-5 pr-5 pt-16 pb-20 flex flex-col-reverse overflow-scroll scrollbar-hide"
+  class="fixed w-full h-full bg-gray-100 pl-5 pr-5 mt-16 pb-36 flex flex-col-reverse overflow-scroll scrollbar-hide"
 >
   {#each data as item}
     {#if item.user_idx !== Number($store.user.id)}
