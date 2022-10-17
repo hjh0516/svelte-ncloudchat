@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Chat } from "$types/type";
-  import type { MessageType } from "$types/MessageType";
+  import type { Chat } from "$lib/types/type";
+  import type { MessageType } from "$lib/types/MessageType";
 
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import ChatSendItem from "$components/ChatSendItem.svelte";
@@ -8,10 +8,12 @@
   import MessageInput from "$components/MessageInput.svelte";
   import ChatHeader from "$components/ChatHeader.svelte";
   import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
+  import ChatDateItem from "$components/ChatDateItem.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
   import { sendMessage, bind, unbindall } from "$lib/NcloudChat";
   import { apiGetMessages, apiCreateMessage } from "$lib/api";
+  import { updateChatItems } from "$lib/Chat";
 
   export let params: any;
 
@@ -37,7 +39,7 @@
   async function loadMessages() {
     try {
       const res = await apiGetMessages(params.id, page);
-      newData = res.data;
+      newData = updateChatItems(res.data);
       data = [...data, ...newData];
     } catch (err) {
       console.error(err);
@@ -61,7 +63,7 @@
           created_at: message.created_at,
         };
 
-        data = [chat, ...data];
+        data = updateChatItems([chat, ...data]);
       }
     );
 
@@ -75,13 +77,15 @@
 
 <ChatHeader bind:showSettingModal />
 <div
-  class="fixed w-full h-full bg-gray-100 pl-5 pr-5 mt-16 pb-36 flex flex-col-reverse overflow-scroll scrollbar-hide"
+  class="fixed w-full h-full bg-gray-100 pt-5 pl-5 pr-5 mt-16 pb-32 flex flex-col-reverse overflow-scroll scrollbar-hide"
 >
   {#each data as item}
-    {#if item.user_idx !== Number($store.user.id)}
-      <ChatReceiveItem {item} />
-    {:else}
+    {#if item.type === "date"}
+      <ChatDateItem message={item.message} />
+    {:else if item.user_idx === Number($store.user.id)}
       <ChatSendItem {item} />
+    {:else}
+      <ChatReceiveItem {item} />
     {/if}
   {/each}
 

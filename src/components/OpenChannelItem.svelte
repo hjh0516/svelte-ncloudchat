@@ -1,11 +1,9 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
-  import { convertLastChat } from "$lib/Date";
-  import { subscribe } from "$lib/NcloudChat";
-  import { apiSubscribe } from "$lib/api";
   import Spinner from "$components/Spinner.svelte";
   import ChatSubscriptionModal from "./modals/ChatSubscriptionModal.svelte";
+  import { convertLastChat } from "$lib/Date";
 
   export let item: Channel;
 

@@ -22,10 +22,6 @@ export function convertDate(value: string | number | Date) {
   }
 }
 
-function pad(date: number) {
-  return date.toString().padStart(2, "0");
-}
-
 export function convertLastChat(value: string) {
   if (!value) {
     return "대화 없음";
@@ -48,4 +44,35 @@ export function convertLastChat(value: string) {
   } else {
     return `방금 전 대화`;
   }
+}
+
+export function convertChatDate(value: string | Date) {
+  const date = new Date(value);
+  const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const weekday = WEEKDAY[date.getDay()];
+
+  return `${year}년 ${month}월 ${day}일 ${weekday}요일`;
+}
+
+export function convertSendAt(value: string | Date) {
+  const date = new Date(value);
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  if (hours > 12) {
+    return `오후 ${pad(hours - 12)}:${pad(minutes)}`;
+  } else if (hours === 12) {
+    return `오후 ${pad(hours)}:${pad(minutes)}`;
+  } else {
+    return `오전 ${pad(hours)}:${pad(minutes)}`;
+  }
+}
+
+function pad(date: number) {
+  return date.toString().padStart(2, "0");
 }

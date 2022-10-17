@@ -47,7 +47,11 @@
       >
     </div>
     {#if item.message}
-      <span class="text-gray-400 text-sm">{item.message}</span>
+      <span class="text-gray-400 text-sm"
+        >{item.message.length >= 50
+          ? item.message.substring(0, 50) + "..."
+          : item.message}</span
+      >
     {/if}
   </div>
 </div>

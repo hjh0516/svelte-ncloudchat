@@ -36,8 +36,11 @@ export interface Chat {
   type: string;
   message: string;
   created_at: string;
-  nickname: string;
-  profile: string;
+  nickname?: string;
+  profile?: string;
+  show_nickname?: boolean;
+  show_profile?: boolean;
+  show_date?: boolean;
 }
 
 export interface User {

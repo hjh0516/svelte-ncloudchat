@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { Channel, User } from "$types/type";
+import type { Channel, User } from "$lib/types/type";
 
 export const store = writable({
   tabItems: ["My 채팅", "오픈 채팅"],

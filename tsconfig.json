@@ -19,7 +19,6 @@
       "$lib/*": ["src/lib/*"],
       "$pages/*": ["src/pages/*"],
       "$components/*": ["src/components/*"],
-      "$types/*": ["src/lib/types/*"],
       "$store/*": ["src/store/*"],
     }
   },

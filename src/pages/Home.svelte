@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
-  import type { MessageType } from "$types/MessageType";
+  import type { MessageType } from "$lib/types/MessageType";
 
   import HomeHeader from "$components/HomeHeader.svelte";
   import Navigation from "$components/Navigation.svelte";

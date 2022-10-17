@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Channel } from "$types/type";
+  import type { Channel } from "$lib/types/type";
 
   import Spinner from "$components/Spinner.svelte";
   import { createEventDispatcher } from "svelte";

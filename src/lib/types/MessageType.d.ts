@@ -1,4 +1,4 @@
-import type { MemberType } from "$types/MemberType";
+import type { MemberType } from "$lib/types/MemberType";
 
 export interface MessageType {
   message_id?: string;

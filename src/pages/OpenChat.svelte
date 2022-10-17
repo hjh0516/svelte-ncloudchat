@@ -1,9 +1,8 @@
 <script lang="ts">
-  import type { Channel } from "$types/type";
+  import type { Channel } from "$lib/types/type";
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
-  import ChatSubscriptionModal from "$components/modals/ChatSubscriptionModal.svelte";
   import { apiGetChannels } from "$lib/api";
   import { store } from "$store/store";
   import { onMount } from "svelte";
