@@ -6,11 +6,17 @@
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
+  import SettingModal from "$components/modals/SettingModal.svelte";
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
 
   let chat: Chat;
+  let showSettingModal = false;
+
+  function closeSettingModal() {
+    showSettingModal = false;
+  }
 
   onMount(() => {
     bind("onMessageReceived", function (channel: string, message: MessageType) {
@@ -31,11 +37,15 @@
 </script>
 
 <main>
-  <HomeHeader />
+  <HomeHeader bind:showSettingModal />
   <Navigation />
   {#if $store.activeItem === "My 채팅"}
     <MyChat {chat} />
   {:else if $store.activeItem === "오픈 채팅"}
     <OpenChat />
+  {/if}
+
+  {#if showSettingModal}
+    <SettingModal on:close={closeSettingModal} />
   {/if}
 </main>

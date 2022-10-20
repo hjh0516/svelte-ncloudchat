@@ -1,15 +1,9 @@
 <script lang="ts">
-  import SettingModal from "./modals/SettingModal.svelte";
-
   export let showSettingModal = false;
-
-  function closeSettingModal() {
-    showSettingModal = false;
-  }
 </script>
 
 <div
-  class="fixed w-full z-10 p-5 bg-white flex justify-between"
+  class="fixed w-full p-5 bg-white flex justify-between"
   style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
 >
   <button class="mr-7 hover:text-gray-400">
@@ -91,8 +85,4 @@
       {/if}
     </button>
   </div>
-
-  {#if showSettingModal}
-    <SettingModal on:close={closeSettingModal} />
-  {/if}
 </div>
