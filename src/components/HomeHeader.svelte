@@ -9,10 +9,10 @@
 </script>
 
 <div
-  class="fixed w-full p-5 bg-white flex justify-between z-10"
+  class="fixed w-full z-10 p-5 bg-white flex justify-between"
   style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
 >
-  <button class="hover:text-gray-400">
+  <button class="mr-7 hover:text-gray-400">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

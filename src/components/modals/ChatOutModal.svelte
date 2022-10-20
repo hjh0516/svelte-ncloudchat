@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { apiUnsubscribe } from "$lib/api";
+  import { apiDeleteChannelNotification, apiUnsubscribe } from "$lib/api";
   import { unsubscribe } from "$lib/NcloudChat";
   import Spinner from "$components/Spinner.svelte";
 
@@ -20,6 +20,7 @@
     try {
       await apiUnsubscribe(channel_id);
       await unsubscribe(channel_id);
+      await apiDeleteChannelNotification(channel_id);
     } catch (err) {
       console.error(err);
     }

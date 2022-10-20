@@ -1,7 +1,43 @@
 <script lang="ts">
+  import type { Notification } from "$lib/types/type";
+
+  import { onMount } from "svelte";
   import { store } from "$store/store";
+  import {
+    apiCreateChannelNotification,
+    apiGetChannelNotification,
+    apiUpdateChannelNotification,
+  } from "$lib/api";
 
   export let showSettingModal = false;
+
+  let notification: Notification;
+
+  async function updateNotification() {
+    notification.notification = !notification.notification;
+    try {
+      await apiUpdateChannelNotification(
+        $store.channel.channel_id,
+        notification.notification
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  onMount(async () => {
+    try {
+      notification = await apiGetChannelNotification($store.channel.channel_id);
+      if (!notification) {
+        notification = await apiCreateChannelNotification(
+          $store.channel.channel_id,
+          true
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
 </script>
 
 <div
@@ -53,8 +89,8 @@
         />
       </svg>
     </button>
-    <button class="ml-1 hover:text-gray-400">
-      {#if $store.channel.push}
+    <button class="ml-1 hover:text-gray-400" on:click={updateNotification}>
+      {#if notification?.notification}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

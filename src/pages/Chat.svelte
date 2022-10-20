@@ -22,12 +22,14 @@
   let page = 1;
   let data: Chat[] = [];
   let newData: Chat[] = [];
+  let element: HTMLElement;
 
   let showSettingModal = false;
 
   async function send() {
     const inputMessage = input;
     input = "";
+    element.scrollTop = element.scrollHeight;
     try {
       const message = await sendMessage(params.id, "text", inputMessage);
       await apiCreateMessage(message.channelId, message.type, message.message);
@@ -78,6 +80,7 @@
 <ChatHeader bind:showSettingModal />
 <div
   class="fixed w-full h-full bg-gray-100 pt-5 pl-5 pr-5 mt-16 pb-32 flex flex-col-reverse overflow-scroll scrollbar-hide"
+  bind:this={element}
 >
   {#each data as item}
     {#if item.type === "date"}

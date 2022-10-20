@@ -107,6 +107,62 @@ export async function apiGetChatBans() {
   return await handleResponse(response);
 }
 
+export async function apiGetChannelNotification(channel_id: string) {
+  const response = await fetch(
+    API_URL + `channels/notifications/${channel_id}`,
+    {
+      method: "GET",
+      headers: setHeader(),
+    }
+  );
+  return await handleResponse(response);
+}
+
+export async function apiCreateChannelNotification(
+  channel_id: string,
+  notification: boolean
+) {
+  const response = await fetch(
+    API_URL + `channels/notifications/${channel_id}`,
+    {
+      method: "POST",
+      headers: setHeader(),
+      body: JSON.stringify({
+        notification: notification,
+      }),
+    }
+  );
+  return await handleResponse(response);
+}
+
+export async function apiUpdateChannelNotification(
+  channel_id: string,
+  notification: boolean
+) {
+  const response = await fetch(
+    API_URL + `channels/notifications/${channel_id}`,
+    {
+      method: "PUT",
+      headers: setHeader(),
+      body: JSON.stringify({
+        notification: notification,
+      }),
+    }
+  );
+  return await handleResponse(response);
+}
+
+export async function apiDeleteChannelNotification(channel_id: string) {
+  const response = await fetch(
+    API_URL + `channels/notifications/${channel_id}`,
+    {
+      method: "DELETE",
+      headers: setHeader(),
+    }
+  );
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

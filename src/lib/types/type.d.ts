@@ -6,7 +6,6 @@ export interface Channel {
   type: string;
   image_url?: string;
   link_url?: string;
-  push: boolean;
   created_at: string;
   updated_at: string;
   chat_idx: number;
@@ -53,4 +52,13 @@ export interface Tag {
   idx: number;
   channel_idx: number;
   tag: string;
+}
+
+export interface Notification {
+  idx: number;
+  user_idx: number;
+  channel_idx: number;
+  notification: boolean;
+  created_at: string;
+  updated_at: string;
 }
