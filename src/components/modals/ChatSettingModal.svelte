@@ -36,7 +36,9 @@
   <div class="w-full flex flex-col justify-center items-center">
     <span class="font-semibold text-xl mb-5">채팅방 설정</span>
     <span class="w-full font-semibold text-base text-left">대화 상대</span>
-    <div class="w-full h-72 mt-3 flex flex-col items-center overscroll-y-auto">
+    <div
+      class="w-full h-72 mt-3 flex flex-col items-center overflow-y-auto scrollbar-hide"
+    >
       <div
         class="w-full h-20 p-3 border-2 border-orange-200 flex items-center rounded-lg shadow-md"
       >

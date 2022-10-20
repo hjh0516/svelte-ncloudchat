@@ -99,6 +99,14 @@ export async function apiCreateMessage(
   return await handleResponse(response);
 }
 
+export async function apiGetChatBans() {
+  const response = await fetch(API_URL + `chats/bans`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,
