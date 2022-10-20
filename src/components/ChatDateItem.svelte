@@ -4,7 +4,7 @@
 
 <div class="w-full flex justify-center">
   <div
-    class="w-48 h-6 mt-5 mb-4 pr-3 pl-3 bg-gray-400 rounded-xl flex justify-around items-center text-center"
+    class="w-48 h-6 mt-5 mb-5 pr-3 pl-3 bg-gray-400 rounded-xl flex justify-around items-center text-center"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

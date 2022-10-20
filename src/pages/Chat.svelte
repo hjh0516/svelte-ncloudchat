@@ -14,6 +14,7 @@
   import { sendMessage, bind, unbindall } from "$lib/NcloudChat";
   import { apiGetMessages, apiCreateMessage } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
+  import { convertChatDate } from "$lib/Date";
 
   export let params: any;
 
@@ -42,6 +43,18 @@
     try {
       const res = await apiGetMessages(params.id, page);
       newData = updateChatItems(res.data);
+
+      if (newData.length === 0) {
+        newData.push({
+          idx: 0,
+          user_idx: 0,
+          channel_idx: data[data.length - 1].channel_idx,
+          type: "date",
+          message: convertChatDate(data[data.length - 1].created_at),
+          created_at: "",
+        });
+      }
+
       data = [...data, ...newData];
     } catch (err) {
       console.error(err);

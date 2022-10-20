@@ -24,6 +24,10 @@
         initialize();
         await connect(id, $store.user.name, $store.user.profile);
       }
+
+      if (location.href === "/") {
+        location.href = "/#/home";
+      }
     }
   });
 </script>

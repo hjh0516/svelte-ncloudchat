@@ -56,7 +56,7 @@
 </script>
 
 <div
-  class="fixed w-full h-full pt-32 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed w-full h-full mt-32 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#each data as item}
     <MyChannelItem {item} />

@@ -1,4 +1,4 @@
-import type { Chat } from "./types/type";
+import type { Chat } from "$lib/types/type";
 
 import { convertChatDate, convertSendAt } from "./Date";
 
@@ -20,7 +20,7 @@ export function updateChatItems(data: Chat[]) {
     const previousDate = new Date(previous.created_at).getDate();
     const itemDate = new Date(item.created_at).getDate();
 
-    if (previous.created_at && item.created_at && previousDate !== itemDate) {
+    if (previousDate !== itemDate) {
       result.push({
         idx: 0,
         user_idx: 0,
