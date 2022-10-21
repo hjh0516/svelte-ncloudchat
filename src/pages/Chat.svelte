@@ -44,13 +44,13 @@
       const res = await apiGetMessages(params.id, page);
       newData = updateChatItems(res.data);
 
-      if (newData.length === 0) {
+      if (newData.length > 0 && !res.next_page_url) {
         newData.push({
           idx: 0,
           user_idx: 0,
-          channel_idx: data[data.length - 1].channel_idx,
+          channel_idx: newData[newData.length - 1].channel_idx,
           type: "date",
-          message: convertChatDate(data[data.length - 1].created_at),
+          message: convertChatDate(newData[newData.length - 1].created_at),
           created_at: "",
         });
       }
