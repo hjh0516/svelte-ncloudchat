@@ -163,6 +163,14 @@ export async function apiDeleteChannelNotification(channel_id: string) {
   return await handleResponse(response);
 }
 
+export async function apiCreateChatRead(channel_id: string) {
+  const response = await fetch(API_URL + `chats/reads/${channel_id}`, {
+    method: "POST",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

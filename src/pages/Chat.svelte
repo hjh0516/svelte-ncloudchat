@@ -12,7 +12,11 @@
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
   import { sendMessage, bind, unbindall } from "$lib/NcloudChat";
-  import { apiGetMessages, apiCreateMessage } from "$lib/api";
+  import {
+    apiGetMessages,
+    apiCreateMessage,
+    apiCreateChatRead,
+  } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
 
@@ -83,6 +87,7 @@
     );
 
     await loadMessages();
+    await apiCreateChatRead(params.id);
   });
 
   onDestroy(() => {

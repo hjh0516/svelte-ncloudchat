@@ -46,12 +46,18 @@
           : convertDate(item.created_at)}</span
       >
     </div>
-    {#if item.message}
-      <span class="text-gray-400 text-sm"
-        >{item.message.length >= 50
-          ? item.message.substring(0, 50) + "..."
-          : item.message}</span
+    <div class="flex justify-between items-center">
+      <span class="h-5 text-gray-400 text-sm">
+        {#if item.message}
+          {item.message.length >= 50
+            ? item.message.substring(0, 50) + "..."
+            : item.message}
+        {/if}
+      </span>
+      <span
+        class="w-4 h-4 bg-gray-500 rounded-full text-center text-gray-100 text-xs"
+        >{item.unread_count}</span
       >
-    {/if}
+    </div>
   </div>
 </div>

@@ -23,6 +23,7 @@
       if (index >= 0) {
         data[index].message = chat.message;
         data[index].last_chat_at = chat.created_at;
+        data[index].unread_count += 1;
 
         const refresh = data.splice(index, 1);
         data = [...refresh, ...data];
@@ -64,7 +65,7 @@
 
   <InfiniteScroll
     hasMore={newData.length > 0}
-    threshold={100}
+    threshold={200}
     on:loadMore={async () => {
       page++;
       await loadChannels();

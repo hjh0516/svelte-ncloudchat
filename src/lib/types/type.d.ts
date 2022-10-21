@@ -16,6 +16,7 @@ export interface Channel {
   tags?: Tag[];
   nickname?: string;
   profile?: string;
+  unread_count: number;
 }
 
 export interface Subscription {
