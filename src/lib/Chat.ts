@@ -20,7 +20,11 @@ export function updateChatItems(data: Chat[]) {
     const previousDate = new Date(previous.created_at).getDate();
     const itemDate = new Date(item.created_at).getDate();
 
-    if (previousDate !== itemDate) {
+    if (
+      previous.type !== "date" &&
+      item.type !== "date" &&
+      previousDate !== itemDate
+    ) {
       result.push({
         idx: 0,
         user_idx: 0,

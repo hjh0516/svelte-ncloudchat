@@ -23,7 +23,9 @@
 <div
   class="w-full h-[35rem] fixed bottom-0 left-0 p-10 rounded-2xl mx-auto text-center bg-white"
 >
-  <div class="bg-gray-300" />
+  <div class="w-full h-1 flex justify-center mb-3">
+    <div class="w-20 h-1 bg-gray-300 rounded-2xl" />
+  </div>
   <div class="w-full flex flex-col justify-center items-center">
     <span class="font-semibold text-xl mb-5">채팅 설정</span>
     <div class="w-full h-16 border-b flex justify-between items-center">
