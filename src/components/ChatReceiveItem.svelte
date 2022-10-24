@@ -22,14 +22,14 @@
       />
     {/if}
   </div>
-  <div class="flex flex-col ml-3">
+  <div class="flex flex-col ml-3 items-start">
     {#if item.show_nickname}
       <span class="text-base font-bold">{item.nickname}</span>
     {/if}
     <div
       class="max-w-[calc(100vw-10rem)] bg-white border border-gray-200 mt-1 pt-1 pb-2 pl-3 pr-3 rounded-b-xl rounded-r-xl"
     >
-      <span class="text-gray-500 text-sm">{item.message}</span>
+      <span class="break-words text-gray-500 text-sm">{item.message}</span>
     </div>
     {#if item.show_date}
       <span class="text-gray-400 text-xs mt-1 mb-3">

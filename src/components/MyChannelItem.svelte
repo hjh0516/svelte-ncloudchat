@@ -47,7 +47,9 @@
       >
     </div>
     <div class="flex justify-between items-center">
-      <span class="h-5 text-gray-400 text-sm">
+      <span
+        class="max-w-[calc(100vw-12rem)] break-words h-7 mt-1 text-gray-400 text-sm"
+      >
         {#if item.message}
           {item.message.length >= 50
             ? item.message.substring(0, 50) + "..."

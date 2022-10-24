@@ -41,6 +41,7 @@ export interface Chat {
   show_nickname?: boolean;
   show_profile?: boolean;
   show_date?: boolean;
+  is_read?: number;
 }
 
 export interface User {
@@ -60,6 +61,15 @@ export interface Notification {
   user_idx: number;
   channel_idx: number;
   notification: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Read {
+  idx: number;
+  user_idx: number;
+  channel_idx: number;
+  chat_idx: number;
   created_at: string;
   updated_at: string;
 }

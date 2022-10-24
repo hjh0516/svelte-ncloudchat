@@ -23,13 +23,13 @@
   export let params: any;
 
   let input: string;
-
   let page = 1;
   let data: Chat[] = [];
   let newData: Chat[] = [];
   let element: HTMLElement;
-
   let showSettingModal = false;
+
+  $: data = updateChatItems(data);
 
   async function send() {
     const inputMessage = input;
@@ -46,7 +46,7 @@
   async function loadMessages() {
     try {
       const res = await apiGetMessages(params.id, page);
-      newData = updateChatItems(res.data);
+      newData = res.data;
 
       if (newData.length > 0 && !res.next_page_url) {
         newData.push({
@@ -69,6 +69,10 @@
     showSettingModal = false;
   }
 
+  async function handleFocus() {
+    await apiCreateChatRead(params.id);
+  }
+
   onMount(async () => {
     bind(
       "onMessageReceived",
@@ -82,7 +86,7 @@
           created_at: message.created_at,
         };
 
-        data = updateChatItems([chat, ...data]);
+        data = [chat, ...data];
       }
     );
 
@@ -94,6 +98,12 @@
     unbindall("onMessageReceived");
   });
 </script>
+
+<svelte:window
+  on:focus={async () => {
+    await handleFocus();
+  }}
+/>
 
 <ChatHeader bind:showSettingModal />
 <div
