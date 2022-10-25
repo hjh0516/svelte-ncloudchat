@@ -1,8 +1,9 @@
 <script lang="ts">
-  import Chat from "./pages/Chat.svelte";
-  import Home from "./pages/Home.svelte";
-  import Login from "./pages/Login.svelte";
   import Router from "svelte-spa-router";
+  import Login from "./pages/Login.svelte";
+  import Home from "./pages/Home.svelte";
+  import Chat from "./pages/Chat.svelte";
+  import Error from "$pages/Error.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import { connect, initialize, isConnected } from "$lib/NcloudChat";
@@ -11,6 +12,7 @@
     "/": Login,
     "/home": Home,
     "/chat/:id": Chat,
+    "/error": Error,
   };
 
   onMount(async () => {

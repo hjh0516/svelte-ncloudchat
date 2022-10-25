@@ -19,6 +19,10 @@
   }
 
   onMount(() => {
+    if (!$store.token) {
+      location.href = "/";
+    }
+
     bind("onMessageReceived", function (channel: string, message: MessageType) {
       chat = {
         channel_id: channel,
