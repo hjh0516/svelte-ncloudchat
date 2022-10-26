@@ -8,7 +8,7 @@
   const change = () => dispatch("change");
 </script>
 
-<label for={id}>
+<label for={id} style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">
   <input {id} type="checkbox" class="sr-only" bind:checked on:change={change} />
   {#if checked}
     <div
