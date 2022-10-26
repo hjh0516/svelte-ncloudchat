@@ -28,13 +28,11 @@
   async function submit() {
     if (!name) {
       inputName.focus();
-      nameDiv.classList.add("border-red-300");
       return;
     }
 
     if (tag && !tag.includes("#")) {
       inputTag.focus();
-      tagDiv.classList.add("border-red-300");
       return;
     }
 
@@ -105,14 +103,14 @@
         style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">수정하기</button
       >
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
+        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
         bind:this={nameDiv}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-6 h-6 mr-2"
+          class="w-6 h-6 mr-1 text-gray-500"
         >
           <path
             fill-rule="evenodd"
@@ -129,14 +127,14 @@
         />
       </div>
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
+        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
         bind:this={tagDiv}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-6 h-6"
+          class="w-6 h-6 mr-1 text-gray-500"
         >
           <path
             fill-rule="evenodd"
@@ -147,7 +145,7 @@
         <input
           class="w-full h-10 pl-2 pr-2 focus:outline-none text-base"
           type="text"
-          placeholder="해시태그로 채팅방을 소개해주세요."
+          placeholder="해시태그로 채팅방을 소개해주세요. (#태그)"
           bind:this={inputTag}
           bind:value={tag}
         />
