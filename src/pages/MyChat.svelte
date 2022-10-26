@@ -5,6 +5,7 @@
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
@@ -16,6 +17,7 @@
   let newData: Channel[] = [];
   let showModal = false;
   let newChannel: Channel = null;
+  let loading = false;
 
   $: {
     if (chat) {
@@ -32,6 +34,7 @@
   }
 
   async function loadChannels() {
+    loading = true;
     try {
       const res = await apiGetChannels("my", page);
       newData = res.data;
@@ -40,6 +43,7 @@
       console.error(err);
       return;
     }
+    loading = false;
   }
 
   function onModalClose() {
@@ -76,4 +80,10 @@
 
 {#if showModal}
   <CreateChannelModal on:close={onModalClose} bind:newChannel />
+{/if}
+
+{#if loading}
+  <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
+    <Spinner />
+  </div>
 {/if}

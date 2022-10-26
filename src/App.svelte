@@ -4,12 +4,14 @@
   import Home from "./pages/Home.svelte";
   import Chat from "./pages/Chat.svelte";
   import Error from "$pages/Error.svelte";
+  import LoginTemp from "$pages/LoginTemp.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import { connect, initialize, isConnected } from "$lib/NcloudChat";
 
   const routes = {
-    "/": Login,
+    "/": LoginTemp,
+    "/login": Login,
     "/home": Home,
     "/chat/:id": Chat,
     "/error": Error,

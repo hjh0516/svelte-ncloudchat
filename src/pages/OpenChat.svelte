@@ -3,23 +3,34 @@
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
-  import { apiGetChannels } from "$lib/api";
-  import { store } from "$store/store";
+  import Spinner from "$components/Spinner.svelte";
   import { onMount } from "svelte";
+  import { store } from "$store/store";
+  import { apiGetChannels } from "$lib/api";
 
   let page = 1;
   let data: Channel[] = [];
   let newData: Channel[] = [];
+  let searchText: string;
+  let loading = false;
 
-  async function loadChannels() {
+  async function loadChannels(searchText?: string) {
+    loading = true;
     try {
-      const res = await apiGetChannels("open", page);
+      const res = await apiGetChannels("open", page, searchText);
       newData = res.data;
       data = [...data, ...newData];
     } catch (err) {
       console.error(err);
       return;
     }
+    loading = false;
+  }
+
+  async function searchChannels() {
+    page = 1;
+    data = [];
+    await loadChannels(searchText);
   }
 
   onMount(async () => {
@@ -32,26 +43,35 @@
 <div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2 rounded-2xl">
   <div
     class="w-full h-12 border border-gray-300 bg-white rounded-2xl flex justify-center items-center"
+    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
   >
     <input
       class="w-full h-10 ml-3 mr-1 pl-1 pr-1 focus:outline-none text-base"
       type="text"
       placeholder="대화방을 검색해보세요!"
+      bind:value={searchText}
     />
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="2"
-      stroke="currentColor"
-      class="w-6 mr-5 hover:text-gray-400"
+    <button
+      class="mr-4 hover:text-gray-400"
+      on:click={async () => {
+        searchChannels();
+      }}
     >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-      />
-    </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+        />
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -67,7 +87,13 @@
     threshold={100}
     on:loadMore={async () => {
       page++;
-      await loadChannels();
+      await loadChannels(searchText);
     }}
   />
 </div>
+
+{#if loading}
+  <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
+    <Spinner />
+  </div>
+{/if}

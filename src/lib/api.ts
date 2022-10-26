@@ -5,15 +5,23 @@ const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export async function apiGetUser() {
-  const response = await fetch(API_URL + "user", {
+  const response = await fetch(`${API_URL}/user`, {
     method: "GET",
     headers: setHeader(),
   });
   return await handleResponse(response);
 }
 
-export async function apiGetChannels(type: string, page: number) {
-  const response = await fetch(API_URL + `channels?type=${type}&page=${page}`, {
+export async function apiGetChannels(
+  type: string,
+  page: number,
+  search_text?: string
+) {
+  let url = `${API_URL}/channels?type=${type}&page=${page}`;
+  if (search_text) {
+    url += `&search_text=${search_text}`;
+  }
+  const response = await fetch(url, {
     method: "GET",
     headers: setHeader(),
   });
@@ -21,7 +29,7 @@ export async function apiGetChannels(type: string, page: number) {
 }
 
 export async function apiGetChannel(channel_id: string) {
-  const response = await fetch(API_URL + `channels/${channel_id}`, {
+  const response = await fetch(`${API_URL}/channels/${channel_id}`, {
     method: "GET",
     headers: setHeader(),
   });
@@ -37,7 +45,7 @@ export async function apiCreateChannel(
   push?: boolean,
   tag?: string
 ) {
-  const response = await fetch(API_URL + `channels`, {
+  const response = await fetch(`${API_URL}/channels`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
@@ -54,7 +62,7 @@ export async function apiCreateChannel(
 }
 
 export async function apiSubscribe(channel_id: string) {
-  const response = await fetch(API_URL + `channels/subscriptions`, {
+  const response = await fetch(`${API_URL}/channels/subscriptions`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
@@ -66,7 +74,7 @@ export async function apiSubscribe(channel_id: string) {
 
 export async function apiUnsubscribe(channel_id: string) {
   const response = await fetch(
-    API_URL + `channels/subscriptions/${channel_id}`,
+    `${API_URL}/channels/subscriptions/${channel_id}`,
     {
       method: "DELETE",
       headers: setHeader(),
@@ -76,7 +84,7 @@ export async function apiUnsubscribe(channel_id: string) {
 }
 
 export async function apiGetMessages(channel_id: string, page: number) {
-  const response = await fetch(API_URL + `chats/${channel_id}?page=${page}`, {
+  const response = await fetch(`${API_URL}/chats/${channel_id}?page=${page}`, {
     method: "GET",
     headers: setHeader(),
   });
@@ -88,7 +96,7 @@ export async function apiCreateMessage(
   type: string,
   message: string
 ) {
-  const response = await fetch(API_URL + `chats/${channel_id}`, {
+  const response = await fetch(`${API_URL}/chats/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
@@ -100,7 +108,7 @@ export async function apiCreateMessage(
 }
 
 export async function apiGetChatBans() {
-  const response = await fetch(API_URL + `chats/bans`, {
+  const response = await fetch(`${API_URL}/chats/bans`, {
     method: "GET",
     headers: setHeader(),
   });
@@ -109,7 +117,7 @@ export async function apiGetChatBans() {
 
 export async function apiGetChannelNotification(channel_id: string) {
   const response = await fetch(
-    API_URL + `channels/notifications/${channel_id}`,
+    `${API_URL}/channels/notifications/${channel_id}`,
     {
       method: "GET",
       headers: setHeader(),
@@ -123,7 +131,7 @@ export async function apiCreateChannelNotification(
   notification: boolean
 ) {
   const response = await fetch(
-    API_URL + `channels/notifications/${channel_id}`,
+    `${API_URL}/channels/notifications/${channel_id}`,
     {
       method: "POST",
       headers: setHeader(),
@@ -140,7 +148,7 @@ export async function apiUpdateChannelNotification(
   notification: boolean
 ) {
   const response = await fetch(
-    API_URL + `channels/notifications/${channel_id}`,
+    `${API_URL}/channels/notifications/${channel_id}`,
     {
       method: "PUT",
       headers: setHeader(),
@@ -154,7 +162,7 @@ export async function apiUpdateChannelNotification(
 
 export async function apiDeleteChannelNotification(channel_id: string) {
   const response = await fetch(
-    API_URL + `channels/notifications/${channel_id}`,
+    `${API_URL}/channels/notifications/${channel_id}`,
     {
       method: "DELETE",
       headers: setHeader(),
@@ -164,7 +172,7 @@ export async function apiDeleteChannelNotification(channel_id: string) {
 }
 
 export async function apiCreateChatRead(channel_id: string) {
-  const response = await fetch(API_URL + `chats/reads/${channel_id}`, {
+  const response = await fetch(`${API_URL}/chats/reads/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
   });

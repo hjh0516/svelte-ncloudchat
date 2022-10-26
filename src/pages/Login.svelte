@@ -12,7 +12,7 @@
   onMount(async () => {
     const params = new URLSearchParams($querystring);
     if (!params.has("token")) {
-      location.href = "/#/error";
+      location.href = $store.token ? "/#/home" : "/";
       return;
     }
 
@@ -37,7 +37,6 @@
     try {
       initialize();
       await connect(id, user.nickname, user.profile);
-
       location.href = "/#/home";
     } catch (err) {
       location.href = "/#/error";

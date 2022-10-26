@@ -58,7 +58,7 @@
       </span>
       <span
         class="w-4 h-4 bg-gray-500 rounded-full text-center text-gray-100 text-xs"
-        >{item.unread_count}</span
+        >{item.unread_count ? item.unread_count : 0}</span
       >
     </div>
   </div>
