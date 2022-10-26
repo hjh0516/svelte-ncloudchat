@@ -12,6 +12,28 @@ export async function apiGetUser() {
   return await handleResponse(response);
 }
 
+export async function apiUpdateUseChat(use_chat: boolean) {
+  const response = await fetch(`${API_URL}/user`, {
+    method: "PUT",
+    headers: setHeader(),
+    body: JSON.stringify({
+      use_chat: use_chat,
+    }),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiUpdateChatNotification(chat_notification: boolean) {
+  const response = await fetch(`${API_URL}/user`, {
+    method: "PUT",
+    headers: setHeader(),
+    body: JSON.stringify({
+      chat_notification: chat_notification,
+    }),
+  });
+  return await handleResponse(response);
+}
+
 export async function apiGetChannels(
   type: string,
   page: number,
@@ -188,11 +210,13 @@ function setHeader() {
 }
 
 async function handleResponse(response: Response) {
-  const res = await response.json();
+  if (response.ok) {
+    const res = await response.json();
 
-  if (res.code === 0) {
-    return res.data;
-  } else {
-    throw new Error(JSON.stringify(res));
+    if (res.code === 0) {
+      return res.data;
+    } else {
+      throw new Error(JSON.stringify(res));
+    }
   }
 }

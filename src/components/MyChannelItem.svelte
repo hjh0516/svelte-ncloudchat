@@ -48,7 +48,7 @@
     </div>
     <div class="flex justify-between items-center">
       <span
-        class="max-w-[calc(100vw-12rem)] break-words h-7 mt-1 text-gray-400 text-sm"
+        class="max-w-[calc(100vw-12rem)] break-words h-auto text-gray-400 text-sm"
       >
         {#if item.message}
           {item.message.length >= 50
@@ -57,7 +57,7 @@
         {/if}
       </span>
       <span
-        class="w-4 h-4 bg-gray-500 rounded-full text-center text-gray-100 text-xs"
+        class="w-4 h-4 bg-gray-600 rounded-full text-center text-gray-100 text-xs"
         >{item.unread_count ? item.unread_count : 0}</span
       >
     </div>

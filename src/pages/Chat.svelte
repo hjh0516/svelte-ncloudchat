@@ -133,5 +133,5 @@
 <MessageInput {send} bind:input />
 
 {#if showSettingModal}
-  <ChatSettingModal channel_id={params.id} on:close={closeSettingModal} />
+  <ChatSettingModal channelId={params.id} on:close={closeSettingModal} />
 {/if}

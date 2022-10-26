@@ -26,6 +26,8 @@
         id: user.idx,
         name: user.nickname,
         profile: user.profile,
+        use_chat: user.use_chat,
+        chat_notification: user.chat_notification,
       };
 
       window.sessionStorage.setItem("store", JSON.stringify($store));

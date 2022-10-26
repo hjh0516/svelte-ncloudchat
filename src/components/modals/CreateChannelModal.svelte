@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
+  import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { createEventDispatcher } from "svelte";
   import { ChannelType } from "ncloudchat/esm/Type";
@@ -22,6 +23,7 @@
   let nameDiv: HTMLElement;
   let inputTag: HTMLElement;
   let tagDiv: HTMLElement;
+  let checked = false;
 
   async function submit() {
     if (!name) {
@@ -81,7 +83,7 @@
   bind:this={back}
 />
 <div
-  class="w-full h-[21rem] fixed bottom-0 left-0 p-2 rounded-2xl mx-auto text-center bg-white"
+  class="w-full h-[33.4rem] fixed bottom-0 left-0 p-3 rounded-t-2xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
@@ -89,7 +91,19 @@
   </div>
   <div class="p-5">
     <div class="w-full flex flex-col justify-center items-center">
-      <span class="font-semibold text-xl mb-5">채팅방 만들기</span>
+      <span
+        class="font-semibold text-xl mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
+        >채팅방 만들기</span
+      >
+      <img
+        class="w-28 border border-gray-200 rounded-full mb-3"
+        src="/default_channel_image.svg"
+        alt="channel_image"
+      />
+      <button
+        class="w-20 mb-5 pr-2 pl-2 pt-1 pb-1 bg-yellow-300 rounded-2xl text-gray-600 font-semibold text-base hover:bg-yellow-200"
+        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">수정하기</button
+      >
       <div
         class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
         bind:this={nameDiv}
@@ -115,7 +129,7 @@
         />
       </div>
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-10"
+        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5"
         bind:this={tagDiv}
       >
         <svg
@@ -137,6 +151,10 @@
           bind:this={inputTag}
           bind:value={tag}
         />
+      </div>
+      <div class="w-full mb-5 flex justify-between items-center pl-3 pr-3">
+        <span class="text-base font-semibold">팔로워만 입장</span>
+        <OnOffButton id="type" bind:checked />
       </div>
       <button
         class="w-full h-14 rounded-xl bg-gray-500 text-white"

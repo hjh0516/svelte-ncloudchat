@@ -63,7 +63,7 @@
   bind:this={back}
 />
 <div
-  class="w-full h-44 fixed bottom-0 left-0 p-2 rounded-2xl mx-auto text-center bg-white"
+  class="w-full h-44 fixed bottom-0 left-0 p-2 rounded-t-2xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
@@ -71,7 +71,10 @@
   </div>
   <div class="p-5">
     <div class="w-full flex flex-col justify-center items-center">
-      <span class="font-semibold text-xl mb-5">채팅방에 참여할까요?</span>
+      <span
+        class="font-semibold text-xl mb-7 underline underline-offset-0 decoration-8 decoration-yellow-300"
+        >채팅방에 참여할까요?</span
+      >
       <div class="w-full flex justify-center items-center gap-3">
         <button
           class="w-full h-12 bg-gray-400 text-gray-100 text-base rounded-lg"

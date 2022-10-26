@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
-  export let channel_id: string;
+  export let channelId: string;
 
   let back: HTMLElement;
   let element: HTMLElement;
@@ -18,9 +18,9 @@
     addPointerEventNone();
 
     try {
-      await apiUnsubscribe(channel_id);
-      await unsubscribe(channel_id);
-      await apiDeleteChannelNotification(channel_id);
+      await apiUnsubscribe(channelId);
+      await unsubscribe(channelId);
+      await apiDeleteChannelNotification(channelId);
     } catch (err) {
       console.error(err);
     }
@@ -51,7 +51,7 @@
   bind:this={back}
 />
 <div
-  class="w-full h-56 fixed bottom-0 left-0 p-2 rounded-2xl mx-auto text-center bg-white"
+  class="w-full h-56 fixed bottom-0 left-0 p-2 rounded-t-2xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
@@ -59,7 +59,10 @@
   </div>
   <div class="p-5">
     <div class="w-full flex flex-col justify-center items-center">
-      <span class="font-semibold text-xl mb-5">채팅방을 나갈까요?</span>
+      <span
+        class="font-semibold text-xl mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
+        >채팅방을 나갈까요?</span
+      >
       <span class="text-base text-gray-400 mb-10"
         >나가게 되면 모든 데이터는 삭제돼요!</span
       >

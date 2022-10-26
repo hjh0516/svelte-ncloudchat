@@ -48,6 +48,8 @@ export interface User {
   id: string;
   name: string;
   profile: string;
+  use_chat: boolean;
+  chat_notification: boolean;
 }
 
 export interface Tag {
