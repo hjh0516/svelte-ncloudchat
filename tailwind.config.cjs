@@ -19,10 +19,10 @@ module.exports = {
       },
     },
     fontFamily: {
-      sbaggrob: ["SBAggroB"],
-      sbaggrom: ["SBAggroM"],
-      sbaggrol: ["SBAggroL"],
-      recipekorea: ["Recipekorea"],
+      sbaggrob: ["SBAggroB", "Noto Sans KR", "sans-serif"],
+      sbaggrom: ["SBAggroM", "Noto Sans KR", "sans-serif"],
+      sbaggrol: ["SBAggroL", "Noto Sans KR", "sans-serif"],
+      recipekorea: ["Recipekorea", "Noto Sans KR", "sans-serif"],
     },
     fontSize: {
       xs: "0.625rem",

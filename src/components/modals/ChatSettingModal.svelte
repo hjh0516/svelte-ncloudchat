@@ -106,7 +106,7 @@
         {/each}
       </div>
       <button
-        class="w-full h-14 rounded-xl bg-gray-500 text-white"
+        class="w-full h-14 rounded-xl bg-gray-700 text-white"
         on:click={() => (showOutModal = true)}>채팅방 나가기</button
       >
     </div>

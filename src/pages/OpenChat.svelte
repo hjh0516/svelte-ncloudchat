@@ -78,18 +78,25 @@
 <div
   class="fixed w-full h-full mt-48 pl-5 pr-5 pb-48 overflow-y-auto flex flex-col scrollbar-hide"
 >
-  {#each data as item}
-    <OpenChannelItem {item} />
-  {/each}
-
-  <InfiniteScroll
-    hasMore={newData.length > 0}
-    threshold={100}
-    on:loadMore={async () => {
-      page++;
-      await loadChannels(searchText);
-    }}
-  />
+  {#if data.length > 0}
+    {#each data as item}
+      <OpenChannelItem {item} />
+      <InfiniteScroll
+        hasMore={newData.length > 0}
+        threshold={100}
+        on:loadMore={async () => {
+          page++;
+          await loadChannels(searchText);
+        }}
+      />
+    {/each}
+  {:else}
+    <div class="w-full h-full -mt-24 flex flex-col justify-center items-center">
+      <span class="text-gray-600 text-3xl mb-3 font-sbaggrom text-center"
+        >개설된 채팅이 없어요!</span
+      >
+    </div>
+  {/if}
 </div>
 
 {#if loading}

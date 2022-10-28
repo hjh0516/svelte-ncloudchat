@@ -108,7 +108,7 @@
       </div>
     </div>
     <button
-      class="w-full h-14 rounded-xl bg-gray-500 text-white"
+      class="w-full h-14 rounded-xl bg-gray-700 text-white"
       on:click={close}>완료</button
     >
   </div>
