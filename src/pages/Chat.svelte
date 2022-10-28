@@ -16,6 +16,7 @@
     apiGetMessages,
     apiCreateMessage,
     apiCreateChatRead,
+    apiGetChannel,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -85,6 +86,17 @@
           message: message.content,
           created_at: message.created_at,
         };
+
+        if (data.length === 0) {
+          data.push({
+            idx: 0,
+            user_idx: 0,
+            channel_idx: 0,
+            type: "date",
+            message: convertChatDate(chat.created_at),
+            created_at: "",
+          });
+        }
 
         data = [chat, ...data];
       }

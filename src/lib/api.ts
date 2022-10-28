@@ -210,13 +210,11 @@ function setHeader() {
 }
 
 async function handleResponse(response: Response) {
-  if (response.ok) {
-    const res = await response.json();
+  const res = await response.json();
 
-    if (res.code === 0) {
-      return res.data;
-    } else {
-      throw new Error(JSON.stringify(res));
-    }
+  if (res.code === 0) {
+    return res.data;
+  } else {
+    console.log(res.message);
   }
 }

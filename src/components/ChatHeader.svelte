@@ -2,13 +2,17 @@
   import { store } from "$store/store";
 
   export let showSettingModal = false;
+
+  function previousPage() {
+    location.href = "/#/home";
+  }
 </script>
 
 <div
   class="fixed w-full p-5 bg-white flex justify-between"
   style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
 >
-  <button class="hover:text-gray-400">
+  <button class="hover:text-gray-400" on:click={previousPage}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -20,7 +24,7 @@
       <path
         stroke-linecap="round"
         stroke-linejoin="round"
-        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+        d="M15.75 19.5L8.25 12l7.5-7.5"
       />
     </svg>
   </button>

@@ -42,17 +42,17 @@
 
 <div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2 rounded-2xl">
   <div
-    class="w-full h-12 border border-gray-300 bg-white rounded-2xl flex justify-center items-center"
+    class="w-full h-12 border border-gray-300 bg-white rounded-2xl flex justify-center items-center focus-within:border-cyan-500"
     style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
   >
     <input
       class="w-full h-10 ml-3 mr-1 pl-1 pr-1 focus:outline-none text-base"
       type="text"
-      placeholder="대화방을 검색해보세요!"
+      placeholder="채팅방을 검색해보세요!"
       bind:value={searchText}
     />
     <button
-      class="mr-4 hover:text-gray-400"
+      class="mr-3 hover:text-gray-500"
       on:click={async () => {
         searchChannels();
       }}

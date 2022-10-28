@@ -4,7 +4,7 @@
   import Spinner from "$components/Spinner.svelte";
   import { createEventDispatcher } from "svelte";
   import { store } from "$store/store";
-  import { apiSubscribe } from "$lib/api";
+  import { apiCreateChannelNotification, apiSubscribe } from "$lib/api";
   import { getChannel, subscribe } from "$lib/NcloudChat";
 
   const dispatch = createEventDispatcher();
@@ -23,6 +23,7 @@
 
     try {
       await apiSubscribe(channel_id);
+      await apiCreateChannelNotification(channel_id, true);
       channel = await getChannel(channel_id);
     } catch (err) {
       console.error(err);

@@ -6,7 +6,12 @@
   import { createEventDispatcher } from "svelte";
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
-  import { apiCreateChannel, apiGetChannel, apiSubscribe } from "$lib/api";
+  import {
+    apiCreateChannel,
+    apiCreateChannelNotification,
+    apiGetChannel,
+    apiSubscribe,
+  } from "$lib/api";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -50,6 +55,7 @@
         channel.push,
         tag
       );
+      await apiCreateChannelNotification(channel.id, true);
 
       await subscribe(channel.id);
       await apiSubscribe(channel.id);
@@ -103,7 +109,7 @@
         style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">수정하기</button
       >
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
+        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-cyan-500"
         bind:this={nameDiv}
       >
         <svg
@@ -127,7 +133,7 @@
         />
       </div>
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
+        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-cyan-500"
         bind:this={tagDiv}
       >
         <svg
