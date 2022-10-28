@@ -24,7 +24,7 @@
   </div>
   <div class="flex flex-col ml-3 items-start">
     {#if item.show_nickname}
-      <span class="text-base font-bold">{item.nickname}</span>
+      <span class="text-sm font-sbaggrom">{item.nickname}</span>
     {/if}
     <div
       class="max-w-[calc(100vw-10rem)] bg-white border border-gray-200 mt-1 pt-1 pb-2 pl-3 pr-3 rounded-b-xl rounded-r-xl"

@@ -63,18 +63,29 @@
 <div
   class="fixed w-full h-full mt-32 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
 >
-  {#each data as item}
-    <MyChannelItem {item} />
-  {/each}
+  {#if data.length > 0}
+    {#each data as item}
+      <MyChannelItem {item} />
+    {/each}
 
-  <InfiniteScroll
-    hasMore={newData.length > 0}
-    threshold={200}
-    on:loadMore={async () => {
-      page++;
-      await loadChannels();
-    }}
-  />
+    <InfiniteScroll
+      hasMore={newData.length > 0}
+      threshold={200}
+      on:loadMore={async () => {
+        page++;
+        await loadChannels();
+      }}
+    />
+  {:else}
+    <div class="w-full h-full -mt-32 flex flex-col justify-center items-center">
+      <span class="text-gray-600 text-3xl mb-3 font-sbaggrom text-center"
+        >참여중인 채팅이 없어요!</span
+      >
+      <span class="text-gray-300 text-base text-center"
+        >오른쪽 하단의 채팅하기 아이콘을 누르면<br />직접 방을 만들 수 있어요!</span
+      >
+    </div>
+  {/if}
 </div>
 <FloatingActionButton on:click={() => (showModal = true)} />
 

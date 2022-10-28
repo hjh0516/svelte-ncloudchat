@@ -64,7 +64,7 @@
   <div class="p-5">
     <div class="w-full flex flex-col justify-center items-center">
       <span
-        class="font-semibold text-xl mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
+        class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
         >채팅 설정</span
       >
       <div class="w-full h-16 border-b flex justify-between items-center">
@@ -96,7 +96,7 @@
               src={item.profile}
               alt="profile_image"
             />
-            <span class="w-full ml-5 text-left font-semibold"
+            <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
               >{item.nickname}</span
             >
             <span

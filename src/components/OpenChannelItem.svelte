@@ -34,10 +34,10 @@
   {/if}
   <div class="w-full flex flex-col">
     <div class="flex justify-between items-center">
-      <div class="flex justify-center items-center">
-        <strong>{item.name}</strong>
+      <div class="h-4 flex justify-center items-center">
+        <span class="font-sbaggrom text-base">{item.name}</span>
         <div
-          class="h-5 bg-gray-500 text-gray-100 rounded-md flex items-center text-sm pl-1 pr-1 ml-2"
+          class="h-4 bg-gray-500 text-gray-100 rounded-md flex items-center text-sm ml-1 p-1"
         >
           {item.subscriptions_count}명
         </div>

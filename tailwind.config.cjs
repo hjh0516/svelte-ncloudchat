@@ -18,6 +18,12 @@ module.exports = {
         },
       },
     },
+    fontFamily: {
+      sbaggrob: ["SBAggroB"],
+      sbaggrom: ["SBAggroM"],
+      sbaggrol: ["SBAggroL"],
+      recipekorea: ["Recipekorea"],
+    },
     fontSize: {
       xs: "0.625rem",
       sm: "0.75rem",

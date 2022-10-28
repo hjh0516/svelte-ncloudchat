@@ -33,14 +33,14 @@
   <div class="w-full flex flex-col ml-4">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
-        <span class="font-semibold">{item.name}</span>
+        <span class="font-recipekorea text-base">{item.name}</span>
         {#if item.type === "PUBLIC"}
-          <span class="text-base text-gray-500 ml-1"
+          <span class="font-recipekorea text-base text-gray-500 ml-1"
             >({item.subscriptions_count}명)</span
           >
         {/if}
       </div>
-      <span class="text-gray-300 text-xs"
+      <span class="text-gray-400 text-xs"
         >{item.last_chat_at
           ? convertDate(item.last_chat_at)
           : convertDate(item.created_at)}</span
@@ -57,7 +57,7 @@
         {/if}
       </span>
       <span
-        class="w-4 h-4 bg-gray-600 rounded-full text-center text-gray-100 text-xs"
+        class="w-auto h-4 pr-1 pl-1 bg-gray-600 rounded-full text-center text-gray-50 text-xs font-semibold"
         >{item.unread_count ? item.unread_count : 0}</span
       >
     </div>

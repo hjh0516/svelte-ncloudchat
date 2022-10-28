@@ -9,7 +9,7 @@
 </script>
 
 <div
-  class="fixed w-full p-5 bg-white flex justify-between"
+  class="fixed w-full p-5 bg-white flex justify-between items-center"
   style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
 >
   <button class="hover:text-gray-400" on:click={previousPage}>
@@ -28,7 +28,9 @@
       />
     </svg>
   </button>
-  <span class="w-full text-center font-bold">{$store.channel.name}</span>
+  <span class="w-full text-center text-base font-recipekorea"
+    >{$store.channel.name}</span
+  >
   <div
     class="flex items-center"
     style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"

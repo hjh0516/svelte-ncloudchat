@@ -96,7 +96,7 @@
   <div class="p-5">
     <div class="w-full flex flex-col justify-center items-center">
       <span
-        class="font-semibold text-xl mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
+        class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
         >채팅방 만들기</span
       >
       <img
@@ -109,14 +109,14 @@
         style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">수정하기</button
       >
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-cyan-500"
+        class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
         bind:this={nameDiv}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-6 h-6 mr-1 text-gray-500"
+          class="w-6 h-6 mr-1 text-gray-600"
         >
           <path
             fill-rule="evenodd"
@@ -125,7 +125,7 @@
           />
         </svg>
         <input
-          class="w-full h-10 pl-2 pr-2 focus:outline-none text-base"
+          class="w-full h-10 pl-2 pr-2 bg-gray-100 focus:outline-none text-base"
           type="text"
           placeholder="채팅방 이름을 입력해주세요."
           bind:this={inputName}
@@ -133,7 +133,7 @@
         />
       </div>
       <div
-        class="w-full h-12 border-2 border-gray-300 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-cyan-500"
+        class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-cyan-500"
         bind:this={tagDiv}
       >
         <svg
@@ -149,7 +149,7 @@
           />
         </svg>
         <input
-          class="w-full h-10 pl-2 pr-2 focus:outline-none text-base"
+          class="w-full h-10 pl-2 pr-2 bg-gray-100 focus:outline-none text-base"
           type="text"
           placeholder="해시태그로 채팅방을 소개해주세요. (#태그)"
           bind:this={inputTag}

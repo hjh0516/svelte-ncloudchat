@@ -10,7 +10,7 @@
   <ul class="flex justify-around">
     {#each tabItems as item}
       <li
-        class="w-full text-center text-lg font-semibold"
+        class="w-full text-center text-base font-recipekorea"
         on:click={() => dispatch("tabChange", item)}
       >
         <div
