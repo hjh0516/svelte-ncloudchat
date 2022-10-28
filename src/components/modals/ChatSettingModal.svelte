@@ -84,26 +84,28 @@
             >나</span
           >
         </div>
-        {#each subscriptions as item}
-          {#if item.user_idx !== $store.user.id}
-            <div
-              class="w-full h-20 p-3 mt-3 border-2 border-gray-200 flex items-center rounded-lg shadow-md"
-            >
-              <img
-                class="w-12 h-12 border border-gray-200 rounded-full"
-                src={item.profile}
-                alt="profile_image"
-              />
-              <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
-                >{item.nickname}</span
+        <div class="w-full h-52 mb-5 overflow-y-auto scrollbar-hide">
+          {#each subscriptions as item}
+            {#if item.user_idx !== $store.user.id}
+              <div
+                class="w-full h-20 p-3 mt-3 border-2 border-gray-200 flex items-center rounded-lg shadow-md"
               >
-              <span
-                class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
-                >차단</span
-              >
-            </div>
-          {/if}
-        {/each}
+                <img
+                  class="w-12 h-12 border border-gray-200 rounded-full"
+                  src={item.profile}
+                  alt="profile_image"
+                />
+                <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
+                  >{item.nickname}</span
+                >
+                <span
+                  class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
+                  >차단</span
+                >
+              </div>
+            {/if}
+          {/each}
+        </div>
       </div>
       <button
         class="w-full h-14 rounded-xl bg-gray-700 text-white"

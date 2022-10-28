@@ -78,7 +78,7 @@
     />
   {:else}
     <div class="w-full h-full -mt-32 flex flex-col justify-center items-center">
-      <span class="text-gray-600 text-3xl mb-3 font-sbaggrom text-center"
+      <span class="text-gray-600 text-2xl mb-3 font-sbaggrom text-center"
         >참여중인 채팅이 없어요!</span
       >
       <span class="text-gray-300 text-base text-center"
