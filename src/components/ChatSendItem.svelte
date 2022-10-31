@@ -5,9 +5,8 @@
 
   export let item: Chat;
 
-  let imageSrc = item.image_url ? item.image_url : "default.jpg";
   function handleImageError() {
-    imageSrc = "default.jpg";
+    item.image_url = "default.jpg";
   }
 </script>
 
@@ -23,9 +22,11 @@
         <span class="break-words text-gray-50 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div class="w-32 h-auto border border-cyan-500 rounded-t-lg rounded-l-lg">
+      <div
+        class="w-32 h-auto p-1 border border-cyan-500 rounded-t-lg rounded-l-lg"
+      >
         <img
-          src={imageSrc}
+          src={item.image_url}
           alt="image_url"
           class="rounded-t-lg rounded-l-lg"
           on:error={handleImageError}

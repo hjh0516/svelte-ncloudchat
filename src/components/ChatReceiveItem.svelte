@@ -10,9 +10,8 @@
     profileSrc = "profile_default.jpeg";
   }
 
-  let imageSrc = item.image_url ? item.image_url : "default.jpg";
   function handleImageError() {
-    imageSrc = "default.jpg";
+    item.image_url = "default.jpg";
   }
 </script>
 
@@ -38,9 +37,11 @@
         <span class="break-words text-gray-500 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div class="w-32 border border-gray-200 rounded-b-lg rounded-r-lg mt-1">
+      <div
+        class="w-32 h-auto p-1 border border-gray-200 rounded-b-lg rounded-r-lg mt-1"
+      >
         <img
-          src={imageSrc}
+          src={item.image_url}
           alt="image_url"
           class="rounded-b-lg rounded-r-lg"
           on:error={handleImageError}
