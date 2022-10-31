@@ -34,7 +34,8 @@ export interface Chat {
   channel_id?: string;
   channel_idx?: number;
   type: string;
-  message: string;
+  message?: string;
+  image_url?: string;
   created_at: string;
   nickname?: string;
   profile?: string;

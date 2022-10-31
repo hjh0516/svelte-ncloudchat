@@ -11,12 +11,11 @@
   import ChatDateItem from "$components/ChatDateItem.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
-  import { sendMessage, bind, unbindall } from "$lib/NcloudChat";
+  import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
   import {
     apiGetMessages,
     apiCreateMessage,
     apiCreateChatRead,
-    apiGetChannel,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -33,12 +32,28 @@
   $: data = updateChatItems(data);
 
   async function send() {
+    if (!input) {
+      return;
+    }
+
     const inputMessage = input;
     input = "";
     element.scrollTop = element.scrollHeight;
     try {
-      const message = await sendMessage(params.id, "text", inputMessage);
-      await apiCreateMessage(message.channelId, message.type, message.message);
+      await sendMessage(params.id, "text", inputMessage);
+      await apiCreateMessage(params.id, "text", inputMessage);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function uploadImage(e) {
+    const image = e.target.files[0];
+    input = "";
+    element.scrollTop = element.scrollHeight;
+    try {
+      await sendImage(params.id, image);
+      await apiCreateMessage(params.id, "image", null, image);
     } catch (err) {
       console.error(err);
     }
@@ -78,14 +93,27 @@
     bind(
       "onMessageReceived",
       async function (_channel: string, message: MessageType) {
-        const chat: Chat = {
-          user_idx: Number(message.sender.id.split("_")[1]),
-          nickname: message.sender.name,
-          profile: message.sender.profile,
-          type: message.message_type,
-          message: message.content,
-          created_at: message.created_at,
-        };
+        let chat: Chat;
+
+        if (message.message_type === "text") {
+          chat = {
+            user_idx: Number(message.sender.id.split("_")[1]),
+            nickname: message.sender.name,
+            profile: message.sender.profile,
+            type: message.message_type,
+            message: message.content,
+            created_at: message.created_at,
+          };
+        } else if (message.message_type === "file") {
+          chat = {
+            user_idx: Number(message.sender.id.split("_")[1]),
+            nickname: message.sender.name,
+            profile: message.sender.profile,
+            type: "file",
+            image_url: message.content,
+            created_at: message.created_at,
+          };
+        }
 
         if (data.length === 0) {
           data.push({
@@ -142,7 +170,7 @@
     }}
   />
 </div>
-<MessageInput {send} bind:input />
+<MessageInput {send} {uploadImage} bind:input />
 
 {#if showSettingModal}
   <ChatSettingModal channelId={params.id} on:close={closeSettingModal} />

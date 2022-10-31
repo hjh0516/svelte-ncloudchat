@@ -51,7 +51,7 @@
   bind:this={back}
 />
 <div
-  class="w-full h-56 fixed bottom-0 left-0 p-2 rounded-t-2xl mx-auto text-center bg-white"
+  class="w-full h-54 fixed bottom-0 left-0 p-2 rounded-t-2xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
@@ -60,10 +60,10 @@
   <div class="p-5">
     <div class="w-full flex flex-col justify-center items-center">
       <span
-        class="font-semibold text-xl mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
+        class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
         >채팅방을 나갈까요?</span
       >
-      <span class="text-base text-gray-400 mb-10"
+      <span class="text-base text-gray-400 mb-7"
         >나가게 되면 모든 데이터는 삭제돼요!</span
       >
       <div class="w-full flex justify-center items-center gap-3">

@@ -12,6 +12,7 @@
     apiGetChannel,
     apiSubscribe,
   } from "$lib/api";
+  import UploadImageModal from "./UploadImageModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -29,6 +30,7 @@
   let inputTag: HTMLElement;
   let tagDiv: HTMLElement;
   let checked = false;
+  let showUploadImageModal = false;
 
   async function submit() {
     if (!name) {
@@ -70,6 +72,10 @@
     close();
   }
 
+  function closeUploadImageModal() {
+    showUploadImageModal = false;
+  }
+
   function addPointerEventNone() {
     back.classList.add("pointer-events-none");
     element.classList.add("pointer-events-none");
@@ -101,12 +107,15 @@
       >
       <img
         class="w-28 border border-gray-200 rounded-full mb-3"
-        src="/default_channel_image.svg"
+        src="/default.jpg"
         alt="channel_image"
       />
       <button
         class="w-20 mb-5 pr-2 pl-2 pt-1 pb-1 bg-yellow-300 rounded-2xl text-gray-600 font-semibold text-base hover:bg-yellow-200"
-        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">수정하기</button
+        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
+        on:click={() => {
+          showUploadImageModal = true;
+        }}>수정하기</button
       >
       <div
         class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
@@ -166,6 +175,10 @@
       >
     </div>
   </div>
+
+  {#if showUploadImageModal}
+    <UploadImageModal on:close={closeUploadImageModal} />
+  {/if}
 
   {#if loading}
     <div class="fixed bottom-1/4 left-[calc(50%-1rem)]">

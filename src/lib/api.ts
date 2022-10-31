@@ -116,15 +116,31 @@ export async function apiGetMessages(channel_id: string, page: number) {
 export async function apiCreateMessage(
   channel_id: string,
   type: string,
-  message: string
+  message?: string,
+  file?: any
 ) {
-  const response = await fetch(`${API_URL}/chats/${channel_id}`, {
-    method: "POST",
-    headers: setHeader(),
-    body: JSON.stringify({
+  let headers = setHeader();
+  let body: any;
+
+  if (type === "text") {
+    body = JSON.stringify({
       type: type,
       message: message,
-    }),
+    });
+  } else if (type === "image") {
+    delete headers["Content-Type"];
+
+    const formData = new FormData();
+    formData.append("type", "file");
+    formData.append("file", file);
+
+    body = formData;
+  }
+
+  const response = await fetch(`${API_URL}/chats/${channel_id}`, {
+    method: "POST",
+    headers: headers,
+    body: body,
   });
   return await handleResponse(response);
 }

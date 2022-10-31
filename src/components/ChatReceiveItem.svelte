@@ -5,9 +5,14 @@
 
   export let item: Chat;
 
-  let src = item.profile ? item.profile : "profile_default.jpeg";
+  let profileSrc = item.profile ? item.profile : "profile_default.jpeg";
+  function handleProfileImageError() {
+    profileSrc = "profile_default.jpeg";
+  }
+
+  let imageSrc = item.image_url ? item.image_url : "default.jpg";
   function handleImageError() {
-    src = "profile_default.jpeg";
+    imageSrc = "default.jpg";
   }
 </script>
 
@@ -16,9 +21,9 @@
     {#if item.show_profile}
       <img
         class="rounded-full"
-        {src}
+        src={profileSrc}
         alt="sender_profile_image"
-        on:error={handleImageError}
+        on:error={handleProfileImageError}
       />
     {/if}
   </div>
@@ -26,11 +31,22 @@
     {#if item.show_nickname}
       <span class="text-sm font-sbaggrom">{item.nickname}</span>
     {/if}
-    <div
-      class="max-w-[calc(100vw-10rem)] bg-white border border-gray-200 mt-1 pt-1 pb-2 pl-3 pr-3 rounded-b-xl rounded-r-xl"
-    >
-      <span class="break-words text-gray-500 text-sm">{item.message}</span>
-    </div>
+    {#if item.type === "text"}
+      <div
+        class="max-w-[calc(100vw-10rem)] bg-white border border-gray-200 mt-1 pt-1 pb-2 pl-3 pr-3 rounded-b-xl rounded-r-xl"
+      >
+        <span class="break-words text-gray-500 text-sm">{item.message}</span>
+      </div>
+    {:else if item.type === "image"}
+      <div class="w-32 border border-gray-200 rounded-b-lg rounded-r-lg mt-1">
+        <img
+          src={imageSrc}
+          alt="image_url"
+          class="rounded-b-lg rounded-r-lg"
+          on:error={handleImageError}
+        />
+      </div>
+    {/if}
     {#if item.show_date}
       <span class="text-gray-400 text-xs mt-1 mb-3">
         {convertSendAt(item.created_at)}

@@ -83,7 +83,7 @@
       {:else}
         <img
           class="w-28 border border-gray-200 rounded-full mb-5"
-          src="/default_channel_image.svg"
+          src="/default.jpg"
           alt="channel_image"
         />
       {/if}
