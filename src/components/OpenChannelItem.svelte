@@ -2,22 +2,26 @@
   import type { Channel } from "$lib/types/type";
 
   import Spinner from "$components/Spinner.svelte";
-  import ChatSubscriptionModal from "./modals/ChatSubscriptionModal.svelte";
   import { convertLastChat } from "$lib/Date";
+  import { createEventDispatcher } from "svelte";
 
   export let item: Channel;
 
   let loading = false;
-  let showSubscriptionModal = false;
 
-  function closeChatSubscriptionModal() {
-    showSubscriptionModal = false;
+  const dispatch = createEventDispatcher();
+  function open(item: Channel) {
+    dispatch("open", {
+      item: item,
+    });
   }
 </script>
 
 <div
   class="w-full mb-5 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
-  on:click={() => (showSubscriptionModal = true)}
+  on:click={() => {
+    open(item);
+  }}
 >
   {#if item.image_url}
     <img
@@ -65,11 +69,3 @@
     </div>
   {/if}
 </div>
-
-{#if showSubscriptionModal}
-  <ChatSubscriptionModal
-    {item}
-    channel_id={item.channel_id}
-    on:close={closeChatSubscriptionModal}
-  />
-{/if}

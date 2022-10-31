@@ -37,7 +37,7 @@
       >
         <span class="break-words text-gray-500 text-sm">{item.message}</span>
       </div>
-    {:else if item.type === "image"}
+    {:else if item.type === "file"}
       <div class="w-32 border border-gray-200 rounded-b-lg rounded-r-lg mt-1">
         <img
           src={imageSrc}

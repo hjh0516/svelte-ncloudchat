@@ -38,7 +38,6 @@
 
     const inputMessage = input;
     input = "";
-    element.scrollTop = element.scrollHeight;
     try {
       await sendMessage(params.id, "text", inputMessage);
       await apiCreateMessage(params.id, "text", inputMessage);
@@ -50,7 +49,6 @@
   async function uploadImage(e) {
     const image = e.target.files[0];
     input = "";
-    element.scrollTop = element.scrollHeight;
     try {
       await sendImage(params.id, image);
       await apiCreateMessage(params.id, "image", null, image);
@@ -94,6 +92,7 @@
       "onMessageReceived",
       async function (_channel: string, message: MessageType) {
         let chat: Chat;
+        element.scrollTop = element.scrollHeight;
 
         if (message.message_type === "text") {
           chat = {

@@ -2,6 +2,7 @@
   import type { Channel } from "$lib/types/type";
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
+  import ChatSubscriptionModal from "$components/modals/ChatSubscriptionModal.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount } from "svelte";
@@ -12,7 +13,9 @@
   let data: Channel[] = [];
   let newData: Channel[] = [];
   let searchText: string;
+  let item = null;
   let loading = false;
+  let showSubscriptionModal = false;
 
   async function loadChannels(searchText?: string) {
     loading = true;
@@ -31,6 +34,11 @@
     page = 1;
     data = [];
     await loadChannels(searchText);
+  }
+
+  function openSubscriptionModal(e) {
+    showSubscriptionModal = true;
+    item = e.detail.item;
   }
 
   onMount(async () => {
@@ -74,13 +82,12 @@
     </button>
   </div>
 </div>
-
 <div
   class="fixed w-full h-full mt-48 pl-5 pr-5 pb-48 overflow-y-auto flex flex-col scrollbar-hide"
 >
   {#if data.length > 0}
     {#each data as item}
-      <OpenChannelItem {item} />
+      <OpenChannelItem {item} on:open={openSubscriptionModal} />
       <InfiniteScroll
         hasMore={newData.length > 0}
         threshold={100}
@@ -98,6 +105,16 @@
     </div>
   {/if}
 </div>
+
+{#if showSubscriptionModal}
+  <ChatSubscriptionModal
+    {item}
+    channel_id={item.channel_id}
+    on:close={() => {
+      showSubscriptionModal = false;
+    }}
+  />
+{/if}
 
 {#if loading}
   <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
