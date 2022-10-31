@@ -19,6 +19,7 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
+  import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
 
   export let params: any;
 
@@ -28,6 +29,8 @@
   let newData: Chat[] = [];
   let element: HTMLElement;
   let showSettingModal = false;
+  let chatItem = null;
+  let showImageDownloadModal = false;
 
   $: data = updateChatItems(data);
 
@@ -85,6 +88,15 @@
 
   async function handleFocus() {
     await apiCreateChatRead(params.id);
+  }
+
+  function openImageDownloadModal(e) {
+    showImageDownloadModal = true;
+    chatItem = e.detail.item;
+  }
+
+  function closeImageDownloadModal() {
+    showImageDownloadModal = false;
   }
 
   onMount(async () => {
@@ -155,7 +167,7 @@
     {:else if item.user_idx === Number($store.user.id)}
       <ChatSendItem {item} />
     {:else}
-      <ChatReceiveItem {item} />
+      <ChatReceiveItem {item} on:open={openImageDownloadModal} />
     {/if}
   {/each}
 
@@ -173,4 +185,8 @@
 
 {#if showSettingModal}
   <ChatSettingModal channelId={params.id} on:close={closeSettingModal} />
+{/if}
+
+{#if showImageDownloadModal}
+  <ImageDownloadModal item={chatItem} on:close={closeImageDownloadModal} />
 {/if}

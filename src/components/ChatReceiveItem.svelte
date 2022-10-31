@@ -1,17 +1,25 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
+  import { createEventDispatcher } from "svelte";
   import { convertSendAt } from "$lib/Date";
+
+  const dispatch = createEventDispatcher();
 
   export let item: Chat;
 
-  let profileSrc = item.profile ? item.profile : "profile_default.jpeg";
   function handleProfileImageError() {
-    profileSrc = "profile_default.jpeg";
+    item.profile = "profile_default.jpeg";
   }
 
   function handleImageError() {
     item.image_url = "default.jpg";
+  }
+
+  function open(item: Chat) {
+    dispatch("open", {
+      item: item,
+    });
   }
 </script>
 
@@ -20,7 +28,7 @@
     {#if item.show_profile}
       <img
         class="rounded-full"
-        src={profileSrc}
+        src={item.profile}
         alt="sender_profile_image"
         on:error={handleProfileImageError}
       />
@@ -37,9 +45,7 @@
         <span class="break-words text-gray-500 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div
-        class="w-32 h-auto p-1 border border-gray-200 rounded-b-lg rounded-r-lg mt-1"
-      >
+      <div class="w-32 h-auto mt-1" on:click={() => open(item)}>
         <img
           src={item.image_url}
           alt="image_url"
