@@ -45,7 +45,7 @@
         <span class="break-words text-gray-500 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div class="w-32 h-auto mt-1" on:click={() => open(item)}>
+      <div class="w-36 h-auto mt-1" on:click={() => open(item)}>
         <img
           src={item.image_url}
           alt="image_url"
