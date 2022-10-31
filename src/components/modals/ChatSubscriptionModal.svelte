@@ -24,15 +24,15 @@
     addPointerEventNone();
 
     try {
-      await apiSubscribe(channel_id);
-      await apiCreateChannelNotification(channel_id, true);
+      apiSubscribe(channel_id);
+      apiCreateChannelNotification(channel_id, true);
       channel = await getChannel(channel_id);
     } catch (err) {
       console.error(err);
     }
 
     try {
-      await subscribe(channel_id);
+      subscribe(channel_id);
     } catch (err) {
       console.error(err);
     }

@@ -38,7 +38,7 @@
 
     try {
       initialize();
-      await connect(id, user.nickname, user.profile);
+      connect(id, user.nickname, user.profile);
       location.href = "/#/home";
     } catch (err) {
       location.href = "/#/error";

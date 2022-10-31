@@ -15,11 +15,11 @@
   let useChat: boolean;
   let chatNotification: boolean;
 
-  async function onChangeUseChat() {
+  function onChangeUseChat() {
     useChat = !useChat;
 
     try {
-      await apiUpdateUseChat(useChat);
+      apiUpdateUseChat(useChat);
     } catch (err) {
       console.error(err);
     }
@@ -27,11 +27,11 @@
     $store.user.use_chat = useChat;
   }
 
-  async function onChangeChatNotificaiton() {
+  function onChangeChatNotificaiton() {
     chatNotification = !chatNotification;
 
     try {
-      await apiUpdateChatNotification(chatNotification);
+      apiUpdateChatNotification(chatNotification);
     } catch (err) {
       console.error(err);
     }

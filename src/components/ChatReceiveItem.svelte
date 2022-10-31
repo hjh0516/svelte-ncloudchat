@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
+  import Image from "$components/Image.svelte";
   import { createEventDispatcher } from "svelte";
   import { convertSendAt } from "$lib/Date";
 
@@ -45,13 +46,8 @@
         <span class="break-words text-gray-500 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div class="w-36 h-auto mt-1" on:click={() => open(item)}>
-        <img
-          src={item.image_url}
-          alt="image_url"
-          class="rounded-b-lg rounded-r-lg"
-          on:error={handleImageError}
-        />
+      <div class="max-w-[8rem] h-auto mt-1" on:click={() => open(item)}>
+        <Image src={item.image_url} className={"rounded-b-lg rounded-r-lg"} />
       </div>
     {/if}
     {#if item.show_date}

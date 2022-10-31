@@ -17,7 +17,7 @@
     "/error": Error,
   };
 
-  onMount(async () => {
+  onMount(() => {
     let session = window.sessionStorage.getItem("store");
     if (session) {
       $store = JSON.parse(session);
@@ -26,7 +26,7 @@
         const id = `chat_${$store.user.id}`;
 
         initialize();
-        await connect(id, $store.user.name, $store.user.profile);
+        connect(id, $store.user.name, $store.user.profile);
       }
 
       if (location.href === "/") {

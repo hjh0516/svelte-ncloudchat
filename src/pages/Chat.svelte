@@ -34,7 +34,7 @@
 
   $: data = updateChatItems(data);
 
-  async function send() {
+  function send() {
     if (!input) {
       return;
     }
@@ -42,19 +42,19 @@
     const inputMessage = input;
     input = "";
     try {
-      await sendMessage(params.id, "text", inputMessage);
-      await apiCreateMessage(params.id, "text", inputMessage);
+      sendMessage(params.id, "text", inputMessage);
+      apiCreateMessage(params.id, "text", inputMessage);
     } catch (err) {
       console.error(err);
     }
   }
 
-  async function uploadImage(e) {
+  function uploadImage(e) {
     const image = e.target.files[0];
     input = "";
     try {
-      await sendImage(params.id, image);
-      await apiCreateMessage(params.id, "image", null, image);
+      sendImage(params.id, image);
+      apiCreateMessage(params.id, "image", null, image);
     } catch (err) {
       console.error(err);
     }
@@ -82,27 +82,14 @@
     }
   }
 
-  function closeSettingModal() {
-    showSettingModal = false;
+  function handleFocus() {
+    apiCreateChatRead(params.id);
   }
 
-  async function handleFocus() {
-    await apiCreateChatRead(params.id);
-  }
-
-  function openImageDownloadModal(e) {
-    showImageDownloadModal = true;
-    chatItem = e.detail.item;
-  }
-
-  function closeImageDownloadModal() {
-    showImageDownloadModal = false;
-  }
-
-  onMount(async () => {
+  onMount(() => {
     bind(
       "onMessageReceived",
-      async function (_channel: string, message: MessageType) {
+      function (_channel: string, message: MessageType) {
         let chat: Chat;
         element.scrollTop = element.scrollHeight;
 
@@ -141,8 +128,8 @@
       }
     );
 
-    await loadMessages();
-    await apiCreateChatRead(params.id);
+    loadMessages();
+    apiCreateChatRead(params.id);
   });
 
   onDestroy(() => {
@@ -150,11 +137,7 @@
   });
 </script>
 
-<svelte:window
-  on:focus={async () => {
-    await handleFocus();
-  }}
-/>
+<svelte:window on:focus={handleFocus} />
 
 <ChatHeader bind:showSettingModal />
 <div
@@ -167,7 +150,13 @@
     {:else if item.user_idx === Number($store.user.id)}
       <ChatSendItem {item} />
     {:else}
-      <ChatReceiveItem {item} on:open={openImageDownloadModal} />
+      <ChatReceiveItem
+        {item}
+        on:open={(e) => {
+          showImageDownloadModal = true;
+          chatItem = e.detail.item;
+        }}
+      />
     {/if}
   {/each}
 
@@ -184,9 +173,15 @@
 <MessageInput {send} {uploadImage} bind:input />
 
 {#if showSettingModal}
-  <ChatSettingModal channelId={params.id} on:close={closeSettingModal} />
+  <ChatSettingModal
+    channelId={params.id}
+    on:close={() => (showSettingModal = false)}
+  />
 {/if}
 
 {#if showImageDownloadModal}
-  <ImageDownloadModal item={chatItem} on:close={closeImageDownloadModal} />
+  <ImageDownloadModal
+    item={chatItem}
+    on:close={() => (showImageDownloadModal = false)}
+  />
 {/if}

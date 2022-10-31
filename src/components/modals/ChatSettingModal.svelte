@@ -14,17 +14,13 @@
   let subscriptions = [];
   let channelNotification: boolean;
 
-  async function onChangeChannelNotification() {
+  function onChangeChannelNotification() {
     channelNotification = !channelNotification;
     try {
-      await apiUpdateChannelNotification(channelId, channelNotification);
+      apiUpdateChannelNotification(channelId, channelNotification);
     } catch (err) {
       console.error(err);
     }
-  }
-
-  function closeOutModal() {
-    showOutModal = false;
   }
 
   onMount(async () => {
@@ -115,6 +111,6 @@
   </div>
 
   {#if showOutModal}
-    <ChatOutModal {channelId} on:close={closeOutModal} />
+    <ChatOutModal {channelId} on:close={() => (showOutModal = false)} />
   {/if}
 </div>

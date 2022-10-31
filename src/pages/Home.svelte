@@ -14,10 +14,6 @@
   let chat: Chat;
   let showSettingModal = false;
 
-  function closeSettingModal() {
-    showSettingModal = false;
-  }
-
   onMount(() => {
     if (!$store.token) {
       location.href = "/";
@@ -50,6 +46,10 @@
   {/if}
 
   {#if showSettingModal}
-    <SettingModal on:close={closeSettingModal} />
+    <SettingModal
+      on:close={() => {
+        showSettingModal = false;
+      }}
+    />
   {/if}
 </main>

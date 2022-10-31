@@ -1,13 +1,10 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
+  import Image from "$components/Image.svelte";
   import { convertSendAt } from "$lib/Date";
 
   export let item: Chat;
-
-  function handleImageError() {
-    item.image_url = "default.jpg";
-  }
 </script>
 
 <div class="flex flex-col pt-1 items-end">
@@ -22,13 +19,8 @@
         <span class="break-words text-gray-50 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div class="w-36 h-auto">
-        <img
-          src={item.image_url}
-          alt="image_url"
-          class="rounded-t-lg rounded-l-lg"
-          on:error={handleImageError}
-        />
+      <div class="max-w-[8rem] h-auto">
+        <Image src={item.image_url} className={"rounded-t-lg rounded-l-lg"} />
       </div>
     {/if}
   </div>

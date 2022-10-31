@@ -47,17 +47,17 @@
     loading = false;
   }
 
-  function onModalClose() {
+  function onCreateChannelModalClose() {
     showModal = false;
     if (newChannel) {
       data = [newChannel, ...data];
     }
   }
 
-  onMount(async () => {
+  onMount(() => {
     $store.activeItem = "My 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
-    await loadChannels();
+    loadChannels();
   });
 </script>
 
@@ -91,7 +91,7 @@
 <FloatingActionButton on:click={() => (showModal = true)} />
 
 {#if showModal}
-  <CreateChannelModal on:close={onModalClose} bind:newChannel />
+  <CreateChannelModal on:close={onCreateChannelModalClose} bind:newChannel />
 {/if}
 
 {#if loading}

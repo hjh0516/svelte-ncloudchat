@@ -13,14 +13,14 @@
   let element: HTMLElement;
   let loading = false;
 
-  async function submit() {
+  function submit() {
     loading = true;
     addPointerEventNone();
 
     try {
-      await apiUnsubscribe(channelId);
-      await unsubscribe(channelId);
-      await apiDeleteChannelNotification(channelId);
+      apiUnsubscribe(channelId);
+      unsubscribe(channelId);
+      apiDeleteChannelNotification(channelId);
     } catch (err) {
       console.error(err);
     }

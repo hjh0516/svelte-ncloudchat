@@ -30,10 +30,10 @@
     loading = false;
   }
 
-  async function searchChannels() {
+  function searchChannels() {
     page = 1;
     data = [];
-    await loadChannels(searchText);
+    loadChannels(searchText);
   }
 
   function openSubscriptionModal(e) {
@@ -41,10 +41,10 @@
     item = e.detail.item;
   }
 
-  onMount(async () => {
+  onMount(() => {
     $store.activeItem = "오픈 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
-    await loadChannels();
+    loadChannels();
   });
 </script>
 
@@ -59,12 +59,7 @@
       placeholder="대화방을 검색해보세요!"
       bind:value={searchText}
     />
-    <button
-      class="mr-3 hover:text-gray-500"
-      on:click={async () => {
-        searchChannels();
-      }}
-    >
+    <button class="mr-3 hover:text-gray-500" on:click={searchChannels}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

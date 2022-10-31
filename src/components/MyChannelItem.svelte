@@ -6,7 +6,7 @@
 
   export let item: Channel;
 
-  async function clickItem(channel_id: string) {
+  function clickItem(channel_id: string) {
     $store.channel = item;
     window.sessionStorage.setItem("store", JSON.stringify($store));
     location.href = `/#/chat/${channel_id}`;
@@ -15,7 +15,7 @@
 
 <div
   class="w-full mb-5 flex items-center pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
-  on:click={async () => await clickItem(item.channel_id)}
+  on:click={() => clickItem(item.channel_id)}
 >
   {#if item.image_url}
     <img

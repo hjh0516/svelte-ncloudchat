@@ -7,7 +7,7 @@
   let user: any;
   let id: string;
 
-  async function _login() {
+  async function login() {
     if (!token) {
       return;
     }
@@ -35,7 +35,7 @@
 
     try {
       initialize();
-      await connect(id, user.nickname, user.profile);
+      connect(id, user.nickname, user.profile);
 
       location.href = "/#/home";
     } catch (err) {
@@ -62,7 +62,7 @@
     />
   </div>
   <button
-    on:click={async () => await _login()}
+    on:click={login}
     class="bg-cyan-500 w-28 h-10 rounded-md text-gray-50 font-bold shadow-md hover:bg-cyan-400"
     >로그인</button
   >

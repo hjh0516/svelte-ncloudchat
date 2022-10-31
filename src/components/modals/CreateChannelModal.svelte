@@ -57,10 +57,10 @@
         channel.push,
         tag
       );
-      await apiCreateChannelNotification(channel.id, true);
+      apiCreateChannelNotification(channel.id, true);
 
-      await subscribe(channel.id);
-      await apiSubscribe(channel.id);
+      subscribe(channel.id);
+      apiSubscribe(channel.id);
 
       newChannel = await apiGetChannel(channel.id);
     } catch (err) {
@@ -70,10 +70,6 @@
     loading = false;
     removePointerEventNone();
     close();
-  }
-
-  function closeUploadImageModal() {
-    showUploadImageModal = false;
   }
 
   function addPointerEventNone() {
@@ -177,7 +173,7 @@
   </div>
 
   {#if showUploadImageModal}
-    <UploadImageModal on:close={closeUploadImageModal} />
+    <UploadImageModal on:close={() => (showUploadImageModal = false)} />
   {/if}
 
   {#if loading}
