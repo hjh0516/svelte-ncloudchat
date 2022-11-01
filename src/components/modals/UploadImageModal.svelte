@@ -34,7 +34,13 @@
       그려서 등록하기 (준비중)
     </div>
     <label for="camera">
-      <input id="camera" type="file" class="sr-only" capture />
+      <input
+        id="camera"
+        type="file"
+        class="sr-only"
+        capture
+        on:change={uploadImage}
+      />
       <div
         class="w-full h-14 bg-gray-100 border-b border-gray-200 text-gray-700 text-base flex justify-center items-center"
       >
