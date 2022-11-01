@@ -1,10 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
+  let back: HTMLElement;
+
+  export let uploadImage = (e) => {};
+
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
-
-  let back: HTMLElement;
 </script>
 
 <div
@@ -29,18 +31,30 @@
     <div
       class="w-full h-14 bg-gray-100 border-b border-gray-200 rounded-t-xl text-gray-700 text-base flex justify-center items-center"
     >
-      그려서 등록하기
+      그려서 등록하기 (준비중)
     </div>
-    <div
-      class="w-full h-14 bg-gray-100 border-b border-gray-200 text-gray-700 text-base flex justify-center items-center"
-    >
-      지금 사진 찍어서 등록하기
-    </div>
-    <div
-      class="w-full h-14 bg-gray-100 text-gray-700 text-base rounded-b-xl flex justify-center items-center mb-5"
-    >
-      사진첩 사진으로 등록하기
-    </div>
+    <label for="camera">
+      <input id="camera" type="file" class="sr-only" capture />
+      <div
+        class="w-full h-14 bg-gray-100 border-b border-gray-200 text-gray-700 text-base flex justify-center items-center"
+      >
+        지금 사진 찍어서 등록하기
+      </div>
+    </label>
+    <label for="album">
+      <input
+        id="album"
+        type="file"
+        class="sr-only"
+        accept=".jpg, .jpeg, .gif, .png"
+        on:change={uploadImage}
+      />
+      <div
+        class="w-full h-14 bg-gray-100 text-gray-700 text-base rounded-b-xl flex justify-center items-center mb-5"
+      >
+        사진첩 사진으로 등록하기
+      </div>
+    </label>
     <button class="w-full h-14 bg-gray-700 text-gray-100 rounded-xl text-base">
       프로필 초기화
     </button>

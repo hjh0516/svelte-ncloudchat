@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
-  import Image from "$components/Image.svelte";
+  import Image from "$components/ChatImageItem.svelte";
   import { createEventDispatcher } from "svelte";
   import { convertSendAt } from "$lib/Date";
 

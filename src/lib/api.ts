@@ -217,6 +217,22 @@ export async function apiCreateChatRead(channel_id: string) {
   return await handleResponse(response);
 }
 
+export async function apiUploadChannelImage(file: any) {
+  let headers = setHeader();
+  delete headers["Content-Type"];
+
+  const formData = new FormData();
+  formData.append("type", "file");
+  formData.append("file", file);
+
+  const response = await fetch(`${API_URL}/file/channel`, {
+    method: "POST",
+    headers: headers,
+    body: formData,
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

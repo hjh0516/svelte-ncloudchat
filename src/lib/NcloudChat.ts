@@ -61,7 +61,11 @@ export async function getChannel(id: string) {
   return await nc.getChannel(id);
 }
 
-export async function createChannel(type: ChannelType, name: string) {
+export async function createChannel(
+  type: ChannelType,
+  name: string,
+  imageUrl: string
+) {
   const uuid = uuidv4();
   return await nc.createChannel({
     id: uuid,
@@ -73,7 +77,7 @@ export async function createChannel(type: ChannelType, name: string) {
     push: false,
     mutes: false,
     linkUrl: "",
-    imageUrl: "",
+    imageUrl: imageUrl,
     members: [],
   });
 }

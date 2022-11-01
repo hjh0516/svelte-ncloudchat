@@ -3,10 +3,12 @@
 
   import Spinner from "$components/Spinner.svelte";
   import { convertLastChat } from "$lib/Date";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
+  import { drawImage } from "$lib/Image";
 
   export let item: Channel;
 
+  let canvas: HTMLCanvasElement;
   let loading = false;
 
   const dispatch = createEventDispatcher();
@@ -15,6 +17,12 @@
       item: item,
     });
   }
+
+  onMount(() => {
+    if (item.image_url) {
+      drawImage(canvas, item.image_url);
+    }
+  });
 </script>
 
 <div
@@ -22,10 +30,9 @@
   on:click={() => open(item)}
 >
   {#if item.image_url}
-    <img
-      class="w-12 h-12 border border-gray-200 rounded-full"
-      src={item.image_url}
-      alt="channel_image"
+    <canvas
+      class="w-12 h-auto border border-gray-200 rounded-full"
+      bind:this={canvas}
     />
   {:else}
     <img

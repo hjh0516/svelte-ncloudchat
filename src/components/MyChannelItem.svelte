@@ -1,16 +1,26 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
+  import { onMount } from "svelte";
   import { store } from "$store/store";
   import { convertDate } from "$lib/Date";
+  import { drawImage } from "$lib/Image";
 
   export let item: Channel;
+
+  let canvas: HTMLCanvasElement;
 
   function clickItem(channel_id: string) {
     $store.channel = item;
     window.sessionStorage.setItem("store", JSON.stringify($store));
     location.href = `/#/chat/${channel_id}`;
   }
+
+  onMount(() => {
+    if (item.image_url) {
+      drawImage(canvas, item.image_url);
+    }
+  });
 </script>
 
 <div
@@ -18,10 +28,9 @@
   on:click={() => clickItem(item.channel_id)}
 >
   {#if item.image_url}
-    <img
-      class="w-12 h-12 border border-gray-200 rounded-full"
-      src={item.image_url}
-      alt="channel_image"
+    <canvas
+      class="w-12 h-auto border border-gray-200 rounded-full"
+      bind:this={canvas}
     />
   {:else}
     <img

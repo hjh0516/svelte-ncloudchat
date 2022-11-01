@@ -4,7 +4,7 @@
   import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import Spinner from "$components/Spinner.svelte";
   import UploadImageModal from "$components/modals/UploadImageModal.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
   import {
@@ -12,7 +12,9 @@
     apiCreateChannelNotification,
     apiGetChannel,
     apiSubscribe,
+    apiUploadChannelImage,
   } from "$lib/api";
+  import { drawImage } from "$lib/Image";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -29,6 +31,9 @@
   let nameDiv: HTMLElement;
   let inputTag: HTMLElement;
   let tagDiv: HTMLElement;
+  let canvas: HTMLCanvasElement;
+  let defaultImage: HTMLImageElement;
+  let channelImage: any;
   let checked = false;
   let showUploadImageModal = false;
 
@@ -47,7 +52,13 @@
     addPointerEventNone();
 
     try {
-      const channel = await createChannel(ChannelType.PUBLIC, name);
+      let fileurl = "";
+      if (channelImage) {
+        const res = await apiUploadChannelImage(channelImage);
+        fileurl = import.meta.env.VITE_CDN_URL + res;
+      }
+
+      const channel = await createChannel(ChannelType.PUBLIC, name, fileurl);
       await apiCreateChannel(
         channel.id,
         channel.name,
@@ -72,6 +83,14 @@
     close();
   }
 
+  async function uploadImage(e) {
+    channelImage = e.target.files[0];
+    drawImage(canvas, channelImage);
+    canvas.classList.remove("hidden");
+    defaultImage.classList.add("hidden");
+    showUploadImageModal = false;
+  }
+
   function addPointerEventNone() {
     back.classList.add("pointer-events-none");
     element.classList.add("pointer-events-none");
@@ -89,7 +108,7 @@
   bind:this={back}
 />
 <div
-  class="w-full h-[33.4rem] fixed bottom-0 left-0 p-3 rounded-t-2xl mx-auto text-center bg-white"
+  class="w-full h-[32.9rem] fixed bottom-0 left-0 p-3 rounded-t-2xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
@@ -101,10 +120,15 @@
         class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
         >채팅방 만들기</span
       >
+      <canvas
+        class="w-28 h-28 border border-gray-200 rounded-full mb-3 hidden"
+        bind:this={canvas}
+      />
       <img
-        class="w-28 border border-gray-200 rounded-full mb-3"
+        class="w-28 h-28 border border-gray-200 rounded-full mb-3"
         src="/default.jpg"
         alt="channel_image"
+        bind:this={defaultImage}
       />
       <button
         class="w-20 mb-5 pr-2 pl-2 pt-1 pb-1 bg-yellow-300 rounded-2xl text-gray-600 font-semibold text-base hover:bg-yellow-200"
@@ -114,7 +138,7 @@
         }}>수정하기</button
       >
       <div
-        class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-2 focus-within:border-cyan-500"
+        class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-3 focus-within:border-2 focus-within:border-cyan-500"
         bind:this={nameDiv}
       >
         <svg
@@ -173,7 +197,10 @@
   </div>
 
   {#if showUploadImageModal}
-    <UploadImageModal on:close={() => (showUploadImageModal = false)} />
+    <UploadImageModal
+      {uploadImage}
+      on:close={() => (showUploadImageModal = false)}
+    />
   {/if}
 
   {#if loading}

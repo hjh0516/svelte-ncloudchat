@@ -2,11 +2,12 @@
   import type { Channel } from "$lib/types/type";
 
   import Spinner from "$components/Spinner.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { store } from "$store/store";
   import { apiCreateChannelNotification, apiSubscribe } from "$lib/api";
   import { getChannel, subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
+  import { drawImage } from "$lib/Image";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -17,6 +18,7 @@
   let back: HTMLElement;
   let element: HTMLElement;
   let channel: Channel;
+  let canvas: HTMLCanvasElement;
   let loading = false;
 
   async function submit() {
@@ -54,6 +56,12 @@
     back.classList.remove("pointer-events-none");
     element.classList.remove("pointer-events-none");
   }
+
+  onMount(() => {
+    if (item.image_url) {
+      drawImage(canvas, item.image_url);
+    }
+  });
 </script>
 
 <div
@@ -75,10 +83,9 @@
         >채팅 참여하기</span
       >
       {#if item.image_url}
-        <img
+        <canvas
           class="w-28 border border-gray-200 rounded-full mb-5"
-          src={item.image_url}
-          alt="channel_image"
+          bind:this={canvas}
         />
       {:else}
         <img
