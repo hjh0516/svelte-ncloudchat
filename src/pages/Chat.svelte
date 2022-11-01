@@ -9,6 +9,7 @@
   import ChatHeader from "$components/ChatHeader.svelte";
   import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
   import ChatDateItem from "$components/ChatDateItem.svelte";
+  import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
   import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
@@ -19,7 +20,6 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
-  import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
 
   export let params: any;
 

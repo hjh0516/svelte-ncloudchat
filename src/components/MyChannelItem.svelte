@@ -50,7 +50,9 @@
       <span
         class="max-w-[calc(100vw-12rem)] break-words h-auto text-gray-400 text-sm"
       >
-        {#if item.message}
+        {#if item.chat_type === "file"}
+          이미지
+        {:else if item.message}
           {item.message.length >= 50
             ? item.message.substring(0, 50) + "..."
             : item.message}

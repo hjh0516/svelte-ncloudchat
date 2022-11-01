@@ -3,6 +3,7 @@
 
   import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import Spinner from "$components/Spinner.svelte";
+  import UploadImageModal from "$components/modals/UploadImageModal.svelte";
   import { createEventDispatcher } from "svelte";
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
@@ -12,7 +13,6 @@
     apiGetChannel,
     apiSubscribe,
   } from "$lib/api";
-  import UploadImageModal from "./UploadImageModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -167,7 +167,7 @@
       </div>
       <button
         class="w-full h-14 rounded-xl bg-gray-700 text-white"
-        on:click={async () => await submit()}>완료</button
+        on:click={submit}>완료</button
       >
     </div>
   </div>

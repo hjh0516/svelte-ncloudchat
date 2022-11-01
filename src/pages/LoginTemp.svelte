@@ -39,6 +39,7 @@
 
       location.href = "/#/home";
     } catch (err) {
+      location.href = "/#/error";
       console.error(err);
       return;
     }
