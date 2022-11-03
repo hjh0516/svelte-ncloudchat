@@ -100,7 +100,7 @@
       </div>
     </div>
   </FlickingPanel>
-  <FlickingPanel class="mt-1 flex justify-center">
+  <FlickingPanel class="mt-2 flex justify-center">
     <div on:click={updateNotification}>
       {#if item.notification}
         <div
