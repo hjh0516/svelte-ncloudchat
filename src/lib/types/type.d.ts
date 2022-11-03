@@ -17,6 +17,7 @@ export interface Channel {
   nickname?: string;
   profile?: string;
   unread_count: number;
+  notification: boolean;
 }
 
 export interface Subscription {

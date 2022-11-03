@@ -47,7 +47,7 @@
   });
 </script>
 
-<div class="fixed top-[calc(50%-4.5rem)] left-[calc(50%-1rem)]">
+<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
   <Spinner />
 </div>
 <div class="h-screen bg-gray-50 flex justify-center items-center text-center">

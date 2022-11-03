@@ -3,7 +3,7 @@
 </script>
 
 <div
-  class="fixed w-full p-5 bg-white flex justify-between items-center"
+  class="fixed w-full top-0 p-5 bg-white flex justify-between items-center"
   style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
 >
   <div class="w-6" />

@@ -78,7 +78,7 @@
   </div>
 </div>
 <div
-  class="fixed w-full h-full mt-48 pl-5 pr-5 pb-48 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed top-48 w-full h-full pl-5 pr-5 pb-48 overflow-y-auto scrollbar-hide"
 >
   {#if data.length > 0}
     {#each data as item}
@@ -93,7 +93,7 @@
       />
     {/each}
   {:else}
-    <div class="w-full h-full -mt-24 flex flex-col justify-center items-center">
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <span class="text-gray-600 text-2xl mb-3 font-sbaggrom text-center"
         >개설된 채팅이 없어요!</span
       >
@@ -112,7 +112,7 @@
 {/if}
 
 {#if loading}
-  <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
   </div>
 {/if}

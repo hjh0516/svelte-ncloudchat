@@ -204,7 +204,7 @@
   {/if}
 
   {#if loading}
-    <div class="fixed bottom-1/4 left-[calc(50%-1rem)]">
+    <div class="fixed bottom-1/4 left-1/2 -translate-x-1/2">
       <Spinner />
     </div>
   {/if}

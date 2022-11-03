@@ -1,58 +1,21 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { apiDeleteChannelNotification, apiUnsubscribe } from "$lib/api";
-  import { unsubscribe } from "$lib/NcloudChat";
-  import Spinner from "$components/Spinner.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
-
-  export let channelId: string;
-
-  let back: HTMLElement;
-  let element: HTMLElement;
-  let loading = false;
-
-  function submit() {
-    loading = true;
-    addPointerEventNone();
-
-    try {
-      apiUnsubscribe(channelId);
-      unsubscribe(channelId);
-      apiDeleteChannelNotification(channelId);
-    } catch (err) {
-      console.error(err);
-    }
-
-    loading = false;
-    removePointerEventNone();
-    location.href = "/#/home";
-  }
+  const submit = () => dispatch("submit");
 
   function cancel() {
     close();
-  }
-
-  function addPointerEventNone() {
-    back.classList.add("pointer-events-none");
-    element.classList.add("pointer-events-none");
-  }
-
-  function removePointerEventNone() {
-    back.classList.remove("pointer-events-none");
-    element.classList.remove("pointer-events-none");
   }
 </script>
 
 <div
   class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
   on:click={close}
-  bind:this={back}
 />
 <div
   class="w-full h-54 fixed bottom-0 left-0 p-2 rounded-t-2xl mx-auto text-center bg-white"
-  bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
     <div class="w-14 h-[0.4rem] bg-gray-200 rounded-2xl" />
@@ -78,10 +41,4 @@
       </div>
     </div>
   </div>
-
-  {#if loading}
-    <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
-      <Spinner />
-    </div>
-  {/if}
 </div>

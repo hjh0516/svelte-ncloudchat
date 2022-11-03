@@ -8,16 +8,24 @@
   import Spinner from "$components/Spinner.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
-  import { apiGetChannels } from "$lib/api";
+  import {
+    apiDeleteChannelNotification,
+    apiGetChannels,
+    apiUnsubscribe,
+  } from "$lib/api";
+  import ChatExitModal from "$components/modals/ChatExitModal.svelte";
+  import { unsubscribe } from "$lib/NcloudChat";
 
   export let chat: Chat;
 
   let page = 1;
   let data: Channel[] = [];
   let newData: Channel[] = [];
-  let showModal = false;
+  let showCreateChannelModal = false;
+  let showChatExitModal = false;
   let newChannel: Channel = null;
   let loading = false;
+  let channelId = null;
 
   $: {
     if (chat) {
@@ -48,10 +56,31 @@
   }
 
   function onCreateChannelModalClose() {
-    showModal = false;
+    showCreateChannelModal = false;
     if (newChannel) {
       data = [newChannel, ...data];
     }
+  }
+
+  function openChatExitModal(e) {
+    showChatExitModal = true;
+    channelId = e.detail.channelId;
+  }
+
+  function exitChannel() {
+    loading = true;
+    try {
+      apiUnsubscribe(channelId);
+      unsubscribe(channelId);
+      apiDeleteChannelNotification(channelId);
+    } catch (err) {
+      console.error(err);
+    }
+
+    data = data.filter((x) => x.channel_id !== channelId);
+
+    loading = false;
+    showChatExitModal = false;
   }
 
   onMount(() => {
@@ -62,11 +91,11 @@
 </script>
 
 <div
-  class="fixed w-full h-full mt-32 pb-32 pr-5 pl-5 overflow-y-auto flex flex-col scrollbar-hide"
+  class="fixed top-28 w-full h-full pt-3 pr-5 pl-5 pb-28 overflow-x-auto scrollbar-hide"
 >
   {#if data.length > 0}
     {#each data as item}
-      <MyChannelItem {item} />
+      <MyChannelItem {item} on:exit={openChatExitModal} />
     {/each}
 
     <InfiniteScroll
@@ -78,7 +107,9 @@
       }}
     />
   {:else}
-    <div class="w-full h-full -mt-32 flex flex-col justify-center items-center">
+    <div
+      class="fixed w-11/12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col"
+    >
       <span class="text-gray-600 text-2xl mb-3 font-sbaggrom text-center"
         >참여중인 채팅이 없어요!</span
       >
@@ -88,14 +119,21 @@
     </div>
   {/if}
 </div>
-<FloatingActionButton on:click={() => (showModal = true)} />
+<FloatingActionButton on:click={() => (showCreateChannelModal = true)} />
 
-{#if showModal}
+{#if showCreateChannelModal}
   <CreateChannelModal on:close={onCreateChannelModalClose} bind:newChannel />
 {/if}
 
+{#if showChatExitModal}
+  <ChatExitModal
+    on:submit={exitChannel}
+    on:close={() => (showChatExitModal = false)}
+  />
+{/if}
+
 {#if loading}
-  <div class="fixed top-[calc(50%-2.25rem)] left-[calc(50%-1rem)]">
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
   </div>
 {/if}

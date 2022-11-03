@@ -1,9 +1,15 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
-  import { store } from "$store/store";
-  import { apiGetChannel, apiUpdateChannelNotification } from "$lib/api";
-  import ChatOutModal from "$components/modals/ChatOutModal.svelte";
+  import ChatOutModal from "$components/modals/ChatExitModal.svelte";
   import OnOffButton from "$components/buttons/OnOffButton.svelte";
+  import { createEventDispatcher, onMount } from "svelte";
+  import {
+    apiDeleteChannelNotification,
+    apiGetChannel,
+    apiUnsubscribe,
+    apiUpdateChannelNotification,
+  } from "$lib/api";
+  import { store } from "$store/store";
+  import { unsubscribe } from "$lib/NcloudChat";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -21,6 +27,17 @@
     } catch (err) {
       console.error(err);
     }
+  }
+
+  function exitChannel() {
+    try {
+      apiUnsubscribe(channelId);
+      unsubscribe(channelId);
+      apiDeleteChannelNotification(channelId);
+    } catch (err) {
+      console.error(err);
+    }
+    location.href = "/#/home";
   }
 
   onMount(async () => {
@@ -111,6 +128,9 @@
   </div>
 
   {#if showOutModal}
-    <ChatOutModal {channelId} on:close={() => (showOutModal = false)} />
+    <ChatOutModal
+      on:submit={exitChannel}
+      on:close={() => (showOutModal = false)}
+    />
   {/if}
 </div>
