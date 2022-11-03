@@ -12,19 +12,11 @@
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
-  import {
-    sendMessage,
-    bind,
-    unbindall,
-    sendImage,
-    unsubscribe,
-  } from "$lib/NcloudChat";
+  import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
   import {
     apiGetMessages,
     apiCreateMessage,
     apiCreateChatRead,
-    apiUnsubscribe,
-    apiDeleteChannelNotification,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";

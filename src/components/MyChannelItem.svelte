@@ -12,7 +12,7 @@
   export let item: Channel;
 
   let canvas: HTMLCanvasElement;
-  let filcking: Flicking;
+  let flicking: Flicking;
 
   const dispatch = createEventDispatcher();
   function exit(channelId: string) {
@@ -34,7 +34,7 @@
     } catch (err) {
       console.error(err);
     }
-    filcking.moveTo(0);
+    flicking.moveTo(0);
   }
 
   onMount(() => {
@@ -44,9 +44,9 @@
   });
 </script>
 
-<Flicking options={{ align: "next", bound: true }} bind:this={filcking}>
+<Flicking options={{ align: "next", bound: true }} bind:this={flicking}>
   <FlickingPanel
-    class="w-full mb-5 flex items-center pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-md hover:bg-gray-50"
+    class="w-full mr-1 mb-4 flex items-center pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-md hover:bg-gray-50"
   >
     <div
       class="w-full flex items-center justify-center"
@@ -100,71 +100,69 @@
       </div>
     </div>
   </FlickingPanel>
-  <FlickingPanel>
-    <div class="h-full flex justify-center items-center">
-      <div on:click={updateNotification}>
-        {#if item.notification}
-          <div
-            class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-gray-700 rounded-lg shadow-lg"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="w-6 h-6 text-gray-50 mb-1"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="text-gray-50 text-xs">알림끄기</span>
-          </div>
-        {:else}
-          <div
-            class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-gray-400 rounded-lg shadow-lg"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="w-6 h-6 text-gray-50 mb-1"
-            >
-              <path
-                d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18zM20.57 16.476c-.223.082-.448.161-.674.238L7.319 4.137A6.75 6.75 0 0118.75 9v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M5.25 9c0-.184.007-.366.022-.546l10.384 10.384a3.751 3.751 0 01-7.396-1.119 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="text-gray-50 text-xs">알림켜기</span>
-          </div>
-        {/if}
-      </div>
-      <div
-        class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-red-500 rounded-lg shadow-lg"
-        on:click={() => {
-          exit(item.channel_id);
-          filcking.moveTo(0);
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="w-6 h-6 text-gray-50 mb-1"
+  <FlickingPanel class="mt-1 flex justify-center">
+    <div on:click={updateNotification}>
+      {#if item.notification}
+        <div
+          class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-gray-700 rounded-lg shadow-md"
         >
-          <path
-            fill-rule="evenodd"
-            d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm5.03 4.72a.75.75 0 010 1.06l-1.72 1.72h10.94a.75.75 0 010 1.5H10.81l1.72 1.72a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span class="text-gray-50 text-xs">나가기</span>
-      </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6 text-gray-50 mb-1"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-gray-50 text-xs">알림끄기</span>
+        </div>
+      {:else}
+        <div
+          class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-gray-400 rounded-lg shadow-md"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6 text-gray-50 mb-1"
+          >
+            <path
+              d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18zM20.57 16.476c-.223.082-.448.161-.674.238L7.319 4.137A6.75 6.75 0 0118.75 9v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M5.25 9c0-.184.007-.366.022-.546l10.384 10.384a3.751 3.751 0 01-7.396-1.119 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-gray-50 text-xs font-semibold">알림켜기</span>
+        </div>
+      {/if}
+    </div>
+    <div
+      class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-red-500 rounded-lg shadow-lg"
+      on:click={() => {
+        exit(item.channel_id);
+        flicking.moveTo(0);
+      }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-6 h-6 text-gray-50 mb-1"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm5.03 4.72a.75.75 0 010 1.06l-1.72 1.72h10.94a.75.75 0 010 1.5H10.81l1.72 1.72a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <span class="text-gray-50 text-xs font-semibold">나가기</span>
     </div>
   </FlickingPanel>
 </Flicking>

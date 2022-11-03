@@ -26,7 +26,7 @@
 </script>
 
 <div
-  class="w-full mb-5 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-lg hover:bg-gray-50"
+  class="w-full mb-4 flex items-center gap-4 pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-md hover:bg-gray-50"
   on:click={() => open(item)}
 >
   {#if item.image_url}

@@ -5,6 +5,7 @@
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
+  import ChatExitModal from "$components/modals/ChatExitModal.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
@@ -13,7 +14,6 @@
     apiGetChannels,
     apiUnsubscribe,
   } from "$lib/api";
-  import ChatExitModal from "$components/modals/ChatExitModal.svelte";
   import { unsubscribe } from "$lib/NcloudChat";
 
   export let chat: Chat;
@@ -25,7 +25,7 @@
   let showChatExitModal = false;
   let newChannel: Channel = null;
   let loading = false;
-  let channelId = null;
+  let channelId: string;
 
   $: {
     if (chat) {

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { store } from "$store/store";
   import Tab from "$components/Tab.svelte";
+  import { store } from "$store/store";
 
   let activeItemValues: string;
 
