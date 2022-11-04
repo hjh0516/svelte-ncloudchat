@@ -17,6 +17,7 @@
   const close = () => dispatch("close");
 
   export let channelId: string;
+  export let refresh: boolean;
 
   let showOutModal = false;
   let subscriptions = [];
@@ -45,6 +46,7 @@
   function ban(target: number) {
     try {
       apiCreateChatBans(channelId, target);
+      refresh = true;
     } catch (err) {
       console.error(err);
     }
@@ -53,6 +55,7 @@
   function unban(target: number) {
     try {
       apiDeleteChatBans(channelId, target);
+      refresh = true;
     } catch (err) {
       console.error(err);
     }
