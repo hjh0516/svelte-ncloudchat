@@ -115,7 +115,7 @@
   bind:this={back}
 />
 <div
-  class="w-full h-[32.9rem] fixed bottom-0 left-0 p-3 rounded-t-2xl mx-auto text-center bg-white"
+  class="w-full h-[32.9rem] fixed bottom-0 left-0 p-3 rounded-t-3xl mx-auto text-center bg-white"
   bind:this={element}
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">

@@ -154,7 +154,7 @@
 
 <ChatHeader bind:showSettingModal />
 <div
-  class="fixed w-full h-full bg-gray-100 pt-5 pl-5 pr-5 mt-16 pb-32 flex flex-col-reverse overflow-scroll scrollbar-hide"
+  class="fixed top-0 w-full h-full bg-gray-100 pt-4 pl-4 pr-4 pb-16 flex flex-col-reverse overflow-scroll scrollbar-hide"
   bind:this={element}
 >
   {#each data as item}

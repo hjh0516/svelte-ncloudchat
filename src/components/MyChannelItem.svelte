@@ -46,7 +46,7 @@
 
 <Flicking options={{ align: "next", bound: true }} bind:this={flicking}>
   <FlickingPanel
-    class="w-full mr-1 mb-4 flex items-center pt-7 pb-7 pl-5 pr-5 border border-gray-100 rounded-lg shadow-md hover:bg-gray-50"
+    class="w-full mr-1 mb-4 flex items-center pt-5 pb-5 pl-5 pr-5 border bg-white border-gray-100 rounded-2xl shadow-md hover:bg-gray-50"
   >
     <div
       class="w-full flex items-center justify-center"
@@ -68,7 +68,7 @@
         <div class="flex justify-between items-center">
           <div class="flex items-center">
             <span class="font-recipekorea text-base">{item.name}</span>
-            {#if item.type === "PUBLIC"}
+            {#if item.type === "PUBLIC" || item.type === "FOLLOWER"}
               <span class="font-recipekorea text-base text-gray-500 ml-1"
                 >({item.subscriptions_count}명)</span
               >
@@ -104,7 +104,7 @@
     <div on:click={updateNotification}>
       {#if item.notification}
         <div
-          class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-gray-700 rounded-lg shadow-md"
+          class="w-16 ml-2 mb-5 pb-5 pt-5 flex flex-col justify-center items-center bg-gray-700 rounded-lg shadow-md"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +122,7 @@
         </div>
       {:else}
         <div
-          class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-gray-400 rounded-lg shadow-md"
+          class="w-16 ml-2 mb-5 pb-5 pt-5 flex flex-col justify-center items-center bg-gray-400 rounded-lg shadow-md"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +144,7 @@
       {/if}
     </div>
     <div
-      class="w-20 ml-2 mb-5 pb-7 pt-7 flex flex-col justify-center items-center bg-red-500 rounded-lg shadow-lg"
+      class="w-16 ml-2 mb-5 pb-5 pt-5 flex flex-col justify-center items-center bg-red-500 rounded-lg shadow-lg"
       on:click={() => {
         exit(item.channel_id);
         flicking.moveTo(0);

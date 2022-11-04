@@ -9,8 +9,7 @@
 </script>
 
 <div
-  class="fixed w-full p-5 bg-white flex justify-between items-center"
-  style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
+  class="fixed w-full p-4 bg-white flex justify-between items-center shadow-lg z-10"
 >
   <button class="hover:text-gray-400" on:click={previousPage}>
     <svg

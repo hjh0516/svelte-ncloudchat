@@ -5,7 +5,7 @@
   <div>
     <button
       type="button"
-      class="inline-block rounded-full bg-cyan-500 text-white leading-normal shadow-md hover:bg-cyan-500 hover:shadow-lg focus:bg-cyan-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-400 active:shadow-lg transition duration-150 ease-in-out w-14 h-14"
+      class="inline-block rounded-full bg-cyan-500 text-white leading-normal shadow-md hover:bg-cyan-400 hover:shadow-lg focus:bg-cyan-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-300 active:shadow-lg transition duration-150 ease-in-out w-14 h-14"
       on:click
     >
       <svg

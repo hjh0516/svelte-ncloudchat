@@ -52,11 +52,11 @@
 </script>
 
 <div
-  class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
+  class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25 z-10"
   on:click={close}
 />
 <div
-  class="w-full h-[36.5rem] fixed bottom-0 left-0 p-3 rounded-t-2xl text-center bg-white"
+  class="w-full h-[36.5rem] fixed bottom-0 left-0 p-3 rounded-t-2xl text-center bg-white z-20"
 >
   <div class="w-full h-[0.4rem] flex justify-center mb-3">
     <div class="w-14 h-[0.4rem] bg-gray-200 rounded-2xl" />

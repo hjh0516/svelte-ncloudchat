@@ -93,7 +93,7 @@
 </script>
 
 <div
-  class="fixed top-28 w-full h-full pt-3 pr-5 pl-5 pb-28 overflow-x-auto scrollbar-hide"
+  class="fixed top-[7.2rem] w-full h-full pr-5 pl-5 pt-4 pb-[7.2rem] overflow-x-auto scrollbar-hide"
 >
   {#if data.length > 0}
     {#each data as item}
