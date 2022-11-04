@@ -9,8 +9,10 @@ export function initialize() {
 }
 
 export async function connect(id: string, name: string, profile: string) {
-  nc.setUser({ id: id, name: name, profile });
-  return await nc.connect({ id: id, name: name, profile: profile });
+  if (!nc.isConnected()) {
+    nc.setUser({ id: id, name: name, profile });
+    return await nc.connect({ id: id, name: name, profile: profile });
+  }
 }
 
 export async function disconnect() {
@@ -74,7 +76,7 @@ export async function createChannel(
     uniqueId: Date.now().toString(),
     translation: false,
     disabled: false,
-    push: false,
+    push: true,
     mutes: false,
     linkUrl: "",
     imageUrl: imageUrl,

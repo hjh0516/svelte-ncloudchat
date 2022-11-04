@@ -13,14 +13,8 @@
     item.profile = "profile_default.jpeg";
   }
 
-  function handleImageError() {
-    item.image_url = "default.jpg";
-  }
-
   function open(item: Chat) {
-    dispatch("open", {
-      item: item,
-    });
+    dispatch("open", { item: item });
   }
 </script>
 

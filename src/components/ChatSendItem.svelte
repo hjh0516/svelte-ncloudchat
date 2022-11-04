@@ -3,8 +3,15 @@
 
   import Image from "$components/ChatImageItem.svelte";
   import { convertSendAt } from "$lib/Date";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   export let item: Chat;
+
+  function open(item: Chat) {
+    dispatch("open", { item: item });
+  }
 </script>
 
 <div class="flex flex-col pt-1 items-end">
@@ -19,7 +26,7 @@
         <span class="break-words text-gray-50 text-sm">{item.message}</span>
       </div>
     {:else if item.type === "file"}
-      <div class="max-w-[8rem] h-auto">
+      <div class="max-w-[8rem] h-auto" on:click={() => open(item)}>
         <Image src={item.image_url} className={"rounded-t-lg rounded-l-lg"} />
       </div>
     {/if}

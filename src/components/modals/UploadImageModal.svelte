@@ -4,6 +4,7 @@
   let back: HTMLElement;
 
   export let uploadImage = (e) => {};
+  export let resetImage = () => {};
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -61,7 +62,10 @@
         사진첩 사진으로 등록하기
       </div>
     </label>
-    <button class="w-full h-14 bg-gray-700 text-gray-100 rounded-xl text-base">
+    <button
+      class="w-full h-14 bg-gray-700 text-gray-100 rounded-xl text-base"
+      on:click={resetImage}
+    >
       프로필 초기화
     </button>
   </div>

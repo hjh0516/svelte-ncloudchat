@@ -34,7 +34,7 @@
   let canvas: HTMLCanvasElement;
   let defaultImage: HTMLImageElement;
   let channelImage: any;
-  let checked = false;
+  let onlyFollowers = false;
   let showUploadImageModal = false;
 
   async function submit() {
@@ -62,7 +62,7 @@
       await apiCreateChannel(
         channel.id,
         channel.name,
-        channel.type.toString(),
+        onlyFollowers ? "FOLLOWER" : "PUBLIC",
         channel.image_url,
         channel.link_url,
         channel.push,
@@ -88,6 +88,13 @@
     drawImage(canvas, channelImage);
     canvas.classList.remove("hidden");
     defaultImage.classList.add("hidden");
+    showUploadImageModal = false;
+  }
+
+  function resetImage() {
+    channelImage = null;
+    canvas.classList.add("hidden");
+    defaultImage.classList.remove("hidden");
     showUploadImageModal = false;
   }
 
@@ -187,7 +194,7 @@
       </div>
       <div class="w-full mb-5 flex justify-between items-center pl-3 pr-3">
         <span class="text-base font-semibold">팔로워만 입장</span>
-        <OnOffButton id="type" bind:checked />
+        <OnOffButton id="type" bind:checked={onlyFollowers} />
       </div>
       <button
         class="w-full h-14 rounded-xl bg-gray-700 text-white"
@@ -199,6 +206,7 @@
   {#if showUploadImageModal}
     <UploadImageModal
       {uploadImage}
+      {resetImage}
       on:close={() => (showUploadImageModal = false)}
     />
   {/if}

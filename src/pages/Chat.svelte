@@ -10,6 +10,7 @@
   import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
   import ChatDateItem from "$components/ChatDateItem.svelte";
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
   import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
@@ -31,6 +32,7 @@
   let showSettingModal = false;
   let chatItem = null;
   let showImageDownloadModal = false;
+  let loading = false;
 
   $: data = updateChatItems(data);
 
@@ -132,12 +134,15 @@
       }
     );
 
+    loading = true;
     try {
       loadMessages();
       apiCreateChatRead(params.id);
     } catch (err) {
       console.error(err);
     }
+    element.scrollTop = element.scrollHeight;
+    loading = false;
   });
 
   onDestroy(() => {
@@ -156,7 +161,13 @@
     {#if item.type === "date"}
       <ChatDateItem message={item.message} />
     {:else if item.user_idx === Number($store.user.id)}
-      <ChatSendItem {item} />
+      <ChatSendItem
+        {item}
+        on:open={(e) => {
+          showImageDownloadModal = true;
+          chatItem = e.detail.item;
+        }}
+      />
     {:else}
       <ChatReceiveItem
         {item}
@@ -192,4 +203,10 @@
     item={chatItem}
     on:close={() => (showImageDownloadModal = false)}
   />
+{/if}
+
+{#if loading}
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <Spinner />
+  </div>
 {/if}
