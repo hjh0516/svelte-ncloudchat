@@ -247,6 +247,6 @@ async function handleResponse(response: Response) {
   if (res.code === 0) {
     return res.data;
   } else {
-    console.log(res.message);
+    throw new Error(res.message);
   }
 }

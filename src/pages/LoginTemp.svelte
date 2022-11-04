@@ -1,7 +1,10 @@
 <script lang="ts">
+  import Toast from "$components/Toast.svelte";
   import { store } from "$store/store";
   import { connect, initialize } from "$lib/NcloudChat";
   import { apiGetUser } from "$lib/api";
+  import { ToastContainer } from "svelte-toasts";
+  import { showToast } from "$lib/Toast";
 
   let token: string;
   let user: any;
@@ -29,7 +32,7 @@
 
       window.sessionStorage.setItem("store", JSON.stringify($store));
     } catch (err) {
-      console.error(err);
+      showToast("Error", err.message);
       return;
     }
 
@@ -67,4 +70,5 @@
     class="bg-cyan-500 w-28 h-10 rounded-md text-gray-50 font-bold shadow-md hover:bg-cyan-400"
     >로그인</button
   >
+  <ToastContainer let:data><Toast {data} /></ToastContainer>
 </div>
