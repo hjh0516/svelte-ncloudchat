@@ -44,9 +44,13 @@
   });
 </script>
 
-<Flicking options={{ align: "next", bound: true }} bind:this={flicking}>
+<Flicking
+  class="pl-5 pr-5"
+  options={{ align: "next", bound: true }}
+  bind:this={flicking}
+>
   <FlickingPanel
-    class="w-full mr-1 mb-4 flex items-center pt-5 pb-5 pl-5 pr-5 border bg-white border-gray-100 rounded-2xl shadow-md hover:bg-gray-50"
+    class="w-full mr-5 mb-3 flex items-center pt-5 pb-5 pl-4 pr-5 border bg-white border-gray-100 rounded-3xl shadow-lg hover:bg-gray-50"
   >
     <div
       class="w-full flex items-center justify-center"
@@ -54,12 +58,12 @@
     >
       {#if item.image_url}
         <canvas
-          class="w-12 h-auto border border-gray-200 rounded-full"
+          class="h-14 border border-gray-200 rounded-full"
           bind:this={canvas}
         />
       {:else}
         <img
-          class="w-12 h-12 border border-gray-200 rounded-full"
+          class="h-14 border border-gray-200 rounded-full"
           src="/default.jpg"
           alt="channel_image"
         />
@@ -100,11 +104,11 @@
       </div>
     </div>
   </FlickingPanel>
-  <FlickingPanel class="mt-2 flex justify-center">
+  <FlickingPanel class="mb-3 flex justify-center">
     <div on:click={updateNotification}>
       {#if item.notification}
         <div
-          class="w-16 ml-2 mb-5 pb-5 pt-5 flex flex-col justify-center items-center bg-gray-700 rounded-lg shadow-md"
+          class="w-16 h-full ml-2 flex flex-col justify-center items-center bg-gray-700 rounded-2xl shadow-md"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +126,7 @@
         </div>
       {:else}
         <div
-          class="w-16 ml-2 mb-5 pb-5 pt-5 flex flex-col justify-center items-center bg-gray-400 rounded-lg shadow-md"
+          class="w-16 h-full ml-2 flex flex-col justify-center items-center bg-gray-400 rounded-2xl shadow-md"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +148,7 @@
       {/if}
     </div>
     <div
-      class="w-16 ml-2 mb-5 pb-5 pt-5 flex flex-col justify-center items-center bg-red-500 rounded-lg shadow-lg"
+      class="w-16 h-full ml-2 flex flex-col justify-center items-center bg-red-500 rounded-2xl shadow-lg"
       on:click={() => {
         exit(item.channel_id);
         flicking.moveTo(0);

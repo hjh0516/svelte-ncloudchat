@@ -26,17 +26,17 @@
 </script>
 
 <div
-  class="w-full mb-4 flex items-center gap-4 pt-5 pb-5 pl-5 pr-5 border border-gray-100 rounded-2xl shadow-lg hover:bg-gray-50 bg-white"
+  class="w-full mb-4 flex items-center gap-4 pt-5 pb-5 pl-4 pr-5 border border-gray-100 rounded-3xl shadow-lg hover:bg-gray-50 bg-white"
   on:click={() => open(item)}
 >
   {#if item.image_url}
     <canvas
-      class="w-12 h-auto border border-gray-200 rounded-full"
+      class="h-14 border border-gray-200 rounded-full"
       bind:this={canvas}
     />
   {:else}
     <img
-      class="w-12 h-12 border border-gray-200 rounded-full"
+      class="h-14 border border-gray-200 rounded-full"
       src="/default.jpg"
       alt="channel_image"
     />
