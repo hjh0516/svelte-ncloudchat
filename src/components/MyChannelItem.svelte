@@ -50,7 +50,7 @@
   bind:this={flicking}
 >
   <FlickingPanel
-    class="w-full mr-5 mb-3 flex items-center pt-5 pb-5 pl-4 pr-5 border bg-white border-gray-100 rounded-3xl shadow-lg hover:bg-gray-50"
+    class="w-full mr-3 mb-3 flex items-center pt-5 pb-5 pl-4 pr-5 border bg-white border-gray-100 rounded-3xl shadow-lg hover:bg-gray-50"
   >
     <div
       class="w-full flex items-center justify-center"
