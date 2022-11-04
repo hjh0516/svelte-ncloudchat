@@ -100,14 +100,7 @@
     showSettingModal = false;
 
     if (refresh) {
-      loading = true;
-      try {
-        data = [];
-        loadMessages();
-      } catch (err) {
-        console.error(err);
-      }
-      loading = false;
+      location.reload();
     }
   }
 
