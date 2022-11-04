@@ -56,9 +56,9 @@
   on:click={close}
 />
 <div
-  class="w-full h-[36rem] fixed bottom-0 left-0 p-3 rounded-t-2xl text-center bg-white"
+  class="w-full h-[35rem] fixed bottom-0 left-0 rounded-t-3xl text-center bg-white"
 >
-  <div class="w-full h-[0.4rem] flex justify-center mb-3">
+  <div class="w-full h-[0.4rem] flex justify-center mb-3 pt-3">
     <div class="w-14 h-[0.4rem] bg-gray-200 rounded-2xl" />
   </div>
   <div class="p-5">
@@ -67,7 +67,9 @@
         class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
         >채팅 설정</span
       >
-      <div class="w-full h-16 border-b flex justify-between items-center">
+      <div
+        class="w-full h-16 pr-3 pl-3 border-b flex justify-between items-center"
+      >
         <span class="font-semibold text-base">채팅 사용 설정</span>
         <OnOffButton
           id="use-chat"
@@ -75,7 +77,9 @@
           on:change={onChangeUseChat}
         />
       </div>
-      <div class="w-full h-16 border-b flex justify-between items-center">
+      <div
+        class="w-full h-16 pr-3 pl-3 border-b flex justify-between items-center"
+      >
         <span class="font-semibold text-base">채팅 알람 관리</span>
         <OnOffButton
           id="chat-notification"
@@ -83,13 +87,13 @@
           on:change={onChangeChatNotificaiton}
         />
       </div>
-      <span class="w-full font-semibold text-base text-left mt-5"
+      <span class="w-full pr-3 pl-3 font-semibold text-base text-left mt-5"
         >채팅 차단 관리</span
       >
-      <div class="w-full h-52 mb-5 overflow-y-auto scrollbar-hide">
+      <div class="w-full h-52 mb-5 pr-3 pl-3 overflow-y-auto scrollbar-hide">
         {#each bans as item}
           <div
-            class="w-full h-20 p-3 mt-3 border-2 border-gray-200 flex items-center rounded-lg shadow-md"
+            class="w-full h-auto p-3 mt-3 border border-gray-100 flex items-center rounded-3xl shadow-md"
           >
             <img
               class="w-12 h-12 border border-gray-200 rounded-full"
@@ -108,7 +112,7 @@
       </div>
     </div>
     <button
-      class="w-full h-14 rounded-xl bg-gray-700 text-white"
+      class="w-11/12 h-14 rounded-xl bg-gray-700 text-white text-base"
       on:click={close}>완료</button
     >
   </div>
