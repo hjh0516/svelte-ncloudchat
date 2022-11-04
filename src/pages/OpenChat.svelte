@@ -85,7 +85,7 @@
       <OpenChannelItem {item} on:open={openSubscriptionModal} />
       <InfiniteScroll
         hasMore={newData.length > 0}
-        threshold={100}
+        threshold={200}
         on:loadMore={async () => {
           page++;
           await loadChannels(searchText);

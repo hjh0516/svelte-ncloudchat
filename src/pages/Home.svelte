@@ -6,7 +6,7 @@
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
-  import SettingModal from "$components/modals/SettingModal.svelte";
+  import ChannelSettingModal from "$components/modals/ChannelSettingModal.svelte";
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
@@ -46,7 +46,7 @@
   {/if}
 
   {#if showSettingModal}
-    <SettingModal
+    <ChannelSettingModal
       on:close={() => {
         showSettingModal = false;
       }}

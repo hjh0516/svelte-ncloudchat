@@ -9,10 +9,6 @@
 
   export let item: Chat;
 
-  function handleProfileImageError() {
-    item.profile = "profile_default.jpeg";
-  }
-
   function open(item: Chat) {
     dispatch("open", { item: item });
   }
@@ -25,7 +21,9 @@
         class="rounded-full"
         src={item.profile}
         alt="sender_profile_image"
-        on:error={handleProfileImageError}
+        on:error={() => {
+          item.profile = "profile_default.jpeg";
+        }}
       />
     {/if}
   </div>

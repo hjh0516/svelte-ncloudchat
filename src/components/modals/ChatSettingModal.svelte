@@ -3,7 +3,9 @@
   import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import { createEventDispatcher, onMount } from "svelte";
   import {
+    apiCreateChatBans,
     apiDeleteChannelNotification,
+    apiDeleteChatBans,
     apiGetChannel,
     apiUnsubscribe,
     apiUpdateChannelNotification,
@@ -38,6 +40,22 @@
       console.error(err);
     }
     location.href = "/#/home";
+  }
+
+  function ban(target: number) {
+    try {
+      apiCreateChatBans(channelId, target);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function unban(target: number) {
+    try {
+      apiDeleteChatBans(channelId, target);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   onMount(async () => {
@@ -115,10 +133,23 @@
                 <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
                   >{item.nickname}</span
                 >
-                <span
-                  class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
-                  >차단</span
-                >
+                {#if item.is_ban}
+                  <span
+                    class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
+                    on:click={() => {
+                      item.is_ban = 0;
+                      unban(item.user_idx);
+                    }}>해제</span
+                  >
+                {:else}
+                  <span
+                    class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
+                    on:click={() => {
+                      item.is_ban = 1;
+                      ban(item.user_idx);
+                    }}>차단</span
+                  >
+                {/if}
               </div>
             {/if}
           {/each}

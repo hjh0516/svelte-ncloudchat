@@ -18,6 +18,7 @@
     apiGetMessages,
     apiCreateMessage,
     apiCreateChatRead,
+    apiGetChatBans,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -33,6 +34,7 @@
   let chatItem = null;
   let showImageDownloadModal = false;
   let loading = false;
+  let bans;
 
   $: data = updateChatItems(data);
 
@@ -92,12 +94,17 @@
     }
   }
 
-  onMount(() => {
+  onMount(async () => {
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
         let chat: Chat;
         element.scrollTop = element.scrollHeight;
+
+        const banUsers = bans.map((x) => x.target);
+        if (banUsers.includes(Number(message.sender.id.split("_")[1]))) {
+          return;
+        }
 
         if (message.message_type === "text") {
           chat = {
@@ -138,6 +145,7 @@
     try {
       loadMessages();
       apiCreateChatRead(params.id);
+      bans = await apiGetChatBans(params.id);
     } catch (err) {
       console.error(err);
     }

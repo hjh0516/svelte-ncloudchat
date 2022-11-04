@@ -3,7 +3,8 @@
   import { createEventDispatcher, onMount } from "svelte";
   import { store } from "$store/store";
   import {
-    apiGetChatBans,
+    apiDeleteChannelBans,
+    apiGetChannelBans,
     apiUpdateChatNotification,
     apiUpdateUseChat,
   } from "$lib/api";
@@ -39,12 +40,22 @@
     $store.user.chat_notification = chatNotification;
   }
 
+  function unban(target: number) {
+    bans = bans.filter((x) => x.target !== target);
+
+    try {
+      apiDeleteChannelBans(target);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   onMount(async () => {
     useChat = $store.user.use_chat;
     chatNotification = $store.user.chat_notification;
 
     try {
-      bans = await apiGetChatBans();
+      bans = await apiGetChannelBans();
     } catch (err) {
       console.error(err);
     }
@@ -105,7 +116,9 @@
             >
             <span
               class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
-              >해제</span
+              on:click={() => {
+                unban(item.target);
+              }}>해제</span
             >
           </div>
         {/each}

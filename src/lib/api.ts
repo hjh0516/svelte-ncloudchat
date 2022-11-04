@@ -145,11 +145,60 @@ export async function apiCreateMessage(
   return await handleResponse(response);
 }
 
-export async function apiGetChatBans() {
-  const response = await fetch(`${API_URL}/chats/bans`, {
+export async function apiGetChannelBans() {
+  const response = await fetch(`${API_URL}/channels/bans`, {
     method: "GET",
     headers: setHeader(),
   });
+  return await handleResponse(response);
+}
+
+export async function apiCreateChannelBans(target: number) {
+  const response = await fetch(`${API_URL}/channels/bans`, {
+    method: "POST",
+    headers: setHeader(),
+    body: JSON.stringify({
+      target: target,
+    }),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiDeleteChannelBans(target: number) {
+  const response = await fetch(`${API_URL}/channels/bans/${target}`, {
+    method: "DELETE",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiGetChatBans(channel_id: string) {
+  const response = await fetch(`${API_URL}/chats/bans/${channel_id}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiCreateChatBans(channel_id: string, target: number) {
+  const response = await fetch(`${API_URL}/chats/bans/${channel_id}`, {
+    method: "POST",
+    headers: setHeader(),
+    body: JSON.stringify({
+      target: target,
+    }),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiDeleteChatBans(channel_id: string, target: number) {
+  const response = await fetch(
+    `${API_URL}/chats/bans/${channel_id}/${target}`,
+    {
+      method: "DELETE",
+      headers: setHeader(),
+    }
+  );
   return await handleResponse(response);
 }
 

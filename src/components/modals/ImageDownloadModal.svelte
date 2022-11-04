@@ -49,10 +49,13 @@
         class="h-56 rounded-xl border border-gray-300"
         src={item.image_url}
         alt="image_url"
+        on:error={() => {
+          item.image_url = "default.jpg";
+        }}
       />
     </div>
     <button
-      class="w-full h-14 bg-gray-700 text-gray-100 rounded-xl text-base"
+      class="w-11/12 h-14 bg-gray-700 text-gray-100 rounded-xl text-base"
       on:click={download}
     >
       저장

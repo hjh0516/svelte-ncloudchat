@@ -27,6 +27,7 @@ export interface Subscription {
   created_at: string;
   nickname: string;
   profile: string;
+  is_ban: boolean;
 }
 
 export interface Chat {
