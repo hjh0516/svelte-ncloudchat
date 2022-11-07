@@ -8,6 +8,7 @@
     apiUpdateChatNotification,
     apiUpdateUseChat,
   } from "$lib/api";
+  import ChannelUserItem from "$components/ChannelUserItem.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -103,24 +104,7 @@
       >
       <div class="w-full h-52 mb-5 pr-3 pl-3 overflow-y-auto scrollbar-hide">
         {#each bans as item}
-          <div
-            class="w-full h-auto p-3 mt-3 border border-gray-100 flex items-center rounded-3xl shadow-md"
-          >
-            <img
-              class="w-12 h-12 border border-gray-200 rounded-full"
-              src={item.profile}
-              alt="profile_image"
-            />
-            <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
-              >{item.nickname}</span
-            >
-            <span
-              class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
-              on:click={() => {
-                unban(item.target);
-              }}>해제</span
-            >
-          </div>
+          <ChannelUserItem {item} {unban} />
         {/each}
       </div>
     </div>

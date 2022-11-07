@@ -1,5 +1,6 @@
 <script lang="ts">
   import ChatOutModal from "$components/modals/ChatExitModal.svelte";
+  import ChatUserItem from "$components/ChatUserItem.svelte";
   import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import { createEventDispatcher, onMount } from "svelte";
   import {
@@ -12,6 +13,7 @@
   } from "$lib/api";
   import { store } from "$store/store";
   import { unsubscribe } from "$lib/NcloudChat";
+  import { drawImage } from "$lib/Image";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -22,6 +24,7 @@
   let showOutModal = false;
   let subscriptions = [];
   let channelNotification: boolean;
+  let canvas: HTMLCanvasElement;
 
   function onChangeChannelNotification() {
     channelNotification = !channelNotification;
@@ -62,6 +65,8 @@
   }
 
   onMount(async () => {
+    drawImage(canvas, $store.user.profile);
+
     try {
       const res = await apiGetChannel(channelId);
       subscriptions = res.subscriptions;
@@ -108,10 +113,9 @@
           <div
             class="w-full h-auto p-3 border border-yellow-400 flex items-center rounded-3xl shadow-md"
           >
-            <img
+            <canvas
               class="w-12 h-12 border border-gray-200 rounded-full"
-              src={$store.user.profile}
-              alt="profile_image"
+              bind:this={canvas}
             />
             <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
               >{$store.user.name}</span
@@ -125,35 +129,7 @@
         <div class="w-full h-52 mb-5 pl-3 pr-3 overflow-y-auto scrollbar-hide">
           {#each subscriptions as item}
             {#if item.user_idx !== $store.user.id}
-              <div
-                class="w-full h-auto p-3 mt-3 border border-gray-100 flex items-center rounded-3xl shadow-md"
-              >
-                <img
-                  class="w-12 h-12 border border-gray-200 rounded-full"
-                  src={item.profile}
-                  alt="profile_image"
-                />
-                <span class="w-full ml-5 mt-1 text-left font-sbaggrom text-base"
-                  >{item.nickname}</span
-                >
-                {#if item.is_ban}
-                  <span
-                    class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
-                    on:click={() => {
-                      item.is_ban = 0;
-                      unban(item.user_idx);
-                    }}>해제</span
-                  >
-                {:else}
-                  <span
-                    class="w-12 mr-5 text-right text-base font-semibold text-gray-400"
-                    on:click={() => {
-                      item.is_ban = 1;
-                      ban(item.user_idx);
-                    }}>차단</span
-                  >
-                {/if}
-              </div>
+              <ChatUserItem {item} {ban} {unban} />
             {/if}
           {/each}
         </div>
