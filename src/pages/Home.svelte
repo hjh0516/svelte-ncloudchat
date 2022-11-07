@@ -2,7 +2,7 @@
   import type { Chat } from "$lib/types/type";
   import type { MessageType } from "$lib/types/MessageType";
 
-  import HomeHeader from "$components/HomeHeader.svelte";
+  // import HomeHeader from "$components/HomeHeader.svelte";
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
@@ -37,7 +37,7 @@
 </script>
 
 <main>
-  <HomeHeader bind:showSettingModal />
+  <!-- <HomeHeader bind:showSettingModal /> -->
   <Navigation />
   {#if $store.activeItem === "My 채팅"}
     <MyChat {chat} />
