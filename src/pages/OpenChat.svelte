@@ -48,7 +48,7 @@
   });
 </script>
 
-<div class="fixed w-11/12 top-32 left-1/2 -translate-x-1/2 rounded-2xl">
+<div class="fixed w-11/12 top-16 left-1/2 -translate-x-1/2 rounded-2xl">
   <div
     class="w-full h-12 border border-gray-400 rounded-2xl flex justify-center items-center focus-within:border-cyan-500"
     style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
@@ -78,7 +78,7 @@
   </div>
 </div>
 <div
-  class="fixed top-44 w-full h-full pt-4 pl-5 pr-5 pb-48 overflow-y-auto scrollbar-hide"
+  class="fixed top-28 w-full h-full pt-4 pl-5 pr-5 pb-48 overflow-y-auto scrollbar-hide"
 >
   {#if data.length > 0}
     {#each data as item}
