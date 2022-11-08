@@ -13,22 +13,18 @@ let isMobile = {
 };
 
 function godetail() {
-  if (isMobile.any()) {
-    if (isMobile.Android()) {
-      window.emoApp.godetail();
-    } else if (isMobile.iOS()) {
-      webkit.messageHandlers.godetail.postMessage();
-    }
+  if (isMobile.Android()) {
+    window.emoApp.godetail;
+  } else if (isMobile.iOS()) {
+    window.webkit.messageHandlers.godetail.postMessage();
   }
 }
 
 function gohome() {
-  if (isMobile.any()) {
-    if (isMobile.Android()) {
-      window.emoApp.gohome();
-    } else if (isMobile.iOS()) {
-      webkit.messageHandlers.gohome.postMessage();
-    }
+  if (isMobile.Android()) {
+    window.emoApp.gohome;
+  } else if (isMobile.iOS()) {
+    window.webkit.messageHandlers.gohome.postMessage();
   }
 }
 
