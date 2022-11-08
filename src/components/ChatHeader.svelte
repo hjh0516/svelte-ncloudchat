@@ -1,6 +1,6 @@
 <script lang="ts">
   import { store } from "$store/store";
-  import { gohome } from "../app";
+  import { gohome } from "../../public/app";
 
   export let showSettingModal = false;
 
