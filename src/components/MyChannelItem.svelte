@@ -33,9 +33,9 @@
     alert("godetail");
     if (isMobile.any()) {
       if (isMobile.Android()) {
-        android.emoApp.godetail();
+        window.emoApp.godetail();
       } else if (isMobile.iOS()) {
-        webkit.messageHandlers.godetail.postMessage();
+        window.messageHandlers.godetail.postMessage();
       }
     }
   }

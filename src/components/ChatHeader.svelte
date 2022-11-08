@@ -13,9 +13,9 @@
     alert("gohome");
     if (isMobile.any()) {
       if (isMobile.Android()) {
-        android.emoApp.gohome();
+        window.emoApp.gohome();
       } else if (isMobile.iOS()) {
-        webkit.messageHandlers.gohome.postMessage();
+        window.messageHandlers.gohome.postMessage();
       }
     }
   }
