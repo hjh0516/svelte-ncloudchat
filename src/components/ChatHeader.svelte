@@ -5,6 +5,7 @@
 
   function previousPage() {
     location.href = "/#/home";
+    gohome();
   }
 </script>
 

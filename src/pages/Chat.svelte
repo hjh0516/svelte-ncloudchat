@@ -67,6 +67,7 @@
   }
 
   async function loadMessages() {
+    console.log(element.scrollTop);
     try {
       const res = await apiGetMessages(params.id, page);
       newData = res.data;
@@ -153,14 +154,14 @@
 
     loading = true;
     try {
-      loadMessages();
+      await loadMessages();
       apiCreateChatRead(params.id);
       bans = await apiGetChatBans(params.id);
     } catch (err) {
       console.error(err);
     }
-    element.scrollTop = element.scrollHeight;
     loading = false;
+    element.scrollTop = element.scrollHeight;
   });
 
   onDestroy(() => {
@@ -251,7 +252,6 @@
                 <ChatReceiveItem
                   {item}
                   on:open={(e) => {
-                    console.log("open");
                     showImageDownloadModal = true;
                     chatItem = e.detail.item;
                   }}

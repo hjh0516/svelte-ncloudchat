@@ -150,16 +150,16 @@
           </li>
         {/each}
       </ul>
-      <InfiniteScroll
-        hasMore={newData.length > 0}
-        threshold={200}
-        on:loadMore={async () => {
-          page++;
-          await loadChannels();
-        }}
-      />
     </div>
   </div>
+  <InfiniteScroll
+    hasMore={newData.length > 0}
+    threshold={200}
+    on:loadMore={async () => {
+      page++;
+      await loadChannels();
+    }}
+  />
 {:else}
   <div class="none_msg active">
     <div class="tb">

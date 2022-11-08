@@ -2,18 +2,17 @@
   import type { Channel } from "$lib/types/type";
 
   import { createEventDispatcher, onMount } from "svelte";
-  import Flicking, { FlickingPanel } from "@egjs/svelte-flicking";
+  // import Flicking, { FlickingPanel } from "@egjs/svelte-flicking";
   import "@egjs/svelte-flicking/dist/flicking.css";
   import { store } from "$store/store";
   import { convertDate } from "$lib/Date";
   // import { drawImage } from "$lib/Image";
   import { apiUpdateChannelNotification } from "$lib/api";
-  import { isMobile } from "$lib/UserAgent";
 
   export let item: Channel;
 
   // let canvas: HTMLCanvasElement;
-  let flicking: Flicking;
+  // let flicking: Flicking;
 
   const dispatch = createEventDispatcher();
   function exit(channelId: string) {
@@ -27,16 +26,6 @@
     window.sessionStorage.setItem("store", JSON.stringify($store));
     location.href = `/#/chat/${channel_id}`;
     godetail();
-  }
-
-  function godetail() {
-    if (isMobile.any()) {
-      if (isMobile.Android()) {
-        window.android.emoApp.godetail();
-      } else if (isMobile.iOS()) {
-        window.webkit.messageHandlers.godetail.postMessage();
-      }
-    }
   }
 
   function updateNotification() {
