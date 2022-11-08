@@ -30,6 +30,7 @@
   }
 
   function godetail() {
+    alert("godetail");
     if (isMobile.any()) {
       if (isMobile.Android()) {
         android.emoApp.godetail();

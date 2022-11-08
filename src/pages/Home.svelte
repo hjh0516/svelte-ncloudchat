@@ -14,7 +14,8 @@
   let chat: Chat;
   let showSettingModal = false;
 
-  function showSetting() {
+  export function showSetting() {
+    alert("showSetting");
     showSettingModal = true;
   }
 

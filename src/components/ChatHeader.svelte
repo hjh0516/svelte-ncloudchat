@@ -10,6 +10,7 @@
   }
 
   function gohome() {
+    alert("gohome");
     if (isMobile.any()) {
       if (isMobile.Android()) {
         android.emoApp.gohome();
