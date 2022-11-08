@@ -48,7 +48,7 @@
   });
 </script>
 
-<div class="fixed w-11/12 top-16 left-1/2 -translate-x-1/2 rounded-2xl">
+<!-- <div class="fixed w-11/12 top-16 left-1/2 -translate-x-1/2 rounded-2xl">
   <div
     class="w-full h-12 border border-gray-400 rounded-2xl flex justify-center items-center focus-within:border-cyan-500"
     style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
@@ -114,5 +114,43 @@
 {#if loading}
   <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
+  </div>
+{/if} -->
+
+{#if data.length > 0}
+  <div class="open_chat active">
+    <div class="chat_srch">
+      <div class="srch_wr">
+        <input
+          type="text"
+          placeholder="대화방을 검색해보세요!"
+          bind:value={searchText}
+        />
+        <input type="button" class="svg" on:click={searchChannels} />
+      </div>
+    </div>
+    <div class="chat_list active">
+      <ul>
+        {#each data as item}
+          <li>
+            <OpenChannelItem {item} on:open={openSubscriptionModal} />
+          </li>
+        {/each}
+      </ul>
+    </div>
+  </div>
+{:else}
+  <div class="none_msg active">
+    <div class="tb">
+      <div class="tbc">
+        <div class="msg">
+          <strong class="aggro">참여중인 채팅이 없어요!</strong>
+          <p>
+            오른쪽 하단의 채팅하기 아이콘을 누르면<br />
+            직접 방을 만들 수 있어요!
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 {/if}

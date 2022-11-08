@@ -6,13 +6,13 @@
   import "@egjs/svelte-flicking/dist/flicking.css";
   import { store } from "$store/store";
   import { convertDate } from "$lib/Date";
-  import { drawImage } from "$lib/Image";
+  // import { drawImage } from "$lib/Image";
   import { apiUpdateChannelNotification } from "$lib/api";
   import { isMobile } from "$lib/UserAgent";
 
   export let item: Channel;
 
-  let canvas: HTMLCanvasElement;
+  // let canvas: HTMLCanvasElement;
   let flicking: Flicking;
 
   const dispatch = createEventDispatcher();
@@ -50,13 +50,13 @@
   }
 
   onMount(() => {
-    if (item.image_url) {
-      drawImage(canvas, item.image_url);
-    }
+    // if (item.image_url) {
+    //   drawImage(canvas, item.image_url);
+    // }
   });
 </script>
 
-<Flicking
+<!-- <Flicking
   class="pl-5 pr-5"
   options={{ align: "next", bound: true }}
   bind:this={flicking}
@@ -181,4 +181,84 @@
       <span class="text-gray-50 text-xs font-semibold">나가기</span>
     </div>
   </FlickingPanel>
-</Flicking>
+</Flicking> -->
+
+<!-- <Flicking options={{ align: "next", bound: true }} bind:this={flicking}>
+  <FlickingPanel class="w-full mr-3"> -->
+<div class="box box1" on:click={() => clickItem(item.channel_id)}>
+  <div class="box_cont">
+    {#if item.image_url}
+      <div
+        class="c_avata back_img"
+        style="background-image: url({item.image_url});"
+      >
+        <img class="basic_img" src="img/img_basic1.png" alt="channel_image" />
+      </div>
+    {:else}
+      <div
+        class="c_avata back_img"
+        style="background-image: url('img/img_chat_avata1.png');"
+      >
+        <img class="basic_img" src="img/img_basic1.png" alt="channel_image" />
+      </div>
+    {/if}
+    <div class="txt_box">
+      <div class="tb">
+        <div class="tbc">
+          <div class="info">
+            <div class="left aggro_M">
+              {item.name}
+              <!-- <b class="h_num">(240명)</b> -->
+              {#if item.type === "PUBLIC" || item.type === "FOLLOWER"}
+                <b class="h_num">({item.subscriptions_count}명)</b>
+              {/if}
+            </div>
+            <div class="right">
+              {item.last_chat_at
+                ? convertDate(item.last_chat_at)
+                : convertDate(item.created_at)}
+            </div>
+          </div>
+          <div class="cont">
+            {#if item.chat_type === "file"}
+              이미지
+            {:else if item.message}
+              {item.message.length >= 50
+                ? item.message.substring(0, 50) + "..."
+                : item.message}
+            {/if}
+            <b class="m_num aggro_M"
+              >{item.unread_count ? item.unread_count : 0}</b
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </FlickingPanel>
+  <FlickingPanel>
+    <div class="rt_btn clear">
+      <div class="box2 box_alram off">
+        <a href="javascript:;">
+          <div class="tb">
+            <div class="tbc">
+              <span class="ico svg">알림 상태</span>
+              <em>알림끄기</em>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="box2 box_exit">
+        <a href="javascript:;">
+          <div class="tb">
+            <div class="tbc">
+              <span class="ico svg">나가기</span>
+              <em>나가기</em>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </FlickingPanel>
+</Flicking> -->

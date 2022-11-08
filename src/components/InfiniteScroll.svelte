@@ -19,14 +19,26 @@
     element.addEventListener("resize", onScroll);
   }
 
+  $: if (isLoadMore && reverse) {
+    const element = elementScroll ? elementScroll : component.parentNode;
+    console.log(element.scrollTop);
+
+    element.scrollTop =
+      element.scrollHeight - beforeScrollHeight + beforeScrollTop;
+
+    console.log(element.scrollTop);
+  }
+
   const onScroll = (e) => {
     if (!hasMore) return;
 
     let offset = 0;
 
     if (reverse) {
-      offset =
-        e.target.scrollHeight - e.target.clientHeight + e.target.scrollTop;
+      // offset =
+      //   e.target.scrollHeight - e.target.clientHeight + e.target.scrollTop;
+
+      offset = e.target.scrollTop;
     } else {
       offset =
         e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop;

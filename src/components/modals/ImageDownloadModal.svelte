@@ -27,7 +27,7 @@
   }
 </script>
 
-<div
+<!-- <div
   class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
   on:click={close}
 />
@@ -60,5 +60,25 @@
     >
       저장
     </button>
+  </div>
+</div> -->
+
+<div id="imgDetail" class="profile_pop" style="bottom: 0px;">
+  <div class="pop_cont">
+    <div class="tb">
+      <div class="tbc">
+        <div class="svg btn_close wt" on:click={close}>닫기</div>
+        <div class="c_wrap flex justify-center">
+          <img
+            src={item.image_url}
+            alt="image_detail"
+            on:error={() => {
+              item.image_url = "default.jpg";
+            }}
+          />
+        </div>
+        <div class="svg btn_save" on:click={download}>저장</div>
+      </div>
+    </div>
   </div>
 </div>

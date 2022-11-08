@@ -36,20 +36,19 @@
   });
 </script>
 
-<main>
-  <!-- <HomeHeader bind:showSettingModal /> -->
-  <Navigation />
-  {#if $store.activeItem === "My 채팅"}
-    <MyChat {chat} />
-  {:else if $store.activeItem === "오픈 채팅"}
-    <OpenChat />
-  {/if}
-
-  {#if showSettingModal}
-    <ChannelSettingModal
-      on:close={() => {
-        showSettingModal = false;
-      }}
-    />
-  {/if}
-</main>
+<div id="sub" class="chatting chat_idx">
+  <div class="section">
+    <div class="size">
+      <div class="inner">
+        <Navigation />
+        <div class="chat_area scrollbar-hide">
+          {#if $store.activeItem === "My 채팅"}
+            <MyChat {chat} />
+          {:else if $store.activeItem === "오픈 채팅"}
+            <OpenChat />
+          {/if}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

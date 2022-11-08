@@ -8,7 +8,7 @@
   const change = () => dispatch("change");
 </script>
 
-<label for={id} style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">
+<!-- <label for={id} style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)">
   <input {id} type="checkbox" class="sr-only" bind:checked on:change={change} />
   {#if checked}
     <div
@@ -57,4 +57,15 @@
       >
     </div>
   {/if}
-</label>
+</label> -->
+
+<div class="check_box check_box1">
+  <label for={id} class="sr-only flex items-center">
+    <input {id} type="checkbox" bind:checked on:change={change} />
+    {#if checked}
+      <span class="aggro">ON</span>
+    {:else}
+      <span class="aggro">OFF</span>
+    {/if}
+  </label>
+</div>

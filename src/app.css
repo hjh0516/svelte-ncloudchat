@@ -1,8 +1,14 @@
+@import url("css/common.css");
+@import url("css/content.css");
+@import url("css/program.css");
+@import url("css/reset.css");
+@import url("css/responsive.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
     font-family: 'SBAggroB';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
     font-weight: 700;
@@ -28,4 +34,4 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Recipekorea.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+} */

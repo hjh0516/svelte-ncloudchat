@@ -171,7 +171,7 @@
 <svelte:window on:focus={handleFocus} />
 
 <ChatHeader bind:showSettingModal />
-<div
+<!-- <div
   class="fixed top-0 w-full h-full bg-gray-100 pl-4 pr-4 pt-16 pb-16 flex flex-col-reverse overflow-scroll scrollbar-hide"
   bind:this={element}
 >
@@ -206,6 +206,72 @@
       await loadMessages();
     }}
   />
+</div>
+<MessageInput {send} {uploadImage} bind:input />
+
+{#if showSettingModal}
+  <ChatSettingModal
+    channelId={params.id}
+    bind:refresh
+    on:close={closeChatSettingModal}
+  />
+{/if}
+
+{#if showImageDownloadModal}
+  <ImageDownloadModal
+    item={chatItem}
+    on:close={() => (showImageDownloadModal = false)}
+  />
+{/if}
+
+{#if loading}
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <Spinner />
+  </div>
+{/if} -->
+
+<div id="sub" class="chatting chat_room">
+  <div class="section">
+    <div class="size">
+      <div class="inner">
+        <div class="chat_area scrollbar-hide" bind:this={element}>
+          <div class="chat_info flex flex-col-reverse">
+            {#each data as item}
+              {#if item.type === "date"}
+                <ChatDateItem message={item.message} />
+              {:else if item.user_idx === Number($store.user.id)}
+                <ChatSendItem
+                  {item}
+                  on:open={(e) => {
+                    showImageDownloadModal = true;
+                    chatItem = e.detail.item;
+                  }}
+                />
+              {:else}
+                <ChatReceiveItem
+                  {item}
+                  on:open={(e) => {
+                    console.log("open");
+                    showImageDownloadModal = true;
+                    chatItem = e.detail.item;
+                  }}
+                />
+              {/if}
+            {/each}
+          </div>
+          <InfiniteScroll
+            reverse
+            hasMore={newData.length > 0}
+            threshold={200}
+            on:loadMore={async () => {
+              page++;
+              await loadMessages();
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <MessageInput {send} {uploadImage} bind:input />
 

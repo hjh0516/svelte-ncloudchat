@@ -4,15 +4,15 @@
 
 <div class="w-full flex justify-center">
   <div
-    class="w-44 h-6 mt-5 mb-5 pr-2 pl-2 bg-gray-400 rounded-xl flex justify-around items-center text-center"
+    class="w-72 h-11 mt-5 mb-10 bg-gray-400 rounded-2xl flex justify-center items-center text-center"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      stroke-width="2"
       stroke="currentColor"
-      class="w-5 h-5 text-white"
+      class="w-8 h-8 text-gray-50 mr-5"
     >
       <path
         stroke-linecap="round"
@@ -20,6 +20,6 @@
         d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
       />
     </svg>
-    <span class="text-gray-100 text-sm">{message}</span>
+    <span class="text-gray-50 text-2xl">{message}</span>
   </div>
 </div>
