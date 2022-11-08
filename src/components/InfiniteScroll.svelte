@@ -21,12 +21,9 @@
 
   $: if (isLoadMore && reverse) {
     const element = elementScroll ? elementScroll : component.parentNode;
-    console.log(element.scrollTop);
 
     element.scrollTop =
       element.scrollHeight - beforeScrollHeight + beforeScrollTop;
-
-    console.log(element.scrollTop);
   }
 
   const onScroll = (e) => {
@@ -35,10 +32,7 @@
     let offset = 0;
 
     if (reverse) {
-      // offset =
-      //   e.target.scrollHeight - e.target.clientHeight + e.target.scrollTop;
-
-      offset = e.target.scrollTop;
+      offset = e.target.scrollTop - e.target.clientHeight;
     } else {
       offset =
         e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop;

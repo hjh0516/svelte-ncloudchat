@@ -78,7 +78,7 @@
       {#if item.type === "text"}
         {item.message}
       {:else if item.type === "file"}
-        <div class="chat_img" on:click={() => open(item)}>
+        <div class="chat_img max-w-xs" on:click={() => open(item)}>
           <Image src={item.image_url} className={"bg-white"} />
         </div>
       {/if}

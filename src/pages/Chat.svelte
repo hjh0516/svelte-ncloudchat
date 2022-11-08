@@ -11,7 +11,7 @@
   import ChatDateItem from "$components/ChatDateItem.svelte";
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
   import { store } from "$store/store";
   import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
   import {
@@ -19,7 +19,6 @@
     apiCreateMessage,
     apiCreateChatRead,
     apiGetChatBans,
-    apiCreateChatBans,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -35,7 +34,7 @@
   let chatItem = null;
   let showImageDownloadModal = false;
   let loading = false;
-  let bans;
+  let bans = [];
   let refresh = false;
 
   $: data = updateChatItems(data);
@@ -67,7 +66,6 @@
   }
 
   async function loadMessages() {
-    console.log(element.scrollTop);
     try {
       const res = await apiGetMessages(params.id, page);
       newData = res.data;
@@ -99,7 +97,6 @@
 
   function closeChatSettingModal() {
     showSettingModal = false;
-
     if (refresh) {
       location.reload();
     }
@@ -161,7 +158,6 @@
       console.error(err);
     }
     loading = false;
-    element.scrollTop = element.scrollHeight;
   });
 
   onDestroy(() => {
@@ -264,6 +260,7 @@
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
+              console.log(page);
               page++;
               await loadMessages();
             }}

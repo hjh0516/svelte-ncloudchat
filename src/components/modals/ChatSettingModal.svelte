@@ -26,7 +26,6 @@
 
   function onChangeChannelNotification() {
     channelNotification = !channelNotification;
-    console.log(channelNotification);
     try {
       apiUpdateChannelNotification(channelId, channelNotification);
     } catch (err) {
