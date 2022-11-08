@@ -11,7 +11,7 @@
   import ChatDateItem from "$components/ChatDateItem.svelte";
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { onMount, onDestroy, tick } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
   import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
   import {
@@ -260,7 +260,6 @@
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
-              console.log(page);
               page++;
               await loadMessages();
             }}

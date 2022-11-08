@@ -3891,8 +3891,8 @@ em.ent {
 	padding: 20px;
 	box-sizing: border-box;
 	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
+	/* overflow-x: hidden; */
+	overflow-y: scroll;
 	background-color: #f4f4f4;
 	font-size: 0;
 }
