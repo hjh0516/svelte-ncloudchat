@@ -16,7 +16,7 @@ function godetail() {
   alert("godetail");
   if (isMobile.any()) {
     if (isMobile.Android()) {
-      android.emoApp.godetail();
+      window.emoApp.godetail();
     } else if (isMobile.iOS()) {
       webkit.messageHandlers.godetail.postMessage();
     }
@@ -27,16 +27,11 @@ function gohome() {
   alert("gohome");
   if (isMobile.any()) {
     if (isMobile.Android()) {
-      android.emoApp.gohome();
+      window.emoApp.gohome();
     } else if (isMobile.iOS()) {
       webkit.messageHandlers.gohome.postMessage();
     }
   }
-}
-
-function showSetting() {
-  alert("showSetting");
-  showSettingModal = true;
 }
 
 function showsetting() {
