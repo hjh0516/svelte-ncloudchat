@@ -14,6 +14,10 @@
   let chat: Chat;
   let showSettingModal = false;
 
+  function showSetting() {
+    showSettingModal = true;
+  }
+
   onMount(() => {
     if (!$store.token) {
       location.href = "/";

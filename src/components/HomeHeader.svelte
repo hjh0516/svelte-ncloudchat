@@ -1,9 +1,5 @@
 <script lang="ts">
   export let showSettingModal = false;
-
-  function showSetting() {
-    showSettingModal = true;
-  }
 </script>
 
 <div
@@ -15,7 +11,12 @@
     class="flex items-center"
     style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
   >
-    <button class="hover:text-gray-400" on:click={showSetting}>
+    <button
+      class="hover:text-gray-400"
+      on:click={() => {
+        showSettingModal = true;
+      }}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
