@@ -13,7 +13,6 @@ let isMobile = {
 };
 
 function godetail() {
-  alert("godetail");
   if (isMobile.Android()) {
     window.emoApp.godetail();
   } else if (isMobile.iOS()) {
@@ -22,7 +21,6 @@ function godetail() {
 }
 
 function gohome() {
-  alert("gohome");
   if (isMobile.Android()) {
     window.emoApp.gohome();
   } else if (isMobile.iOS()) {
