@@ -15,7 +15,7 @@ let isMobile = {
 function godetail() {
   alert("godetail");
   if (isMobile.Android()) {
-    window.emoApp.godetail;
+    window.emoApp.godetail();
   } else if (isMobile.iOS()) {
     window.webkit.messageHandlers.godetail.postMessage();
   }
@@ -24,7 +24,7 @@ function godetail() {
 function gohome() {
   alert("gohome");
   if (isMobile.Android()) {
-    window.emoApp.gohome;
+    window.emoApp.gohome();
   } else if (isMobile.iOS()) {
     window.webkit.messageHandlers.gohome.postMessage();
   }
