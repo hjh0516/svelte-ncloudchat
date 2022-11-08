@@ -35,7 +35,7 @@
     } catch (err) {
       console.error(err);
     }
-    flicking.moveTo(0);
+    // flicking.moveTo(0);
   }
 
   onMount(() => {
@@ -197,7 +197,6 @@
           <div class="info">
             <div class="left aggro_M">
               {item.name}
-              <!-- <b class="h_num">(240명)</b> -->
               {#if item.type === "PUBLIC" || item.type === "FOLLOWER"}
                 <b class="h_num">({item.subscriptions_count}명)</b>
               {/if}
@@ -215,10 +214,12 @@
               {item.message.length >= 50
                 ? item.message.substring(0, 50) + "..."
                 : item.message}
+            {:else}
+              <br />
             {/if}
-            <b class="m_num aggro_M"
-              >{item.unread_count ? item.unread_count : 0}</b
-            >
+            <b class="m_num aggro_M">
+              {item.unread_count ? item.unread_count : 0}
+            </b>
           </div>
         </div>
       </div>

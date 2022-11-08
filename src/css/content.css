@@ -3364,7 +3364,7 @@ em.ent {
 }
 
 .chat_idx .section .inner {
-	padding: 60px 0 90px;
+	/* padding: 60px 0 90px; */
 	box-sizing: border-box;
 }
 
@@ -3599,6 +3599,7 @@ em.ent {
 	letter-spacing: -0.5px;
 	line-height: 18px;
 	position: relative;
+	word-break: break-word;
 }
 
 .chat_idx .chat_list>ul>li .cont .m_num {
