@@ -8,7 +8,6 @@
   import { convertDate } from "$lib/Date";
   import { drawImage } from "$lib/Image";
   import { apiUpdateChannelNotification } from "$lib/api";
-  import { godetail } from "../../public/app";
 
   export let item: Channel;
 

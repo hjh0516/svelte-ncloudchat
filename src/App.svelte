@@ -36,4 +36,8 @@
   });
 </script>
 
+<svelte:head>
+  <script src="/app.js"></script>
+</svelte:head>
+
 <Router {routes} />

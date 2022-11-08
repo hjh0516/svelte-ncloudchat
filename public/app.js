@@ -1,4 +1,4 @@
-export let isMobile = {
+let isMobile = {
   Android: () => {
     return navigator.userAgent.match(/Android/i) !== null ? true : false;
   },
@@ -12,7 +12,7 @@ export let isMobile = {
   },
 };
 
-export function godetail() {
+function godetail() {
   alert("godetail");
   if (isMobile.any()) {
     if (isMobile.Android()) {
@@ -23,7 +23,7 @@ export function godetail() {
   }
 }
 
-export function gohome() {
+function gohome() {
   alert("gohome");
   if (isMobile.any()) {
     if (isMobile.Android()) {
@@ -34,7 +34,7 @@ export function gohome() {
   }
 }
 
-export function showSetting() {
+function showSetting() {
   alert("showSetting");
   showSettingModal = true;
 }
