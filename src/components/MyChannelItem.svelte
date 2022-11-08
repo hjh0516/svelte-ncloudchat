@@ -32,9 +32,9 @@
   function godetail() {
     if (isMobile.any()) {
       if (isMobile.Android()) {
-        window.android.emoApp.godetail();
+        android.emoApp.godetail();
       } else if (isMobile.iOS()) {
-        window.webkit.messageHandlers.godetail.postMessage();
+        webkit.messageHandlers.godetail.postMessage();
       }
     }
   }
