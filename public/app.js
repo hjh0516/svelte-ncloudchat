@@ -13,7 +13,6 @@ let isMobile = {
 };
 
 function godetail() {
-  alert("godetail");
   if (isMobile.any()) {
     if (isMobile.Android()) {
       window.emoApp.godetail();
@@ -24,7 +23,6 @@ function godetail() {
 }
 
 function gohome() {
-  alert("gohome");
   if (isMobile.any()) {
     if (isMobile.Android()) {
       window.emoApp.gohome();
@@ -35,6 +33,5 @@ function gohome() {
 }
 
 function showsetting() {
-  alert("showsetting");
   showSettingModal = true;
 }
