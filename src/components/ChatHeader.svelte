@@ -1,23 +1,12 @@
 <script lang="ts">
-  import { isMobile } from "$lib/UserAgent";
   import { store } from "$store/store";
+  import { gohome } from "../app";
 
   export let showSettingModal = false;
 
   function previousPage() {
     location.href = "/#/home";
     gohome();
-  }
-
-  function gohome() {
-    alert("gohome");
-    if (isMobile.any()) {
-      if (isMobile.Android()) {
-        window.emoApp.gohome();
-      } else if (isMobile.iOS()) {
-        window.messageHandlers.gohome.postMessage();
-      }
-    }
   }
 </script>
 

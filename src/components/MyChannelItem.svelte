@@ -8,7 +8,7 @@
   import { convertDate } from "$lib/Date";
   import { drawImage } from "$lib/Image";
   import { apiUpdateChannelNotification } from "$lib/api";
-  import { isMobile } from "$lib/UserAgent";
+  import { godetail } from "../app";
 
   export let item: Channel;
 
@@ -27,17 +27,6 @@
     window.sessionStorage.setItem("store", JSON.stringify($store));
     location.href = `/#/chat/${channel_id}`;
     godetail();
-  }
-
-  function godetail() {
-    alert("godetail");
-    if (isMobile.any()) {
-      if (isMobile.Android()) {
-        window.emoApp.godetail();
-      } else if (isMobile.iOS()) {
-        window.messageHandlers.godetail.postMessage();
-      }
-    }
   }
 
   function updateNotification() {
