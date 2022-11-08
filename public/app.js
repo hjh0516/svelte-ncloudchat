@@ -38,3 +38,8 @@ function showSetting() {
   alert("showSetting");
   showSettingModal = true;
 }
+
+function showsetting() {
+  alert("showsetting");
+  showSettingModal = true;
+}
