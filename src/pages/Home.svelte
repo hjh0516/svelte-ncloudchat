@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Chat } from "$lib/types/type";
+  import type { Channel, Chat } from "$lib/types/type";
   import type { MessageType } from "$lib/types/MessageType";
 
   // import HomeHeader from "$components/HomeHeader.svelte";
@@ -10,9 +10,22 @@
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
+  import FloatingActionButton from "$components/FloatingActionButton.svelte";
+  import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
 
   let chat: Chat;
+  let newChannel: Channel = null;
   let showSettingModal = false;
+  let showCreateChannelModal = false;
+
+  function onCreateChannelModalClose() {
+    showCreateChannelModal = false;
+    if (newChannel) {
+      $store.channel = newChannel;
+      window.sessionStorage.setItem("store", JSON.stringify($store));
+      location.href = `/#/chat/${newChannel.channel_id}`;
+    }
+  }
 
   onMount(() => {
     if (!$store.token) {
@@ -39,7 +52,7 @@
 <div id="sub" class="chatting chat_idx">
   <div class="section">
     <div class="size">
-      <div class="inner">
+      <div class="inner overflow-hidden">
         <Navigation />
         <div class="chat_area scrollbar-hide">
           {#if $store.activeItem === "My 채팅"}
@@ -48,7 +61,18 @@
             <OpenChat />
           {/if}
         </div>
+        <FloatingActionButton
+          on:click={() => (showCreateChannelModal = true)}
+        />
       </div>
     </div>
   </div>
 </div>
+
+{#if showSettingModal}
+  <ChannelSettingModal on:close={() => (showSettingModal = false)} />
+{/if}
+
+{#if showCreateChannelModal}
+  <CreateChannelModal on:close={onCreateChannelModalClose} bind:newChannel />
+{/if}

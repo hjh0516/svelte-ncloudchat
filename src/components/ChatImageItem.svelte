@@ -26,7 +26,7 @@
 </script>
 
 {#if loading}
-  <div class="w-10 h-24">
+  <div class="w-12 h-12">
     <Spinner />
   </div>
 {:else if failed}

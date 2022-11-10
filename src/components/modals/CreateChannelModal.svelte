@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
-  import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import Spinner from "$components/Spinner.svelte";
   import UploadImageModal from "$components/modals/UploadImageModal.svelte";
   import { createEventDispatcher } from "svelte";
+  import { slide } from "svelte/transition";
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
   import {
@@ -28,11 +28,9 @@
   let back: HTMLElement;
   let element: HTMLElement;
   let inputName: HTMLElement;
-  let nameDiv: HTMLElement;
   let inputTag: HTMLElement;
-  let tagDiv: HTMLElement;
   let canvas: HTMLCanvasElement;
-  let defaultImage: HTMLImageElement;
+  let defaultImage: HTMLDivElement;
   let channelImage: any;
   let onlyFollowers = false;
   let showUploadImageModal = false;
@@ -109,111 +107,93 @@
   }
 </script>
 
+<div class="c_mbg block" bind:this={back} on:click={close} />
 <div
-  class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
-  on:click={close}
-  bind:this={back}
-/>
-<div
-  class="w-full h-[32.9rem] fixed bottom-0 left-0 p-3 rounded-t-3xl mx-auto text-center bg-white"
+  id="chatMaking"
+  class="chat_pop"
   bind:this={element}
+  transition:slide={{ delay: 100, duration: 300 }}
 >
-  <div class="w-full h-[0.4rem] flex justify-center mb-3">
-    <div class="w-14 h-[0.4rem] bg-gray-200 rounded-2xl" />
-  </div>
-  <div class="p-5">
-    <div class="w-full flex flex-col justify-center items-center">
-      <span
-        class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
-        >채팅방 만들기</span
-      >
-      <canvas
-        class="w-28 h-28 border border-gray-200 rounded-full mb-3 hidden"
-        bind:this={canvas}
-      />
-      <img
-        class="w-28 h-28 border border-gray-200 rounded-full mb-3"
-        src="/default.jpg"
-        alt="channel_image"
-        bind:this={defaultImage}
-      />
-      <button
-        class="w-20 mb-5 pr-2 pl-2 pt-1 pb-1 bg-yellow-300 rounded-2xl text-gray-600 font-semibold text-base hover:bg-yellow-200"
-        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
-        on:click={() => {
-          showUploadImageModal = true;
-        }}>수정하기</button
-      >
-      <div
-        class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-3 focus-within:border-2 focus-within:border-cyan-500"
-        bind:this={nameDiv}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="w-6 h-6 mr-1 text-gray-600"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
-            clip-rule="evenodd"
+  <div class="pop_inner">
+    <div class="pop_title">
+      <h3 class="aggro">채팅방 만들기</h3>
+    </div>
+    <div class="pop_cont">
+      <div class="img_area">
+        <div class="flex justify-center max-h-[99px]">
+          <canvas
+            class="w-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3 hidden"
+            bind:this={canvas}
           />
-        </svg>
-        <input
-          class="w-full h-10 pl-2 pr-2 bg-gray-100 focus:outline-none text-base"
-          type="text"
-          placeholder="채팅방 이름을 입력해주세요."
-          bind:this={inputName}
-          bind:value={name}
-        />
-      </div>
-      <div
-        class="w-full h-12 border-2 border-gray-100 bg-gray-100 rounded-xl flex justify-center items-center p-2 mb-5 focus-within:border-cyan-500"
-        bind:this={tagDiv}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="w-6 h-6 mr-1 text-gray-500"
+        </div>
+        <div
+          class="imgs back_img"
+          style="background-image:url('/img/img_basic3.png');"
+          bind:this={defaultImage}
         >
-          <path
-            fill-rule="evenodd"
-            d="M11.097 1.515a.75.75 0 01.589.882L10.666 7.5h4.47l1.079-5.397a.75.75 0 111.47.294L16.665 7.5h3.585a.75.75 0 010 1.5h-3.885l-1.2 6h3.585a.75.75 0 010 1.5h-3.885l-1.08 5.397a.75.75 0 11-1.47-.294l1.02-5.103h-4.47l-1.08 5.397a.75.75 0 01-1.47-.294l1.02-5.103H3.75a.75.75 0 110-1.5h3.885l1.2-6H5.25a.75.75 0 010-1.5h3.885l1.08-5.397a.75.75 0 01.882-.588zM10.365 9l-1.2 6h4.47l1.2-6h-4.47z"
-            clip-rule="evenodd"
+          <img
+            src="../img/img_basic3.png"
+            class="basic_img"
+            alt="basic_image"
           />
-        </svg>
-        <input
-          class="w-full h-10 pl-2 pr-2 bg-gray-100 focus:outline-none text-base"
-          type="text"
-          placeholder="해시태그로 채팅방을 소개해주세요. (#태그)"
-          bind:this={inputTag}
-          bind:value={tag}
-        />
+        </div>
+        <div class="file_check">
+          <div
+            on:click={() => {
+              showUploadImageModal = true;
+            }}
+          >
+            수정하기
+          </div>
+        </div>
       </div>
-      <div class="w-full mb-5 flex justify-between items-center pl-3 pr-3">
-        <span class="text-base font-semibold">팔로워만 입장</span>
-        <OnOffButton id="type" bind:checked={onlyFollowers} />
+      <div class="ipt_area">
+        <div class="ipt_box1 chat_name">
+          <input
+            type="text"
+            placeholder="채팅방 이름을 입력해주세요."
+            bind:this={inputName}
+            bind:value={name}
+          />
+        </div>
+        <div class="ipt_box1 chat_hash">
+          <input
+            type="text"
+            placeholder="해시태그로 채팅방을 소개해주세요. (#태그)"
+            bind:this={inputTag}
+            bind:value={tag}
+          />
+        </div>
+        <div class="wrap clear">
+          <h4>팔로워만 입장</h4>
+          <div class="check_box check_box1">
+            <input
+              id="only_followers"
+              type="checkbox"
+              bind:checked={onlyFollowers}
+            />
+            <label for="only_followers" class="aggro">
+              {onlyFollowers ? "ON" : "OFF"}
+            </label>
+          </div>
+        </div>
       </div>
-      <button
-        class="w-full h-14 rounded-xl bg-gray-700 text-white"
-        on:click={submit}>완료</button
-      >
+      <div class="btn_area">
+        <input type="submit" class="cBtn" value="완료" on:click={submit} />
+      </div>
     </div>
   </div>
-
-  {#if showUploadImageModal}
-    <UploadImageModal
-      {uploadImage}
-      {resetImage}
-      on:close={() => (showUploadImageModal = false)}
-    />
-  {/if}
-
   {#if loading}
     <div class="fixed bottom-1/4 left-1/2 -translate-x-1/2">
       <Spinner />
     </div>
   {/if}
 </div>
+
+{#if showUploadImageModal}
+  <UploadImageModal
+    {uploadImage}
+    {resetImage}
+    on:close={() => (showUploadImageModal = false)}
+  />
+{/if}

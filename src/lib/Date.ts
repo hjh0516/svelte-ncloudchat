@@ -6,7 +6,10 @@ export function convertDate(value: string | number | Date) {
     return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
   }
 
-  if (today.getDate() > date.getDate()) {
+  const datediff = Math.round(
+    (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  if (datediff > 0) {
     return `${date.getMonth() + 1}월 ${date.getDate()}일`;
   }
 
@@ -59,7 +62,7 @@ export function convertSendAt(value: string | Date) {
 }
 
 export function convertChannelCreatedAt(value: string | Date) {
-  return new Intl.DateTimeFormat("ko", { dateStyle: "long" }).format(
+  return new Intl.DateTimeFormat("ko", { dateStyle: "medium" }).format(
     new Date(value)
   );
 }

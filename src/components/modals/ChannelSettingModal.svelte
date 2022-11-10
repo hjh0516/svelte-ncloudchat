@@ -1,6 +1,6 @@
 <script lang="ts">
-  import OnOffButton from "$components/buttons/OnOffButton.svelte";
   import { createEventDispatcher, onMount } from "svelte";
+  import { slide } from "svelte/transition";
   import { store } from "$store/store";
   import {
     apiDeleteChannelBans,
@@ -8,7 +8,6 @@
     apiUpdateChatNotification,
     apiUpdateUseChat,
   } from "$lib/api";
-  import ChannelUserItem from "$components/ChannelUserItem.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -63,54 +62,122 @@
   });
 </script>
 
+<div class="c_mbg block" on:click={close} />
 <div
-  class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
-  on:click={close}
-/>
-<div
-  class="w-full h-[35rem] fixed bottom-0 left-0 rounded-t-3xl text-center bg-white"
+  id="chatListSetting"
+  class="chat_setting chat_pop bottom-0"
+  transition:slide={{ delay: 100, duration: 300 }}
 >
-  <div class="w-full h-[0.4rem] flex justify-center mb-3 pt-3">
-    <div class="w-14 h-[0.4rem] bg-gray-200 rounded-2xl" />
-  </div>
-  <div class="p-5">
-    <div class="w-full flex flex-col justify-center items-center">
-      <span
-        class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
-        >채팅 설정</span
-      >
-      <div
-        class="w-full h-16 pr-3 pl-3 border-b flex justify-between items-center"
-      >
-        <span class="font-semibold text-base">채팅 사용 설정</span>
-        <OnOffButton
-          id="use-chat"
-          checked={useChat}
-          on:change={onChangeUseChat}
-        />
-      </div>
-      <div
-        class="w-full h-16 pr-3 pl-3 border-b flex justify-between items-center"
-      >
-        <span class="font-semibold text-base">채팅 알람 관리</span>
-        <OnOffButton
-          id="chat-notification"
-          checked={chatNotification}
-          on:change={onChangeChatNotificaiton}
-        />
-      </div>
-      <span class="w-full pr-3 pl-3 font-semibold text-base text-left mt-5"
-        >채팅 차단 관리</span
-      >
-      <div class="w-full h-52 mb-5 pr-3 pl-3 overflow-y-auto scrollbar-hide">
-        {#each bans as item}
-          <ChannelUserItem {item} {unban} />
-        {/each}
-      </div>
+  <div class="pop_inner">
+    <div class="pop_title">
+      <h3 class="aggro">채팅 설정</h3>
     </div>
-    <button
-      class="w-11/12 h-14 rounded-xl bg-gray-700 text-white text-base"
-      on:click={close}>완료</button
-    >
+    <div class="pop_cont">
+      <form>
+        <div class="setting_list">
+          <ul>
+            <li class="st1">
+              <div class="wrap clear">
+                <h4>채팅 사용 설정</h4>
+                <div class="check_box check_box1">
+                  <input
+                    id="use_chat"
+                    type="checkbox"
+                    bind:checked={useChat}
+                    on:click={onChangeUseChat}
+                  />
+                  <label for="use_chat" class="aggro">
+                    {useChat ? "ON" : "OFF"}
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li class="st1 st1_1">
+              <div class="wrap clear">
+                <h4>채팅 알람 관리</h4>
+                <div class="check_box check_box1">
+                  <input
+                    id="chat_notification"
+                    type="checkbox"
+                    bind:checked={chatNotification}
+                    on:click={onChangeChatNotificaiton}
+                  />
+                  <label for="chat_notification" class="aggro">
+                    {chatNotification ? "ON" : "OFF"}
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li class="st2">
+              <div class="wrap clear">
+                <h4>채팅 차단 관리</h4>
+                <div class="chat_list2 scroll">
+                  <ul>
+                    <li>
+                      <div class="box my_info">
+                        <div class="info_w">
+                          <div
+                            class="c_avata back_img"
+                            style="background-image:url({$store.user.profile});"
+                          >
+                            <img
+                              src="../img/img_basic2.png"
+                              class="basic_img"
+                              alt="profile_image"
+                            />
+                          </div>
+                          <div class="txt_box">
+                            <div class="tb">
+                              <div class="tbc">
+                                <strong class="aggro">
+                                  {$store.user.name}
+                                </strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <span class="a_state">나</span>
+                      </div>
+                    </li>
+                    {#each bans as item}
+                      <li>
+                        <div class="box blocked">
+                          <div class="info_w">
+                            <div
+                              class="c_avata back_img"
+                              style="background-image:url({item.profile});"
+                            >
+                              <img
+                                src="../img/img_basic2.png"
+                                class="basic_img"
+                                alt="profile_image"
+                              />
+                            </div>
+                            <div class="txt_box">
+                              <div class="tb">
+                                <div class="tbc">
+                                  <strong class="aggro">{item.nickname}</strong>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            class="a_state"
+                            on:click={() => unban(item.target)}>차단중</span
+                          >
+                        </div>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="btn_area">
+          <input type="submit" value="완료" class="cBtn" on:click={close} />
+        </div>
+      </form>
+    </div>
   </div>
 </div>

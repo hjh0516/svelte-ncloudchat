@@ -2,12 +2,12 @@
   import type { Channel } from "$lib/types/type";
 
   import Spinner from "$components/Spinner.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  import { slide } from "svelte/transition";
   import { store } from "$store/store";
   import { apiCreateChannelNotification, apiSubscribe } from "$lib/api";
   import { getChannel, subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
-  import { drawImage } from "$lib/Image";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -15,10 +15,8 @@
   export let channel_id: string;
   export let item: Channel;
 
-  let back: HTMLElement;
-  let element: HTMLElement;
   let channel: Channel;
-  let canvas: HTMLCanvasElement;
+  let element: HTMLElement;
   let loading = false;
 
   async function submit() {
@@ -41,6 +39,7 @@
 
     loading = false;
     removePointerEventNone();
+    close();
 
     $store.channel = channel;
     window.sessionStorage.setItem("store", JSON.stringify($store));
@@ -48,105 +47,100 @@
   }
 
   function addPointerEventNone() {
-    back.classList.add("pointer-events-none");
     element.classList.add("pointer-events-none");
   }
 
   function removePointerEventNone() {
-    back.classList.remove("pointer-events-none");
     element.classList.remove("pointer-events-none");
   }
-
-  onMount(() => {
-    if (item.image_url) {
-      drawImage(canvas, item.image_url);
-    }
-  });
 </script>
 
 <div
-  class="w-full h-full fixed top-0 left-0 bg-gray-500 bg-opacity-25"
-  on:click={close}
-  bind:this={back}
-/>
-<div
-  class="w-full h-[36rem] fixed bottom-0 left-0 p-2 rounded-t-2xl mx-auto text-center bg-white"
+  id="roomInfo"
+  class="profile_pop"
   bind:this={element}
+  transition:slide={{ delay: 100, duration: 300 }}
 >
-  <div class="w-full h-[0.4rem] flex justify-center mb-3">
-    <div class="w-14 h-[0.4rem] bg-gray-200 rounded-2xl" />
-  </div>
-  <div class="p-5">
-    <div class="w-full flex flex-col justify-center items-center">
-      <span
-        class="font-recipekorea text-lg mb-5 underline underline-offset-0 decoration-8 decoration-yellow-300"
-        >채팅 참여하기</span
-      >
-      {#if item.image_url}
-        <canvas
-          class="w-28 border border-gray-200 rounded-full mb-5"
-          bind:this={canvas}
-        />
-      {:else}
-        <img
-          class="w-28 border border-gray-200 rounded-full mb-5"
-          src="/default.jpg"
-          alt="channel_image"
-        />
-      {/if}
-      <div class="w-full">
-        <span class="font-sbaggrom text-xl">{item.name}</span>
-      </div>
-      <div class="pl-2 pr-2 mb-5 bg-yellow-300 rounded-lg">
-        <span class="text-base text-gray-600">
-          {#if item.type === "PUBLIC"}
-            전체 입장 가능
+  <div class="pop_cont">
+    <div class="tb">
+      <div class="tbbtm">
+        <div class="svg btn_close bl" on:click={close}>닫기</div>
+        <div class="c_wrap">
+          {#if item.image_url}
+            <div
+              class="c_avata back_img"
+              style="background-image:url({item.image_url});"
+            >
+              <img
+                src="../img/img_basic5.png"
+                class="basic_img"
+                alt="channel_image"
+              />
+            </div>
           {:else}
-            팔로워만 입장 가능
+            <div
+              class="c_avata back_img"
+              style="background-image:url('../img/img_chat_avata4_1.png');"
+            >
+              <img
+                src="../img/img_basic5.png"
+                class="basic_img"
+                alt="channel_image"
+              />
+            </div>
           {/if}
-        </span>
-      </div>
-      <div class="w-full h-10 mb-5 text-center overflow-y-auto scrollbar-hide">
-        {#if item.tags.length > 0}
-          <span class="text-base text-gray-400"
-            >{item.tags.map((t) => "#" + t.tag).join(" ")}</span
-          >
-        {:else}
-          <span class="text-base text-gray-400">
-            등록된 해시태그가 없어요!
-          </span>
-        {/if}
-      </div>
-      <div
-        class="w-full h-32 p-5 mb-5 border-2 border-gray-200 flex items-center rounded-lg shadow-md"
-      >
-        <img
-          class="w-12 h-12 border border-gray-200 rounded-full"
-          src={item.profile}
-          alt="profile_image"
-        />
-        <div class="w-full ml-5 flex flex-col text-left">
-          <span class="font-sbaggrom text-base mb-5">{item.nickname}</span>
-          <span class="text-sm text-gray-500"
-            >{item.subscriptions_count}명 참여중</span
-          >
-          <span class="text-sm text-gray-500"
-            >{convertChannelCreatedAt(item.created_at)} 개설</span
-          >
         </div>
-      </div>
-      <div class="w-full flex justify-center items-center gap-3">
-        <button
-          class="w-full h-12 bg-gray-700 text-gray-100 text base rounded-lg"
-          on:click={submit}
-        >
-          참여하기
-        </button>
-        <button
-          class="w-full h-12 bg-gray-400 text-gray-100 text base rounded-lg"
-        >
-          공유하기
-        </button>
+        <div class="room_wrap">
+          <div class="tit_box">
+            {#if item.type === "FOLLOWER"}
+              <span>팔로워만 입장</span>
+            {:else}
+              <span>전체 입장</span>
+            {/if}
+            <h4 class="aggro">{item.name}</h4>
+          </div>
+          <div class="hash_list">
+            <ul>
+              {#each item.tags as t}
+                <li>#{t.tag}</li>
+              {/each}
+            </ul>
+          </div>
+          <div class="room_info">
+            <div class="r_leader">
+              <p
+                class="c_avata back_img"
+                style="background-image:url({item.profile});"
+              >
+                <img
+                  src="../img/img_basic4.png"
+                  class="basic_img"
+                  alt="profile_image"
+                />
+              </p>
+              <span class="name">{item.nickname}</span>
+            </div>
+            <div class="r_etc">
+              <p>
+                <span>
+                  {item.subscriptions_count.toLocaleString()}명 참여중,
+                </span>
+                <span>{convertChannelCreatedAt(item.created_at)} 개설</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="btn_area">
+          <div class="in_rrec">
+            <div class="cBtn bgr" on:click={submit}>참여하기</div>
+            <!-- 참여중 -->
+            <!-- <a href="javascript:;" class="cBtn gr3" style="display:none;"
+              >참여중</a
+            > -->
+            <!-- 참여중일시 활성화 -->
+            <div id="btnShare" class="cBtn cre svg yel">공유</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

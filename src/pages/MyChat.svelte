@@ -92,61 +92,13 @@
   });
 </script>
 
-<!-- <div
-  class="fixed top-[3.2rem] w-full h-full pt-4 pb-14 overflow-y-auto scrollbar-hide"
->
-  {#if data.length > 0}
-    {#each data as item}
-      <MyChannelItem {item} on:exit={openChatExitModal} />
-    {/each}
-
-    <InfiniteScroll
-      hasMore={newData.length > 0}
-      threshold={200}
-      on:loadMore={async () => {
-        page++;
-        await loadChannels();
-      }}
-    />
-  {:else}
-    <div
-      class="fixed w-11/12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col"
-    >
-      <span class="text-gray-600 text-2xl mb-3 font-sbaggrom text-center"
-        >참여중인 채팅이 없어요!</span
-      >
-      <span class="text-gray-300 text-base text-center"
-        >오른쪽 하단의 채팅하기 아이콘을 누르면<br />직접 방을 만들 수 있어요!</span
-      >
-    </div>
-  {/if}
-</div>
-<FloatingActionButton on:click={() => (showCreateChannelModal = true)} />
-
-{#if showCreateChannelModal}
-  <CreateChannelModal on:close={onCreateChannelModalClose} bind:newChannel />
-{/if}
-
-{#if showChatExitModal}
-  <ChatExitModal
-    on:submit={exitChannel}
-    on:close={() => (showChatExitModal = false)}
-  />
-{/if}
-
-{#if loading}
-  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-    <Spinner />
-  </div>
-{/if} -->
-
 {#if data.length > 0}
   <div class="my_chat active">
     <div class="chat_list">
       <ul>
-        {#each data as item}
+        {#each data as item, index}
           <li>
-            <MyChannelItem {item} on:exit={openChatExitModal} />
+            <MyChannelItem {index} {item} on:exit={openChatExitModal} />
           </li>
         {/each}
       </ul>
@@ -188,7 +140,7 @@
 {/if}
 
 {#if loading}
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
   </div>
 {/if}
