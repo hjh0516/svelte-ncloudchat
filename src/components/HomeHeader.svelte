@@ -13,7 +13,9 @@
   >
     <button
       class="hover:text-gray-400"
-      on:click={() => (showSettingModal = true)}
+      on:click={() => {
+        showSettingModal = true;
+      }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
