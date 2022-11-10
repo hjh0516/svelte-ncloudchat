@@ -3691,7 +3691,7 @@ em.ent {
 .chat_idx .mk_chat {
 	position: fixed;
 	right: 35px;
-	bottom: 100px;
+	bottom: 35px;
 	z-index: 30;
 }
 
