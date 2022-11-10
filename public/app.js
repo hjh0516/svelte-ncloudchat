@@ -31,3 +31,7 @@ function gohome() {
 function showsetting() {
   showSettingModal = true;
 }
+
+function goback() {
+  history.back();
+}
