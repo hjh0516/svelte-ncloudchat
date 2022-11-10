@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { ToastType } from "svelte-toasts/types/common";
+
   import Toast from "$components/Toast.svelte";
   import { store } from "$store/store";
   import { connect, initialize } from "$lib/NcloudChat";
@@ -32,7 +34,7 @@
 
       window.sessionStorage.setItem("store", JSON.stringify($store));
     } catch (err) {
-      showToast("Error", err.message);
+      showToast("error", "Error", err.message);
       return;
     }
 

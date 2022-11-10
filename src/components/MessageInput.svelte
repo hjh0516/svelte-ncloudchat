@@ -1,7 +1,26 @@
 <script lang="ts">
+  import type { Emoticon } from "$lib/types/type";
+
+  import EmojiArea from "./EmojiArea.svelte";
+  import { apiGetEmoticonOrders } from "$lib/api";
+  import { onMount } from "svelte";
+
   export let input = "";
+  export let emoticonPath: string;
+  export let showEmojiArea = false;
   export let send = () => {};
   export let uploadImage = (e) => {};
+
+  let emoticons: Emoticon[];
+
+  onMount(async () => {
+    try {
+      const res = await apiGetEmoticonOrders();
+      emoticons = res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  });
 </script>
 
 <div class="chat_util2">
@@ -22,245 +41,21 @@
         <div class="ipt_area">
           <input type="text" bind:value={input} />
           <span class="clear">
+            <input
+              type="button"
+              value="이모티콘"
+              class="svg"
+              on:click={() => {
+                showEmojiArea = !showEmojiArea;
+              }}
+            />
             <input type="submit" class="svg" on:click={send} />
           </span>
         </div>
       </div>
     </div>
-    <div class="emoge_area">
-      <div class="emoge_case ">
-        <ul class="scroll">
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              class="on"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 23px;"
-            />
-          </li>
-        </ul>
-        <a href="javascript:;" class="go_store svg">이모티콘 스토어</a>
-      </div>
-      <div class="emoge_list">
-        <ul class="scroll clear">
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              class="on"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-          <li>
-            <a
-              href="javascript:;"
-              style="background-image:url('../img/ex_img.svg'); background-size:122px 44px;"
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
+    {#if showEmojiArea}
+      <EmojiArea {emoticons} bind:emoticonPath />
+    {/if}
   </div>
 </div>

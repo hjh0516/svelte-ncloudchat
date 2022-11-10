@@ -1,12 +1,14 @@
+import type { ToastType } from "svelte-toasts/types/common";
+
 import { toasts } from "svelte-toasts";
 
-export function showToast(title: string, description: string) {
+export function showToast(type: string, title: string, description: string) {
   const toast = toasts.add({
     title: title,
     description: description,
     duration: 2000,
     placement: "bottom-center",
-    type: "error",
+    type: type as ToastType,
     theme: "dark",
   });
   return toast;

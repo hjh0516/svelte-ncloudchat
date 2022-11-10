@@ -282,6 +282,14 @@ export async function apiUploadChannelImage(file: any) {
   return await handleResponse(response);
 }
 
+export async function apiGetEmoticonOrders() {
+  const response = await fetch(`${API_URL}/emoticons/orders`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

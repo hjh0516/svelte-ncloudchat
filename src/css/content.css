@@ -3019,7 +3019,7 @@ em.ent {
 }
 
 .chat_header .menu a {
-	background-image: url('../img/ico_c_menu.svg');
+	background-image: url('../img/ico_back.svg');
 	background-size: 20px 14px;
 }
 
@@ -3200,7 +3200,7 @@ em.ent {
 	box-sizing: border-box;
 	position: fixed;
 	left: 0;
-	bottom: -239px;
+	bottom: 0;
 	z-index: 30;
 	background-color: #fff;
 	font-size: 0;
@@ -3299,7 +3299,7 @@ em.ent {
 	display: inline-block;
 }
 
-.chat_util2 .emoge_case ul li a {
+.chat_util2 .emoge_case ul li img {
 	display: block;
 	width: 47px;
 	height: 45px;
@@ -3324,17 +3324,17 @@ em.ent {
 	box-shadow: -4px 0 13px rgba(0, 0, 0, 0.21);
 }
 
-.chat_util2 .emoge_case ul li a.on {
+.chat_util2 .emoge_case ul li img.on {
 	background-color: #f3fafa;
 	border-bottom: 1px solid #00c6ba;
 }
 
 .chat_util2 .emoge_list ul li {
 	float: left;
-	width: 20%;
+	/* width: 20%; */
 }
 
-.chat_util2 .emoge_list ul li a {
+.chat_util2 .emoge_list ul li img {
 	display: block;
 	height: 71px;
 	line-height: 71px;
@@ -3344,7 +3344,7 @@ em.ent {
 	background-position: 50% 50%;
 }
 
-.chat_util2 .emoge_list ul li a.on {
+.chat_util2 .emoge_list ul li img.on {
 	border: 1px solid #e5e5e5;
 	background-color: #f4f4f4;
 }
@@ -4026,7 +4026,7 @@ em.ent {
 .chat_pop .pop_inner {
 	padding: 40px 20px 20px;
 	box-sizing: border-box;
-	min-height: 100px;
+	min-height: 475px;
 	background-color: #fff;
 	border-radius: 45px 40px 0 0;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);

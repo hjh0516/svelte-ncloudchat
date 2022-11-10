@@ -122,7 +122,7 @@
       <div class="img_area">
         <div class="flex justify-center max-h-[99px]">
           <canvas
-            class="w-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3 hidden"
+            class="h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3 hidden"
             bind:this={canvas}
           />
         </div>

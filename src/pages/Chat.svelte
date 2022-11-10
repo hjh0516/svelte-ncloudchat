@@ -27,6 +27,7 @@
   export let params: any;
 
   let input: string;
+  let emoticonPath: string;
   let page = 1;
   let data: Chat[] = [];
   let newData: Chat[] = [];
@@ -34,6 +35,7 @@
   let showSettingModal = false;
   let showImageDownloadModal = false;
   let showChatProfileModal = false;
+  let showEmojiArea = false;
   let chatItem = null;
   let loading = false;
   let bans = [];
@@ -42,9 +44,42 @@
   $: data = updateChatItems(data);
 
   function send() {
+    if (emoticonPath) {
+      sendEmoji();
+      return;
+    }
+
+    if (input) {
+      sendText();
+      return;
+    }
+  }
+
+  async function sendEmoji() {
+    if (!emoticonPath) {
+      return;
+    }
+    input = "";
+
+    const res = await fetch(emoticonPath);
+    const blob = await res.blob();
+    const file = new File([blob], "emoji", { type: "image/jpg" });
+
+    try {
+      sendImage(params.id, file);
+      apiCreateMessage(params.id, "image", null, file);
+    } catch (err) {
+      console.error(err);
+    }
+
+    showEmojiArea = false;
+  }
+
+  function sendText() {
     if (!input) {
       return;
     }
+    showEmojiArea = false;
 
     const inputMessage = input;
     input = "";
@@ -177,7 +212,11 @@
 <svelte:window on:focus={handleFocus} />
 
 <ChatHeader bind:showSettingModal />
-<div id="sub" class="chatting chat_room">
+<div
+  id="sub"
+  class="chatting chat_room"
+  on:click={() => (showEmojiArea = false)}
+>
   <div class="section">
     <div class="size">
       <div class="inner">
@@ -226,7 +265,13 @@
     </div>
   </div>
 </div>
-<MessageInput {send} {uploadImage} bind:input />
+<MessageInput
+  {send}
+  {uploadImage}
+  bind:input
+  bind:showEmojiArea
+  bind:emoticonPath
+/>
 
 {#if showSettingModal}
   <ChatSettingModal

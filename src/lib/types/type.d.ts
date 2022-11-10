@@ -78,3 +78,23 @@ export interface Read {
   created_at: string;
   updated_at: string;
 }
+
+export interface Emoticon {
+  idx: number;
+  content_idx: number;
+  contents: string;
+  emoticon_name: string;
+  created_at: string;
+  show: boolean;
+  nickname: string;
+  is_bookmark: boolean;
+  is_like: boolean;
+  likes_count: boolean;
+  files: EmoticonFile[];
+}
+
+export interface EmoticonFile {
+  idx: number;
+  content_idx: number;
+  path: string;
+}
