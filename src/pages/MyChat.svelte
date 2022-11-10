@@ -94,7 +94,7 @@
 
 {#if data.length > 0}
   <div class="my_chat active">
-    <div class="chat_list">
+    <div class="chat_list pb-5">
       <ul>
         {#each data as item, index}
           <li>
