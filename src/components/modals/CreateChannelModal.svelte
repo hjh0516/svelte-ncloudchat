@@ -68,7 +68,7 @@
       );
       apiCreateChannelNotification(channel.id, true);
 
-      subscribe(channel.id);
+      await subscribe(channel.id);
       apiSubscribe(channel.id);
 
       newChannel = await apiGetChannel(channel.id);
@@ -114,7 +114,7 @@
   bind:this={element}
   transition:slide={{ delay: 100, duration: 300 }}
 >
-  <div class="pop_inner">
+  <div class="pop_inner" style="min-height: 475px;">
     <div class="pop_title">
       <h3 class="aggro">채팅방 만들기</h3>
     </div>

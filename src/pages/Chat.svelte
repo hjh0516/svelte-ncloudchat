@@ -2,13 +2,14 @@
   import type { Chat } from "$lib/types/type";
   import type { MessageType } from "$lib/types/MessageType";
 
+  import ChatHeader from "$components/ChatHeader.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import ChatSendItem from "$components/ChatSendItem.svelte";
   import ChatReceiveItem from "$components/ChatReceiveItem.svelte";
-  import MessageInput from "$components/MessageInput.svelte";
-  import ChatHeader from "$components/ChatHeader.svelte";
-  import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
   import ChatDateItem from "$components/ChatDateItem.svelte";
+  import MessageInput from "$components/MessageInput.svelte";
+  import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
+  import ChatProfileModal from "$components/modals/ChatProfileModal.svelte";
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
@@ -22,7 +23,6 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
-  import ChatProfileModal from "$components/modals/ChatProfileModal.svelte";
 
   export let params: any;
 

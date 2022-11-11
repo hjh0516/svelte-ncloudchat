@@ -76,7 +76,7 @@
       <form>
         <div class="setting_list">
           <ul>
-            <li class="st1">
+            <li class="st1 st1_1">
               <div class="wrap clear">
                 <h4>채팅 사용 설정</h4>
                 <div class="check_box check_box1">
@@ -92,7 +92,7 @@
                 </div>
               </div>
             </li>
-            <li class="st1 st1_1">
+            <!-- <li class="st1 st1_1">
               <div class="wrap clear">
                 <h4>채팅 알람 관리</h4>
                 <div class="check_box check_box1">
@@ -107,7 +107,7 @@
                   </label>
                 </div>
               </div>
-            </li>
+            </li> -->
             <li class="st2">
               <div class="wrap clear">
                 <h4>채팅 차단 관리</h4>

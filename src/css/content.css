@@ -4026,7 +4026,7 @@ em.ent {
 .chat_pop .pop_inner {
 	padding: 40px 20px 20px;
 	box-sizing: border-box;
-	min-height: 475px;
+	min-height: 100px;
 	background-color: #fff;
 	border-radius: 45px 40px 0 0;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
