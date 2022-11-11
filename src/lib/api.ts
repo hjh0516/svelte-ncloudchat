@@ -290,6 +290,17 @@ export async function apiGetEmoticonOrders() {
   return await handleResponse(response);
 }
 
+export async function apiSendPush(channe_id: string, message: string) {
+  const response = await fetch(`${API_URL}/channels/push/${channe_id}`, {
+    method: "POST",
+    headers: setHeader(),
+    body: JSON.stringify({
+      message: message,
+    }),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

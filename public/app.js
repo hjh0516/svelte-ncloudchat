@@ -35,3 +35,8 @@ function showsetting() {
 function goback() {
   history.back();
 }
+
+function getchannelidx() {
+  const store = JSON.parse(window.sessionStorage.getItem("store"));
+  return store.channel ? store.channel.idx : null;
+}

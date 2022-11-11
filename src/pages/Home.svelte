@@ -32,6 +32,9 @@
       location.href = "/";
     }
 
+    $store.channel = null;
+    window.sessionStorage.setItem("store", JSON.stringify($store));
+
     bind("onMessageReceived", function (channel: string, message: MessageType) {
       chat = {
         channel_id: channel,

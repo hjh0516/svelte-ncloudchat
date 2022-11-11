@@ -20,6 +20,7 @@
     apiCreateMessage,
     apiCreateChatRead,
     apiGetChatBans,
+    apiSendPush,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -44,21 +45,23 @@
   $: data = updateChatItems(data);
 
   function send() {
+    let message = "";
+    showEmojiArea = false;
+
     if (emoticonPath) {
+      message = "이미지";
       sendEmoji();
-      return;
+    } else if (input) {
+      message = input;
+      sendText();
     }
 
-    if (input) {
-      sendText();
-      return;
+    if (message) {
+      apiSendPush(params.id, message);
     }
   }
 
   async function sendEmoji() {
-    if (!emoticonPath) {
-      return;
-    }
     input = "";
 
     const res = await fetch(emoticonPath);
@@ -71,16 +74,9 @@
     } catch (err) {
       console.error(err);
     }
-
-    showEmojiArea = false;
   }
 
   function sendText() {
-    if (!input) {
-      return;
-    }
-    showEmojiArea = false;
-
     const inputMessage = input;
     input = "";
     try {
