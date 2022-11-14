@@ -301,6 +301,14 @@ export async function apiSendPush(channe_id: string, message: string) {
   return await handleResponse(response);
 }
 
+export async function apiGetChannelId(channel_idx: number) {
+  const response = await fetch(`${API_URL}/channels/${channel_idx}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

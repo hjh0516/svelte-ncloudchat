@@ -1,11 +1,27 @@
 <script lang="ts">
-  import { store } from "$store/store";
+  import type { Channel } from "$lib/types/type";
 
+  import { store } from "$store/store";
+  import { apiGetChannel } from "$lib/api";
+
+  export let channel_id: string;
   export let showSettingModal = false;
+
+  let channel: Channel;
 
   function previousPage() {
     location.href = "/#/home";
     gohome();
+  }
+
+  async function getChannel() {
+    try {
+      channel = await apiGetChannel(channel_id);
+      $store.channel = channel;
+      window.sessionStorage.setItem("store", JSON.stringify($store));
+    } catch (err) {
+      console.error(err);
+    }
   }
 </script>
 
@@ -16,7 +32,9 @@
       <a class="svg" on:click={previousPage}>메뉴 버튼</a>
     </div>
     <div class="r_title">
-      <h2 class="aggro">{$store.channel.name}</h2>
+      {#await getChannel() then}
+        <h2 class="aggro">{channel.name}</h2>
+      {/await}
     </div>
     <div class="right">
       <div class="settings">

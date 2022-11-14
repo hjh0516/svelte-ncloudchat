@@ -207,7 +207,7 @@
 
 <svelte:window on:focus={handleFocus} />
 
-<ChatHeader bind:showSettingModal />
+<ChatHeader channel_id={params.id} bind:showSettingModal />
 <div
   id="sub"
   class="chatting chat_room"

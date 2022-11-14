@@ -40,3 +40,7 @@ function getchannelidx() {
   const store = JSON.parse(window.sessionStorage.getItem("store"));
   return store.channel ? store.channel.idx : null;
 }
+
+function gochannel(channel_id) {
+  location.href = `/#/chat/${channel_id}`;
+}

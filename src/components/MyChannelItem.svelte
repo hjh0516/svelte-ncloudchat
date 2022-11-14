@@ -4,7 +4,6 @@
   import { createEventDispatcher } from "svelte";
   import Flicking, { FlickingPanel } from "@egjs/svelte-flicking";
   import "@egjs/svelte-flicking/dist/flicking.css";
-  import { store } from "$store/store";
   import { convertDate } from "$lib/Date";
   import { apiUpdateChannelNotification } from "$lib/api";
 
@@ -21,8 +20,6 @@
   }
 
   function clickItem(channel_id: string) {
-    $store.channel = item;
-    window.sessionStorage.setItem("store", JSON.stringify($store));
     location.href = `/#/chat/${channel_id}`;
     godetail();
   }
