@@ -73,7 +73,7 @@
               <span>내보내기</span>
             </div>
           </div>
-        {:else}
+        {:else if channel.user_idx !== item.user_idx}
           <div class="btn_area">
             {#if is_ban}
               <div
