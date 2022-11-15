@@ -1,12 +1,23 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
+  import { getNotificationsContext } from "svelte-notifications";
 
   export let uploadImage = (e) => {};
   export let resetImage = () => {};
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+
+  function handleButtonClick() {
+    clearNotifications();
+    addNotification({
+      text: "준비 중입니다.",
+      position: "bottom-center",
+      removeAfter: 1500,
+    });
+  }
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={close} />
@@ -24,7 +35,7 @@
         <div class="ipt_area2">
           <ul>
             <li>
-              <div>그려서 등록하기</div>
+              <div on:click={handleButtonClick}>그려서 등록하기</div>
             </li>
             <li>
               <label for="camera">

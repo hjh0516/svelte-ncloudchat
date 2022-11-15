@@ -7,18 +7,34 @@
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
   import ChannelSettingModal from "$components/modals/ChannelSettingModal.svelte";
+  import FloatingActionButton from "$components/FloatingActionButton.svelte";
+  import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
+  import { getNotificationsContext } from "svelte-notifications";
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
-  import FloatingActionButton from "$components/FloatingActionButton.svelte";
-  import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
 
   let chat: Chat;
   let newChannel: Channel = null;
   let showSettingModal = false;
   let showCreateChannelModal = false;
 
-  function onCreateChannelModalClose() {
+  const { addNotification, clearNotifications } = getNotificationsContext();
+
+  function openCreateChannelModal() {
+    if ($store.user.level < 2) {
+      clearNotifications();
+      addNotification({
+        text: "레벨 상승 후 채팅방을 개설할 수 있어요.",
+        position: "bottom-center",
+        removeAfter: 1500,
+      });
+      return;
+    }
+    showCreateChannelModal = true;
+  }
+
+  function closeCreateChannelModal() {
     showCreateChannelModal = false;
     if (newChannel) {
       $store.channel = newChannel;
@@ -64,9 +80,7 @@
             <OpenChat />
           {/if}
         </div>
-        <FloatingActionButton
-          on:click={() => (showCreateChannelModal = true)}
-        />
+        <FloatingActionButton on:click={openCreateChannelModal} />
       </div>
     </div>
   </div>
@@ -77,5 +91,5 @@
 {/if}
 
 {#if showCreateChannelModal}
-  <CreateChannelModal on:close={onCreateChannelModalClose} bind:newChannel />
+  <CreateChannelModal on:close={closeCreateChannelModal} bind:newChannel />
 {/if}

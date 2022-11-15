@@ -5,9 +5,16 @@
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
   import { store } from "$store/store";
-  import { apiCreateChannelNotification, apiSubscribe } from "$lib/api";
+  import {
+    apiCheckFollow,
+    apiCreateChannelNotification,
+    apiSubscribe,
+  } from "$lib/api";
   import { getChannel, subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
+  import { getNotificationsContext } from "svelte-notifications";
+  import ChannelShareModal from "./ChannelShareModal.svelte";
+  import UserFollowModal from "./UserFollowModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -18,8 +25,30 @@
   let channel: Channel;
   let element: HTMLElement;
   let loading = false;
+  let showChannelShareModal = false;
+  let showUserFollowModal = false;
+
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   async function submit() {
+    if ($store.user.level < 2) {
+      clearNotifications();
+      addNotification({
+        text: "레벨 상승 후 채팅방에 입장할 수 있어요.",
+        position: "bottom-center",
+        removeAfter: 1500,
+      });
+      return;
+    }
+
+    if (item.type === "FOLLOWER") {
+      const check = await apiCheckFollow(item.user_idx);
+      if (!check) {
+        showUserFollowModal = true;
+        return;
+      }
+    }
+
     loading = true;
     addPointerEventNone();
 
@@ -41,8 +70,6 @@
     removePointerEventNone();
     close();
 
-    $store.channel = channel;
-    window.sessionStorage.setItem("store", JSON.stringify($store));
     location.href = `/#/chat/${channel_id}`;
     godetail();
   }
@@ -133,13 +160,32 @@
         </div>
         <div class="btn_area">
           <div class="in_rrec">
-            <div class="cBtn bgr" on:click={submit}>참여하기</div>
-            <!-- 참여중 -->
-            <!-- <a href="javascript:;" class="cBtn gr3" style="display:none;"
-              >참여중</a
-            > -->
-            <!-- 참여중일시 활성화 -->
-            <div id="btnShare" class="cBtn cre svg yel">공유</div>
+            {#if item.is_subscription}
+              <div class="cBtn gr3">참여중</div>
+              <div
+                id="btnShare"
+                class="cBtn cre svg yel"
+                on:click={() => (showChannelShareModal = true)}
+              >
+                공유
+              </div>
+            {:else}
+              <div class="cBtn bgr" on:click={submit}>참여하기</div>
+              <div
+                id="btnShare"
+                class="cBtn cre svg yel"
+                on:click={() => {
+                  clearNotifications();
+                  addNotification({
+                    text: "채팅방에 입장 후 공유할 수 있어요.",
+                    position: "bottom-center",
+                    removeAfter: 1500,
+                  });
+                }}
+              >
+                공유
+              </div>
+            {/if}
           </div>
         </div>
       </div>
@@ -152,3 +198,11 @@
     </div>
   {/if}
 </div>
+
+{#if showChannelShareModal}
+  <ChannelShareModal on:close={() => (showChannelShareModal = false)} />
+{/if}
+
+{#if showUserFollowModal}
+  <UserFollowModal {item} on:close={() => (showUserFollowModal = false)} />
+{/if}

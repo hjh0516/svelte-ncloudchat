@@ -80,7 +80,12 @@
                 {/if}
                 <span class="name">{item.nickname}</span>
               </li>
-              <li class="r_time">{convertLastChat(item.last_chat_at)}</li>
+              <li class="r_time">
+                {convertLastChat(item.last_chat_at)}
+                {#if item.is_subscription}
+                  <span class="r_state">참여중</span>
+                {/if}
+              </li>
             </ul>
           </div>
         </div>

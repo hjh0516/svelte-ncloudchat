@@ -18,6 +18,7 @@ export interface Channel {
   profile?: string;
   unread_count: number;
   notification: boolean;
+  is_subscription: boolean;
 }
 
 export interface Subscription {
@@ -51,6 +52,7 @@ export interface User {
   id: string;
   name: string;
   profile: string;
+  level: number;
   use_chat: boolean;
   chat_notification: boolean;
 }

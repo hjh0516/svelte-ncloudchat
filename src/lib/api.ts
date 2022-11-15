@@ -309,6 +309,22 @@ export async function apiGetChannelId(channel_idx: number) {
   return await handleResponse(response);
 }
 
+export async function apiCheckFollow(user_idx: number) {
+  const response = await fetch(`${API_URL}/channels/follows/${user_idx}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiCreateFollow(user_idx: number) {
+  const response = await fetch(`${API_URL}/profile/follows/${user_idx}`, {
+    method: "POST",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

@@ -4,6 +4,7 @@
   import Spinner from "$components/Spinner.svelte";
   import UploadImageModal from "$components/modals/UploadImageModal.svelte";
   import { createEventDispatcher } from "svelte";
+  import { store } from "$store/store";
   import { slide } from "svelte/transition";
   import { ChannelType } from "ncloudchat/esm/Type";
   import { createChannel, subscribe } from "$lib/NcloudChat";
@@ -30,7 +31,7 @@
   let inputName: HTMLElement;
   let inputTag: HTMLElement;
   let canvas: HTMLCanvasElement;
-  let defaultImage: HTMLDivElement;
+  let defaultImage: HTMLElement;
   let channelImage: any;
   let onlyFollowers = false;
   let showUploadImageModal = false;
@@ -54,6 +55,8 @@
       if (channelImage) {
         const res = await apiUploadChannelImage(channelImage);
         fileurl = import.meta.env.VITE_CDN_URL + res;
+      } else {
+        fileurl = $store.user.profile;
       }
 
       const channel = await createChannel(ChannelType.PUBLIC, name, fileurl);
@@ -125,16 +128,11 @@
             class="h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3 hidden"
             bind:this={canvas}
           />
-        </div>
-        <div
-          class="imgs back_img"
-          style="background-image:url('/img/img_basic3.png');"
-          bind:this={defaultImage}
-        >
           <img
-            src="../img/img_basic3.png"
-            class="basic_img"
+            src={$store.user.profile}
+            class="h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3"
             alt="basic_image"
+            bind:this={defaultImage}
           />
         </div>
         <div class="file_check">

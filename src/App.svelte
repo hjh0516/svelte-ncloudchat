@@ -5,6 +5,8 @@
   import Chat from "./pages/Chat.svelte";
   import Error from "$pages/Error.svelte";
   import LoginTemp from "$pages/LoginTemp.svelte";
+  import Notifications from "svelte-notifications";
+  import CustomNotification from "$components/CustomNotification.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import { connect, initialize, isConnected } from "$lib/NcloudChat";
@@ -40,4 +42,6 @@
   <script src="/app.js"></script>
 </svelte:head>
 
-<Router {routes} />
+<Notifications item={CustomNotification} zIndex="150">
+  <Router {routes} />
+</Notifications>

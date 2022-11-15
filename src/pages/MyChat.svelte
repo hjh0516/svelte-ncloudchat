@@ -3,7 +3,6 @@
 
   import MyChannelItem from "$components/MyChannelItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
-  import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
   import ChatExitModal from "$components/modals/ChatExitModal.svelte";
   import Spinner from "$components/Spinner.svelte";

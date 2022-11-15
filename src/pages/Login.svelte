@@ -26,6 +26,7 @@
         id: user.idx,
         name: user.nickname,
         profile: user.profile,
+        level: user.level,
         use_chat: user.use_chat,
         chat_notification: user.chat_notification,
       };
@@ -51,5 +52,5 @@
   <Spinner />
 </div>
 <div class="h-screen bg-gray-50 flex justify-center items-center text-center">
-  <span class="text-cyan-500 text-xl font-bold">채팅 접속 중입니다...</span>
+  <span class="text-3xl font-sbaggrom">채팅 접속 중입니다...</span>
 </div>

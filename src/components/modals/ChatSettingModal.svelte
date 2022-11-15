@@ -1,5 +1,6 @@
 <script lang="ts">
   import ChatOutModal from "$components/modals/ChatExitModal.svelte";
+  import ChannelShareModal from "./ChannelShareModal.svelte";
   import { createEventDispatcher, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import {
@@ -19,7 +20,8 @@
   export let channelId: string;
   export let refresh: boolean;
 
-  let showOutModal = false;
+  let showChatExitModal = false;
+  let showChannelShareModal = false;
   let subscriptions = [];
   let channelNotification: boolean;
 
@@ -151,9 +153,9 @@
                                 <div class="txt_box">
                                   <div class="tb">
                                     <div class="tbc">
-                                      <strong class="aggro"
-                                        >{item.nickname}</strong
-                                      >
+                                      <strong class="aggro">
+                                        {item.nickname}
+                                      </strong>
                                     </div>
                                   </div>
                                 </div>
@@ -214,9 +216,15 @@
               type="button"
               value="채팅방 나가기"
               class="cBtn bgr"
-              on:click={() => (showOutModal = true)}
+              on:click={() => (showChatExitModal = true)}
             />
-            <div id="btnShare" class="cBtn cre svg yel">공유</div>
+            <div
+              id="btnShare"
+              class="cBtn cre svg yel"
+              on:click={() => (showChannelShareModal = true)}
+            >
+              공유
+            </div>
           </div>
         </div>
       </form>
@@ -224,9 +232,13 @@
   </div>
 </div>
 
-{#if showOutModal}
+{#if showChatExitModal}
   <ChatOutModal
     on:submit={exitChannel}
-    on:close={() => (showOutModal = false)}
+    on:close={() => (showChatExitModal = false)}
   />
+{/if}
+
+{#if showChannelShareModal}
+  <ChannelShareModal on:close={() => (showChannelShareModal = false)} />
 {/if}

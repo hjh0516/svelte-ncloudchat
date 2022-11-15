@@ -4,6 +4,7 @@
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import ChatSubscriptionModal from "$components/modals/ChatSubscriptionModal.svelte";
   import Spinner from "$components/Spinner.svelte";
+  import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
@@ -69,6 +70,14 @@
       </ul>
     </div>
   </div>
+  <InfiniteScroll
+    hasMore={newData.length > 0}
+    threshold={200}
+    on:loadMore={async () => {
+      page++;
+      await loadChannels();
+    }}
+  />
 {:else}
   <div class="none_msg active">
     <div class="tb">
