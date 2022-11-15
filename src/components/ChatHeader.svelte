@@ -2,27 +2,20 @@
   import type { Channel } from "$lib/types/type";
 
   import { store } from "$store/store";
-  import { apiGetChannel } from "$lib/api";
+  import { onMount } from "svelte";
 
-  export let channel_id: string;
+  export let channel: Channel;
   export let showSettingModal = false;
-
-  let channel: Channel;
 
   function previousPage() {
     location.href = "/#/home";
     gohome();
   }
 
-  async function getChannel() {
-    try {
-      channel = await apiGetChannel(channel_id);
-      $store.channel = channel;
-      window.sessionStorage.setItem("store", JSON.stringify($store));
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  onMount(async () => {
+    $store.channel = channel;
+    window.sessionStorage.setItem("store", JSON.stringify($store));
+  });
 </script>
 
 <div class="chat_header">
@@ -32,9 +25,9 @@
       <a class="svg" on:click={previousPage}>메뉴 버튼</a>
     </div>
     <div class="r_title">
-      {#await getChannel() then}
+      {#if channel}
         <h2 class="aggro">{channel.name}</h2>
-      {/await}
+      {/if}
     </div>
     <div class="right">
       <div class="settings">

@@ -2,9 +2,12 @@
   import type { Emoticon } from "$lib/types/type";
 
   import { slide } from "svelte/transition";
+  import { getNotificationsContext } from "svelte-notifications";
 
   export let emoticons: Emoticon[];
   export let emoticonPath: string;
+
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   let index = 0;
   let item = 0;
@@ -35,8 +38,19 @@
         {/each}
       {/if}
     </ul>
-    <!-- svelte-ignore a11y-invalid-attribute -->
-    <a href="javascript:;" class="go_store svg">이모티콘 스토어</a>
+    <div
+      class="go_store svg"
+      on:click={() => {
+        clearNotifications();
+        addNotification({
+          text: "준비 중이에요.",
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+      }}
+    >
+      이모티콘 스토어
+    </div>
   </div>
   <div class="emoge_list">
     <ul class="scroll clear scrollbar-hide">

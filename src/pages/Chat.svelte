@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Chat } from "$lib/types/type";
+  import type { Channel, Chat } from "$lib/types/type";
   import type { MessageType } from "$lib/types/MessageType";
 
   import ChatHeader from "$components/ChatHeader.svelte";
@@ -21,12 +21,14 @@
     apiCreateChatRead,
     apiGetChatBans,
     apiSendPush,
+    apiGetChannel,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
 
   export let params: any;
 
+  let channel: Channel;
   let input: string;
   let emoticonPath: string;
   let page = 1;
@@ -191,6 +193,7 @@
 
     loading = true;
     try {
+      channel = await apiGetChannel(params.id);
       await loadMessages();
       apiCreateChatRead(params.id);
       bans = await apiGetChatBans(params.id);
@@ -207,7 +210,7 @@
 
 <svelte:window on:focus={handleFocus} />
 
-<ChatHeader channel_id={params.id} bind:showSettingModal />
+<ChatHeader {channel} bind:showSettingModal />
 <div
   id="sub"
   class="chatting chat_room"
@@ -270,11 +273,7 @@
 />
 
 {#if showSettingModal}
-  <ChatSettingModal
-    channelId={params.id}
-    bind:refresh
-    on:close={closeChatSettingModal}
-  />
+  <ChatSettingModal {channel} bind:refresh on:close={closeChatSettingModal} />
 {/if}
 
 {#if showImageDownloadModal}
@@ -286,7 +285,7 @@
 
 {#if showChatProfileModal}
   <ChatProfileModal
-    channelId={params.id}
+    {channel}
     item={chatItem}
     bind:refresh
     on:close={closeChatProfileModal}

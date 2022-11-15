@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Channel } from "$lib/types/type";
+
   import ChatOutModal from "$components/modals/ChatExitModal.svelte";
   import ChannelShareModal from "./ChannelShareModal.svelte";
   import { createEventDispatcher, onMount } from "svelte";
@@ -17,18 +19,17 @@
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
-  export let channelId: string;
+  export let channel: Channel;
   export let refresh: boolean;
 
   let showChatExitModal = false;
   let showChannelShareModal = false;
-  let subscriptions = [];
   let channelNotification: boolean;
 
   function onChangeChannelNotification() {
     channelNotification = !channelNotification;
     try {
-      apiUpdateChannelNotification(channelId, channelNotification);
+      apiUpdateChannelNotification(channel.channel_id, channelNotification);
     } catch (err) {
       console.error(err);
     }
@@ -36,9 +37,9 @@
 
   function exitChannel() {
     try {
-      apiUnsubscribe(channelId);
-      unsubscribe(channelId);
-      apiDeleteChannelNotification(channelId);
+      apiUnsubscribe(channel.channel_id);
+      unsubscribe(channel.channel_id);
+      apiDeleteChannelNotification(channel.channel_id);
     } catch (err) {
       console.error(err);
     }
@@ -47,7 +48,7 @@
 
   function ban(target: number) {
     try {
-      apiCreateChatBans(channelId, target);
+      apiCreateChatBans(channel.channel_id, target);
       refresh = true;
     } catch (err) {
       console.error(err);
@@ -56,21 +57,15 @@
 
   function unban(target: number) {
     try {
-      apiDeleteChatBans(channelId, target);
+      apiDeleteChatBans(channel.channel_id, target);
       refresh = true;
     } catch (err) {
       console.error(err);
     }
   }
 
-  onMount(async () => {
-    try {
-      const res = await apiGetChannel(channelId);
-      subscriptions = res.subscriptions;
-      channelNotification = res.notification;
-    } catch (err) {
-      console.error(err);
-    }
+  onMount(() => {
+    channelNotification = channel.notification;
   });
 </script>
 
@@ -110,7 +105,12 @@
                 <div class="chat_list2 scroll scrollbar-hide">
                   <ul>
                     <li>
-                      <div class="box my_info">
+                      <div
+                        class="box my_info {channel.user_idx ===
+                        Number($store.user.id)
+                          ? 'r_leader2'
+                          : ''}"
+                      >
                         <div class="info_w">
                           <div
                             class="c_avata back_img"
@@ -125,8 +125,9 @@
                           <div class="txt_box">
                             <div class="tb">
                               <div class="tbc">
-                                <strong class="aggro">{$store.user.name}</strong
-                                >
+                                <strong class="aggro">
+                                  {$store.user.name}
+                                </strong>
                               </div>
                             </div>
                           </div>
@@ -134,10 +135,34 @@
                         <span class="a_state">나</span>
                       </div>
                     </li>
-                    {#each subscriptions as item}
-                      {#if item.user_idx !== $store.user.id}
+                    {#each channel.subscriptions as item}
+                      {#if item.user_idx !== Number($store.user.id)}
                         <li>
-                          {#if item.is_ban}
+                          {#if item.user_idx === channel.user_idx}
+                            <div class="box r_leader2">
+                              <div class="info_w">
+                                <div
+                                  class="c_avata back_img"
+                                  style="background-image:url({item.profile});"
+                                >
+                                  <img
+                                    src="../img/img_basic2.png"
+                                    class="basic_img"
+                                    alt="profile_image"
+                                  />
+                                </div>
+                                <div class="txt_box">
+                                  <div class="tb">
+                                    <div class="tbc">
+                                      <strong class="aggro">
+                                        {item.nickname}
+                                      </strong>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          {:else if item.is_ban}
                             <div class="box blocked">
                               <div class="info_w">
                                 <div
@@ -163,13 +188,13 @@
                               <span
                                 class="a_state"
                                 on:click={() => {
-                                  item.is_ban = 0;
+                                  item.is_ban = false;
                                   unban(item.user_idx);
                                 }}>차단중</span
                               >
                             </div>
                           {:else}
-                            <div class="box r_leader2">
+                            <div class="box">
                               <div class="info_w">
                                 <div
                                   class="c_avata back_img"
@@ -184,9 +209,9 @@
                                 <div class="txt_box">
                                   <div class="tb">
                                     <div class="tbc">
-                                      <strong class="aggro"
-                                        >{item.nickname}</strong
-                                      >
+                                      <strong class="aggro">
+                                        {item.nickname}
+                                      </strong>
                                     </div>
                                   </div>
                                 </div>
@@ -194,7 +219,7 @@
                               <span
                                 class="a_state"
                                 on:click={() => {
-                                  item.is_ban = 1;
+                                  item.is_ban = true;
                                   ban(item.user_idx);
                                 }}>차단하기</span
                               >

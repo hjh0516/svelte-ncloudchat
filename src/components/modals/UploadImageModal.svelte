@@ -13,7 +13,7 @@
   function handleButtonClick() {
     clearNotifications();
     addNotification({
-      text: "준비 중입니다.",
+      text: "준비 중이에요.",
       position: "bottom-center",
       removeAfter: 1500,
     });

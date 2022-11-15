@@ -2,8 +2,6 @@
   import { fade } from "svelte/transition";
 
   export let notification: { text?: string } = {};
-  export let onRemove = null;
-  export let withoutStyles = false;
 </script>
 
 <div

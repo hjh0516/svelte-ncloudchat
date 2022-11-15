@@ -1,10 +1,12 @@
 <script lang="ts">
+  import type { Channel, Chat } from "$lib/types/type";
+
   import { apiCreateChatBans, apiDeleteChatBans } from "$lib/api";
-  import type { Chat } from "$lib/types/type";
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
+  import { store } from "$store/store";
 
-  export let channelId: string;
+  export let channel: Channel;
   export let item: Chat;
   export let refresh = false;
 
@@ -16,7 +18,7 @@
   function ban(target: number) {
     is_ban = true;
     try {
-      apiCreateChatBans(channelId, target);
+      apiCreateChatBans(channel.channel_id, target);
       refresh = true;
     } catch (err) {
       console.error(err);
@@ -26,7 +28,7 @@
   function unban(target: number) {
     is_ban = false;
     try {
-      apiDeleteChatBans(channelId, target);
+      apiDeleteChatBans(channel.channel_id, target);
       refresh = true;
     } catch (err) {
       console.error(err);
@@ -58,16 +60,8 @@
             <em class="aggro">{item.nickname}</em>
           </div>
         </div>
-        <div class="btn_area">
-          {#if is_ban}
-            <div
-              id="blockPause"
-              class="cBtn2 lined aggro"
-              on:click={() => unban(item.user_idx)}
-            >
-              <span>차단해제</span>
-            </div>
-          {:else}
+        {#if channel.user_idx === Number($store.user.id)}
+          <div class="btn_area in_2">
             <div
               id="btnBlock"
               class="cBtn2 aggro"
@@ -75,17 +69,31 @@
             >
               <span>차단하기</span>
             </div>
-          {/if}
-        </div>
-        <div class="btn_area in_2" style="display:none;">
-          <!-- 방장의 경우 -->
-          <div id="btnBlock" class="cBtn2 aggro">
-            <span>차단하기</span>
+            <div id="blockPause" class="cBtn2 gr aggro">
+              <span>내보내기</span>
+            </div>
           </div>
-          <div id="blockPause" class="cBtn2 gr aggro">
-            <span>내보내기</span>
+        {:else}
+          <div class="btn_area">
+            {#if is_ban}
+              <div
+                id="blockPause"
+                class="cBtn2 lined aggro"
+                on:click={() => unban(item.user_idx)}
+              >
+                <span>차단해제</span>
+              </div>
+            {:else}
+              <div
+                id="btnBlock"
+                class="cBtn2 aggro"
+                on:click={() => ban(item.user_idx)}
+              >
+                <span>차단하기</span>
+              </div>
+            {/if}
           </div>
-        </div>
+        {/if}
       </div>
     </div>
   </div>

@@ -19,6 +19,7 @@ export interface Channel {
   unread_count: number;
   notification: boolean;
   is_subscription: boolean;
+  subscriptions: Subscription[];
 }
 
 export interface Subscription {

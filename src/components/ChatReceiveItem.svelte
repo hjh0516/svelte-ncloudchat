@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Chat } from "$lib/types/type";
+  import type { Channel, Chat } from "$lib/types/type";
 
   import Image from "$components/ChatImageItem.svelte";
   import { createEventDispatcher } from "svelte";

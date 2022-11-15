@@ -54,7 +54,7 @@
     loading = false;
   }
 
-  function onCreateChannelModalClose() {
+  function closeCreateChannelModal() {
     showCreateChannelModal = false;
     if (newChannel) {
       $store.channel = newChannel;
@@ -128,7 +128,7 @@
 {/if}
 
 {#if showCreateChannelModal}
-  <CreateChannelModal on:close={onCreateChannelModalClose} bind:newChannel />
+  <CreateChannelModal on:close={closeCreateChannelModal} bind:newChannel />
 {/if}
 
 {#if showChatExitModal}
