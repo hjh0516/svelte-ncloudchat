@@ -3431,7 +3431,7 @@ em.ent {
 .chat_idx .srch_wr {
 	position: absolute;
 	width: 90%;
-	z-index: 150;
+	z-index: 100;
 }
 
 .chat_idx .srch_wr input[type="text"] {
@@ -4121,7 +4121,7 @@ em.ent {
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	z-index: 80;
+	z-index: 150;
 }
 
 .profile_pop .pop_cont {
