@@ -1,6 +1,6 @@
 export function convertDate(value: string | number | Date) {
   const today = new Date();
-  const date = new Date(value);
+  const date = new Date(value.toString().replace(/\s/, "T"));
 
   if (today.getFullYear() > date.getFullYear()) {
     return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
@@ -9,6 +9,7 @@ export function convertDate(value: string | number | Date) {
   const datediff = Math.round(
     (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
   );
+
   if (datediff > 0) {
     return `${date.getMonth() + 1}월 ${date.getDate()}일`;
   }
@@ -31,7 +32,7 @@ export function convertLastChat(value: string) {
   }
 
   const now = new Date().getTime();
-  const lastChat = new Date(value).getTime();
+  const lastChat = new Date(value.toString().replace(/\s/, "T")).getTime();
 
   const diff = now - lastChat;
   const min = Math.round(diff / 1000 / 60);
@@ -50,7 +51,7 @@ export function convertLastChat(value: string) {
 }
 
 export function convertChatDate(value: string | Date) {
-  const date = new Date(value);
+  const date = new Date(value.toString().replace(/\s/, "T"));
   const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
 
   const year = date.getFullYear();
@@ -62,8 +63,7 @@ export function convertChatDate(value: string | Date) {
 }
 
 export function convertSendAt(value: string | Date) {
-  const date = new Date(value);
-
+  const date = new Date(value.toString().replace(/\s/, "T"));
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
@@ -77,7 +77,7 @@ export function convertSendAt(value: string | Date) {
 }
 
 export function convertChannelCreatedAt(value: string | Date) {
-  const date = new Date(value);
+  const date = new Date(value.toString().replace(/\s/, "T"));
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
