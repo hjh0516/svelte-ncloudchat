@@ -44,6 +44,7 @@
       console.error(err);
     }
     location.href = "/#/home";
+    gohome();
   }
 
   function ban(target: number) {

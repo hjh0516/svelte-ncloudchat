@@ -54,15 +54,6 @@
     loading = false;
   }
 
-  function closeCreateChannelModal() {
-    showCreateChannelModal = false;
-    if (newChannel) {
-      $store.channel = newChannel;
-      window.sessionStorage.setItem("store", JSON.stringify($store));
-      location.href = `/#/chat/${newChannel.channel_id}`;
-    }
-  }
-
   function openChatExitModal(e) {
     showChatExitModal = true;
     channelId = e.detail.channelId;
@@ -125,10 +116,6 @@
       </div>
     </div>
   </div>
-{/if}
-
-{#if showCreateChannelModal}
-  <CreateChannelModal on:close={closeCreateChannelModal} bind:newChannel />
 {/if}
 
 {#if showChatExitModal}

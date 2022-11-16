@@ -40,6 +40,7 @@
 
       if (location.href === "/") {
         location.href = "/#/home";
+        gohome();
       }
     }
   });

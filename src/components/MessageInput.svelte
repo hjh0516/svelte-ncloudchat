@@ -1,23 +1,24 @@
 <script lang="ts">
-  import type { Emoticon } from "$lib/types/type";
+  import type { Emoji } from "$lib/types/type";
 
   import EmojiArea from "./EmojiArea.svelte";
   import { apiGetEmoticonOrders } from "$lib/api";
   import { onMount } from "svelte";
 
   export let input = "";
-  export let emoticonPath: string;
+  export let emojiPath: string;
   export let showEmojiArea = false;
   export let messageInput: HTMLElement;
+  export let emojiInput: HTMLElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 
-  let emoticons: Emoticon[];
+  let emojis: Emoji[];
 
   onMount(async () => {
     try {
       const res = await apiGetEmoticonOrders();
-      emoticons = res.data;
+      emojis = res.data;
     } catch (err) {
       console.error(err);
     }
@@ -46,6 +47,7 @@
               type="button"
               value="이모티콘"
               class="svg"
+              bind:this={emojiInput}
               on:click={() => {
                 showEmojiArea = !showEmojiArea;
               }}
@@ -56,7 +58,7 @@
       </div>
     </div>
     {#if showEmojiArea}
-      <EmojiArea {emoticons} bind:emoticonPath />
+      <EmojiArea {emojis} bind:emojiPath />
     {/if}
   </div>
 </div>
