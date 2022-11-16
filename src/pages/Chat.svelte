@@ -30,7 +30,7 @@
 
   let channel: Channel;
   let input: string;
-  let emoticonPath: string;
+  let emojiPath: string;
   let page = 1;
   let data: Chat[] = [];
   let newData: Chat[] = [];
@@ -41,9 +41,11 @@
   let showEmojiArea = false;
   let chatItem = null;
   let loading = false;
+  let connectLoading = false;
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
+  let emojiInput: HTMLElement;
 
   $: data = updateChatItems(data);
 
@@ -51,7 +53,7 @@
     let message = "";
     showEmojiArea = false;
 
-    if (emoticonPath) {
+    if (emojiPath) {
       message = "이미지";
       sendEmoji();
     } else if (input) {
@@ -67,9 +69,11 @@
   }
 
   async function sendEmoji() {
+    const inputEmoji = emojiPath;
     input = "";
+    emojiPath = "";
 
-    const res = await fetch(emoticonPath);
+    const res = await fetch(inputEmoji);
     const blob = await res.blob();
     const file = new File([blob], "emoji", { type: "image/jpg" });
 
@@ -84,6 +88,8 @@
   function sendText() {
     const inputMessage = input;
     input = "";
+    emojiPath = "";
+
     try {
       sendMessage(params.id, "text", inputMessage);
       apiCreateMessage(params.id, "text", inputMessage);
@@ -148,6 +154,18 @@
   }
 
   onMount(async () => {
+    bind("onDisconnected", function () {
+      connectLoading = true;
+      messageInput.classList.add("pointer-events-none");
+      emojiInput.classList.add("pointer-events-none");
+    });
+
+    bind("onConnected", function () {
+      connectLoading = false;
+      messageInput.classList.remove("pointer-events-none");
+      emojiInput.classList.remove("pointer-events-none");
+    });
+
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
@@ -273,7 +291,8 @@
   bind:input
   bind:messageInput
   bind:showEmojiArea
-  bind:emoticonPath
+  bind:emojiPath
+  bind:emojiInput
 />
 
 {#if showSettingModal}
@@ -297,6 +316,12 @@
 {/if}
 
 {#if loading}
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <Spinner />
+  </div>
+{/if}
+
+{#if connectLoading}
   <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
   </div>

@@ -41,6 +41,12 @@
       return;
     }
 
+    if (item.is_subscription) {
+      location.href = `/#/chat/${item.channel_id}`;
+      godetail();
+      return;
+    }
+
     if (item.type === "FOLLOWER") {
       const check = await apiCheckFollow(item.user_idx);
       if (!check) {
@@ -161,7 +167,7 @@
         <div class="btn_area">
           <div class="in_rrec">
             {#if item.is_subscription}
-              <div class="cBtn gr3">참여중</div>
+              <div class="cBtn gr3" on:click={submit}>참여중</div>
               <div
                 id="btnShare"
                 class="cBtn cre svg yel"

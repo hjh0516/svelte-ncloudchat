@@ -82,7 +82,7 @@ export interface Read {
   updated_at: string;
 }
 
-export interface Emoticon {
+export interface Emoji {
   idx: number;
   content_idx: number;
   contents: string;
@@ -93,10 +93,10 @@ export interface Emoticon {
   is_bookmark: boolean;
   is_like: boolean;
   likes_count: boolean;
-  files: EmoticonFile[];
+  files: EmojiFile[];
 }
 
-export interface EmoticonFile {
+export interface EmojiFile {
   idx: number;
   content_idx: number;
   path: string;

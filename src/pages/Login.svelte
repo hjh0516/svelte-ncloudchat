@@ -12,7 +12,7 @@
   onMount(async () => {
     const params = new URLSearchParams($querystring);
     if (!params.has("token")) {
-      location.href = $store.token ? "/#/home" : "/";
+      location.href = $store.token ? "/#/home" : "/#/error";
       return;
     }
 

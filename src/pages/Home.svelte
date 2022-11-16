@@ -40,12 +40,13 @@
       $store.channel = newChannel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
       location.href = `/#/chat/${newChannel.channel_id}`;
+      godetail();
     }
   }
 
   onMount(() => {
     if (!$store.token) {
-      location.href = "/";
+      location.href = "/#/error";
     }
 
     $store.channel = null;
@@ -87,7 +88,11 @@
 </div>
 
 {#if showSettingModal}
-  <ChannelSettingModal on:close={() => (showSettingModal = false)} />
+  <ChannelSettingModal
+    on:close={() => {
+      showSettingModal = false;
+    }}
+  />
 {/if}
 
 {#if showCreateChannelModal}

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Emoticon } from "$lib/types/type";
+  import type { Emoji } from "$lib/types/type";
 
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
 
-  export let emoticons: Emoticon[];
-  export let emoticonPath: string;
+  export let emojis: Emoji[];
+  export let emojiPath: string;
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
@@ -19,19 +19,19 @@
 
   function selectEmoji(i: number) {
     item = i;
-    emoticonPath = emoticons[index].files[item].path;
+    emojiPath = emojis[index].files[item].path;
   }
 </script>
 
 <div class="emoge_area" transition:slide={{ delay: 100, duration: 300 }}>
   <div class="emoge_case">
     <ul class="scroll scrollbar-hide">
-      {#if emoticons.length > 0}
-        {#each emoticons as emoticon, i}
+      {#if emojis.length > 0}
+        {#each emojis as emoji, i}
           <li on:click={() => selectEmojiList(i)}>
             <img
               class={index === i ? "on" : ""}
-              src={emoticon.files[0].path}
+              src={emoji.files[0].path}
               alt="emoji_list"
             />
           </li>
@@ -54,8 +54,8 @@
   </div>
   <div class="emoge_list">
     <ul class="scroll clear scrollbar-hide">
-      {#if emoticons.length > 0}
-        {#each emoticons[index].files as file, i}
+      {#if emojis.length > 0}
+        {#each emojis[index].files as file, i}
           <li on:click={() => selectEmoji(i)}>
             <img class={item === i ? "on" : ""} src={file.path} alt="emoji" />
           </li>

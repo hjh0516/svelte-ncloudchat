@@ -1,6 +1,7 @@
 <script lang="ts">
   function home() {
     location.href = "/#/home";
+    gohome();
   }
 </script>
 

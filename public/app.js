@@ -30,7 +30,6 @@ function gohome() {
 
 function showsetting() {
   showSettingModal = true;
-  return;
 }
 
 function goback() {
@@ -44,4 +43,5 @@ function getchannelidx() {
 
 function gochannel(channel_id) {
   location.href = `/#/chat/${channel_id}`;
+  godetail();
 }
