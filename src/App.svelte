@@ -19,7 +19,12 @@
     "/error": Error,
   };
 
+  let vh = 0;
+
   onMount(() => {
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+
     let session = window.sessionStorage.getItem("store");
     if (session) {
       $store = JSON.parse(session);

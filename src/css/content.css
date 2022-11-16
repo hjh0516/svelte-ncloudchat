@@ -184,7 +184,6 @@
 	width: 168px;
 }
 
-
 .ball {
 	position: absolute;
 	border-radius: 100%;
@@ -1429,7 +1428,8 @@ em.ent {
 #popup {
 	display: none;
 	width: 100%;
-	height: 100vh;
+	/* height: 100vh; */
+	height: calc(var(--vh, 1vh) * 100);
 	background: rgba(0, 0, 0, 0.4);
 	position: fixed;
 	top: 0;
@@ -3355,7 +3355,8 @@ em.ent {
 }
 
 .chatting .section .inner {
-	height: 100vh;
+	/* height: 100vh; */
+	height: calc(var(--vh, 1vh) * 100);
 }
 
 .chatting .size {
@@ -3899,7 +3900,7 @@ em.ent {
 }
 
 .chat_room .chat_area {
-	padding: 70px 20px 70px 20px;
+	padding: 20px;
 	box-sizing: border-box;
 	height: 100%;
 	/* overflow-x: hidden; */

@@ -16,7 +16,7 @@ function godetail() {
   if (isMobile.Android()) {
     window.emoApp.godetail();
   } else if (isMobile.iOS()) {
-    window.webkit.messageHandlers.godetail.postMessage();
+    window.webkit?.messageHandlers.godetail.postMessage();
   }
 }
 
@@ -24,12 +24,13 @@ function gohome() {
   if (isMobile.Android()) {
     window.emoApp.gohome();
   } else if (isMobile.iOS()) {
-    window.webkit.messageHandlers.gohome.postMessage();
+    window.webkit?.messageHandlers.gohome.postMessage();
   }
 }
 
 function showsetting() {
   showSettingModal = true;
+  return;
 }
 
 function goback() {

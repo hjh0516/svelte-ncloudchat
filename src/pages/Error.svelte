@@ -5,7 +5,8 @@
 </script>
 
 <div
-  class="w-full h-screen flex flex-col items-center justify-center text-center"
+  class="w-full  flex flex-col items-center justify-center text-center"
+  style="height: calc(var(--vh, 1vh) * 100)"
 >
   <span class="font-sbaggrom text-3xl mb-5"
     >오류가 발생했습니다!<br />관리자에게 문의해주세요.</span

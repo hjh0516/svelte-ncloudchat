@@ -126,7 +126,7 @@
     try {
       apiCreateChatRead(params.id);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 
@@ -201,6 +201,8 @@
       console.error(err);
     }
     loading = false;
+
+    element.scrollTop = element.scrollHeight;
   });
 
   onDestroy(() => {
@@ -220,7 +222,7 @@
     <div class="size">
       <div class="inner">
         <div
-          class="chat_area absolute top-0 w-full h-full flex flex-col-reverse scrollbar-hide"
+          class="chat_area w-full flex flex-col-reverse scrollbar-hide"
           bind:this={element}
         >
           <div class="chat_info flex flex-col-reverse">

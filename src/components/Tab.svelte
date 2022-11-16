@@ -7,7 +7,7 @@
 </script>
 
 <div class="chat_case">
-  <ul class="clear aggro">
+  <ul class="clear aggro w-full">
     {#each tabItems as item}
       <li on:click={() => dispatch("tabChange", item)}>
         <!-- svelte-ignore a11y-missing-attribute -->
