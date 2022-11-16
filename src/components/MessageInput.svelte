@@ -8,6 +8,7 @@
   export let input = "";
   export let emoticonPath: string;
   export let showEmojiArea = false;
+  export let messageInput: HTMLElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 
@@ -39,7 +40,7 @@
           />
         </div>
         <div class="ipt_area">
-          <input type="text" bind:value={input} />
+          <input type="text" bind:value={input} bind:this={messageInput} />
           <span class="clear">
             <input
               type="button"

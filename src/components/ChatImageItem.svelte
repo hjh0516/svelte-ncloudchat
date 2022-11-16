@@ -30,7 +30,7 @@
     <Spinner />
   </div>
 {:else if failed}
-  <img src="default.jpg" alt="error_image" class={className} />
+  <img src="default.jpg" alt="error_image" class="rounded-2xl" />
 {:else}
   <img {src} alt="image_url" class={className} />
 {/if}

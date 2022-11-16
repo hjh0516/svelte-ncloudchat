@@ -16,15 +16,15 @@
 
 <div class="request">
   <dl>
-    <dd class="cont">
-      {#if item.type === "text"}
+    {#if item.type === "text"}
+      <dd class="cont">
         {item.message}
-      {:else if item.type === "file"}
-        <div class="chat_img max-w-xs" on:click={() => open(item)}>
-          <Image src={item.image_url} className={"bg-white"} />
-        </div>
-      {/if}
-    </dd>
+      </dd>
+    {:else if item.type === "file"}
+      <div class="chat_img max-w-[20rem] mt-3" on:click={() => open(item)}>
+        <Image src={item.image_url} className={"rounded-2xl"} />
+      </div>
+    {/if}
     {#if item.show_date}
       <dd class="rciv_time mb-3">{convertSendAt(item.created_at)}</dd>
     {/if}

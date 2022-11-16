@@ -43,6 +43,7 @@
   let loading = false;
   let bans = [];
   let refresh = false;
+  let messageInput: HTMLElement;
 
   $: data = updateChatItems(data);
 
@@ -61,6 +62,8 @@
     if (message) {
       apiSendPush(params.id, message);
     }
+
+    messageInput.focus();
   }
 
   async function sendEmoji() {
@@ -149,7 +152,7 @@
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
         let chat: Chat;
-        element.scrollTop = element.scrollHeight;
+        element.scrollTop = 0;
 
         const banUsers = bans.map((x) => x.target);
         if (banUsers.includes(Number(message.sender.id.split("_")[1]))) {
@@ -201,8 +204,6 @@
       console.error(err);
     }
     loading = false;
-
-    element.scrollTop = element.scrollHeight;
   });
 
   onDestroy(() => {
@@ -270,6 +271,7 @@
   {send}
   {uploadImage}
   bind:input
+  bind:messageInput
   bind:showEmojiArea
   bind:emoticonPath
 />

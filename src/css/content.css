@@ -535,7 +535,7 @@ em.ent {
 	max-width: 365px
 }
 
-#main .section1 .phone_wrap .img_area .img_phone .txt_box {}
+/* #main .section1 .phone_wrap .img_area .img_phone .txt_box {} */
 
 /*드롭박스*/
 #main .section .drp_wrap {
@@ -1001,9 +1001,9 @@ em.ent {
 }
 
 
-#main .section5 {
-	/* background: #fafafa;  */
-}
+/* #main .section5 {
+	background: #fafafa; 
+} */
 
 #main .section5 .inner {
 	padding: 160px 0 300px 0
@@ -1573,7 +1573,7 @@ em.ent {
 	z-index: -1;
 }
 
-#sub.login .bg1 {}
+/* #sub.login .bg1 {} */
 
 #sub.login .bg2 {
 	top: 910px;
@@ -2731,9 +2731,9 @@ em.ent {
 	background-position: center center;
 }
 
-#sub.mypage .section2 .tab_con .cont3 .check_box input[type="checkbox"]:disabled+label:before {
-	/* background-color:#eee; border:1px solid #ddd; */
-}
+/* #sub.mypage .section2 .tab_con .cont3 .check_box input[type="checkbox"]:disabled+label:before {
+	background-color:#eee; border:1px solid #ddd;
+} */
 
 #sub.mypage .section2 .tab_con .cont3 .toons_con .btns_warp {
 	width: 100%;
@@ -3420,16 +3420,18 @@ em.ent {
 	overflow-y: auto;
 }
 
-.chat_idx .chat_area>div {
-	/* display: none; */
-}
+/* .chat_idx .chat_area>div {
+	display: none;
+} */
 
 .chat_idx .chat_area>div.active {
 	display: block;
 }
 
 .chat_idx .srch_wr {
-	position: relative;
+	position: absolute;
+	width: 90%;
+	z-index: 150;
 }
 
 .chat_idx .srch_wr input[type="text"] {
@@ -3621,11 +3623,11 @@ em.ent {
 	border-radius: 8.5px;
 }
 
-.chat_idx .chat_list>ul>li .rt_btn {
-	/* position: absolute;
+/* .chat_idx .chat_list>ul>li .rt_btn {
+	position: absolute;
 	right: -145px;
-	top: 0; */
-}
+	top: 0;
+} */
 
 .chat_idx .chat_list>ul>li .box2 {
 	float: left;

@@ -48,18 +48,18 @@
   });
 </script>
 
+<div class="chat_srch">
+  <div class="srch_wr">
+    <input
+      type="text"
+      placeholder="대화방을 검색해보세요!"
+      bind:value={searchText}
+    />
+    <input type="button" class="svg" on:click={searchChannels} />
+  </div>
+</div>
 {#if data.length > 0}
-  <div class="open_chat active">
-    <div class="chat_srch">
-      <div class="srch_wr">
-        <input
-          type="text"
-          placeholder="대화방을 검색해보세요!"
-          bind:value={searchText}
-        />
-        <input type="button" class="svg" on:click={searchChannels} />
-      </div>
-    </div>
+  <div class="open_chat active mt-28">
     <div class="chat_list active">
       <ul>
         {#each data as item}
@@ -83,11 +83,7 @@
     <div class="tb">
       <div class="tbc">
         <div class="msg">
-          <strong class="aggro">참여중인 채팅이 없어요!</strong>
-          <p>
-            오른쪽 하단의 채팅하기 아이콘을 누르면<br />
-            직접 방을 만들 수 있어요!
-          </p>
+          <strong class="aggro">검색된 채팅이 없어요!</strong>
         </div>
       </div>
     </div>
