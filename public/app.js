@@ -28,11 +28,20 @@ function gohome() {
   }
 }
 
+function goemoticon() {
+  if (isMobile.Android()) {
+    window.emoApp.goemoticon();
+  } else if (isMobile.iOS()) {
+    window.webkit?.messageHandlers.goemoticon.postMessage();
+  }
+}
+
 function showsetting() {
   showSettingModal = true;
 }
 
 function goback() {
+  gohome();
   history.back();
 }
 
