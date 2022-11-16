@@ -196,11 +196,17 @@
 
     loading = true;
     try {
+      alert('1');
       channel = await apiGetChannel(params.id);
+      alert('3');
       await loadMessages();
+      alert('4');
       apiCreateChatRead(params.id);
+      alert('5');
       bans = await apiGetChatBans(params.id);
+      alert('6');
     } catch (err) {
+      alert(err);
       console.error(err);
     }
     loading = false;
