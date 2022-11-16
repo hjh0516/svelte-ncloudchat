@@ -19,6 +19,8 @@
   let showSettingModal = false;
   let showCreateChannelModal = false;
 
+  window.setShowSettingModal = (value: boolean) => (showSettingModal = value);
+
   const { addNotification, clearNotifications } = getNotificationsContext();
 
   function openCreateChannelModal() {

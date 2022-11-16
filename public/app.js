@@ -37,7 +37,7 @@ function goemoticon() {
 }
 
 function showsetting() {
-  showSettingModal = true;
+  window.setShowSettingModal(true);
 }
 
 function goback() {
