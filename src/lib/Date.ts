@@ -50,21 +50,39 @@ export function convertLastChat(value: string) {
 }
 
 export function convertChatDate(value: string | Date) {
-  return new Intl.DateTimeFormat("ko", { dateStyle: "full" }).format(
-    new Date(value)
-  );
+  const date = new Date(value);
+  const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const weekday = WEEKDAY[date.getDay()];
+
+  return `${year}년 ${month}월 ${day}일 ${weekday}요일`;
 }
 
 export function convertSendAt(value: string | Date) {
-  return new Intl.DateTimeFormat("ko", { timeStyle: "short" }).format(
-    new Date(value)
-  );
+  const date = new Date(value);
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  if (hours > 12) {
+    return `오후 ${pad(hours - 12)}:${pad(minutes)}`;
+  } else if (hours === 12) {
+    return `오후 ${pad(hours)}:${pad(minutes)}`;
+  } else {
+    return `오전 ${pad(hours)}:${pad(minutes)}`;
+  }
 }
 
 export function convertChannelCreatedAt(value: string | Date) {
-  return new Intl.DateTimeFormat("ko", { dateStyle: "medium" }).format(
-    new Date(value)
-  );
+  const date = new Date(value);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${year}. ${month}. ${day}`;
 }
 
 function pad(date: number) {
