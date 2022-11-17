@@ -21,7 +21,7 @@
     let overflow = "";
     for (let t of tags) {
       tagLen += getBytelength(t.tag);
-      if (tagLen > 30) {
+      if (tagLen > 50) {
         overflow = "...";
         break;
       }
@@ -79,8 +79,12 @@
               {item.name} <em class="o_num">{item.subscriptions_count}명</em>
             </div>
             <div class="hash_list">
-              <ul class="clear whitespace-nowrap">
-                <li>{convertTags(item.tags)}</li>
+              <ul class="clear">
+                <li
+                  class="w-full whitespace-nowrap overflow-hidden text-ellipsis"
+                >
+                  {convertTags(item.tags)}
+                </li>
               </ul>
             </div>
           </div>

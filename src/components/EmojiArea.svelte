@@ -35,12 +35,7 @@
         {/each}
       {/if}
     </ul>
-    <div
-      class="go_store svg"
-      on:click={() => {
-        goemoticon();
-      }}
-    >
+    <div class="go_store svg" on:click={() => goemoticon()}>
       이모티콘 스토어
     </div>
   </div>
