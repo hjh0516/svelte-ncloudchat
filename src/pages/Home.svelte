@@ -84,7 +84,7 @@
           {#if $store.activeItem === "My 채팅"}
             <MyChat {chat} />
           {:else if $store.activeItem === "오픈 채팅"}
-            <OpenChat />
+            <OpenChat bind:showSettingModal />
           {/if}
         </div>
         <FloatingActionButton on:click={openCreateChannelModal} />

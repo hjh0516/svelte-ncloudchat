@@ -9,6 +9,8 @@
   import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
 
+  export let showSettingModal;
+
   let page = 1;
   let data: Channel[] = [];
   let newData: Channel[] = [];
@@ -16,6 +18,12 @@
   let item = null;
   let loading = false;
   let showSubscriptionModal = false;
+
+  $: if (showSettingModal) {
+    if (showSubscriptionModal) {
+      showSettingModal = false;
+    }
+  }
 
   async function loadChannels(searchText?: string) {
     loading = true;
