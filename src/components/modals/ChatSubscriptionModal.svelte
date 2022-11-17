@@ -123,9 +123,9 @@
           </div>
           <div class="hash_list">
             <ul>
-              {#each item.tags as t}
-                <li>#{t.tag}</li>
-              {/each}
+              {#if item.tags.length > 0}
+                <li>#{item.tags.map((v) => v.tag).join(" #")}</li>
+              {/if}
             </ul>
           </div>
           <div class="room_info">

@@ -20,9 +20,7 @@
   let page = 1;
   let data: Channel[] = [];
   let newData: Channel[] = [];
-  let showCreateChannelModal = false;
   let showChatExitModal = false;
-  let newChannel: Channel = null;
   let loading = false;
   let channelId: string;
 
