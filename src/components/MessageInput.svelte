@@ -40,7 +40,16 @@
           />
         </div>
         <div class="ipt_area">
-          <input type="text" bind:value={input} bind:this={messageInput} />
+          <input
+            type="text"
+            bind:value={input}
+            bind:this={messageInput}
+            on:keydown={(e) => {
+              if (e.key === "Enter") {
+                send();
+              }
+            }}
+          />
           <span class="clear">
             <input
               type="button"
