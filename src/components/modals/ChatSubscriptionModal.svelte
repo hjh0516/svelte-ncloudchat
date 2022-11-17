@@ -10,7 +10,7 @@
     apiCreateChannelNotification,
     apiSubscribe,
   } from "$lib/api";
-  import { getChannel, subscribe } from "$lib/NcloudChat";
+  import { subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
   import { getNotificationsContext } from "svelte-notifications";
   import ChannelShareModal from "./ChannelShareModal.svelte";
@@ -56,12 +56,9 @@
     }
 
     loading = true;
-    addPointerEventNone();
-
     try {
       apiSubscribe(channel_id);
       apiCreateChannelNotification(channel_id, true);
-      channel = await getChannel(channel_id);
     } catch (err) {
       console.error(err);
     }
@@ -71,21 +68,12 @@
     } catch (err) {
       console.error(err);
     }
-
     loading = false;
-    removePointerEventNone();
     close();
 
     location.href = `/#/chat/${channel_id}`;
+    location.reload();
     godetail();
-  }
-
-  function addPointerEventNone() {
-    element.classList.add("pointer-events-none");
-  }
-
-  function removePointerEventNone() {
-    element.classList.remove("pointer-events-none");
   }
 </script>
 

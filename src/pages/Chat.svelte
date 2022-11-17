@@ -41,11 +41,9 @@
   let showEmojiArea = false;
   let chatItem = null;
   let loading = false;
-  let connectLoading = false;
   let bans = [];
   let refresh = false;
-  let messageInput: HTMLInputElement;
-  let emojiInput: HTMLInputElement;
+  let messageInput: HTMLElement;
 
   $: data = updateChatItems(data);
 
@@ -61,8 +59,12 @@
       sendText();
     }
 
-    if (message) {
-      apiSendPush(params.id, message);
+    try {
+      if (message) {
+        apiSendPush(params.id, message);
+      }
+    } catch (err) {
+      console.error(err);
     }
 
     messageInput.focus();
@@ -154,18 +156,6 @@
   }
 
   onMount(async () => {
-    bind("onDisconnected", function () {
-      connectLoading = true;
-      messageInput.classList.add("pointer-events-none");
-      emojiInput.classList.add("pointer-events-none");
-    });
-
-    bind("onConnected", function () {
-      connectLoading = false;
-      messageInput.classList.remove("pointer-events-none");
-      emojiInput.classList.remove("pointer-events-none");
-    });
-
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
@@ -292,7 +282,6 @@
   bind:messageInput
   bind:showEmojiArea
   bind:emojiPath
-  bind:emojiInput
 />
 
 {#if showSettingModal}
@@ -316,12 +305,6 @@
 {/if}
 
 {#if loading}
-  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-    <Spinner />
-  </div>
-{/if}
-
-{#if connectLoading}
   <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
   </div>

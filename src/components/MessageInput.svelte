@@ -8,8 +8,7 @@
   export let input = "";
   export let emojiPath: string;
   export let showEmojiArea = false;
-  export let messageInput: HTMLInputElement;
-  export let emojiInput: HTMLInputElement;
+  export let messageInput: HTMLElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 
@@ -47,7 +46,6 @@
               type="button"
               value="이모티콘"
               class="svg"
-              bind:this={emojiInput}
               on:click={() => {
                 showEmojiArea = !showEmojiArea;
               }}
