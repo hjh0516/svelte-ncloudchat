@@ -42,6 +42,7 @@
 
     if (item.is_subscription) {
       location.href = `/#/chat/${item.channel_id}`;
+      location.reload();
       godetail();
       return;
     }

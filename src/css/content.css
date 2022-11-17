@@ -3995,6 +3995,7 @@ em.ent {
 	background-color: #00c6ba;
 	border-radius: 15px 15px 0 15px;
 	text-align: left;
+	max-width: 250px;
 }
 
 .chat_room .chat_info .request .cont.fir {

@@ -12,9 +12,12 @@
     gohome();
   }
 
-  onMount(async () => {
-    $store.channel = channel;
-    window.sessionStorage.setItem("store", JSON.stringify($store));
+  onMount(() => {
+    if (channel) {
+      console.log(channel);
+      $store.channel = channel;
+      window.sessionStorage.setItem("store", JSON.stringify($store));
+    }
   });
 </script>
 

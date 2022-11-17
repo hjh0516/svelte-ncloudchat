@@ -52,5 +52,6 @@ function getchannelidx() {
 
 function gochannel(channel_id) {
   location.href = `/#/chat/${channel_id}`;
+  location.reload();
   godetail();
 }

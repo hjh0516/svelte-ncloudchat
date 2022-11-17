@@ -21,6 +21,7 @@
 
   function clickItem(channel_id: string) {
     location.href = `/#/chat/${channel_id}`;
+    location.reload();
     godetail();
   }
 
