@@ -8,8 +8,8 @@
   export let input = "";
   export let emojiPath: string;
   export let showEmojiArea = false;
-  export let messageInput: HTMLElement;
-  export let emojiInput: HTMLElement;
+  export let messageInput: HTMLInputElement;
+  export let emojiInput: HTMLInputElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 

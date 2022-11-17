@@ -44,8 +44,8 @@
   let connectLoading = false;
   let bans = [];
   let refresh = false;
-  let messageInput: HTMLElement;
-  let emojiInput: HTMLElement;
+  let messageInput: HTMLInputElement;
+  let emojiInput: HTMLInputElement;
 
   $: data = updateChatItems(data);
 
