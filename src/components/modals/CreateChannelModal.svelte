@@ -58,21 +58,29 @@
     if (tag) {
       let matches = tag.match(/#[a-z|A-z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9]+/g);
 
-      matches.map((v) => {
-        if (v.length > 10) {
-          clearNotifications();
-          addNotification({
-            text: "태그는 최대 10자까지 입력할 수 있어요.",
-            position: "bottom-center",
-            removeAfter: 1500,
-          });
-        }
-      });
-
       if (!matches) {
         clearNotifications();
         addNotification({
           text: '"#" 을 포함해서 입력해주세요.',
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+        inputTag.focus();
+        return;
+      }
+
+      let checkTagLength = false;
+      matches.map((v) => {
+        if (v.length > 10) {
+          checkTagLength = true;
+          return;
+        }
+      });
+
+      if (checkTagLength) {
+        clearNotifications();
+        addNotification({
+          text: "태그는 최대 10자까지 입력할 수 있어요.",
           position: "bottom-center",
           removeAfter: 1500,
         });
