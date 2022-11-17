@@ -44,7 +44,7 @@
             type="text"
             bind:value={input}
             bind:this={messageInput}
-            on:keydown={(e) => {
+            on:keypress={(e) => {
               if (e.key === "Enter") {
                 send();
               }

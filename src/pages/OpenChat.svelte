@@ -54,7 +54,7 @@
       type="text"
       placeholder="대화방을 검색해보세요!"
       bind:value={searchText}
-      on:keydown={(e) => {
+      on:keypress={(e) => {
         if (e.key === "Enter") {
           searchChannels();
         }
