@@ -92,8 +92,6 @@
       }
     }
 
-    return;
-
     loading = true;
     addPointerEventNone();
 

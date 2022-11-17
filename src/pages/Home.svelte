@@ -19,7 +19,10 @@
   let showSettingModal = false;
   let showCreateChannelModal = false;
 
-  window.setShowSettingModal = (value: boolean) => (showSettingModal = value);
+  window.setShowSettingModal = (value: boolean) => {
+    showCreateChannelModal = false;
+    showSettingModal = value;
+  };
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
