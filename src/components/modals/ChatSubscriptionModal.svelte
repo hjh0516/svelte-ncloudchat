@@ -22,7 +22,6 @@
   export let channel_id: string;
   export let item: Channel;
 
-  let channel: Channel;
   let element: HTMLElement;
   let loading = false;
   let showChannelShareModal = false;

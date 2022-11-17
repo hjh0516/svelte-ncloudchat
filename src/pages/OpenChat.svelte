@@ -9,7 +9,7 @@
   import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
 
-  export let showSettingModal;
+  export let showSettingModal: boolean;
 
   let page = 1;
   let data: Channel[] = [];
@@ -21,7 +21,7 @@
 
   $: if (showSettingModal) {
     if (showSubscriptionModal) {
-      showSettingModal = false;
+      showSubscriptionModal = false;
     }
   }
 
