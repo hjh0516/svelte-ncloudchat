@@ -80,7 +80,7 @@
     threshold={200}
     on:loadMore={async () => {
       page++;
-      await loadChannels();
+      await loadChannels(searchText);
     }}
   />
 {:else}
