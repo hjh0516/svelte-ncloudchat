@@ -187,7 +187,7 @@
           };
         }
 
-        if ($store.channel && $store.channel.channel_id === _channel) {
+        if (channel.channel_id === _channel) {
           if (data.length === 0) {
             data.push({
               idx: 0,
@@ -206,6 +206,9 @@
     loading = true;
     try {
       channel = await apiGetChannel(params.id);
+      $store.channel = channel;
+      window.sessionStorage.setItem("store", JSON.stringify($store));
+
       await loadMessages();
       apiCreateChatRead(params.id);
       bans = await apiGetChatBans(params.id);

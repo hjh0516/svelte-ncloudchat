@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Channel } from "$lib/types/type";
+  import type { Channel, Chat } from "$lib/types/type";
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import ChatSubscriptionModal from "$components/modals/ChatSubscriptionModal.svelte";
@@ -9,6 +9,7 @@
   import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
 
+  export let chat: Chat;
   export let showSettingModal: boolean;
 
   let page = 1;
@@ -19,9 +20,21 @@
   let loading = false;
   let showSubscriptionModal = false;
 
-  $: if (showSettingModal) {
-    if (showSubscriptionModal) {
-      showSubscriptionModal = false;
+  $: {
+    if (showSettingModal) {
+      if (showSubscriptionModal) {
+        showSubscriptionModal = false;
+      }
+    }
+
+    if (chat) {
+      const index = data.findIndex((x) => x.channel_id === chat.channel_id);
+      if (index >= 0) {
+        data[index].last_chat_at = chat.created_at;
+
+        const refresh = data.splice(index, 1);
+        data = [...refresh, ...data];
+      }
     }
   }
 

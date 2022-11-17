@@ -1,9 +1,6 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
-  import { store } from "$store/store";
-  import { onMount } from "svelte";
-
   export let channel: Channel;
   export let showSettingModal = false;
 
@@ -11,14 +8,6 @@
     location.href = "/#/home";
     gohome();
   }
-
-  onMount(() => {
-    if (channel) {
-      console.log(channel);
-      $store.channel = channel;
-      window.sessionStorage.setItem("store", JSON.stringify($store));
-    }
-  });
 </script>
 
 <div class="chat_header">
