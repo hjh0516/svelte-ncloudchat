@@ -42,6 +42,7 @@
       $store.channel = newChannel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
       location.href = `/#/chat/${newChannel.channel_id}`;
+      location.reload();
       godetail();
     }
   }
