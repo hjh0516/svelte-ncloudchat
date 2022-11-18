@@ -18,8 +18,6 @@
     try {
       const res = await apiGetEmoticonAvailables();
       emojis = res.data;
-      console.log(emojis);
-      
     } catch (err) {
       console.error(err);
     }

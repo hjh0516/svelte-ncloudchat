@@ -137,7 +137,7 @@
     try {
       apiCreateChatRead(params.id);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
