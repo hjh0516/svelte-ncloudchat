@@ -290,8 +290,8 @@ export async function apiUploadChannelImage(file: any) {
   return await handleResponse(response);
 }
 
-export async function apiGetEmoticonOrders() {
-  const response = await fetch(`${API_URL}/emoticons/orders`, {
+export async function apiGetEmoticonAvailables() {
+  const response = await fetch(`${API_URL}/emoticons/availables`, {
     method: "GET",
     headers: setHeader(),
   });
