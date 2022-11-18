@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Channel } from "$lib/types/type";
+  import type { Channel, Subscription } from "$lib/types/type";
 
   import ChatOutModal from "$components/modals/ChatExitModal.svelte";
   import ChannelShareModal from "./ChannelShareModal.svelte";
@@ -26,6 +26,7 @@
   let showChatExitModal = false;
   let showChannelShareModal = false;
   let channelNotification: boolean;
+  let leader: Subscription;
 
   function onChangeChannelNotification() {
     channelNotification = !channelNotification;
@@ -77,6 +78,7 @@
 
   onMount(() => {
     channelNotification = channel.notification;
+    leader = channel.subscriptions.find((v) => v.user_idx === channel.user_idx);
   });
 </script>
 
@@ -146,34 +148,37 @@
                         <span class="a_state">나</span>
                       </div>
                     </li>
-                    {#each channel.subscriptions as item}
-                      {#if item.user_idx !== Number($store.user.id)}
-                        <li>
-                          {#if item.user_idx === channel.user_idx}
-                            <div class="box r_leader2">
-                              <div class="info_w">
-                                <div
-                                  class="c_avata back_img"
-                                  style="background-image:url({item.profile});"
-                                >
-                                  <img
-                                    src="../img/img_basic2.png"
-                                    class="basic_img"
-                                    alt="profile_image"
-                                  />
-                                </div>
-                                <div class="txt_box">
-                                  <div class="tb">
-                                    <div class="tbc">
-                                      <strong class="aggro">
-                                        {item.nickname}
-                                      </strong>
-                                    </div>
-                                  </div>
+                    {#if leader && leader.user_idx !== Number($store.user.id)}
+                      <li>
+                        <div class="box r_leader2">
+                          <div class="info_w">
+                            <div
+                              class="c_avata back_img"
+                              style="background-image:url({leader.profile});"
+                            >
+                              <img
+                                src="../img/img_basic2.png"
+                                class="basic_img"
+                                alt="profile_image"
+                              />
+                            </div>
+                            <div class="txt_box">
+                              <div class="tb">
+                                <div class="tbc">
+                                  <strong class="aggro">
+                                    {leader.nickname}
+                                  </strong>
                                 </div>
                               </div>
                             </div>
-                          {:else if item.is_ban}
+                          </div>
+                        </div>
+                      </li>
+                    {/if}
+                    {#each channel.subscriptions as item}
+                      {#if item.user_idx !== Number($store.user.id) && item.user_idx !== channel.user_idx}
+                        <li>
+                          {#if item.is_ban}
                             <div class="box blocked">
                               <div class="info_w">
                                 <div
