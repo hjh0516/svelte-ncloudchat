@@ -32,7 +32,8 @@ function goemoticon() {
   if (isMobile.Android()) {
     window.emoApp?.goemoticon();
   } else if (isMobile.iOS()) {
-    window.webkit?.messageHandlers.goemoticon.postMessage();
+    location.href="goemoticon://";
+    // window.webkit?.messageHandlers.goemoticon.postMessage();
   }
 }
 
