@@ -2,7 +2,7 @@
   import type { Emoji } from "$lib/types/type";
 
   import EmojiArea from "./EmojiArea.svelte";
-  import { apiGetEmoticonOrders } from "$lib/api";
+  import { apiGetEmoticonAvailables } from "$lib/api";
   import { onMount } from "svelte";
 
   export let input = "";
@@ -16,8 +16,10 @@
 
   onMount(async () => {
     try {
-      const res = await apiGetEmoticonOrders();
+      const res = await apiGetEmoticonAvailables();
       emojis = res.data;
+      console.log(emojis);
+      
     } catch (err) {
       console.error(err);
     }
