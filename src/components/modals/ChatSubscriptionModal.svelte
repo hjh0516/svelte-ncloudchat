@@ -10,7 +10,7 @@
     apiCreateChannelNotification,
     apiSubscribe,
   } from "$lib/api";
-  import { getChannel, subscribe } from "$lib/NcloudChat";
+  import { subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
   import { getNotificationsContext } from "svelte-notifications";
   import ChannelShareModal from "./ChannelShareModal.svelte";
@@ -22,7 +22,6 @@
   export let channel_id: string;
   export let item: Channel;
 
-  let channel: Channel;
   let element: HTMLElement;
   let loading = false;
   let showChannelShareModal = false;
@@ -43,6 +42,7 @@
 
     if (item.is_subscription) {
       location.href = `/#/chat/${item.channel_id}`;
+      location.reload();
       godetail();
       return;
     }
@@ -56,36 +56,24 @@
     }
 
     loading = true;
-    addPointerEventNone();
-
     try {
       apiSubscribe(channel_id);
       apiCreateChannelNotification(channel_id, true);
-      channel = await getChannel(channel_id);
     } catch (err) {
       console.error(err);
     }
 
     try {
-      subscribe(channel_id);
+      await subscribe(channel_id);
     } catch (err) {
       console.error(err);
     }
-
     loading = false;
-    removePointerEventNone();
     close();
 
     location.href = `/#/chat/${channel_id}`;
+    location.reload();
     godetail();
-  }
-
-  function addPointerEventNone() {
-    element.classList.add("pointer-events-none");
-  }
-
-  function removePointerEventNone() {
-    element.classList.remove("pointer-events-none");
   }
 </script>
 
@@ -135,9 +123,9 @@
           </div>
           <div class="hash_list">
             <ul>
-              {#each item.tags as t}
-                <li>#{t.tag}</li>
-              {/each}
+              {#if item.tags.length > 0}
+                <li>#{item.tags.map((v) => v.tag).join(" #")}</li>
+              {/if}
             </ul>
           </div>
           <div class="room_info">

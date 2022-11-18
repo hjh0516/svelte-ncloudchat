@@ -4,6 +4,7 @@
   import Spinner from "$components/Spinner.svelte";
   import UploadImageModal from "$components/modals/UploadImageModal.svelte";
   import { createEventDispatcher } from "svelte";
+  import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
   import { slide } from "svelte/transition";
   import { ChannelType } from "ncloudchat/esm/Type";
@@ -19,6 +20,7 @@
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   export let newChannel: Channel = null;
 
@@ -42,9 +44,60 @@
       return;
     }
 
-    if (tag && !tag.includes("#")) {
-      inputTag.focus();
+    if (name.length > 20) {
+      clearNotifications();
+      addNotification({
+        text: "채팅방 이름은 최대 20자까지 입력할 수 있어요.",
+        position: "bottom-center",
+        removeAfter: 1500,
+      });
+      inputName.focus();
       return;
+    }
+
+    if (tag) {
+      let matches = tag.match(/#[a-z|A-z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9]+/g);
+
+      if (!matches) {
+        clearNotifications();
+        addNotification({
+          text: '"#" 을 포함해서 입력해주세요.',
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+        inputTag.focus();
+        return;
+      }
+
+      let checkTagLength = false;
+      matches.map((v) => {
+        if (v.length > 10) {
+          checkTagLength = true;
+          return;
+        }
+      });
+
+      if (checkTagLength) {
+        clearNotifications();
+        addNotification({
+          text: "태그는 최대 10자까지 입력할 수 있어요.",
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+        inputTag.focus();
+        return;
+      }
+
+      if (matches.length > 10) {
+        clearNotifications();
+        addNotification({
+          text: "최대 10개까지 입력할 수 있어요.",
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+        inputTag.focus();
+        return;
+      }
     }
 
     loading = true;
@@ -149,7 +202,7 @@
         <div class="ipt_box1 chat_name">
           <input
             type="text"
-            placeholder="채팅방 이름을 입력해주세요."
+            placeholder="채팅방 이름을 입력해주세요. (20자)"
             bind:this={inputName}
             bind:value={name}
           />
@@ -157,7 +210,7 @@
         <div class="ipt_box1 chat_hash">
           <input
             type="text"
-            placeholder="해시태그로 채팅방을 소개해주세요. (#태그)"
+            placeholder="해시태그로 채팅방을 소개해주세요. (최대 10개)"
             bind:this={inputTag}
             bind:value={tag}
           />

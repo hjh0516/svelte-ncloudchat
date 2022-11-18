@@ -9,7 +9,6 @@
   export let emojiPath: string;
   export let showEmojiArea = false;
   export let messageInput: HTMLElement;
-  export let emojiInput: HTMLElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 
@@ -41,13 +40,21 @@
           />
         </div>
         <div class="ipt_area">
-          <input type="text" bind:value={input} bind:this={messageInput} />
+          <input
+            type="text"
+            bind:value={input}
+            bind:this={messageInput}
+            on:keypress={(e) => {
+              if (e.key === "Enter") {
+                send();
+              }
+            }}
+          />
           <span class="clear">
             <input
               type="button"
               value="이모티콘"
               class="svg"
-              bind:this={emojiInput}
               on:click={() => {
                 showEmojiArea = !showEmojiArea;
               }}

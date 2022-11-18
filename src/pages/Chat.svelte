@@ -41,11 +41,9 @@
   let showEmojiArea = false;
   let chatItem = null;
   let loading = false;
-  let connectLoading = false;
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
-  let emojiInput: HTMLElement;
 
   $: data = updateChatItems(data);
 
@@ -61,8 +59,12 @@
       sendText();
     }
 
-    if (message) {
-      apiSendPush(params.id, message);
+    try {
+      if (message) {
+        apiSendPush(params.id, message);
+      }
+    } catch (err) {
+      console.error(err);
     }
 
     messageInput.focus();
@@ -154,18 +156,6 @@
   }
 
   onMount(async () => {
-    bind("onDisconnected", function () {
-      connectLoading = true;
-      messageInput.classList.add("pointer-events-none");
-      emojiInput.classList.add("pointer-events-none");
-    });
-
-    bind("onConnected", function () {
-      connectLoading = false;
-      messageInput.classList.remove("pointer-events-none");
-      emojiInput.classList.remove("pointer-events-none");
-    });
-
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
@@ -197,24 +187,28 @@
           };
         }
 
-        if (data.length === 0) {
-          data.push({
-            idx: 0,
-            user_idx: 0,
-            channel_idx: 0,
-            type: "date",
-            message: convertChatDate(chat.created_at),
-            created_at: "",
-          });
+        if (channel.channel_id === _channel) {
+          if (data.length === 0) {
+            data.push({
+              idx: 0,
+              user_idx: 0,
+              channel_idx: 0,
+              type: "date",
+              message: convertChatDate(chat.created_at),
+              created_at: "",
+            });
+          }
+          data = [chat, ...data];
         }
-
-        data = [chat, ...data];
       }
     );
 
     loading = true;
     try {
       channel = await apiGetChannel(params.id);
+      $store.channel = channel;
+      window.sessionStorage.setItem("store", JSON.stringify($store));
+
       await loadMessages();
       apiCreateChatRead(params.id);
       bans = await apiGetChatBans(params.id);
@@ -292,7 +286,6 @@
   bind:messageInput
   bind:showEmojiArea
   bind:emojiPath
-  bind:emojiInput
 />
 
 {#if showSettingModal}
@@ -316,12 +309,6 @@
 {/if}
 
 {#if loading}
-  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-    <Spinner />
-  </div>
-{/if}
-
-{#if connectLoading}
   <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <Spinner />
   </div>

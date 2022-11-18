@@ -19,6 +19,11 @@
   let showSettingModal = false;
   let showCreateChannelModal = false;
 
+  window.setShowSettingModal = (value: boolean) => {
+    showCreateChannelModal = false;
+    showSettingModal = value;
+  };
+
   const { addNotification, clearNotifications } = getNotificationsContext();
 
   function openCreateChannelModal() {
@@ -37,9 +42,8 @@
   function closeCreateChannelModal() {
     showCreateChannelModal = false;
     if (newChannel) {
-      $store.channel = newChannel;
-      window.sessionStorage.setItem("store", JSON.stringify($store));
       location.href = `/#/chat/${newChannel.channel_id}`;
+      location.reload();
       godetail();
     }
   }
@@ -78,7 +82,7 @@
           {#if $store.activeItem === "My 채팅"}
             <MyChat {chat} />
           {:else if $store.activeItem === "오픈 채팅"}
-            <OpenChat />
+            <OpenChat {chat} bind:showSettingModal />
           {/if}
         </div>
         <FloatingActionButton on:click={openCreateChannelModal} />

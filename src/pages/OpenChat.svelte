@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Channel } from "$lib/types/type";
+  import type { Channel, Chat } from "$lib/types/type";
 
   import OpenChannelItem from "$components/OpenChannelItem.svelte";
   import ChatSubscriptionModal from "$components/modals/ChatSubscriptionModal.svelte";
@@ -9,6 +9,9 @@
   import { store } from "$store/store";
   import { apiGetChannels } from "$lib/api";
 
+  export let chat: Chat;
+  export let showSettingModal: boolean;
+
   let page = 1;
   let data: Channel[] = [];
   let newData: Channel[] = [];
@@ -16,6 +19,24 @@
   let item = null;
   let loading = false;
   let showSubscriptionModal = false;
+
+  $: {
+    if (showSettingModal) {
+      if (showSubscriptionModal) {
+        showSubscriptionModal = false;
+      }
+    }
+
+    if (chat) {
+      const index = data.findIndex((x) => x.channel_id === chat.channel_id);
+      if (index >= 0) {
+        data[index].last_chat_at = chat.created_at;
+
+        const refresh = data.splice(index, 1);
+        data = [...refresh, ...data];
+      }
+    }
+  }
 
   async function loadChannels(searchText?: string) {
     loading = true;
@@ -54,6 +75,11 @@
       type="text"
       placeholder="대화방을 검색해보세요!"
       bind:value={searchText}
+      on:keypress={(e) => {
+        if (e.key === "Enter") {
+          searchChannels();
+        }
+      }}
     />
     <input type="button" class="svg" on:click={searchChannels} />
   </div>
@@ -75,7 +101,7 @@
     threshold={200}
     on:loadMore={async () => {
       page++;
-      await loadChannels();
+      await loadChannels(searchText);
     }}
   />
 {:else}

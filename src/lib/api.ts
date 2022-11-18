@@ -83,6 +83,14 @@ export async function apiCreateChannel(
   return await handleResponse(response);
 }
 
+export async function apiDeleteChannel(channel_id: string) {
+  const response = await fetch(`${API_URL}/channels/${channel_id}`, {
+    method: "DELETE",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 export async function apiSubscribe(channel_id: string) {
   const response = await fetch(`${API_URL}/channels/subscriptions`, {
     method: "POST",

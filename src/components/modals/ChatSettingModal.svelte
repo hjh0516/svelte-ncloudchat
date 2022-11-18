@@ -7,6 +7,7 @@
   import { slide } from "svelte/transition";
   import {
     apiCreateChatBans,
+    apiDeleteChannel,
     apiDeleteChannelNotification,
     apiDeleteChatBans,
     apiGetChannel,
@@ -35,11 +36,20 @@
     }
   }
 
-  function exitChannel() {
+  async function exitChannel() {
     try {
-      apiUnsubscribe(channel.channel_id);
-      unsubscribe(channel.channel_id);
+      await apiUnsubscribe(channel.channel_id);
       apiDeleteChannelNotification(channel.channel_id);
+      const res = await apiGetChannel(channel.channel_id);
+      if (res.subscriptions_count === 0) {
+        apiDeleteChannel(channel.channel_id);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      unsubscribe(channel.channel_id);
     } catch (err) {
       console.error(err);
     }

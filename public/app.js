@@ -28,11 +28,20 @@ function gohome() {
   }
 }
 
+function goemoticon() {
+  if (isMobile.Android()) {
+    window.emoApp.goemoticon();
+  } else if (isMobile.iOS()) {
+    window.webkit?.messageHandlers.goemoticon.postMessage();
+  }
+}
+
 function showsetting() {
-  showSettingModal = true;
+  window.setShowSettingModal(true);
 }
 
 function goback() {
+  gohome();
   history.back();
 }
 
@@ -43,5 +52,6 @@ function getchannelidx() {
 
 function gochannel(channel_id) {
   location.href = `/#/chat/${channel_id}`;
+  location.reload();
   godetail();
 }
