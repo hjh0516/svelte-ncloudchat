@@ -13,11 +13,13 @@
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
+  import Spinner from "$components/Spinner.svelte";
 
   let chat: Chat;
   let newChannel: Channel = null;
   let showSettingModal = false;
   let showCreateChannelModal = false;
+  let loading = false;
 
   window.setShowSettingModal = (value: boolean) => {
     showCreateChannelModal = false;
@@ -66,9 +68,20 @@
         created_at: message.created_at,
       };
     });
+
+    bind("onConnected", function () {
+      loading = false;
+    });
+
+    bind("onDisconnected", function (reason: string) {
+      console.error(reason);
+      loading = true;
+    });
   });
 
   onDestroy(() => {
+    unbindall("onConnected");
+    unbindall("onDisconnected");
     unbindall("onMessageReceived");
   });
 </script>
@@ -101,4 +114,15 @@
 
 {#if showCreateChannelModal}
   <CreateChannelModal on:close={closeCreateChannelModal} bind:newChannel />
+{/if}
+
+{#if loading}
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+    style="z-index: 200;"
+  >
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Spinner />
+    </div>
+  </div>
 {/if}

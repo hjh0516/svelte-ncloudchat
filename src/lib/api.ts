@@ -130,7 +130,7 @@ export async function apiCreateMessage(
   let headers = setHeader();
   let body: any;
 
-  if (type === "text") {
+  if (type === "text" || type === "system") {
     body = JSON.stringify({
       type: type,
       message: message,
@@ -147,7 +147,7 @@ export async function apiCreateMessage(
 
   const response = await fetch(`${API_URL}/chats/${channel_id}`, {
     method: "POST",
-    headers: headers,
+    headers: setHeader(),
     body: body,
   });
   return await handleResponse(response);
@@ -330,6 +330,20 @@ export async function apiCreateFollow(user_idx: number) {
     method: "POST",
     headers: setHeader(),
   });
+  return await handleResponse(response);
+}
+
+export async function apiDeleteUserSubscription(
+  channel_id: string,
+  user_idx: number
+) {
+  const response = await fetch(
+    `${API_URL}/channels/subscriptions/${channel_id}/${user_idx}`,
+    {
+      method: "DELETE",
+      headers: setHeader(),
+    }
+  );
   return await handleResponse(response);
 }
 

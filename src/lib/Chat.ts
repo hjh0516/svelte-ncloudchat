@@ -37,6 +37,7 @@ export function updateChatItems(data: Chat[]) {
 
     if (
       item.type !== "date" &&
+      item.type !== "system" &&
       previous.user_idx === item.user_idx &&
       convertSendAt(previous.created_at) === convertSendAt(item.created_at)
     ) {

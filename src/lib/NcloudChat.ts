@@ -1,4 +1,4 @@
-import type { ChannelType } from "ncloudchat/esm/Type";
+import { ChannelType } from "ncloudchat/esm/Type";
 import { v4 as uuidv4 } from "uuid";
 import { Chat } from "ncloudchat";
 
@@ -63,20 +63,16 @@ export async function getChannel(id: string) {
   return await nc.getChannel(id);
 }
 
-export async function createChannel(
-  type: ChannelType,
-  name: string,
-  imageUrl: string
-) {
+export async function createChannel(name: string, imageUrl: string) {
   const uuid = uuidv4();
   return await nc.createChannel({
     id: uuid,
-    type: type,
+    type: ChannelType.PUBLIC,
     name: name,
     uniqueId: Date.now().toString(),
     translation: false,
     disabled: false,
-    push: true,
+    push: false,
     mutes: false,
     linkUrl: "",
     imageUrl: imageUrl,

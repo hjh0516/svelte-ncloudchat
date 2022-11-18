@@ -2956,6 +2956,20 @@ em.ent {
 	border: 1px solid #aaa;
 }
 
+.cBtn3 {
+	display: inline-block;
+	padding: 0 5px;
+	box-sizing: border-box;
+	height: 22px;
+	line-height: 24px;
+	font-size: 9px;
+	font-family: 'SBAggroM', 'Noto Sans KR', sans-serif;
+	color: #fff;
+	background-color: #b9b9b9;
+	border-radius: 5px;
+	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.19);
+}
+
 .btn_area {
 	font-size: 0;
 	text-align: center;
@@ -4269,6 +4283,17 @@ em.ent {
 
 .chat_setting .pop_cont {
 	margin-top: 30px;
+}
+
+.chat_setting .setting_list>ul>li .top {
+	position: relative;
+}
+
+.chat_setting .setting_list>ul>li .top .cBtn3 {
+	position: absolute;
+	right: 17px;
+	top: 50%;
+	margin-top: -11px;
 }
 
 .chat_setting .setting_list>ul>li .wrap {

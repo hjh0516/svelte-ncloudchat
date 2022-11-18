@@ -48,9 +48,14 @@
   });
 </script>
 
-<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-  <Spinner />
+<div
+  class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+  style="z-index: 200;"
+>
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <Spinner />
+  </div>
 </div>
 <div class="h-screen bg-gray-50 flex justify-center items-center text-center">
-  <span class="text-3xl font-sbaggrom">채팅 접속 중입니다...</span>
+  <span class="font-sbaggrom">채팅 접속 중입니다...</span>
 </div>

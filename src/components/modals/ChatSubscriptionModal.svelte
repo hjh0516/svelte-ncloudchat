@@ -8,9 +8,10 @@
   import {
     apiCheckFollow,
     apiCreateChannelNotification,
+    apiCreateMessage,
     apiSubscribe,
   } from "$lib/api";
-  import { subscribe } from "$lib/NcloudChat";
+  import { getSubscriptions, sendMessage, subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
   import { getNotificationsContext } from "svelte-notifications";
   import ChannelShareModal from "./ChannelShareModal.svelte";
@@ -56,9 +57,11 @@
     }
 
     loading = true;
+    const message = `${$store.user.name}님이 입장했어요.`;
     try {
       apiSubscribe(channel_id);
       apiCreateChannelNotification(channel_id, true);
+      apiCreateMessage(channel_id, "system", message);
     } catch (err) {
       console.error(err);
     }
@@ -68,12 +71,19 @@
     } catch (err) {
       console.error(err);
     }
+
     loading = false;
     close();
 
     location.href = `/#/chat/${channel_id}`;
     location.reload();
     godetail();
+
+    try {
+      sendMessage(channel_id, "system", message);
+    } catch (err) {
+      console.error(err);
+    }
   }
 </script>
 
@@ -187,8 +197,13 @@
   </div>
 
   {#if loading}
-    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <Spinner />
+    <div
+      class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+      style="z-index: 200;"
+    >
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Spinner />
+      </div>
     </div>
   {/if}
 </div>

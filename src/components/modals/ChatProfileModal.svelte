@@ -1,10 +1,16 @@
 <script lang="ts">
   import type { Channel, Chat } from "$lib/types/type";
 
-  import { apiCreateChatBans, apiDeleteChatBans } from "$lib/api";
+  import {
+    apiCreateChatBans,
+    apiCreateMessage,
+    apiDeleteChatBans,
+    apiDeleteUserSubscription,
+  } from "$lib/api";
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
   import { store } from "$store/store";
+  import { sendMessage } from "$lib/NcloudChat";
 
   export let channel: Channel;
   export let item: Chat;
@@ -30,6 +36,18 @@
     try {
       apiDeleteChatBans(channel.channel_id, target);
       refresh = true;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function forcedExit(target: number) {
+    try {
+      apiDeleteUserSubscription(channel.channel_id, target);
+      const message = `${item.nickname}님을 내보냈어요.`;
+      sendMessage(channel.channel_id, `system_${target}`, message);
+      apiCreateMessage(channel.channel_id, "system", message);
+      close();
     } catch (err) {
       console.error(err);
     }
@@ -62,14 +80,28 @@
         </div>
         {#if channel.user_idx === Number($store.user.id)}
           <div class="btn_area in_2">
+            {#if is_ban}
+              <div
+                id="blockPause"
+                class="cBtn2 lined aggro"
+                on:click={() => unban(item.user_idx)}
+              >
+                <span>차단해제</span>
+              </div>
+            {:else}
+              <div
+                id="btnBlock"
+                class="cBtn2 aggro"
+                on:click={() => ban(item.user_idx)}
+              >
+                <span>차단하기</span>
+              </div>
+            {/if}
             <div
-              id="btnBlock"
-              class="cBtn2 aggro"
-              on:click={() => ban(item.user_idx)}
+              id="blockPause"
+              class="cBtn2 gr aggro"
+              on:click={() => forcedExit(item.user_idx)}
             >
-              <span>차단하기</span>
-            </div>
-            <div id="blockPause" class="cBtn2 gr aggro">
               <span>내보내기</span>
             </div>
           </div>

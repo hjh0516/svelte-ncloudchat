@@ -7,6 +7,7 @@
   import { slide } from "svelte/transition";
   import {
     apiCreateChatBans,
+    apiCreateMessage,
     apiDeleteChannel,
     apiDeleteChannelNotification,
     apiDeleteChatBans,
@@ -15,52 +16,63 @@
     apiUpdateChannelNotification,
   } from "$lib/api";
   import { store } from "$store/store";
-  import { unsubscribe } from "$lib/NcloudChat";
+  import { sendMessage, unsubscribe } from "$lib/NcloudChat";
+  import Spinner from "$components/Spinner.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
-  export let channel: Channel;
+  export let channel_id: string;
   export let refresh: boolean;
 
+  let channel: Channel;
   let showChatExitModal = false;
   let showChannelShareModal = false;
   let channelNotification: boolean;
   let leader: Subscription;
+  let loading = false;
 
   function onChangeChannelNotification() {
     channelNotification = !channelNotification;
     try {
-      apiUpdateChannelNotification(channel.channel_id, channelNotification);
+      apiUpdateChannelNotification(channel_id, channelNotification);
     } catch (err) {
       console.error(err);
     }
   }
 
   async function exitChannel() {
+    loading = true;
+
+    const message = `${$store.user.name}님이 퇴장했어요.`;
     try {
-      await apiUnsubscribe(channel.channel_id);
-      apiDeleteChannelNotification(channel.channel_id);
-      const res = await apiGetChannel(channel.channel_id);
+      await apiUnsubscribe(channel_id);
+      apiCreateMessage(channel_id, "system", message);
+      apiDeleteChannelNotification(channel_id);
+      const res = await apiGetChannel(channel_id);
       if (res.subscriptions_count === 0) {
-        apiDeleteChannel(channel.channel_id);
+        apiDeleteChannel(channel_id);
       }
     } catch (err) {
       console.error(err);
     }
 
     try {
-      unsubscribe(channel.channel_id);
+      sendMessage(channel_id, "system", message);
+      unsubscribe(channel_id);
     } catch (err) {
       console.error(err);
     }
+
+    loading = false;
+
     location.href = "/#/home";
     gohome();
   }
 
   function ban(target: number) {
     try {
-      apiCreateChatBans(channel.channel_id, target);
+      apiCreateChatBans(channel_id, target);
       refresh = true;
     } catch (err) {
       console.error(err);
@@ -69,14 +81,15 @@
 
   function unban(target: number) {
     try {
-      apiDeleteChatBans(channel.channel_id, target);
+      apiDeleteChatBans(channel_id, target);
       refresh = true;
     } catch (err) {
       console.error(err);
     }
   }
 
-  onMount(() => {
+  onMount(async () => {
+    channel = await apiGetChannel(channel_id);
     channelNotification = channel.notification;
     leader = channel.subscriptions.find((v) => v.user_idx === channel.user_idx);
   });
@@ -114,13 +127,20 @@
             </li>
             <li class="st2">
               <div class="wrap clear">
-                <h4>대화상대</h4>
+                <div class="top">
+                  <h4>대화상대</h4>
+                  {#if channel}
+                    {#if channel.user_idx === Number($store.user.id)}
+                      <button class="cBtn3">내보내기 해제</button>
+                    {/if}
+                  {/if}
+                </div>
                 <div class="chat_list2 scroll scrollbar-hide">
                   <ul>
                     <li>
                       <div
-                        class="box my_info {channel.user_idx ===
-                        Number($store.user.id)
+                        class="box my_info {channel &&
+                        channel.user_idx === Number($store.user.id)
                           ? 'r_leader2'
                           : ''}"
                       >
@@ -148,102 +168,106 @@
                         <span class="a_state">나</span>
                       </div>
                     </li>
-                    {#if leader && leader.user_idx !== Number($store.user.id)}
-                      <li>
-                        <div class="box r_leader2">
-                          <div class="info_w">
-                            <div
-                              class="c_avata back_img"
-                              style="background-image:url({leader.profile});"
-                            >
-                              <img
-                                src="../img/img_basic2.png"
-                                class="basic_img"
-                                alt="profile_image"
-                              />
-                            </div>
-                            <div class="txt_box">
-                              <div class="tb">
-                                <div class="tbc">
-                                  <strong class="aggro">
-                                    {leader.nickname}
-                                  </strong>
+                    {#if leader}
+                      {#if leader.user_idx !== Number($store.user.id)}
+                        <li>
+                          <div class="box r_leader2">
+                            <div class="info_w">
+                              <div
+                                class="c_avata back_img"
+                                style="background-image:url({leader.profile});"
+                              >
+                                <img
+                                  src="../img/img_basic2.png"
+                                  class="basic_img"
+                                  alt="profile_image"
+                                />
+                              </div>
+                              <div class="txt_box">
+                                <div class="tb">
+                                  <div class="tbc">
+                                    <strong class="aggro">
+                                      {leader.nickname}
+                                    </strong>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    {/if}
-                    {#each channel.subscriptions as item}
-                      {#if item.user_idx !== Number($store.user.id) && item.user_idx !== channel.user_idx}
-                        <li>
-                          {#if item.is_ban}
-                            <div class="box blocked">
-                              <div class="info_w">
-                                <div
-                                  class="c_avata back_img"
-                                  style="background-image:url({item.profile});"
-                                >
-                                  <img
-                                    src="../img/img_basic2.png"
-                                    class="basic_img"
-                                    alt="profile_image"
-                                  />
-                                </div>
-                                <div class="txt_box">
-                                  <div class="tb">
-                                    <div class="tbc">
-                                      <strong class="aggro">
-                                        {item.nickname}
-                                      </strong>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <span
-                                class="a_state"
-                                on:click={() => {
-                                  item.is_ban = false;
-                                  unban(item.user_idx);
-                                }}>차단중</span
-                              >
-                            </div>
-                          {:else}
-                            <div class="box">
-                              <div class="info_w">
-                                <div
-                                  class="c_avata back_img"
-                                  style="background-image:url({item.profile});"
-                                >
-                                  <img
-                                    src="../img/img_basic2.png"
-                                    class="basic_img"
-                                    alt="profile_image"
-                                  />
-                                </div>
-                                <div class="txt_box">
-                                  <div class="tb">
-                                    <div class="tbc">
-                                      <strong class="aggro">
-                                        {item.nickname}
-                                      </strong>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <span
-                                class="a_state"
-                                on:click={() => {
-                                  item.is_ban = true;
-                                  ban(item.user_idx);
-                                }}>차단하기</span
-                              >
-                            </div>
-                          {/if}
                         </li>
                       {/if}
-                    {/each}
+                    {/if}
+                    {#if channel}
+                      {#each channel.subscriptions as item}
+                        {#if item.user_idx !== Number($store.user.id) && item.user_idx !== channel.user_idx}
+                          <li>
+                            {#if item.is_ban}
+                              <div class="box blocked">
+                                <div class="info_w">
+                                  <div
+                                    class="c_avata back_img"
+                                    style="background-image:url({item.profile});"
+                                  >
+                                    <img
+                                      src="../img/img_basic2.png"
+                                      class="basic_img"
+                                      alt="profile_image"
+                                    />
+                                  </div>
+                                  <div class="txt_box">
+                                    <div class="tb">
+                                      <div class="tbc">
+                                        <strong class="aggro">
+                                          {item.nickname}
+                                        </strong>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <span
+                                  class="a_state"
+                                  on:click={() => {
+                                    item.is_ban = false;
+                                    unban(item.user_idx);
+                                  }}>차단중</span
+                                >
+                              </div>
+                            {:else}
+                              <div class="box">
+                                <div class="info_w">
+                                  <div
+                                    class="c_avata back_img"
+                                    style="background-image:url({item.profile});"
+                                  >
+                                    <img
+                                      src="../img/img_basic2.png"
+                                      class="basic_img"
+                                      alt="profile_image"
+                                    />
+                                  </div>
+                                  <div class="txt_box">
+                                    <div class="tb">
+                                      <div class="tbc">
+                                        <strong class="aggro">
+                                          {item.nickname}
+                                        </strong>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <span
+                                  class="a_state"
+                                  on:click={() => {
+                                    item.is_ban = true;
+                                    ban(item.user_idx);
+                                  }}>차단하기</span
+                                >
+                              </div>
+                            {/if}
+                          </li>
+                        {/if}
+                      {/each}
+                    {/if}
                   </ul>
                 </div>
               </div>
@@ -282,4 +306,15 @@
 
 {#if showChannelShareModal}
   <ChannelShareModal on:close={() => (showChannelShareModal = false)} />
+{/if}
+
+{#if loading}
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+    style="z-index: 200;"
+  >
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Spinner />
+    </div>
+  </div>
 {/if}

@@ -14,7 +14,13 @@
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
-  import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
+  import {
+    sendMessage,
+    bind,
+    unbindall,
+    sendImage,
+    unsubscribe,
+  } from "$lib/NcloudChat";
   import {
     apiGetMessages,
     apiCreateMessage,
@@ -25,6 +31,7 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
+  import ChatSystemItem from "$components/ChatSystemItem.svelte";
 
   export let params: any;
 
@@ -159,17 +166,29 @@
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
+        if (channel.channel_id === _channel) {
+          if (message.message_type.split("_")[0] === "system") {
+            const target = message.message_type.split("_")[1];
+            if (target === $store.user.id.toString()) {
+              unsubscribe(_channel);
+              location.href = "/#/home";
+              gohome();
+            }
+          }
+        }
+
         let chat: Chat;
+        const sender_user_idx = Number(message.sender.id.split("_")[1]);
         element.scrollTop = 0;
 
         const banUsers = bans.map((x) => x.target);
-        if (banUsers.includes(Number(message.sender.id.split("_")[1]))) {
+        if (banUsers.includes(sender_user_idx)) {
           return;
         }
 
         if (message.message_type === "text") {
           chat = {
-            user_idx: Number(message.sender.id.split("_")[1]),
+            user_idx: sender_user_idx,
             nickname: message.sender.name,
             profile: message.sender.profile,
             type: message.message_type,
@@ -178,11 +197,17 @@
           };
         } else if (message.message_type === "file") {
           chat = {
-            user_idx: Number(message.sender.id.split("_")[1]),
+            user_idx: sender_user_idx,
             nickname: message.sender.name,
             profile: message.sender.profile,
             type: "file",
             image_url: message.content,
+            created_at: message.created_at,
+          };
+        } else if (message.message_type.split("_")[0] === "system") {
+          chat = {
+            type: "system",
+            message: message.content,
             created_at: message.created_at,
           };
         }
@@ -242,6 +267,8 @@
             {#each data as item}
               {#if item.type === "date"}
                 <ChatDateItem message={item.message} />
+              {:else if item.type === "system"}
+                <ChatSystemItem message={item.message} />
               {:else if item.user_idx === Number($store.user.id)}
                 <ChatSendItem
                   {item}
@@ -289,7 +316,11 @@
 />
 
 {#if showSettingModal}
-  <ChatSettingModal {channel} bind:refresh on:close={closeChatSettingModal} />
+  <ChatSettingModal
+    channel_id={params.id}
+    bind:refresh
+    on:close={closeChatSettingModal}
+  />
 {/if}
 
 {#if showImageDownloadModal}
@@ -309,7 +340,12 @@
 {/if}
 
 {#if loading}
-  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-    <Spinner />
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+    style="z-index: 200;"
+  >
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Spinner />
+    </div>
   </div>
 {/if}
