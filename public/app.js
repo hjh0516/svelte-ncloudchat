@@ -16,7 +16,8 @@ function godetail() {
   if (isMobile.Android()) {
     window.emoApp?.godetail();
   } else if (isMobile.iOS()) {
-    window.webkit?.messageHandlers.godetail.postMessage();
+    location.href="godetail://";
+    // window.webkit?.messageHandlers.godetail.postMessage();
   }
 }
 
@@ -24,7 +25,8 @@ function gohome() {
   if (isMobile.Android()) {
     window.emoApp?.gohome();
   } else if (isMobile.iOS()) {
-    window.webkit?.messageHandlers.gohome.postMessage();
+    location.href="gohome://";
+    // window.webkit?.messageHandlers.gohome.postMessage();
   }
 }
 
@@ -32,7 +34,8 @@ function goemoticon() {
   if (isMobile.Android()) {
     window.emoApp?.goemoticon();
   } else if (isMobile.iOS()) {
-    window.webkit?.messageHandlers.goemoticon.postMessage();
+    location.href="goemoticon://";
+    // window.webkit?.messageHandlers.goemoticon.postMessage();
   }
 }
 
