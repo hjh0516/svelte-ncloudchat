@@ -34,7 +34,11 @@
             type="file"
             class="svg"
             accept=".jpg, .jpeg, .gif, .png"
+            on:click={() => {
+              messageInput.focus();
+            }}
             on:change={(e) => {
+              messageInput.blur();
               uploadImage(e);
             }}
           />
