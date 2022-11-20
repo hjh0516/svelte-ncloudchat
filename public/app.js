@@ -43,15 +43,8 @@ function showsetting() {
   window.setShowSettingModal(true);
 }
 
-window.onpopstate = function(event) {
-  if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
-	history.go(1);
-  }
-};
 function goback() {
-  if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
-    history.pushState(null, null, location.href);
-
+  if(typeof imgDetail !== "undefined") {
       $('#close').click()
     }else if(typeof roomInfo !== "undefined" ) {
       gohome();
