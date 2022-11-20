@@ -46,6 +46,7 @@ function showsetting() {
 window.onpopstate = function(event) {
 
   if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
+    $('#close').click()
   history.go(1);
    this.handleGoback();
   }
@@ -62,7 +63,7 @@ window.onpopstate = function(event) {
 }
 function goback() {
   if(typeof imgDetail !== "undefined") {
-      $('#close').click()
+      // $('#close').click()
     }else if(typeof roomInfo !== "undefined" ) {
       gohome();
         $('#close').click()
