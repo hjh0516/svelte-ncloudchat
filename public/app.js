@@ -42,28 +42,15 @@ function goemoticon() {
 function showsetting() {
   window.setShowSettingModal(true);
 }
-// history.pushState(null, null, location.href);
-window.onpopstate = function(event) {
-
-  if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
-    $('#close').click()
+window.history.pushState(null, '', location.href);
+ 
+window.onpopstate = () => {
   history.go(1);
-   this.handleGoback();
-  }
-  // "event" object seems to contain value only when the back button is clicked
-  // and if the pop state event fires due to clicks on a button
-  // or a link it comes up as "undefined" 
-  if(event){
-    console.log(event);
-    // alert('1');
-  }
-  else{
-// alert('2');
-  }
-}
+  this.handleGoback();
+};
 function goback() {
   if(typeof imgDetail !== "undefined") {
-      // $('#close').click()
+      $('#close').click()
     }else if(typeof roomInfo !== "undefined" ) {
       gohome();
         $('#close').click()
