@@ -100,6 +100,7 @@
     emojiPath = "";
 
     try {
+
       sendMessage(params.id, "text", inputMessage);
       apiCreateMessage(params.id, "text", inputMessage);
     } catch (err) {
@@ -107,10 +108,14 @@
     }
   }
 
-  function uploadImage(e) {
+  async function uploadImage(e) {
     const image = e.target.files[0];
     input = "";
     try {
+
+      // const res = await fetch(image);
+      // const blob = await res.blob();
+      // const file = new File([blob], "image", { type: "image/jpg" });
       sendImage(params.id, image);
       apiCreateMessage(params.id, "image", null, image);
     } catch (err) {
