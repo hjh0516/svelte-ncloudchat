@@ -96,7 +96,7 @@
   <div class="pop_cont">
     <div class="tb">
       <div class="tbbtm">
-        <div class="svg btn_close bl" on:click={close}>닫기</div>
+        <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
         <div class="c_wrap">
           {#if item.image_url}
             <div

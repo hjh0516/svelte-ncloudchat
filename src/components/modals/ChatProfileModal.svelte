@@ -62,7 +62,7 @@
   <div class="pop_cont">
     <div class="tb">
       <div class="tbc">
-        <div class="svg btn_close bl" on:click={close}>닫기</div>
+        <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
         <div class="c_wrap">
           <div
             class="c_avata back_img"

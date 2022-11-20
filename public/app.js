@@ -45,7 +45,11 @@ function showsetting() {
 
 function goback() {
   gohome();
-  history.back();
+  if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
+      $('#close').click()
+    }else{
+      history.back();
+    }
 }
 
 function getchannelidx() {
