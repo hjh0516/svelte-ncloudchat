@@ -121,6 +121,14 @@ export async function apiGetMessages(channel_id: string, page: number) {
   return await handleResponse(response);
 }
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
 export async function apiCreateMessage(
   channel_id: string,
   type: string,
@@ -136,13 +144,15 @@ export async function apiCreateMessage(
       message: message,
     });
   } else if (type === "image") {
-    delete headers["Content-Type"];
+    body = JSON.stringify({ type: "file", file: await getBase64(file) });
 
-    const formData = new FormData();
-    formData.append("type", "file");
-    formData.append("file", file);
+    // delete headers["Content-Type"];
 
-    body = formData;
+    // const formData = new FormData();
+    // formData.append("type", "file");
+    // formData.append("file", file);
+
+    // body = formData;
   }
 
   const response = await fetch(`${API_URL}/chats/${channel_id}`, {

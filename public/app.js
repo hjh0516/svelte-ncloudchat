@@ -58,3 +58,4 @@ function gochannel(channel_id) {
   location.reload();
   godetail();
 }
+
