@@ -50,11 +50,12 @@ function showsetting() {
 // };
 function goback() {
   if(typeof imgDetail !== "undefined") {
-      $('#close').click()
+      $('#close').click();
     }else if(typeof roomInfo !== "undefined" ) {
       gohome();
-        $('#close').click()
+        $('#close').click();
       }else{
+      gohome();
       history.back();
     }
 }
