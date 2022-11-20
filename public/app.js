@@ -49,6 +49,7 @@ window.onpopstate = () => {
   this.handleGoback();
 };
 function goback() {
+  alert('1');
   if(typeof imgDetail !== "undefined") {
       $('#close').click()
     }else if(typeof roomInfo !== "undefined" ) {
