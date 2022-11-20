@@ -48,7 +48,7 @@ function goback() {
   if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
       // $('#close').click()
     }else{
-      history.back();
+      // history.back();
     }
 }
 
