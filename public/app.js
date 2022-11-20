@@ -46,8 +46,10 @@ function showsetting() {
 function goback() {
   if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
       $('#close').click()
-    }else{
+    }else if(typeof roomInfo !== "undefined" ) {
       gohome();
+        $('#close').click()
+      }else{
       history.back();
     }
 }
