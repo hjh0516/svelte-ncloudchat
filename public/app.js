@@ -45,6 +45,11 @@ function showsetting() {
 
 function goback() {
   if(typeof imgDetail !== "undefined" || typeof roomInfo !== "undefined" ) {
+    history.pushState(null, null, location.href);
+
+window.onpopstate = function(event) {
+	history.go(1);
+};
       $('#close').click()
     }else if(typeof roomInfo !== "undefined" ) {
       gohome();
