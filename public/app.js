@@ -42,12 +42,12 @@ function goemoticon() {
 function showsetting() {
   window.setShowSettingModal(true);
 }
-window.history.pushState(null, '', location.href);
+// window.history.pushState(null, '', location.href);
  
-window.onpopstate = () => {
-  history.go(1);
-  this.handleGoback();
-};
+// window.onpopstate = () => {
+//   history.go(1);
+//   this.handleGoback();
+// };
 function goback() {
   if(typeof imgDetail !== "undefined") {
       $('#close').click()
