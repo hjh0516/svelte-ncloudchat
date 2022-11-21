@@ -46,6 +46,14 @@ function goback() {
     gohome();
   }
   history.back();
+
+  if (isMobile.iOS) {
+    window.onpageshow = function (event) {
+      if (event.persisted) {
+        location.reload();
+      }
+    };
+  }
 }
 
 function getchannelidx() {
