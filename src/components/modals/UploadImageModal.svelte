@@ -62,6 +62,9 @@
               </label>
             </li>
           </ul>
+          <p class="art_txt">
+            &lt;운영정책에 어긋나는 이미지 등록 시 이용이 제한 될 수 있어요&gt;
+          </p>
         </div>
         <div class="btn_area">
           <input

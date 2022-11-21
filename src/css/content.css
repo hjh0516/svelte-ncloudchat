@@ -4200,6 +4200,15 @@ em.ent {
 	margin-left: 10px;
 }
 
+.chat_pop .art_txt {
+	margin-top: 5px;
+	font-size: 12px;
+	font-weight: 400;
+	color: #222;
+	letter-spacing: -0.5px;
+	text-align: center;
+}
+
 /* 채팅 프로필 */
 .profile_pop {
 	width: 100%;
