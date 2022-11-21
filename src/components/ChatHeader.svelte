@@ -6,7 +6,7 @@
 
   function previousPage() {
     // history.back();
-    location.href = `/#/chat/${channel.channel_id}`;
+    location.href = `/#/home`;
     // gohome();
   }
 </script>
