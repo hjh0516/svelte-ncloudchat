@@ -147,13 +147,18 @@
                   <h4>대화상대</h4>
                   {#if channel}
                     {#if channel.user_idx === Number($store.user.id)}
-                      <button
+                      <!-- svelte-ignore a11y-missing-attribute -->
+                      <a
                         class="cBtn3"
-                        on:click={() =>
-                          (location.href = `/#/exit/${channel_id}`)}
+                        on:click={() => {
+                          close();
+                          setTimeout(() => {
+                            location.href = `/#/exit/${channel_id}`;
+                          }, 500);
+                        }}
                       >
                         내보내기 해제
-                      </button>
+                      </a>
                     {/if}
                   {/if}
                 </div>

@@ -41,7 +41,10 @@ function showsetting() {
 }
 
 function goback() {
-  console.log(location.href);
+  const chatRoom = document.getElementById("chatRoom");
+  if (chatRoom) {
+    gohome();
+  }
   history.back();
 }
 
