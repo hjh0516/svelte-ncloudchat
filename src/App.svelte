@@ -3,6 +3,7 @@
   import Login from "./pages/Login.svelte";
   import Home from "./pages/Home.svelte";
   import Chat from "./pages/Chat.svelte";
+  import Exit from "$pages/Exit.svelte";
   import Error from "$pages/Error.svelte";
   import LoginTemp from "$pages/LoginTemp.svelte";
   import Notifications from "svelte-notifications";
@@ -16,6 +17,7 @@
     "/login": Login,
     "/home": Home,
     "/chat/:id": Chat,
+    "/exit/:id": Exit,
     "/error": Error,
   };
 

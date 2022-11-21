@@ -9,6 +9,7 @@
   } from "$lib/api";
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
+  import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
   import { sendMessage } from "$lib/NcloudChat";
 
@@ -20,6 +21,7 @@
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   function ban(target: number) {
     is_ban = true;
@@ -43,12 +45,18 @@
 
   async function forcedExit(target: number) {
     try {
-      apiDeleteUserSubscription(channel.channel_id, target);
+      await apiDeleteUserSubscription(channel.channel_id, target);
       const message = `${item.nickname}님을 내보냈어요.`;
       sendMessage(channel.channel_id, `system_${target}`, message);
       apiCreateMessage(channel.channel_id, "system", message);
       close();
     } catch (err) {
+      clearNotifications();
+      addNotification({
+        text: "이미 내보낸 사용자에요.",
+        position: "bottom-center",
+        removeAfter: 1500,
+      });
       console.error(err);
     }
   }

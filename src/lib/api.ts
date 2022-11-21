@@ -308,8 +308,8 @@ export async function apiGetEmoticonAvailables() {
   return await handleResponse(response);
 }
 
-export async function apiSendPush(channe_id: string, message: string) {
-  const response = await fetch(`${API_URL}/channels/push/${channe_id}`, {
+export async function apiSendPush(channel_id: string, message: string) {
+  const response = await fetch(`${API_URL}/channels/push/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
@@ -340,6 +340,34 @@ export async function apiCreateFollow(user_idx: number) {
     method: "POST",
     headers: setHeader(),
   });
+  return await handleResponse(response);
+}
+
+export async function apiGetDeletedUserSubscriptions(channel_id: string) {
+  const response = await fetch(
+    `${API_URL}/channels/subscriptions/${channel_id}`,
+    {
+      method: "GET",
+      headers: setHeader(),
+    }
+  );
+  return await handleResponse(response);
+}
+
+export async function apiCreateUserSubscription(
+  channel_id: string,
+  user_idx: number
+) {
+  const response = await fetch(
+    `${API_URL}/channels/subscriptions/${channel_id}`,
+    {
+      method: "POST",
+      headers: setHeader(),
+      body: JSON.stringify({
+        user_idx: user_idx,
+      }),
+    }
+  );
   return await handleResponse(response);
 }
 

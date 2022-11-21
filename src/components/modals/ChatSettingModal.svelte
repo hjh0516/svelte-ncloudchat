@@ -131,7 +131,13 @@
                   <h4>대화상대</h4>
                   {#if channel}
                     {#if channel.user_idx === Number($store.user.id)}
-                      <button class="cBtn3">내보내기 해제</button>
+                      <button
+                        class="cBtn3"
+                        on:click={() =>
+                          (location.href = `/#/exit/${channel_id}`)}
+                      >
+                        내보내기 해제
+                      </button>
                     {/if}
                   {/if}
                 </div>

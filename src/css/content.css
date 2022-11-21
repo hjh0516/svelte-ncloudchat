@@ -3038,9 +3038,8 @@ em.ent {
 }
 
 .chat_header .l_prev a {
-	width: 47px;
 	background-image: url('../img/ico_back.svg');
-	background-size: 7px 10px;
+	background-size: 20px 14px;
 }
 
 .chat_header .logo_box {
@@ -3907,6 +3906,40 @@ em.ent {
 
 .chat_idx .open_chat .follower_list>ul>li .f_checked .chk_wrap .c_ing {
 	display: block;
+}
+
+/* 내보내기 목록 */
+.send_list .txt_area {
+	padding: 35px 0 0;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 0;
+}
+
+.send_list .txt_area b {
+	display: block;
+	font-size: 16px;
+	color: #222;
+	letter-spacing: -0.5px;
+	line-height: 1.1;
+}
+
+.send_list .txt_area p {
+	margin-top: 14.5px;
+	font-size: 13px;
+	font-weight: 400;
+	color: #a7a7a7;
+	letter-spacing: -0.5px;
+	line-height: 20px;
+}
+
+.send_list .chat_area {
+	/* padding: 20px; */
+	padding: 0 20px 20px 20px;
+}
+
+.chat_setting .send_list .setting_list .chat_list2 {
+	max-height: none;
 }
 
 /* 유저 채팅방 */
