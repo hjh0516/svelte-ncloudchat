@@ -20,7 +20,11 @@
 </script>
 
 <div class="receive">
-  <dl class={item.user_idx === $store.channel.user_idx ? "r_leader2" : ""}>
+  <dl
+    class={$store.channel && $store.channel.user_idx === item.user_idx
+      ? "r_leader2"
+      : ""}
+  >
     {#if item.show_profile}
       <dt
         class="c_avata back_img"
