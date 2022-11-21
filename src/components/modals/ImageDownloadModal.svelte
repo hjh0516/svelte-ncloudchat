@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
 
   export let item: Chat;
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+
+  let isBack = false;
 
   async function download() {
     const filename = item.image_url.split("/").pop();
@@ -27,9 +29,21 @@
     }, 100);
   }
 
+  function back() {
+    isBack = true;
+    close();
+  }
+
   onMount(() => {
     history.pushState(null, "", location.href);
-    window.addEventListener("popstate", close);
+    window.addEventListener("popstate", back);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("popstate", back);
+    if (!isBack) {
+      history.back();
+    }
   });
 </script>
 

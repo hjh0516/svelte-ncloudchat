@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Channel, Subscription } from "$lib/types/type";
 
-  import ChatOutModal from "$components/modals/ChatExitModal.svelte";
-  import ChannelShareModal from "./ChannelShareModal.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import Spinner from "$components/Spinner.svelte";
+  import ChatExitModal from "./ChatExitModal.svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import {
     apiCreateChatBans,
@@ -17,7 +17,7 @@
   } from "$lib/api";
   import { store } from "$store/store";
   import { sendMessage, unsubscribe } from "$lib/NcloudChat";
-  import Spinner from "$components/Spinner.svelte";
+  import ChannelShareModal from "./ChannelShareModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -31,6 +31,7 @@
   let channelNotification: boolean;
   let leader: Subscription;
   let loading = false;
+  let isBack = false;
 
   function onChangeChannelNotification() {
     channelNotification = !channelNotification;
@@ -88,13 +89,25 @@
     }
   }
 
+  function back() {
+    isBack = true;
+    close();
+  }
+
   onMount(async () => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", back);
+
     channel = await apiGetChannel(channel_id);
     channelNotification = channel.notification;
     leader = channel.subscriptions.find((v) => v.user_idx === channel.user_idx);
+  });
 
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", close);
+  onDestroy(() => {
+    window.removeEventListener("popstate", back);
+    if (!isBack) {
+      history.back();
+    }
   });
 </script>
 
@@ -307,7 +320,8 @@
 </div>
 
 {#if showChatExitModal}
-  <ChatOutModal
+  <ChatExitModal
+    independ={false}
     on:submit={exitChannel}
     on:close={() => (showChatExitModal = false)}
   />

@@ -1,22 +1,35 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
+
+  export let independ: boolean;
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
   const submit = () => dispatch("submit");
 
-  function cancel() {
+  let isBack = false;
+
+  function back() {
+    isBack = true;
     close();
   }
 
   onMount(() => {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", close);
+    if (independ) {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", back);
+    }
+  });
+
+  onDestroy(() => {
+    if (independ) {
+      window.removeEventListener("popstate", back);
+    }
   });
 </script>
 
-<div class="c_mbg block" style="z-index: 150;" on:click={cancel} />
+<div class="c_mbg block" style="z-index: 150;" on:click={close} />
 <div
   id="exitRoom"
   class="chat_pop chat_alert"
@@ -39,12 +52,7 @@
               class="cBtn gr2"
               on:click={submit}
             />
-            <input
-              type="button"
-              value="아니요"
-              class="cBtn"
-              on:click={cancel}
-            />
+            <input type="button" value="아니요" class="cBtn" on:click={close} />
           </div>
         </div>
       </form>

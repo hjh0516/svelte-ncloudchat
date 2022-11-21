@@ -27,7 +27,7 @@
   <div class="chat_header">
     <div class="inner">
       <div class="left l_prev">
-        <a href="/#/chat/{params.id}" class="svg">이전으로</a>
+        <a href="history.back()" class="svg">이전으로</a>
       </div>
       <div class="r_title">
         <h2 class="aggro">내보내기 목록</h2>

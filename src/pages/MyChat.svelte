@@ -127,6 +127,7 @@
 
 {#if showChatExitModal}
   <ChatExitModal
+    independ={true}
     on:submit={exitChannel}
     on:close={() => (showChatExitModal = false)}
   />

@@ -41,6 +41,7 @@ function showsetting() {
 }
 
 function goback() {
+  console.log(location.href);
   history.back();
 }
 

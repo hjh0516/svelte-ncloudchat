@@ -2,7 +2,9 @@
   import type { Channel } from "$lib/types/type";
 
   import Spinner from "$components/Spinner.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import ChannelShareModal from "./ChannelShareModal.svelte";
+  import UserFollowModal from "./UserFollowModal.svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import { store } from "$store/store";
   import {
@@ -11,11 +13,9 @@
     apiCreateMessage,
     apiSubscribe,
   } from "$lib/api";
-  import { getSubscriptions, sendMessage, subscribe } from "$lib/NcloudChat";
+  import { sendMessage, subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
   import { getNotificationsContext } from "svelte-notifications";
-  import ChannelShareModal from "./ChannelShareModal.svelte";
-  import UserFollowModal from "./UserFollowModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -23,10 +23,10 @@
   export let channel_id: string;
   export let item: Channel;
 
-  let element: HTMLElement;
   let loading = false;
   let showChannelShareModal = false;
   let showUserFollowModal = false;
+  let isBack = false;
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
@@ -86,16 +86,27 @@
     }
   }
 
+  function back() {
+    isBack = true;
+    close();
+  }
+
   onMount(() => {
     history.pushState(null, "", location.href);
-    window.addEventListener("popstate", close);
+    window.addEventListener("popstate", back);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("popstate", back);
+    if (!isBack) {
+      history.back();
+    }
   });
 </script>
 
 <div
   id="roomInfo"
   class="profile_pop"
-  bind:this={element}
   transition:slide={{ delay: 100, duration: 300 }}
 >
   <div class="pop_cont">

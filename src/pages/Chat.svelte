@@ -28,10 +28,15 @@
     apiGetChatBans,
     apiSendPush,
     apiGetChannel,
+    apiUnsubscribe,
+    apiDeleteChannelNotification,
+    apiDeleteChannel,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
   import ChatSystemItem from "$components/ChatSystemItem.svelte";
+  import ChatExitModal from "$components/modals/ChatExitModal.svelte";
+  import ChannelShareModal from "$components/modals/ChannelShareModal.svelte";
 
   export let params: any;
 
@@ -46,6 +51,8 @@
   let showImageDownloadModal = false;
   let showChatProfileModal = false;
   let showEmojiArea = false;
+  let showChatExitModal = false;
+  let showChannelShareModal = false;
   let chatItem = null;
   let loading = false;
   let bans = [];
@@ -171,7 +178,7 @@
           if (message.message_type.split("_")[0] === "system") {
             const target = message.message_type.split("_")[1];
             if (target === $store.user.id.toString()) {
-              location.href = "/#/home";
+              history.back();
               gohome();
             }
           }
