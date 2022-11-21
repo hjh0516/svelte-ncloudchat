@@ -5,7 +5,8 @@
   export let showSettingModal = false;
 
   function previousPage() {
-    history.back();
+    // history.back();
+    location.href = `/#/chat/${channel.channel_id}`;
     gohome();
   }
 </script>
