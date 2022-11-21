@@ -54,7 +54,7 @@ function goback() {
     $("#close").click();
   } else if (typeof roomInfo !== "undefined") {
     gohome();
-    // $('#close').click();
+    $('#close').click();
     history.back();
   } else {
     gohome();
