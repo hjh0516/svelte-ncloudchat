@@ -51,11 +51,9 @@ function showsetting() {
 function goback() {
   console.log("goback");
   if (typeof imgDetail !== "undefined") {
-    $("#close").click();
+    document.getElementById("close").click();
   } else if (typeof roomInfo !== "undefined") {
-    gohome();
-    $('#close').click();
-    history.back();
+    document.getElementById("close").click();
   } else {
     gohome();
     history.back();
