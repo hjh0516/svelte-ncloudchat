@@ -71,7 +71,9 @@
     <div class="tb">
       <div class="tbc">
         <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
-        <div class="c_wrap">
+        <div
+          class="c_wrap {item.user_idx === channel.user_idx ? 'r_leader3' : ''}"
+        >
           <div
             class="c_avata back_img"
             style="background-image:url({item.profile});"

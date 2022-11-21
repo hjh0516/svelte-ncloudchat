@@ -39,7 +39,6 @@
   }
 
   async function loadChannels() {
-    loading = true;
     try {
       const res = await apiGetChannels("my", page);
       newData = res.data;
@@ -48,7 +47,6 @@
       console.error(err);
       return;
     }
-    loading = false;
   }
 
   function openChatExitModal(e) {
@@ -75,45 +73,57 @@
   onMount(() => {
     $store.activeItem = "My 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
-    loadChannels();
   });
 </script>
 
-{#if data.length > 0}
-  <div class="my_chat active">
-    <div class="chat_list pb-5">
-      <ul>
-        {#each data as item, index}
-          <li>
-            <MyChannelItem {index} {item} on:exit={openChatExitModal} />
-          </li>
-        {/each}
-      </ul>
+{#await loadChannels()}
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
+    style="z-index: 200;"
+  >
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Spinner />
     </div>
   </div>
-  <InfiniteScroll
-    hasMore={newData.length > 0}
-    threshold={200}
-    on:loadMore={async () => {
-      page++;
-      await loadChannels();
-    }}
-  />
-{:else}
-  <div class="none_msg active">
-    <div class="tb">
-      <div class="tbc">
-        <div class="msg">
-          <strong class="aggro">참여중인 채팅이 없어요!</strong>
-          <p>
-            오른쪽 하단의 채팅하기 아이콘을 누르면<br />
-            직접 방을 만들 수 있어요!
-          </p>
+{:then}
+  {#if data.length > 0}
+    <div class="my_chat active">
+      <div class="chat_list pb-5">
+        <ul>
+          {#each data as item, index}
+            <li>
+              <MyChannelItem {index} {item} on:exit={openChatExitModal} />
+            </li>
+          {/each}
+        </ul>
+      </div>
+    </div>
+    <InfiniteScroll
+      hasMore={newData.length > 0}
+      threshold={200}
+      on:loadMore={async () => {
+        loading = true;
+        page++;
+        await loadChannels();
+        loading = false;
+      }}
+    />
+  {:else}
+    <div class="none_msg active">
+      <div class="tb">
+        <div class="tbc">
+          <div class="msg">
+            <strong class="aggro">참여중인 채팅이 없어요!</strong>
+            <p>
+              오른쪽 하단의 채팅하기 아이콘을 누르면<br />
+              직접 방을 만들 수 있어요!
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-{/if}
+  {/if}
+{/await}
 
 {#if showChatExitModal}
   <ChatExitModal
@@ -124,7 +134,7 @@
 
 {#if loading}
   <div
-    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
     style="z-index: 200;"
   >
     <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

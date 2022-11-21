@@ -230,19 +230,16 @@
       }
     );
 
-    loading = true;
     try {
       channel = await apiGetChannel(params.id);
       $store.channel = channel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
 
-      await loadMessages();
       apiCreateChatRead(params.id);
       bans = await apiGetChatBans(params.id);
     } catch (err) {
       console.error(err);
     }
-    loading = false;
   });
 
   onDestroy(() => {
@@ -266,41 +263,56 @@
           bind:this={element}
         >
           <div class="chat_info flex flex-col-reverse">
-            {#each data as item}
-              {#if item.type === "date"}
-                <ChatDateItem message={item.message} />
-              {:else if item.type === "system"}
-                <ChatSystemItem message={item.message} />
-              {:else if item.user_idx === Number($store.user.id)}
-                <ChatSendItem
-                  {item}
-                  on:open={(e) => {
-                    showImageDownloadModal = true;
-                    chatItem = e.detail.item;
-                  }}
-                />
-              {:else}
-                <ChatReceiveItem
-                  {item}
-                  on:open={(e) => {
-                    showImageDownloadModal = true;
-                    chatItem = e.detail.item;
-                  }}
-                  on:profile={(e) => {
-                    showChatProfileModal = true;
-                    chatItem = e.detail.item;
-                  }}
-                />
-              {/if}
-            {/each}
+            {#await loadMessages()}
+              <div
+                class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
+                style="z-index: 200;"
+              >
+                <div
+                  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                >
+                  <Spinner />
+                </div>
+              </div>
+            {:then}
+              {#each data as item}
+                {#if item.type === "date"}
+                  <ChatDateItem message={item.message} />
+                {:else if item.type === "system"}
+                  <ChatSystemItem message={item.message} />
+                {:else if item.user_idx === Number($store.user.id)}
+                  <ChatSendItem
+                    {item}
+                    on:open={(e) => {
+                      showImageDownloadModal = true;
+                      chatItem = e.detail.item;
+                    }}
+                  />
+                {:else}
+                  <ChatReceiveItem
+                    {item}
+                    on:open={(e) => {
+                      showImageDownloadModal = true;
+                      chatItem = e.detail.item;
+                    }}
+                    on:profile={(e) => {
+                      showChatProfileModal = true;
+                      chatItem = e.detail.item;
+                    }}
+                  />
+                {/if}
+              {/each}
+            {/await}
           </div>
           <InfiniteScroll
             reverse
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
+              loading = true;
               page++;
               await loadMessages();
+              loading = false;
             }}
           />
         </div>
@@ -343,7 +355,7 @@
 
 {#if loading}
   <div
-    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
     style="z-index: 200;"
   >
     <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

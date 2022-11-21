@@ -85,6 +85,13 @@ export function convertChannelCreatedAt(value: string | Date) {
   return `${year}. ${month}. ${day}`;
 }
 
+export function checkCreatedNew(value: string | Date) {
+  const date = new Date(value.toString().replace(/\s/, "T"));
+  const today = new Date();
+
+  return today.toDateString() === date.toDateString() ? true : false;
+}
+
 function pad(date: number) {
   return date.toString().padStart(2, "0");
 }

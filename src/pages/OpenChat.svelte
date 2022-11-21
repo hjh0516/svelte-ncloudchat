@@ -39,7 +39,6 @@
   }
 
   async function loadChannels(searchText?: string) {
-    loading = true;
     try {
       const res = await apiGetChannels("open", page, searchText);
       newData = res.data;
@@ -48,7 +47,6 @@
       console.error(err);
       return;
     }
-    loading = false;
   }
 
   function searchChannels() {
@@ -65,7 +63,6 @@
   onMount(() => {
     $store.activeItem = "오픈 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
-    loadChannels();
   });
 </script>
 
@@ -84,41 +81,54 @@
     <input type="button" class="svg" on:click={searchChannels} />
   </div>
 </div>
-{#if data.length > 0}
-  <div class="open_chat active mt-28">
-    <div class="chat_list active">
-      <ul>
-        {#each data as item}
-          <li>
-            <OpenChannelItem {item} on:open={openSubscriptionModal} />
-          </li>
-        {/each}
-      </ul>
+{#await loadChannels()}
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
+    style="z-index: 200;"
+  >
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Spinner />
     </div>
   </div>
-  <InfiniteScroll
-    hasMore={newData.length > 0}
-    threshold={200}
-    on:loadMore={async () => {
-      page++;
-      await loadChannels(searchText);
-    }}
-  />
-{:else}
-  <div class="none_msg active">
-    <div class="tb">
-      <div class="tbc">
-        <div class="msg">
-          <strong class="aggro">검색된 채팅이 없어요!</strong>
+{:then}
+  {#if data.length > 0}
+    <div class="open_chat active mt-28">
+      <div class="chat_list active">
+        <ul>
+          {#each data as item}
+            <li>
+              <OpenChannelItem {item} on:open={openSubscriptionModal} />
+            </li>
+          {/each}
+        </ul>
+      </div>
+    </div>
+    <InfiniteScroll
+      hasMore={newData.length > 0}
+      threshold={200}
+      on:loadMore={async () => {
+        loading = true;
+        page++;
+        await loadChannels(searchText);
+        loading = false;
+      }}
+    />
+  {:else}
+    <div class="none_msg active">
+      <div class="tb">
+        <div class="tbc">
+          <div class="msg">
+            <strong class="aggro">검색된 채팅이 없어요!</strong>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-{/if}
+  {/if}
+{/await}
 
 {#if loading}
   <div
-    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
     style="z-index: 200;"
   >
     <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
