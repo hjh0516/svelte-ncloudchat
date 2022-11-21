@@ -26,6 +26,14 @@
     showSettingModal = value;
   };
 
+  if (navigator.userAgent.match(/iPhone|iPad|iPod/i) !== null) {
+    window.onpageshow = (event) => {
+      if (event.persisted) {
+        location.reload();
+      }
+    };
+  }
+
   const { addNotification, clearNotifications } = getNotificationsContext();
 
   function openCreateChannelModal() {
