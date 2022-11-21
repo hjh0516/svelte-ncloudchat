@@ -2888,15 +2888,15 @@ em.ent {
 	content: '';
 	display: block;
 	clear: both;
-	width: 12.5px;
-	height: 11.5px;
+	width: 25px;
+	height: 24px;
 	position: absolute;
-	right: 43.5%;
-	top: 44.5%;
+	right: 41%;
+	/* top: 0; */
 	background-image: url('../img/ico_star1.svg');
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
-	background-size: 12.5px 11.5px;
+	background-size: 25px 24px;
 	filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.14));
 	-ms-filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.14));
 }
