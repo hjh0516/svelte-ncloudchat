@@ -2,7 +2,7 @@
   import type { Channel } from "$lib/types/type";
 
   import Spinner from "$components/Spinner.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import { store } from "$store/store";
   import {
@@ -85,6 +85,11 @@
       console.error(err);
     }
   }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
+  });
 </script>
 
 <div

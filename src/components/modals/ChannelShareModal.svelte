@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
 
@@ -15,6 +15,11 @@
       removeAfter: 1500,
     });
   }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
+  });
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={close} />

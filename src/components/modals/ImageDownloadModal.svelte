@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { slide } from "svelte/transition";
 
   export let item: Chat;
@@ -26,6 +26,11 @@
       document.body.removeChild(link);
     }, 100);
   }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
+  });
 </script>
 
 <div

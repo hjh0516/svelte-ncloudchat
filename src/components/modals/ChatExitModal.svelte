@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { slide } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
@@ -9,6 +9,11 @@
   function cancel() {
     close();
   }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
+  });
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={cancel} />

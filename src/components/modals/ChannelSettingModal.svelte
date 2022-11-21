@@ -59,6 +59,9 @@
     } catch (err) {
       console.error(err);
     }
+
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
   });
 </script>
 

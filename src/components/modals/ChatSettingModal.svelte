@@ -92,6 +92,9 @@
     channel = await apiGetChannel(channel_id);
     channelNotification = channel.notification;
     leader = channel.subscriptions.find((v) => v.user_idx === channel.user_idx);
+
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
   });
 </script>
 

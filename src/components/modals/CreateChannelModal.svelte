@@ -3,7 +3,7 @@
 
   import Spinner from "$components/Spinner.svelte";
   import UploadImageModal from "$components/modals/UploadImageModal.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
   import { slide } from "svelte/transition";
@@ -160,6 +160,11 @@
     back.classList.remove("pointer-events-none");
     element.classList.remove("pointer-events-none");
   }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
+  });
 </script>
 
 <div class="c_mbg block" bind:this={back} on:click={close} />

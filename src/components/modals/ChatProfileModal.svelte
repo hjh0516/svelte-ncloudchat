@@ -7,7 +7,7 @@
     apiDeleteChatBans,
     apiDeleteUserSubscription,
   } from "$lib/api";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
@@ -60,6 +60,11 @@
       console.error(err);
     }
   }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", close);
+  });
 </script>
 
 <div
