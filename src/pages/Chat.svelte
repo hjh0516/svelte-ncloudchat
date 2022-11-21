@@ -111,11 +111,9 @@
     const image = e.target.files[0];
     input = "";
     try {
-      // const res = await fetch(image);
-      // const blob = await res.blob();
-      // const file = new File([blob], "image", { type: "image/jpg" });
-      sendImage(params.id, image);
-      apiCreateMessage(params.id, "image", null, image);
+      const file = new File([image], "image", { type: "image/jpg" });
+      sendImage(params.id, file);
+      apiCreateMessage(params.id, "image", null, file);
     } catch (err) {
       console.error(err);
     }
