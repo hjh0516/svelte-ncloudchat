@@ -21,7 +21,7 @@
   let newData: Channel[] = [];
   let showChatExitModal = false;
   let loading = false;
-  let channelId: string;
+  let channel_id: string;
 
   $: {
     if (chat) {
@@ -53,20 +53,20 @@
 
   function openChatExitModal(e) {
     showChatExitModal = true;
-    channelId = e.detail.channelId;
+    channel_id = e.detail.channel_id;
   }
 
   function exitChannel() {
     loading = true;
     try {
-      apiUnsubscribe(channelId);
-      unsubscribe(channelId);
-      apiDeleteChannelNotification(channelId);
+      apiUnsubscribe(channel_id);
+      unsubscribe(channel_id);
+      apiDeleteChannelNotification(channel_id);
     } catch (err) {
       console.error(err);
     }
 
-    data = data.filter((x) => x.channel_id !== channelId);
+    data = data.filter((x) => x.channel_id !== channel_id);
 
     loading = false;
     showChatExitModal = false;

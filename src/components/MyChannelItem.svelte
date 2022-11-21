@@ -13,9 +13,9 @@
   let flicking: Flicking;
 
   const dispatch = createEventDispatcher();
-  function exit(channelId: string) {
+  function exit(channel_id: string) {
     dispatch("exit", {
-      channelId: channelId,
+      channel_id: channel_id,
     });
   }
 

@@ -100,7 +100,6 @@
     emojiPath = "";
 
     try {
-
       sendMessage(params.id, "text", inputMessage);
       apiCreateMessage(params.id, "text", inputMessage);
     } catch (err) {
@@ -108,11 +107,10 @@
     }
   }
 
-  async function uploadImage(e) {
+  function uploadImage(e) {
     const image = e.target.files[0];
     input = "";
     try {
-
       // const res = await fetch(image);
       // const blob = await res.blob();
       // const file = new File([blob], "image", { type: "image/jpg" });
@@ -175,7 +173,6 @@
           if (message.message_type.split("_")[0] === "system") {
             const target = message.message_type.split("_")[1];
             if (target === $store.user.id.toString()) {
-              unsubscribe(_channel);
               location.href = "/#/home";
               gohome();
             }
