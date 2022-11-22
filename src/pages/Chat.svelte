@@ -26,6 +26,9 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
+  import { querystring } from "svelte-spa-router";
+  import { apiGetUser } from "$lib/api";
+  import { connect, initialize } from "$lib/NcloudChat";
 
   export let params: any;
 
@@ -44,6 +47,8 @@
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
+  let user: any;
+  let id: string;
 
   $: data = updateChatItems(data);
 
@@ -155,8 +160,42 @@
       location.reload();
     }
   }
+  async function login(){
+    const params = new URLSearchParams($querystring);
+    if (params.get("token")) {
+      $store.token = params.get("token");
+
+      try {
+        user = await apiGetUser();
+        id = "chat_" + user.idx;
+
+        $store.user = {
+          id: user.idx,
+          name: user.nickname,
+          profile: user.profile,
+          level: user.level,
+          use_chat: user.use_chat,
+          chat_notification: user.chat_notification,
+        };
+
+        window.sessionStorage.setItem("store", JSON.stringify($store));
+      } catch (err) {
+        location.href = "/#/error";
+        return;
+      }
+      
+      try {
+        initialize();
+        connect(id, user.nickname, user.profile);
+      } catch (err) {
+        location.href = "/#/error";
+        return;
+      }
+    }
+  }
 
   onMount(async () => {
+    await login();
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
