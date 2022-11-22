@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
 
-  import { convertLastChat } from "$lib/Date";
+  import { checkCreatedNew, convertLastChat } from "$lib/Date";
   import { createEventDispatcher } from "svelte";
 
   export let item: Channel;
@@ -46,7 +46,10 @@
   }
 </script>
 
-<div class="box box1" on:click={() => open(item)}>
+<div
+  class="box box1 {checkCreatedNew(item.created_at) ? 'newR' : ''}"
+  on:click={() => open(item)}
+>
   <div class="box_cont">
     {#if item.image_url}
       <div

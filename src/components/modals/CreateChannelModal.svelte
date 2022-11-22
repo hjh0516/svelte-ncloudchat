@@ -3,7 +3,7 @@
 
   import Spinner from "$components/Spinner.svelte";
   import UploadImageModal from "$components/modals/UploadImageModal.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
   import { slide } from "svelte/transition";
@@ -26,16 +26,14 @@
   let name: string;
   let tag: string;
   let loading = false;
-
-  let back: HTMLElement;
-  let element: HTMLElement;
+  let onlyFollowers = false;
+  let showUploadImageModal = false;
+  let isBack = false;
   let inputName: HTMLElement;
   let inputTag: HTMLElement;
   let canvas: HTMLCanvasElement;
   let defaultImage: HTMLElement;
   let channelImage: any;
-  let onlyFollowers = false;
-  let showUploadImageModal = false;
 
   async function submit() {
     if (!name) {
@@ -100,8 +98,6 @@
     }
 
     loading = true;
-    addPointerEventNone();
-
     try {
       let fileurl = "";
       if (channelImage) {
@@ -130,9 +126,7 @@
     } catch (err) {
       console.error(err);
     }
-
     loading = false;
-    removePointerEventNone();
     close();
   }
 
@@ -151,22 +145,28 @@
     showUploadImageModal = false;
   }
 
-  function addPointerEventNone() {
-    back.classList.add("pointer-events-none");
-    element.classList.add("pointer-events-none");
+  function back() {
+    isBack = true;
+    close();
   }
 
-  function removePointerEventNone() {
-    back.classList.remove("pointer-events-none");
-    element.classList.remove("pointer-events-none");
-  }
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", back);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("popstate", back);
+    if (!isBack) {
+      history.back();
+    }
+  });
 </script>
 
-<div class="c_mbg block" bind:this={back} on:click={close} />
+<div class="c_mbg block" on:click={close} />
 <div
   id="chatMaking"
   class="chat_pop"
-  bind:this={element}
   transition:slide={{ delay: 100, duration: 300 }}
 >
   <div class="pop_inner" style="min-height: 475px;">
@@ -235,7 +235,7 @@
   </div>
   {#if loading}
     <div
-      class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+      class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
       style="z-index: 200;"
     >
       <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

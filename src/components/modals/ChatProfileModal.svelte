@@ -7,7 +7,7 @@
     apiDeleteChatBans,
     apiDeleteUserSubscription,
   } from "$lib/api";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
@@ -17,14 +17,15 @@
   export let item: Chat;
   export let refresh = false;
 
-  let is_ban = false;
+  let isBan = false;
+  let isBack = false;
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
   const { addNotification, clearNotifications } = getNotificationsContext();
 
   function ban(target: number) {
-    is_ban = true;
+    isBan = true;
     try {
       apiCreateChatBans(channel.channel_id, target);
       refresh = true;
@@ -34,7 +35,7 @@
   }
 
   function unban(target: number) {
-    is_ban = false;
+    isBan = false;
     try {
       apiDeleteChatBans(channel.channel_id, target);
       refresh = true;
@@ -60,6 +61,23 @@
       console.error(err);
     }
   }
+
+  function back() {
+    isBack = true;
+    close();
+  }
+
+  onMount(() => {
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", back);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("popstate", back);
+    if (!isBack) {
+      history.back();
+    }
+  });
 </script>
 
 <div
@@ -71,7 +89,11 @@
     <div class="tb">
       <div class="tbc">
         <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
-        <div class="c_wrap">
+        <div
+          class="c_wrap {channel && item.user_idx === channel.user_idx
+            ? 'r_leader3'
+            : ''}"
+        >
           <div
             class="c_avata back_img"
             style="background-image:url({item.profile});"
@@ -88,7 +110,7 @@
         </div>
         {#if channel.user_idx === Number($store.user.id)}
           <div class="btn_area in_2">
-            {#if is_ban}
+            {#if isBan}
               <div
                 id="blockPause"
                 class="cBtn2 lined aggro"
@@ -115,7 +137,7 @@
           </div>
         {:else if channel.user_idx !== item.user_idx}
           <div class="btn_area">
-            {#if is_ban}
+            {#if isBan}
               <div
                 id="blockPause"
                 class="cBtn2 lined aggro"

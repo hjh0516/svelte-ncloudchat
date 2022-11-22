@@ -17,7 +17,6 @@ function godetail() {
     window.emoApp?.godetail();
   } else if (isMobile.iOS()) {
     location.href = "godetail://";
-    // window.webkit?.messageHandlers.godetail.postMessage();
   }
 }
 
@@ -26,7 +25,6 @@ function gohome() {
     window.emoApp?.gohome();
   } else if (isMobile.iOS()) {
     location.href = "gohome://";
-    // window.webkit?.messageHandlers.gohome.postMessage();
   }
 }
 
@@ -35,30 +33,16 @@ function goemoticon() {
     window.emoApp?.goemoticon();
   } else if (isMobile.iOS()) {
     location.href = "goemoticon://";
-    // window.webkit?.messageHandlers.goemoticon.postMessage();
   }
 }
 
 function showsetting() {
   window.setShowSettingModal(true);
 }
-// window.history.pushState(null, '', location.href);
 
-// window.onpopstate = () => {
-//   history.go(1);
-//   this.handleGoback();
-// };
 function goback() {
-  if (typeof imgDetail !== "undefined") {
-    $("#close").click();
-  } else if (typeof roomInfo !== "undefined") {
-    gohome();
-    // $('#close').click();
-    history.back();
-  } else {
-    gohome();
-    history.back();
-  }
+  console.log(location.href);
+  history.back();
 }
 
 function getchannelidx() {

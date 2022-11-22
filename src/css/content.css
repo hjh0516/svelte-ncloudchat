@@ -2884,6 +2884,23 @@ em.ent {
 	-ms-filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.14));
 }
 
+.r_leader3 .c_avata::before {
+	content: '';
+	display: block;
+	clear: both;
+	width: 25px;
+	height: 24px;
+	position: absolute;
+	right: 40%;
+	/* top: 0; */
+	background-image: url('../img/ico_star1.svg');
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 25px 24px;
+	filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.14));
+	-ms-filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.14));
+}
+
 .cBtn {
 	display: inline-block;
 	width: 100%;
@@ -3733,6 +3750,23 @@ em.ent {
 	-ms-filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.14));
 }
 
+.chat_idx .chat_list>ul>li .newR .box_cont::before {
+	content: '';
+	display: block;
+	clear: both;
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	border-radius: 50%;
+	background-image: url('/img/ico_newroom.png');
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: cover;
+}
+
 /* 오픈 채팅방 */
 .chat_idx .open_chat .chat_list {
 	margin-top: 15px;
@@ -4164,6 +4198,15 @@ em.ent {
 .chat_pop .btn_area.in_2 .cBtn {
 	width: calc(50% - 10px);
 	margin-left: 10px;
+}
+
+.chat_pop .art_txt {
+	margin-top: 5px;
+	font-size: 12px;
+	font-weight: 400;
+	color: #222;
+	letter-spacing: -0.5px;
+	text-align: center;
 }
 
 /* 채팅 프로필 */
@@ -4764,7 +4807,7 @@ em.ent {
 }
 
 #imgDetail .btn_save {
-	display: block;
+	display: none;
 	width: 58px;
 	height: 61px;
 	position: absolute;

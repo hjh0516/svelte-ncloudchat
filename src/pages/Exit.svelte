@@ -27,7 +27,7 @@
   <div class="chat_header">
     <div class="inner">
       <div class="left l_prev">
-        <a href="/#/chat/{params.id}" class="svg">이전으로</a>
+        <a href="history.back()" class="svg">이전으로</a>
       </div>
       <div class="r_title">
         <h2 class="aggro">내보내기 목록</h2>
@@ -52,7 +52,7 @@
                 <ul>
                   {#await getDeletedUserSubscriptions()}
                     <div
-                      class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-20"
+                      class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
                       style="z-index: 200;"
                     >
                       <div

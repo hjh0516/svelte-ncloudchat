@@ -5,7 +5,7 @@
   export let showSettingModal = false;
 
   function previousPage() {
-    location.href = "/#/home";
+    history.back();
     gohome();
   }
 </script>

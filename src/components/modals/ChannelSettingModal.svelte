@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
   import { store } from "$store/store";
   import {
@@ -15,6 +15,7 @@
   let bans = [];
   let useChat: boolean;
   let chatNotification: boolean;
+  let isBack = false;
 
   function onChangeUseChat() {
     useChat = !useChat;
@@ -50,6 +51,11 @@
     }
   }
 
+  function back() {
+    isBack = true;
+    close();
+  }
+
   onMount(async () => {
     useChat = $store.user.use_chat;
     chatNotification = $store.user.chat_notification;
@@ -58,6 +64,16 @@
       bans = await apiGetChannelBans();
     } catch (err) {
       console.error(err);
+    }
+
+    history.pushState(null, "", location.href);
+    window.addEventListener("popstate", back);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("popstate", back);
+    if (!isBack) {
+      history.back();
     }
   });
 </script>

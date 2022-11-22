@@ -22,13 +22,9 @@
     });
     close();
   }
-
-  function cancel() {
-    close();
-  }
 </script>
 
-<div class="c_mbg block" style="z-index: 150;" on:click={cancel} />
+<div class="c_mbg block" style="z-index: 150;" on:click={close} />
 <div
   id="exitRoom"
   class="chat_pop chat_alert"
@@ -54,12 +50,7 @@
               class="cBtn gr2"
               on:click={submit}
             />
-            <input
-              type="button"
-              value="아니요"
-              class="cBtn"
-              on:click={cancel}
-            />
+            <input type="button" value="아니요" class="cBtn" on:click={close} />
           </div>
         </div>
       </form>

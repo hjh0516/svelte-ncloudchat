@@ -1,9 +1,10 @@
 <script lang="ts">
-  import type { Channel, Chat } from "$lib/types/type";
+  import type { Chat } from "$lib/types/type";
 
   import Image from "$components/ChatImageItem.svelte";
   import { createEventDispatcher } from "svelte";
   import { convertSendAt } from "$lib/Date";
+  import { store } from "$store/store";
 
   const dispatch = createEventDispatcher();
 
@@ -19,7 +20,11 @@
 </script>
 
 <div class="receive">
-  <dl>
+  <dl
+    class={$store.channel && $store.channel.user_idx === item.user_idx
+      ? "r_leader2"
+      : ""}
+  >
     {#if item.show_profile}
       <dt
         class="c_avata back_img"
