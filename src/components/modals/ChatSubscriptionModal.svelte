@@ -16,6 +16,7 @@
   import { sendMessage, subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
   import { getNotificationsContext } from "svelte-notifications";
+  import { apiGetUser } from "$lib/api";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -27,10 +28,21 @@
   let showChannelShareModal = false;
   let showUserFollowModal = false;
   let isBack = false;
+  let user: any;
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
   async function submit() {
+
+    user = await apiGetUser();
+      $store.user = {
+        id: user.idx,
+        name: user.nickname,
+        profile: user.profile,
+        level: user.level,
+        use_chat: user.use_chat,
+        chat_notification: user.chat_notification,
+      };
     if ($store.user.level < 2) {
       clearNotifications();
       addNotification({
