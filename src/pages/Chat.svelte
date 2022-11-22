@@ -41,7 +41,6 @@
   let showChatProfileModal = false;
   let showEmojiArea = false;
   let chatItem = null;
-  let loading = false;
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
@@ -302,10 +301,8 @@
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
-              loading = true;
               page++;
               await loadMessages();
-              loading = false;
             }}
           />
         </div>
@@ -344,15 +341,4 @@
     bind:refresh
     on:close={closeChatProfileModal}
   />
-{/if}
-
-{#if loading}
-  <div
-    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
-    style="z-index: 200;"
-  >
-    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <Spinner />
-    </div>
-  </div>
 {/if}

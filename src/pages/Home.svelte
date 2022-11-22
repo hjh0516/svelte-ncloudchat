@@ -117,11 +117,7 @@
 </div>
 
 {#if showSettingModal}
-  <ChannelSettingModal
-    on:close={() => {
-      showSettingModal = false;
-    }}
-  />
+  <ChannelSettingModal on:close={() => (showSettingModal = false)} />
 {/if}
 
 {#if showCreateChannelModal}

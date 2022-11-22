@@ -19,25 +19,21 @@
 
   function onChangeUseChat() {
     useChat = !useChat;
-
     try {
       apiUpdateUseChat(useChat);
     } catch (err) {
       console.error(err);
     }
-
     $store.user.use_chat = useChat;
   }
 
   function onChangeChatNotificaiton() {
     chatNotification = !chatNotification;
-
     try {
       apiUpdateChatNotification(chatNotification);
     } catch (err) {
       console.error(err);
     }
-
     $store.user.chat_notification = chatNotification;
   }
 
@@ -191,7 +187,7 @@
           </ul>
         </div>
         <div class="btn_area">
-          <input type="submit" value="완료" class="cBtn" on:click={close} />
+          <input type="button" value="완료" class="cBtn" on:click={close} />
         </div>
       </form>
     </div>
