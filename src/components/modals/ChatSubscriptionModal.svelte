@@ -43,7 +43,6 @@
 
     if (item.is_subscription) {
       location.href = `/#/chat/${item.channel_id}`;
-      location.reload();
       return;
     }
 
@@ -75,7 +74,6 @@
     close();
 
     location.href = `/#/chat/${channel_id}`;
-    location.reload();
 
     try {
       sendMessage(channel_id, "system", message);
