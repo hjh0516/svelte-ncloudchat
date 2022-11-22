@@ -32,9 +32,7 @@
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
-
   async function submit() {
-
     user = await apiGetUser();
     $store.user = {
       id: user.idx,
@@ -44,6 +42,7 @@
       use_chat: user.use_chat,
       chat_notification: user.chat_notification,
     };
+
     if ($store.user.level < 2) {
       clearNotifications();
       addNotification({

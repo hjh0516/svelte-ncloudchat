@@ -39,6 +39,7 @@
       use_chat: user.use_chat,
       chat_notification: user.chat_notification,
     };
+
     if ($store.user.level < 2) {
       clearNotifications();
       addNotification({

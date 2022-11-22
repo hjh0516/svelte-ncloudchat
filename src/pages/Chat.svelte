@@ -101,7 +101,7 @@
     }
   }
 
-  function uploadImage(e) {
+  async function uploadImage(e) {
     const image = e.target.files[0];
     input = "";
     try {
