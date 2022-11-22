@@ -119,10 +119,8 @@
       hasMore={newData.length > 0}
       threshold={200}
       on:loadMore={async () => {
-        loading = true;
         page++;
         await loadChannels();
-        loading = false;
       }}
     />
   {:else}
