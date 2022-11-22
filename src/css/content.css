@@ -4807,7 +4807,7 @@ em.ent {
 }
 
 #imgDetail .btn_save {
-	display: none;
+	display: block;
 	width: 58px;
 	height: 61px;
 	position: absolute;
