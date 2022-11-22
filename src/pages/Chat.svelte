@@ -146,14 +146,6 @@
     }
   }
 
-  function handleFocus() {
-    try {
-      apiCreateChatRead(params.id);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   function closeChatSettingModal() {
     showSettingModal = false;
     if (refresh) {
@@ -266,6 +258,12 @@
           }
           data = [chat, ...data];
         }
+
+        try {
+          apiCreateChatRead(params.id);
+        } catch (err) {
+          console.error(err);
+        }
       }
     );
 
@@ -310,8 +308,6 @@
     unbindall("onMessageReceived");
   });
 </script>
-
-<svelte:window on:focus={handleFocus} />
 
 <ChatHeader {channel} bind:showSettingModal />
 <div
