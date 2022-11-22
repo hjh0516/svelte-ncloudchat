@@ -60,6 +60,8 @@
   }
 
   onMount(() => {
+    gohome();
+
     if (!$store.token) {
       location.href = "/#/error";
     }
@@ -86,8 +88,6 @@
       console.error(reason);
       loading = true;
     });
-
-    gohome();
   });
 
   onDestroy(() => {

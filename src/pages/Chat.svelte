@@ -158,6 +158,8 @@
   }
 
   onMount(async () => {
+    godetail();
+
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
@@ -231,8 +233,6 @@
     } catch (err) {
       console.error(err);
     }
-
-    godetail();
   });
 
   onDestroy(() => {
