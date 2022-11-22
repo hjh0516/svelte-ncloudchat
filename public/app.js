@@ -54,6 +54,7 @@ function goback() {
   }
   if (isMobile.Android() && (myChat || openChat) && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
     window.emoApp?.goMain();
+    return;
   }
 
   history.back();
