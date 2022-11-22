@@ -125,6 +125,7 @@
   async function loadMessages() {
     try {
       await login();
+      godetail();
 
       const res = await apiGetMessages(params.id, page);
       newData = res.data;
@@ -179,7 +180,6 @@
         };
 
         window.sessionStorage.setItem("store", JSON.stringify($store));
-        godetail();
       } catch (err) {
         location.href = "/#/error";
         return;
