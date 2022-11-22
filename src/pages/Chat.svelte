@@ -179,6 +179,7 @@
         };
 
         window.sessionStorage.setItem("store", JSON.stringify($store));
+        godetail();
       } catch (err) {
         location.href = "/#/error";
         return;
