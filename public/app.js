@@ -12,8 +12,7 @@ let isMobile = {
   },
 };
 
-export function godetail() {
-  console.log("godetail");
+function godetail() {
   if (isMobile.Android()) {
     window.emoApp?.godetail();
   } else if (isMobile.iOS()) {
@@ -21,8 +20,7 @@ export function godetail() {
   }
 }
 
-export function gohome() {
-  console.log("gohome");
+function gohome() {
   if (isMobile.Android()) {
     window.emoApp?.gohome();
   } else if (isMobile.iOS()) {
@@ -43,15 +41,6 @@ function showsetting() {
 }
 
 function goback() {
-  // const chatRoom = document.getElementById("chatRoom");
-  // const imgDetail = document.getElementById("imgDetail");
-  // const chatRoomSetting = document.getElementById("chatRoomSetting");
-  // const exitRoom = document.getElementById("exitRoom");
-  // const chatShare = document.getElementById("chatShare");
-
-  // if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
-  //   gohome();
-  // }
   history.back();
 }
 

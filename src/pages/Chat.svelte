@@ -26,7 +26,6 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
-  import { godetail } from "../../public/app";
 
   export let params: any;
 
