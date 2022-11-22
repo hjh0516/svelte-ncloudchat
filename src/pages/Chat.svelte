@@ -230,8 +230,6 @@
     } catch (err) {
       console.error(err);
     }
-
-    godetail();
   });
 
   onDestroy(() => {

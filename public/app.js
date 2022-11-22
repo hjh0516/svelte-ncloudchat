@@ -41,6 +41,16 @@ function showsetting() {
 }
 
 function goback() {
+  const chatRoom = document.getElementById("chatRoom");
+  const imgDetail = document.getElementById("imgDetail");
+  const chatRoomSetting = document.getElementById("chatRoomSetting");
+  const exitRoom = document.getElementById("exitRoom");
+  const chatShare = document.getElementById("chatShare");
+
+  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
+    gohome();
+  }
+
   history.back();
 }
 

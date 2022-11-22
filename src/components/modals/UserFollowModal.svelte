@@ -12,8 +12,8 @@
   const close = () => dispatch("close");
   const { addNotification, clearNotifications } = getNotificationsContext();
 
-  function submit() {
-    apiCreateFollow(item.user_idx);
+  async function submit() {
+    await apiCreateFollow(item.user_idx);
     clearNotifications();
     addNotification({
       text: `${item.nickname}님을 팔로우했어요.`,

@@ -41,6 +41,7 @@
       initialize();
       connect(id, user.nickname, user.profile);
       location.href = "/#/home";
+      gohome();
     } catch (err) {
       location.href = "/#/error";
       return;

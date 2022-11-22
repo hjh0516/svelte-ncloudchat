@@ -55,8 +55,10 @@
   function closeCreateChannelModal() {
     showCreateChannelModal = false;
     if (newChannel) {
-      location.href = `/#/chat/${newChannel.channel_id}`;
-      location.reload();
+      setTimeout(() => {
+        location.href = `/#/chat/${newChannel.channel_id}`;
+        godetail();
+      }, 500);
     }
   }
 
@@ -87,8 +89,6 @@
       console.error(reason);
       loading = true;
     });
-
-    gohome();
   });
 
   onDestroy(() => {

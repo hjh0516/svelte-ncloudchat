@@ -68,6 +68,7 @@
     loading = false;
 
     location.href = "/#/home";
+    gohome();
   }
 
   function ban(target: number) {
