@@ -50,8 +50,8 @@
       await apiUnsubscribe(channel_id);
       apiCreateMessage(channel_id, "system", message);
       apiDeleteChannelNotification(channel_id);
-      const res = await apiGetChannel(channel_id);
-      if (res.subscriptions_count === 0) {
+
+      if (channel.user_idx === Number($store.user.id)) {
         apiDeleteChannel(channel_id);
       }
     } catch (err) {
@@ -59,7 +59,7 @@
     }
 
     try {
-      sendMessage(channel_id, "system", message);
+      sendMessage(channel_id, `system_${$store.user.id}`, message);
       unsubscribe(channel_id);
     } catch (err) {
       console.error(err);

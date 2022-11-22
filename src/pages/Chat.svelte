@@ -26,8 +26,11 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
+  import { getNotificationsContext } from "svelte-notifications";
 
   export let params: any;
+
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   let channel: Channel;
   let input: string;
@@ -44,6 +47,8 @@
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
+  let activeInput = true;
+  let loading = false;
 
   $: data = updateChatItems(data);
 
@@ -160,18 +165,21 @@
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
+        element.scrollTop = 0;
+
         if (channel.channel_id === _channel) {
           if (message.message_type.split("_")[0] === "system") {
             const target = message.message_type.split("_")[1];
             if (target === $store.user.id.toString()) {
               history.back();
+            } else if (target === channel.user_idx.toString()) {
+              activeInput = false;
             }
           }
         }
 
         let chat: Chat;
         const sender_user_idx = Number(message.sender.id.split("_")[1]);
-        element.scrollTop = 0;
 
         const banUsers = bans.map((x) => x.target);
         if (banUsers.includes(sender_user_idx)) {
@@ -220,10 +228,33 @@
       }
     );
 
+    bind("onConnected", function () {
+      loading = false;
+    });
+
+    bind("onDisconnected", function (reason: string) {
+      loading = true;
+      console.error(reason);
+    });
+
     try {
       channel = await apiGetChannel(params.id);
       $store.channel = channel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
+
+      if (
+        channel.subscriptions.findIndex(
+          (v) => v.user_idx === channel.user_idx
+        ) === -1
+      ) {
+        clearNotifications();
+        addNotification({
+          text: "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요. ",
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+        activeInput = false;
+      }
 
       apiCreateChatRead(params.id);
       bans = await apiGetChatBans(params.id);
@@ -233,6 +264,8 @@
   });
 
   onDestroy(() => {
+    unbindall("onConnected");
+    unbindall("onDisconnected");
     unbindall("onMessageReceived");
   });
 </script>
@@ -311,6 +344,7 @@
 <MessageInput
   {send}
   {uploadImage}
+  {activeInput}
   bind:input
   bind:messageInput
   bind:showEmojiArea
@@ -339,4 +373,15 @@
     bind:refresh
     on:close={closeChatProfileModal}
   />
+{/if}
+
+{#if loading}
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
+    style="z-index: 200;"
+  >
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Spinner />
+    </div>
+  </div>
 {/if}

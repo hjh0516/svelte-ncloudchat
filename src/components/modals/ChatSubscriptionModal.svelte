@@ -78,7 +78,7 @@
     }
 
     try {
-      await subscribe(channel_id);
+      subscribe(channel_id);
     } catch (err) {
       console.error(err);
     }

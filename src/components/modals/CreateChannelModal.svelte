@@ -118,9 +118,9 @@
         tag
       );
       apiCreateChannelNotification(channel.id, true);
-
-      await subscribe(channel.id);
       apiSubscribe(channel.id);
+
+      subscribe(channel.id);
 
       newChannel = await apiGetChannel(channel.id);
     } catch (err) {
@@ -177,12 +177,12 @@
       <div class="img_area">
         <div class="flex justify-center max-h-[99px]">
           <canvas
-            class="h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3 hidden"
+            class="w-[95px] h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3 hidden"
             bind:this={canvas}
           />
           <img
             src={$store.user.profile}
-            class="h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3"
+            class="w-[95px] h-[95px] border-2 border-dashed border-gray-200 rounded-full mb-3"
             alt="basic_image"
             bind:this={defaultImage}
           />

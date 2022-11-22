@@ -6,6 +6,7 @@
   import { onMount } from "svelte";
 
   export let input = "";
+  export let activeInput = true;
   export let emojiPath: string;
   export let showEmojiArea = false;
   export let messageInput: HTMLElement;
@@ -13,6 +14,12 @@
   export let uploadImage = (e) => {};
 
   let emojis: Emoji[];
+
+  $: if (!activeInput) {
+    document.querySelectorAll("input").forEach((input) => {
+      input.disabled = true;
+    });
+  }
 
   onMount(async () => {
     try {

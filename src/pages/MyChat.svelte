@@ -8,11 +8,14 @@
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import {
+    apiCreateMessage,
+    apiDeleteChannel,
     apiDeleteChannelNotification,
+    apiGetChannel,
     apiGetChannels,
     apiUnsubscribe,
   } from "$lib/api";
-  import { unsubscribe } from "$lib/NcloudChat";
+  import { sendMessage, unsubscribe } from "$lib/NcloudChat";
 
   export let chat: Chat;
 
@@ -54,12 +57,26 @@
     channel_id = e.detail.channel_id;
   }
 
-  function exitChannel() {
+  async function exitChannel() {
     loading = true;
+
+    const message = `${$store.user.name}님이 퇴장했어요.`;
     try {
-      apiUnsubscribe(channel_id);
-      unsubscribe(channel_id);
+      await apiUnsubscribe(channel_id);
+      apiCreateMessage(channel_id, "system", message);
       apiDeleteChannelNotification(channel_id);
+
+      const channel = await apiGetChannel(channel_id);
+      if (channel.user_idx === Number($store.user.id)) {
+        apiDeleteChannel(channel_id);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      sendMessage(channel_id, "system", message);
+      unsubscribe(channel_id);
     } catch (err) {
       console.error(err);
     }

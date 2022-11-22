@@ -17,20 +17,20 @@
   let chatNotification: boolean;
   let isBack = false;
 
-  function onChangeUseChat() {
+  async function onChangeUseChat() {
     useChat = !useChat;
     try {
-      apiUpdateUseChat(useChat);
+      await apiUpdateUseChat(useChat);
     } catch (err) {
       console.error(err);
     }
     $store.user.use_chat = useChat;
   }
 
-  function onChangeChatNotificaiton() {
+  async function onChangeChatNotificaiton() {
     chatNotification = !chatNotification;
     try {
-      apiUpdateChatNotification(chatNotification);
+      await apiUpdateChatNotification(chatNotification);
     } catch (err) {
       console.error(err);
     }
