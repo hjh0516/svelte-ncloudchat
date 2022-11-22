@@ -13,12 +13,14 @@
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
+  import { apiGetUser } from "$lib/api";
 
   let chat: Chat;
   let newChannel: Channel = null;
   let showSettingModal = false;
   let showCreateChannelModal = false;
   let loading = false;
+  let user: any;
 
   window.setShowSettingModal = (value: boolean) => {
     showCreateChannelModal = false;
@@ -27,7 +29,16 @@
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
-  function openCreateChannelModal() {
+  async function openCreateChannelModal() {
+    user = await apiGetUser();
+    $store.user = {
+      id: user.idx,
+      name: user.nickname,
+      profile: user.profile,
+      level: user.level,
+      use_chat: user.use_chat,
+      chat_notification: user.chat_notification,
+    };
     if ($store.user.level < 2) {
       clearNotifications();
       addNotification({
