@@ -124,6 +124,8 @@
 
   async function loadMessages() {
     try {
+      await login();
+
       const res = await apiGetMessages(params.id, page);
       newData = res.data;
 
@@ -165,9 +167,10 @@
       location.reload();
     }
   }
-  async function login(){
+
+  async function login() {
     const params = new URLSearchParams($querystring);
-    if (params.get("token")) {
+    if (params.has("token")) {
       $store.token = params.get("token");
 
       try {
@@ -188,7 +191,7 @@
         location.href = "/#/error";
         return;
       }
-      
+
       try {
         initialize();
         connect(id, user.nickname, user.profile);
@@ -200,7 +203,6 @@
   }
 
   onMount(async () => {
-    await login();
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
