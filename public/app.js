@@ -42,6 +42,11 @@ function showsetting() {
 
 function goback() {
   const chatRoom = document.getElementById("chatRoom");
+  const myChat = document.getElementById("myChat");
+  const chatListSetting = document.getElementById("chatListSetting");
+  const chatMaking = document.getElementById("chatMaking");
+  
+  const openChat = document.getElementById("openChat");
   const imgDetail = document.getElementById("imgDetail");
   const chatRoomSetting = document.getElementById("chatRoomSetting");
   const exitRoom = document.getElementById("exitRoom");
@@ -49,6 +54,9 @@ function goback() {
 
   if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
     gohome();
+  }else if (isMobile.Android() && (myChat || openChat) && !chatRoomSetting && !chatListSetting && !chatMaking) {
+    window.emoApp?.goMain();
+    return;
   }
 
   history.back();

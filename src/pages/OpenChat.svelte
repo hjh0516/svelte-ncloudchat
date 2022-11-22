@@ -92,7 +92,7 @@
   </div>
 {:then}
   {#if data.length > 0}
-    <div class="open_chat active mt-28">
+    <div id="openChat" class="open_chat active mt-28">
       <div class="chat_list active">
         <ul>
           {#each data as item}
@@ -114,7 +114,7 @@
       }}
     />
   {:else}
-    <div class="none_msg active">
+    <div id="openChat" class="none_msg active">
       <div class="tb">
         <div class="tbc">
           <div class="msg">
