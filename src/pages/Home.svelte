@@ -9,11 +9,12 @@
   import ChannelSettingModal from "$components/modals/ChannelSettingModal.svelte";
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import { getNotificationsContext } from "svelte-notifications";
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
-  import Spinner from "$components/Spinner.svelte";
+  import { gohome } from "../../public/app";
 
   let chat: Chat;
   let newChannel: Channel = null;
@@ -46,7 +47,6 @@
     if (newChannel) {
       location.href = `/#/chat/${newChannel.channel_id}`;
       location.reload();
-      godetail();
     }
   }
 
@@ -77,6 +77,8 @@
       console.error(reason);
       loading = true;
     });
+
+    gohome();
   });
 
   onDestroy(() => {

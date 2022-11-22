@@ -26,6 +26,7 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
+  import { godetail } from "../../public/app";
 
   export let params: any;
 
@@ -166,7 +167,6 @@
             const target = message.message_type.split("_")[1];
             if (target === $store.user.id.toString()) {
               history.back();
-              gohome();
             }
           }
         }
@@ -232,6 +232,8 @@
     } catch (err) {
       console.error(err);
     }
+
+    godetail();
   });
 
   onDestroy(() => {

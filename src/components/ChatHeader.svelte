@@ -6,7 +6,6 @@
 
   function previousPage() {
     location.replace("/#/home");
-    gohome();
   }
 </script>
 

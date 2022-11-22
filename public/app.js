@@ -12,7 +12,8 @@ let isMobile = {
   },
 };
 
-function godetail() {
+export function godetail() {
+  console.log("godetail");
   if (isMobile.Android()) {
     window.emoApp?.godetail();
   } else if (isMobile.iOS()) {
@@ -20,7 +21,8 @@ function godetail() {
   }
 }
 
-function gohome() {
+export function gohome() {
+  console.log("gohome");
   if (isMobile.Android()) {
     window.emoApp?.gohome();
   } else if (isMobile.iOS()) {
@@ -41,10 +43,15 @@ function showsetting() {
 }
 
 function goback() {
-  const chatRoom = document.getElementById("chatRoom");
-  if (chatRoom) {
-    gohome();
-  }
+  // const chatRoom = document.getElementById("chatRoom");
+  // const imgDetail = document.getElementById("imgDetail");
+  // const chatRoomSetting = document.getElementById("chatRoomSetting");
+  // const exitRoom = document.getElementById("exitRoom");
+  // const chatShare = document.getElementById("chatShare");
+
+  // if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
+  //   gohome();
+  // }
   history.back();
 }
 
@@ -56,5 +63,4 @@ function getchannelidx() {
 function gochannel(channel_id) {
   location.href = `/#/chat/${channel_id}`;
   location.reload();
-  godetail();
 }
