@@ -54,12 +54,16 @@ function goback() {
 
   if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
     gohome();
+
   }else if (isMobile.Android() && (myChat || openChat) && !chatRoomSetting && !chatListSetting && !chatMaking) {
     window.emoApp?.goMain();
     return;
   }
-
-  history.back();
+  if ( document.referrer ) { 
+    history.back();
+  } else { 
+    location.href = `/#/home`;
+  }
 }
 
 function getchannelidx() {
