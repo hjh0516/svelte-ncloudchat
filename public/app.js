@@ -41,7 +41,6 @@ function showsetting() {
 }
 
 function goback() {
-  console.log(location.href);
   history.back();
 }
 
@@ -53,5 +52,4 @@ function getchannelidx() {
 function gochannel(channel_id) {
   location.href = `/#/chat/${channel_id}`;
   location.reload();
-  godetail();
 }

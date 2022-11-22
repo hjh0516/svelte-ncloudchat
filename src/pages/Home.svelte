@@ -2,18 +2,17 @@
   import type { Channel, Chat } from "$lib/types/type";
   import type { MessageType } from "$lib/types/MessageType";
 
-  // import HomeHeader from "$components/HomeHeader.svelte";
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
   import OpenChat from "$pages/OpenChat.svelte";
   import ChannelSettingModal from "$components/modals/ChannelSettingModal.svelte";
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
+  import Spinner from "$components/Spinner.svelte";
   import { getNotificationsContext } from "svelte-notifications";
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
-  import Spinner from "$components/Spinner.svelte";
   import { apiGetUser } from "$lib/api";
 
   let chat: Chat;
@@ -57,7 +56,6 @@
     if (newChannel) {
       location.href = `/#/chat/${newChannel.channel_id}`;
       location.reload();
-      godetail();
     }
   }
 
@@ -88,6 +86,8 @@
       console.error(reason);
       loading = true;
     });
+
+    gohome();
   });
 
   onDestroy(() => {

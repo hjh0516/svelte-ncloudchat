@@ -37,9 +37,9 @@
       initialize();
       connect(id, user.nickname, user.profile);
 
-      location.href = "/#/home";
+      location.replace("/#/home");
     } catch (err) {
-      location.href = "/#/error";
+      location.replace("/#/error");
       console.error(err);
       return;
     }

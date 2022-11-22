@@ -11,16 +11,11 @@
   import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
   import ChatProfileModal from "$components/modals/ChatProfileModal.svelte";
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
+  import ChatSystemItem from "$components/ChatSystemItem.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
-  import {
-    sendMessage,
-    bind,
-    unbindall,
-    sendImage,
-    unsubscribe,
-  } from "$lib/NcloudChat";
+  import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
   import {
     apiGetMessages,
     apiCreateMessage,
@@ -28,15 +23,9 @@
     apiGetChatBans,
     apiSendPush,
     apiGetChannel,
-    apiUnsubscribe,
-    apiDeleteChannelNotification,
-    apiDeleteChannel,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
-  import ChatSystemItem from "$components/ChatSystemItem.svelte";
-  import ChatExitModal from "$components/modals/ChatExitModal.svelte";
-  import ChannelShareModal from "$components/modals/ChannelShareModal.svelte";
 
   export let params: any;
 
@@ -51,8 +40,6 @@
   let showImageDownloadModal = false;
   let showChatProfileModal = false;
   let showEmojiArea = false;
-  let showChatExitModal = false;
-  let showChannelShareModal = false;
   let chatItem = null;
   let loading = false;
   let bans = [];
@@ -179,7 +166,6 @@
             const target = message.message_type.split("_")[1];
             if (target === $store.user.id.toString()) {
               history.back();
-              gohome();
             }
           }
         }
@@ -245,6 +231,8 @@
     } catch (err) {
       console.error(err);
     }
+
+    godetail();
   });
 
   onDestroy(() => {
@@ -256,7 +244,7 @@
 
 <ChatHeader {channel} bind:showSettingModal />
 <div
-  id="sub"
+  id="chatRoom"
   class="chatting chat_room"
   on:click={() => (showEmojiArea = false)}
 >
