@@ -2874,6 +2874,7 @@ em.ent {
 	width: 12.5px;
 	height: 11.5px;
 	position: absolute;
+	word-break:break-all;
 	right: 1px;
 	top: 0;
 	background-image: url('../img/ico_star1.svg');
