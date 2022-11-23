@@ -125,7 +125,6 @@
   async function loadMessages() {
     try {
       await login();
-      godetail();
 
       const res = await apiGetMessages(params.id, page);
       newData = res.data;
@@ -145,6 +144,7 @@
     } catch (err) {
       console.error(err);
     }
+      godetail();
   }
 
   function closeChatSettingModal() {
