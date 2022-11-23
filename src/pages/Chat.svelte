@@ -126,6 +126,12 @@
     try {
       await login();
 
+      if (isMobile.Android()) {
+        window.emoApp?.godetail();
+      } else if (isMobile.iOS()) {
+        location.href = "godetail://";
+        // window.webkit?.messageHandlers.godetail.postMessage();
+      }
       const res = await apiGetMessages(params.id, page);
       newData = res.data;
 
@@ -141,11 +147,9 @@
       }
 
       data = [...data, ...newData];
-      godetail();
     } catch (err) {
       console.error(err);
     }
-      // godetail();
   }
 
   function closeChatSettingModal() {
