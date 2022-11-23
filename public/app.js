@@ -59,10 +59,13 @@ function goback() {
     window.emoApp?.goMain();
     return;
   }
-  if ( document.referrer | imgDetail | chatRoomSetting | exitRoom | chatShare) { 
+  if ( document.referrerm) { 
     history.back();
-  } else { 
+  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare){ 
     location.href = `/#/home`;
+  } else {
+    history.back();
+
   }
 }
 
