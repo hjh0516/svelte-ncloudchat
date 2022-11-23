@@ -144,7 +144,7 @@
     } catch (err) {
       console.error(err);
     }
-      godetail();
+      // godetail();
   }
 
   function closeChatSettingModal() {
