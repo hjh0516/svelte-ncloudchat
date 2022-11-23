@@ -141,6 +141,7 @@
       }
 
       data = [...data, ...newData];
+      godetail();
     } catch (err) {
       console.error(err);
     }
