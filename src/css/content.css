@@ -2974,7 +2974,7 @@ em.ent {
 }
 
 .cBtn3 {
-	display: inline-block;
+	display: none;
 	padding: 0 5px;
 	box-sizing: border-box;
 	height: 22px;
