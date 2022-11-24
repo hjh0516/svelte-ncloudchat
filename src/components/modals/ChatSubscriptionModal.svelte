@@ -85,7 +85,7 @@
     close();
 
     setTimeout(async () => {
-      location.href = `/#/chat/${item.channel_id}`;
+      location.href = `/#/chat/${item.channel_id}?subscribe=true`;
       location.reload();
       godetail();
       // try {
