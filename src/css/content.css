@@ -2947,7 +2947,7 @@ em.ent {
 }
 
 .cBtn2 {
-	display: inline-block;
+	display: none;
 	width: 100%;
 	max-width: 160px;
 	height: 45px;
