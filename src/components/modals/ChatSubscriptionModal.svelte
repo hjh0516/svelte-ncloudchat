@@ -67,7 +67,6 @@
     }
 
     loading = true;
-    // const message = `${$store.user.name}님이 입장했어요.`;
     try {
       await subscribe(item.channel_id);
     } catch (err) {
@@ -77,23 +76,14 @@
     try {
       apiSubscribe(item.channel_id);
       apiCreateChannelNotification(item.channel_id, true);
-      // apiCreateMessage(item.channel_id, "system", message);
     } catch (err) {
       console.error(err);
     }
     loading = false;
     close();
 
-    setTimeout(async () => {
-      location.href = `/#/chat/${item.channel_id}?subscribe=true`;
-      location.reload();
-      godetail();
-      // try {
-      //   await sendMessage(item.channel_id, "system", message);
-      // } catch (err) {
-      //   console.error(err);
-      // }
-    }, 500);
+    location.href = `/#/chat/${item.channel_id}?subscribe=true`;
+    godetail();
   }
 
   function back() {

@@ -55,12 +55,8 @@
   function closeCreateChannelModal() {
     showCreateChannelModal = false;
     if (newChannel) {
-      setTimeout(() => {
-        location.href = `/#/chat/${newChannel.channel_id}`;
-        godetail();
-
-        location.reload();
-      }, 500);
+      location.href = `/#/chat/${newChannel.channel_id}`;
+      godetail();
     }
   }
 
