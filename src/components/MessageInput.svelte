@@ -74,7 +74,7 @@
             />
             <input
               type="submit"
-              class="svg {inputLen > 0 ? 'on' : ''}"
+              class="svg {inputLen > 0 || showEmojiArea ? 'on' : ''}"
               on:click={send}
             />
           </span>

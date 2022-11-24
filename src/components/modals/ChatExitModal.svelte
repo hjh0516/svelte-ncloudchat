@@ -46,13 +46,13 @@
         </div>
         <div class="btn_area in_2">
           <div>
+            <input type="button" value="네" class="cBtn" on:click={submit} />
             <input
               type="button"
-              value="네"
+              value="아니요"
               class="cBtn gr2"
-              on:click={submit}
+              on:click={close}
             />
-            <input type="button" value="아니요" class="cBtn" on:click={close} />
           </div>
         </div>
       </form>
