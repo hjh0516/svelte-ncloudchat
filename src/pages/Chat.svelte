@@ -287,18 +287,6 @@
       $store.channel = channel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
 
-      const p = new URLSearchParams($querystring);
-      console.log(p.get("subscribe"));
-      if (p.has("subscribe") && p.get("subscribe") === "true") {
-        const message = `${$store.user.name}님이 입장했어요.`;
-        try {
-          sendMessage(params.id, "system", message);
-          apiCreateMessage(params.id, "system", message);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-
       if (
         channel.subscriptions.findIndex(
           (v) => v.user_idx === channel.user_idx
