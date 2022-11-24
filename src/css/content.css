@@ -4484,7 +4484,7 @@ em.ent {
 }
 
 .chat_setting .setting_list .chat_list2 .a_state {
-	display: block;
+	display: none;
 	position: absolute;
 	right: 15px;
 	top: 50%;
