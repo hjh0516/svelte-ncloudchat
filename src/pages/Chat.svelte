@@ -201,23 +201,6 @@
   }
 
   onMount(async () => {
-    const test = {
-      projects: ["58ddc702-c641-4422-b009-4577f2a771dd"],
-      id: "chat_256",
-      projectTimezones: [
-        {
-          id: "58ddc702-c641-4422-b009-4577f2a771dd",
-          message_timezone: "Asia/Seoul",
-        },
-      ],
-      profile: "http://61.97.190.64/storage/user/profile_default.jpeg",
-      name: "이진욱",
-      iat: 1669267563,
-      exp: 1669526763,
-    };
-    console.log(typeof test);
-    console.log(JSON.parse(test));
-
     bind(
       "onMessageReceived",
       function (_channel: string, message: MessageType) {
