@@ -45,7 +45,6 @@ function goback() {
   const myChat = document.getElementById("myChat");
   const chatListSetting = document.getElementById("chatListSetting");
   const chatMaking = document.getElementById("chatMaking");
-  
   const openChat = document.getElementById("openChat");
   const imgDetail = document.getElementById("imgDetail");
   const chatRoomSetting = document.getElementById("chatRoomSetting");
@@ -54,18 +53,23 @@ function goback() {
 
   if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
     gohome();
-
-  }else if (isMobile.Android() && (myChat || openChat) && !chatRoomSetting && !chatListSetting && !chatMaking) {
+  } else if (
+    isMobile.Android() &&
+    (myChat || openChat) &&
+    !chatRoomSetting &&
+    !chatListSetting &&
+    !chatMaking
+  ) {
     window.emoApp?.goMain();
     return;
   }
-  if ( document.referrerm) { 
+
+  if (document.referrerm) {
     history.back();
-  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare){ 
+  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare) {
     location.href = `/#/home`;
   } else {
     history.back();
-
   }
 }
 

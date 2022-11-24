@@ -141,7 +141,6 @@
       }
 
       data = [...data, ...newData];
-
     } catch (err) {
       console.error(err);
     }
@@ -197,7 +196,6 @@
         window.emoApp?.godetail();
       } else if (isMobile.iOS()) {
         location.href = "godetail://";
-        // window.webkit?.messageHandlers.godetail.postMessage();
       }
     }
   }
@@ -284,10 +282,20 @@
       console.error(reason);
     });
 
+    loading = true;
     try {
       channel = await apiGetChannel(params.id);
       $store.channel = channel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
+
+      setTimeout(() => {
+        const p = new URLSearchParams($querystring);
+        if (p.has("subscribe") && p.get("subscribe") === "true") {
+          const message = `${$store.user.name}님이 입장했어요.`;
+          sendMessage(params.id, "system", message);
+          apiCreateMessage(params.id, "system", message);
+        }
+      }, 500);
 
       if (
         channel.subscriptions.findIndex(
@@ -308,6 +316,7 @@
     } catch (err) {
       console.error(err);
     }
+    loading = false;
   });
 
   onDestroy(() => {

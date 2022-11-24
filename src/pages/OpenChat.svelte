@@ -138,7 +138,6 @@
 {#if showSubscriptionModal}
   <ChatSubscriptionModal
     {item}
-    channel_id={item.channel_id}
     on:close={() => {
       showSubscriptionModal = false;
     }}

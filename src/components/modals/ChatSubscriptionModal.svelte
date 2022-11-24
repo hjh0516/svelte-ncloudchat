@@ -21,7 +21,6 @@
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
-  export let channel_id: string;
   export let item: Channel;
 
   let loading = false;
@@ -68,32 +67,33 @@
     }
 
     loading = true;
-    const message = `${$store.user.name}님이 입장했어요.`;
+    // const message = `${$store.user.name}님이 입장했어요.`;
     try {
-      apiSubscribe(channel_id);
-      apiCreateChannelNotification(channel_id, true);
-      apiCreateMessage(channel_id, "system", message);
+      await subscribe(item.channel_id);
     } catch (err) {
       console.error(err);
     }
 
     try {
-      subscribe(channel_id);
+      apiSubscribe(item.channel_id);
+      apiCreateChannelNotification(item.channel_id, true);
+      // apiCreateMessage(item.channel_id, "system", message);
     } catch (err) {
       console.error(err);
     }
-
     loading = false;
     close();
 
-    location.href = `/#/chat/${channel_id}`;
-    godetail();
-
-    try {
-      sendMessage(channel_id, "system", message);
-    } catch (err) {
-      console.error(err);
-    }
+    setTimeout(async () => {
+      location.href = `/#/chat/${item.channel_id}?subscribe=true`;
+      location.reload();
+      godetail();
+      // try {
+      //   await sendMessage(item.channel_id, "system", message);
+      // } catch (err) {
+      //   console.error(err);
+      // }
+    }, 500);
   }
 
   function back() {
