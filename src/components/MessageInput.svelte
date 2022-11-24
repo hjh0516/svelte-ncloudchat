@@ -53,7 +53,7 @@
         <div class="ipt_area">
           <input
             type="text"
-            bind:value={input}
+            value={location.href}
             bind:this={messageInput}
             on:keypress={(e) => {
               if (e.key === "Enter") {

@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Channel } from "$lib/types/type";
-  import { querystring } from "svelte-spa-router";
 
   export let channel: Channel;
   export let showSettingModal = false;
@@ -8,9 +7,6 @@
   function previousPage() {
     location.replace("/#/home");
     gohome();
-  }
-  function getChannelid(){
-    return location.href.slice(-36);
   }
 </script>
 
@@ -23,7 +19,6 @@
     <div class="r_title">
       
       {#if channel}
-      <!-- <h2 class="aggro">{getChannelid()}</h2> -->
       <h2 class="aggro">{channel.name}</h2>
       {/if}
     </div>
