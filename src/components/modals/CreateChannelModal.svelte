@@ -23,7 +23,9 @@
 
   export let newChannel: Channel = null;
 
-  let name: string;
+  let name = "";
+  $: nameLen = name.length;
+
   let tag: string;
   let loading = false;
   let onlyFollowers = false;
@@ -41,7 +43,7 @@
       return;
     }
 
-    if (name.length > 20) {
+    if (nameLen > 20) {
       clearNotifications();
       addNotification({
         text: "채팅방 이름은 최대 20자까지 입력할 수 있어요.",
@@ -229,7 +231,12 @@
         </div>
       </div>
       <div class="btn_area">
-        <input type="submit" class="cBtn" value="완료" on:click={submit} />
+        <input
+          type="submit"
+          class="cBtn {nameLen === 0 ? 'gr2' : ''}"
+          value="완료"
+          on:click={submit}
+        />
       </div>
     </div>
   </div>

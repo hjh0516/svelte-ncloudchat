@@ -3316,6 +3316,13 @@ em.ent {
 	background-image: url('../img/ico_submit_off.svg');
 }
 
+.chat_util2 .ipt_area span input[type="submit"].on {
+	margin-left: 5px;
+	width: 24px;
+	height: 24px;
+	background-image: url('../img/ico_submit_on.svg');
+}
+
 /* .chat_util2 .emoge_area{display:none;} */
 .chat_util2 .emoge_case {
 	border-top: 1px solid #f4f4f4;
@@ -4025,7 +4032,7 @@ em.ent {
 	margin-top: 5px;
 	padding: 15px;
 	box-sizing: border-box;
-	word-break:break-all;
+	word-break: break-all;
 	font-size: 13px;
 	font-weight: 400;
 	letter-spacing: -0.5px;

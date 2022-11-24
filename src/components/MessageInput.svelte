@@ -6,6 +6,8 @@
   import { onMount } from "svelte";
 
   export let input = "";
+  $: inputLen = input.length;
+
   export let activeInput = true;
   export let emojiPath: string;
   export let showEmojiArea = false;
@@ -70,7 +72,11 @@
                 showEmojiArea = !showEmojiArea;
               }}
             />
-            <input type="submit" class="svg" on:click={send} />
+            <input
+              type="submit"
+              class="svg {inputLen > 0 ? 'on' : ''}"
+              on:click={send}
+            />
           </span>
         </div>
       </div>
