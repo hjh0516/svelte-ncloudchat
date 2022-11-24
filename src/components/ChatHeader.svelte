@@ -17,8 +17,9 @@
       <a class="svg" on:click={previousPage}>메뉴 버튼</a>
     </div>
     <div class="r_title">
+      
       {#if channel}
-        <h2 class="aggro">{channel.name}</h2>
+      <h2 class="aggro">{channel.name}</h2>
       {/if}
     </div>
     <div class="right">
