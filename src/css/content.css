@@ -2870,7 +2870,7 @@ em.ent {
 .r_leader2 .c_avata::before {
 	content: '';
 	display: none;
-	/*display:block*/
+	/* display:block */
 	clear: both;
 	width: 12.5px;
 	height: 11.5px;
@@ -2888,7 +2888,7 @@ em.ent {
 .r_leader3 .c_avata::before {
 	content: '';
 	display: none;
-	/*display:block*/
+	/* display:block */
 	clear: both;
 	width: 25px;
 	height: 24px;
