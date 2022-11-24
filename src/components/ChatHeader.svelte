@@ -23,8 +23,8 @@
     <div class="r_title">
       
       {#if channel}
-      <h2 class="aggro">{getChannelid()}</h2>
-      <!-- <h2 class="aggro">{channel.name}</h2> -->
+      <!-- <h2 class="aggro">{getChannelid()}</h2> -->
+      <h2 class="aggro">{channel.name}</h2>
       {/if}
     </div>
     <div class="right">
