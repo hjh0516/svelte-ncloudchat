@@ -86,9 +86,8 @@
 
     setTimeout(async () => {
       location.href = `/#/chat/${item.channel_id}`;
-      godetail();
-
       location.reload();
+      godetail();
       // try {
       //   await sendMessage(item.channel_id, "system", message);
       // } catch (err) {
