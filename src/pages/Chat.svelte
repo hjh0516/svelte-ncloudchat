@@ -141,7 +141,6 @@
       }
 
       data = [...data, ...newData];
-
     } catch (err) {
       console.error(err);
     }
@@ -197,7 +196,6 @@
         window.emoApp?.godetail();
       } else if (isMobile.iOS()) {
         location.href = "godetail://";
-        // window.webkit?.messageHandlers.godetail.postMessage();
       }
     }
   }

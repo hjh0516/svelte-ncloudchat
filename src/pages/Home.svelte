@@ -58,6 +58,8 @@
       setTimeout(() => {
         location.href = `/#/chat/${newChannel.channel_id}`;
         godetail();
+
+        location.reload();
       }, 500);
     }
   }
