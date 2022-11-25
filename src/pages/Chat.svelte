@@ -240,7 +240,7 @@
             nickname: message.sender.name,
             profile: message.sender.profile,
             type: "file",
-            image_url: message.content.replace("http", "https"),
+            image_url: message.content.replace("http:", ""),
             created_at: message.created_at,
           };
         } else if (message.message_type.split("_")[0] === "system") {
