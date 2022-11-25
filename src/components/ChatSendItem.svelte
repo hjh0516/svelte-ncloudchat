@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Chat } from "$lib/types/type";
 
-  import Image from "$components/ChatImageItem.svelte";
+  import ChatImageItem from "$components/ChatImageItem.svelte";
   import { convertSendAt } from "$lib/Date";
   import { createEventDispatcher } from "svelte";
 
@@ -21,8 +21,8 @@
         {item.message}
       </dd>
     {:else if item.type === "file"}
-      <div class="chat_img max-w-[20rem] mt-3" on:click={() => open(item)}>
-        <Image src={item.image_url} className={"rounded-2xl"} />
+      <div class="chat_img h-[125px] mt-3" on:click={() => open(item)}>
+        <ChatImageItem src={item.image_url} className={"rounded-2xl"} />
       </div>
     {/if}
     {#if item.show_date}

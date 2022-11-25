@@ -32,5 +32,10 @@
 {:else if failed}
   <img src="default.jpg" alt="error_image" class="rounded-2xl" />
 {:else}
-  <img {src} alt="image_url" class={className} />
+  <img
+    {src}
+    alt="image_url"
+    class={className}
+    style="height: -webkit-fill-available"
+  />
 {/if}
