@@ -13,27 +13,27 @@ let isMobile = {
 };
 
 function godetail() {
-  if (isMobile.Android()) {
-    window.emoApp?.godetail();
-  } else if (isMobile.iOS()) {
+  // if (isMobile.Android()) {
+  //   window.emoApp?.godetail();
+  // } else if (isMobile.iOS()) {
     location.href = "godetail://";
-  }
+  // }
 }
 
 function gohome() {
-  if (isMobile.Android()) {
-    window.emoApp?.gohome();
-  } else if (isMobile.iOS()) {
+  // if (isMobile.Android()) {
+  //   window.emoApp?.gohome();
+  // } else if (isMobile.iOS()) {
     location.href = "gohome://";
-  }
+  // }
 }
 
 function goemoticon() {
-  if (isMobile.Android()) {
-    window.emoApp?.goemoticon();
-  } else if (isMobile.iOS()) {
+  // if (isMobile.Android()) {
+  //   window.emoApp?.goemoticon();
+  // } else if (isMobile.iOS()) {
     location.href = "goemoticon://";
-  }
+  // }
 }
 
 function showsetting() {
@@ -60,7 +60,9 @@ function goback() {
     !chatListSetting &&
     !chatMaking
   ) {
-    window.emoApp?.goMain();
+    // window.emoApp?.goMain();
+
+    location.href = "goMain://";
     return;
   }
 
