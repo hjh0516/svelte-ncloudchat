@@ -50,8 +50,9 @@ function goback() {
   const chatRoomSetting = document.getElementById("chatRoomSetting");
   const exitRoom = document.getElementById("exitRoom");
   const chatShare = document.getElementById("chatShare");
+  const userInfo = document.getElementById("userInfo2");
 
-  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
+  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare && !userInfo) {
     gohome();
   } else if (
     (myChat || openChat) &&
@@ -67,7 +68,7 @@ function goback() {
 
   if (document.referrerm) {
     history.back();
-  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare) {
+  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare & !userInfo) {
     location.href = `/#/home`;
   } else {
     history.back();
