@@ -13,27 +13,27 @@ let isMobile = {
 };
 
 function godetail() {
-  if (isMobile.Android() && window.emoApp) {
+  // if (isMobile.Android() && window.emoApp) {
+  //   location.href = "godetail://";
+  // } else if (isMobile.iOS()) {
     location.href = "godetail://";
-  } else if (isMobile.iOS()) {
-    location.href = "godetail://";
-  }
+  // }
 }
 
 function gohome() {
-  if (isMobile.Android() && window.emoApp) {
-       location.href = "://";
-  } else if (isMobile.iOS()) {
+  // if (isMobile.Android() && window.emoApp) {
+  //      location.href = "://";
+  // } else if (isMobile.iOS()) {
     location.href = "gohome://";
-  }
+  // }
 }
 
 function goemoticon() {
-  if (isMobile.Android() && window.emoApp) {
-    location.href = "goemoticon://";
-  }else if (isMobile.iOS()) {
+  // if (isMobile.Android() && window.emoApp) {
+  //   location.href = "goemoticon://";
+  // }else if (isMobile.iOS()) {
        location.href = "goemoticon://";
-  }
+  // }
 }
 
 function showsetting() {
@@ -63,9 +63,9 @@ function goback() {
     !roomInfo
   ) {
     
-    if (isMobile.Android() && window.emoApp) {
+    // if (isMobile.Android() && window.emoApp) {
       location.href = "gomain://";
-    }
+    // }
     return;
   }
 
