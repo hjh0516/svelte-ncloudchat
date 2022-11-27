@@ -55,7 +55,7 @@
         <div class="ipt_area">
           <input
             type="text"
-            value={navigator.userAgent}
+            bind:value={input}
             bind:this={messageInput}
             on:keypress={(e) => {
               if (e.key === "Enter") {
