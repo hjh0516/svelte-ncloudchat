@@ -51,6 +51,7 @@ function goback() {
   const exitRoom = document.getElementById("exitRoom");
   const chatShare = document.getElementById("chatShare");
   const userInfo = document.getElementById("userInfo2");
+  const roomInfo = document.getElementById("roomInfo");
 
   if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare && !userInfo) {
     gohome();
@@ -58,7 +59,8 @@ function goback() {
     (myChat || openChat) &&
     !chatRoomSetting &&
     !chatListSetting &&
-    !chatMaking
+    !chatMaking &&
+    !roomInfo
   ) {
     // window.emoApp?.goMain();
 
