@@ -14,17 +14,25 @@ let isMobile = {
 
 function godetail() {
   // if (isMobile.Android()) {
-  //   window.emoApp?.godetail();
+    try {
+      window.emoApp?.godetail();
+     } catch (error) {
+       location.href = "godetail://";
+     }
   // } else if (isMobile.iOS()) {
-    location.href = "godetail://";
+  //   location.href = "godetail://";
   // }
 }
 
 function gohome() {
   // if (isMobile.Android()) {
-  //   window.emoApp?.gohome();
+    try {
+      window.emoApp?.gohome();
+     } catch (error) {
+       location.href = "gohome://";
+     }
   // } else if (isMobile.iOS()) {
-    location.href = "gohome://";
+  //   location.href = "gohome://";
   // }
 }
 
@@ -32,8 +40,13 @@ function goemoticon() {
   // if (isMobile.Android()) {
   //   window.emoApp?.goemoticon();
   // } else if (isMobile.iOS()) {
-    location.href = "goemoticon://";
+    // location.href = "goemoticon://";
   // }
+    try {
+      window.emoApp?.goemoticon();
+     } catch (error) {
+       location.href = "goemoticon://";
+     }
 }
 
 function showsetting() {
@@ -62,9 +75,11 @@ function goback() {
     !chatMaking &&
     !roomInfo
   ) {
-    // window.emoApp?.goMain();
-
-    location.href = "gomain://";
+    try {
+     window.emoApp?.goMain();
+    } catch (error) {
+      location.href = "gomain://";
+    }
     return;
   }
 
