@@ -14,11 +14,11 @@ let isMobile = {
 
 function godetail() {
   // if (isMobile.Android()) {
-    try {
-      window.emoApp?.godetail();
-     } catch (error) {
+    // try {
+    //   window.emoApp?.godetail();
+    //  } catch (error) {
        location.href = "godetail://";
-     }
+    //  }
   // } else if (isMobile.iOS()) {
   //   location.href = "godetail://";
   // }
@@ -26,11 +26,11 @@ function godetail() {
 
 function gohome() {
   // if (isMobile.Android()) {
-    try {
-      window.emoApp?.gohome();
-     } catch (error) {
+    // try {
+    //   window.emoApp?.gohome();
+    //  } catch (error) {
        location.href = "gohome://";
-     }
+    //  }
   // } else if (isMobile.iOS()) {
   //   location.href = "gohome://";
   // }
@@ -42,11 +42,11 @@ function goemoticon() {
   // } else if (isMobile.iOS()) {
     // location.href = "goemoticon://";
   // }
-    try {
-      window.emoApp?.goemoticon();
-     } catch (error) {
+    // try {
+    //   window.emoApp?.goemoticon();
+    //  } catch (error) {
        location.href = "goemoticon://";
-     }
+    //  }
 }
 
 function showsetting() {
@@ -75,11 +75,11 @@ function goback() {
     !chatMaking &&
     !roomInfo
   ) {
-    try {
-     window.emoApp?.goMain();
-    } catch (error) {
+    // try {
+    //  window.emoApp?.goMain();
+    // } catch (error) {
       location.href = "gomain://";
-    }
+    // }
     return;
   }
 
