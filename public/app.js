@@ -54,7 +54,6 @@ function goback() {
   if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
     gohome();
   } else if (
-    isMobile.Android() &&
     (myChat || openChat) &&
     !chatRoomSetting &&
     !chatListSetting &&
@@ -62,7 +61,7 @@ function goback() {
   ) {
     // window.emoApp?.goMain();
 
-    location.href = "goMain://";
+    location.href = "gomain://";
     return;
   }
 
