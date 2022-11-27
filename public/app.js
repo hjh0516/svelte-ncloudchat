@@ -13,40 +13,27 @@ let isMobile = {
 };
 
 function godetail() {
-  // if (isMobile.Android()) {
-    // try {
-    //   window.emoApp?.godetail();
-    //  } catch (error) {
-       location.href = "godetail://";
-    //  }
-  // } else if (isMobile.iOS()) {
-  //   location.href = "godetail://";
-  // }
+  if (isMobile.Android() && window.emoApp?.godetail) {
+    location.href = "godetail://";
+  } else if (isMobile.iOS()) {
+    location.href = "godetail://";
+  }
 }
 
 function gohome() {
-  // if (isMobile.Android()) {
-    // try {
-    //   window.emoApp?.gohome();
-    //  } catch (error) {
-       location.href = "gohome://";
-    //  }
-  // } else if (isMobile.iOS()) {
-  //   location.href = "gohome://";
-  // }
+  if (isMobile.Android() && window.emoApp?.gohome) {
+       location.href = "://";
+  } else if (isMobile.iOS()) {
+    location.href = "gohome://";
+  }
 }
 
 function goemoticon() {
-  // if (isMobile.Android()) {
-  //   window.emoApp?.goemoticon();
-  // } else if (isMobile.iOS()) {
-    // location.href = "goemoticon://";
-  // }
-    // try {
-    //   window.emoApp?.goemoticon();
-    //  } catch (error) {
+  if (isMobile.Android() && window.emoApp?.goemoticon) {
+    location.href = "goemoticon://";
+  }
        location.href = "goemoticon://";
-    //  }
+  }
 }
 
 function showsetting() {
@@ -75,11 +62,10 @@ function goback() {
     !chatMaking &&
     !roomInfo
   ) {
-    // try {
-    //  window.emoApp?.goMain();
-    // } catch (error) {
+    
+    if (isMobile.Android() && window.emoApp?.goemoticon) {
       location.href = "gomain://";
-    // }
+    }
     return;
   }
 
