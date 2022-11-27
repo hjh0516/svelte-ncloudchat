@@ -13,7 +13,7 @@ let isMobile = {
 };
 
 function godetail() {
-  if (isMobile.Android() && window.emoApp?.godetail) {
+  if (isMobile.Android() && window.emoApp) {
     location.href = "godetail://";
   } else if (isMobile.iOS()) {
     location.href = "godetail://";
@@ -21,7 +21,7 @@ function godetail() {
 }
 
 function gohome() {
-  if (isMobile.Android() && window.emoApp?.gohome) {
+  if (isMobile.Android() && window.emoApp) {
        location.href = "://";
   } else if (isMobile.iOS()) {
     location.href = "gohome://";
@@ -29,9 +29,9 @@ function gohome() {
 }
 
 function goemoticon() {
-  if (isMobile.Android() && window.emoApp?.goemoticon) {
+  if (isMobile.Android() && window.emoApp) {
     location.href = "goemoticon://";
-  }
+  }else if (isMobile.iOS()) {
        location.href = "goemoticon://";
   }
 }
@@ -63,7 +63,7 @@ function goback() {
     !roomInfo
   ) {
     
-    if (isMobile.Android() && window.emoApp?.goemoticon) {
+    if (isMobile.Android() && window.emoApp) {
       location.href = "gomain://";
     }
     return;
