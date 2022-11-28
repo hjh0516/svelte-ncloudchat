@@ -50,8 +50,10 @@ function goback() {
   const chatRoomSetting = document.getElementById("chatRoomSetting");
   const exitRoom = document.getElementById("exitRoom");
   const chatShare = document.getElementById("chatShare");
+  const roomInfo = document.getElementById("roomInfo");
+  const userInfo2 = document.getElementById("userInfo2");
 
-  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare) {
+  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare && !roomInfo && !userInfo2) {
     gohome();
   } else if (
     isMobile.Android() &&
@@ -66,7 +68,7 @@ function goback() {
 
   if (document.referrerm) {
     history.back();
-  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare) {
+  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare & !roomInfo & !userInfo2) {
     location.href = `/#/home`;
   } else {
     history.back();
