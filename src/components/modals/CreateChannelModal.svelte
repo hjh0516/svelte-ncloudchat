@@ -121,7 +121,6 @@
       );
       apiCreateChannelNotification(channel.id, true);
       apiSubscribe(channel.id);
-
       subscribe(channel.id);
 
       newChannel = await apiGetChannel(channel.id);

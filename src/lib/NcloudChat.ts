@@ -135,3 +135,11 @@ export async function sendMessage(
 export async function sendImage(channel_id: string, file: any) {
   await nc.sendImage(channel_id, file);
 }
+
+export async function addMembers(channel_id: string, users: number[]) {
+  await nc.addMembers(
+    channel_id,
+    users.map((v) => `chat_${v}`),
+    null
+  );
+}

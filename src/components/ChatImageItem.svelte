@@ -30,7 +30,12 @@
     <Spinner />
   </div>
 {:else if failed}
-  <img src="default.jpg" alt="error_image" class="rounded-2xl" />
+  <img
+    src="default.jpg"
+    alt="error_image"
+    class="rounded-2xl"
+    style="height: -webkit-fill-available"
+  />
 {:else}
   <img
     {src}

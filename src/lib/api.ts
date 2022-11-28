@@ -91,12 +91,13 @@ export async function apiDeleteChannel(channel_id: string) {
   return await handleResponse(response);
 }
 
-export async function apiSubscribe(channel_id: string) {
+export async function apiSubscribe(channel_id: string, user_idx?: number) {
   const response = await fetch(`${API_URL}/channels/subscriptions`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
       channel_id: channel_id,
+      user_idx: user_idx,
     }),
   });
   return await handleResponse(response);
@@ -233,7 +234,8 @@ export async function apiGetChannelNotification(channel_id: string) {
 
 export async function apiCreateChannelNotification(
   channel_id: string,
-  notification: boolean
+  notification: boolean,
+  user_idx?: number
 ) {
   const response = await fetch(
     `${API_URL}/channels/notifications/${channel_id}`,
@@ -242,6 +244,7 @@ export async function apiCreateChannelNotification(
       headers: setHeader(),
       body: JSON.stringify({
         notification: notification,
+        user_idx: user_idx,
       }),
     }
   );
@@ -382,6 +385,14 @@ export async function apiDeleteUserSubscription(
       headers: setHeader(),
     }
   );
+  return await handleResponse(response);
+}
+
+export async function apiGetPrivateChannel(user_idx: number) {
+  const response = await fetch(`${API_URL}/channels/private/${user_idx}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
   return await handleResponse(response);
 }
 

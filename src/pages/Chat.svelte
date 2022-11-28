@@ -15,7 +15,14 @@
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
-  import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
+  import {
+    sendMessage,
+    bind,
+    unbindall,
+    sendImage,
+    subscribe,
+    getSubscriptions,
+  } from "$lib/NcloudChat";
   import {
     apiGetMessages,
     apiCreateMessage,
@@ -200,6 +207,23 @@
     }
   }
 
+  function sendEnterMessage() {
+    setTimeout(() => {
+      const message = `${$store.user.name}님이 입장했어요.`;
+      sendMessage(params.id, "system", message);
+      apiCreateMessage(params.id, "system", message);
+    }, 500);
+  }
+
+  function showToast(message: string) {
+    clearNotifications();
+    addNotification({
+      text: message,
+      position: "bottom-center",
+      removeAfter: 1500,
+    });
+  }
+
   onMount(async () => {
     bind(
       "onMessageReceived",
@@ -211,7 +235,13 @@
             const target = message.message_type.split("_")[1];
             if (target === $store.user.id.toString()) {
               history.back();
+            } else if (channel.type === "PRIVATE") {
+              showToast("대화상대가 없어요.");
+              activeInput = false;
             } else if (target === channel.user_idx.toString()) {
+              showToast(
+                "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+              );
               activeInput = false;
             }
           }
@@ -288,26 +318,41 @@
       $store.channel = channel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
 
+      if (channel.type === "PRIVATE") {
+        const subscriptions = await getSubscriptions({
+          channel_id: channel.channel_id,
+        });
+
+        if (
+          subscriptions.findIndex(
+            (v) => v.user_id === `chat_${$store.user.id}`
+          ) === -1
+        ) {
+          await subscribe(channel.channel_id);
+        }
+      }
+
       setTimeout(() => {
         const p = new URLSearchParams($querystring);
         if (p.has("subscribe") && p.get("subscribe") === "true") {
-          const message = `${$store.user.name}님이 입장했어요.`;
-          sendMessage(params.id, "system", message);
-          apiCreateMessage(params.id, "system", message);
+          sendEnterMessage();
         }
       }, 500);
 
+      if (channel.type === "PRIVATE" && channel.subscriptions_count === 1) {
+        showToast("대화 상대가 없어요.");
+        activeInput = false;
+      }
+
       if (
+        channel.type !== "PRIVATE" &&
         channel.subscriptions.findIndex(
           (v) => v.user_idx === channel.user_idx
         ) === -1
       ) {
-        clearNotifications();
-        addNotification({
-          text: "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요. ",
-          position: "bottom-center",
-          removeAfter: 1500,
-        });
+        showToast(
+          "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+        );
         activeInput = false;
       }
 
