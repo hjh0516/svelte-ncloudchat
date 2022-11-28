@@ -60,7 +60,7 @@ function goback() {
     (myChat || openChat) &&
     !chatRoomSetting &&
     !chatListSetting &&
-    !chatMaking
+    !chatMaking && !roomInfo && !userInfo2
   ) {
     window.emoApp?.goMain();
     return;
