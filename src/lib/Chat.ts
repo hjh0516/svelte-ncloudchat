@@ -19,8 +19,6 @@ export function updateChatItems(data: Chat[]) {
 
     const previousDate = new Date(previous.created_at).getDate();
     const itemDate = new Date(item.created_at).getDate();
-console.log(previousDate);
-console.log(itemDate);
 
     if (
       previous.type !== "date" &&
