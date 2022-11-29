@@ -68,17 +68,18 @@
 
     loading = true;
     try {
-      await subscribe(item.channel_id);
+      await apiSubscribe(item.channel_id);
+      await apiCreateChannelNotification(item.channel_id, true);
     } catch (err) {
       console.error(err);
     }
 
     try {
-      apiSubscribe(item.channel_id);
-      apiCreateChannelNotification(item.channel_id, true);
+      await subscribe(item.channel_id);
     } catch (err) {
       console.error(err);
     }
+
     loading = false;
     close();
 

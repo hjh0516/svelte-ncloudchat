@@ -22,7 +22,7 @@ function godetail() {
 
 function gohome() {
   if (isMobile.Android() && window.emoApp) {
-       location.href = "gohome://";
+    location.href = "gohome://";
   } else if (isMobile.iOS()) {
     location.href = "gohome://";
   }
@@ -31,7 +31,7 @@ function gohome() {
 function goemoticon() {
   if (isMobile.Android() && window.emoApp) {
     location.href = "goemoticon://";
-  }else if (isMobile.iOS()) {
+  } else if (isMobile.iOS()) {
     location.href = "goemoticon://";
   }
 }
@@ -50,19 +50,27 @@ function goback() {
   const chatRoomSetting = document.getElementById("chatRoomSetting");
   const exitRoom = document.getElementById("exitRoom");
   const chatShare = document.getElementById("chatShare");
-  const userInfo = document.getElementById("userInfo2");
   const roomInfo = document.getElementById("roomInfo");
+  const userInfo2 = document.getElementById("userInfo2");
 
-  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare && !userInfo) {
+  if (
+    chatRoom &&
+    !imgDetail &&
+    !chatRoomSetting &&
+    !exitRoom &&
+    !chatShare &&
+    !roomInfo &&
+    !userInfo2
+  ) {
     gohome();
   } else if (
     (myChat || openChat) &&
     !chatRoomSetting &&
     !chatListSetting &&
     !chatMaking &&
-    !roomInfo
+    !roomInfo &&
+    !userInfo2
   ) {
-    
     if (isMobile.Android() && window.emoApp) {
       location.href = "gomain://";
     }
@@ -71,7 +79,14 @@ function goback() {
 
   if (document.referrerm) {
     history.back();
-  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare & !userInfo) {
+  } else if (
+    !imgDetail &
+    !chatRoomSetting &
+    !exitRoom &
+    !chatShare &
+    !roomInfo &
+    !userInfo2
+  ) {
     location.href = `/#/home`;
   } else {
     history.back();
