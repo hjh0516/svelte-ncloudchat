@@ -51,7 +51,7 @@
         `private_channel_${$store.user.id}`,
         null
       );
-      subscribe(privateChannel.id);
+      await subscribe(privateChannel.id);
       await apiCreateChannel(
         privateChannel.id,
         privateChannel.name,
@@ -60,8 +60,8 @@
         privateChannel.link_url,
         privateChannel.push
       );
-      apiCreateChannelNotification(privateChannel.id, true);
-      apiCreateChannelNotification(privateChannel.id, true, user_idx);
+      await apiCreateChannelNotification(privateChannel.id, true);
+      await apiCreateChannelNotification(privateChannel.id, true, user_idx);
       await apiSubscribe(privateChannel.id);
       await apiSubscribe(privateChannel.id, user_idx);
 
