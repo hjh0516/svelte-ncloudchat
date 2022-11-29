@@ -44,7 +44,7 @@
                   type="file"
                   class="sr-only"
                   accept="image/*"
-                  capture="environment"
+                  capture="camera"
                   on:change={uploadImage}
                 />
                 <div>지금 사진 찍어서 등록하기</div>
