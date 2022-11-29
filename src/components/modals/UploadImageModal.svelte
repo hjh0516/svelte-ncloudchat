@@ -43,7 +43,8 @@
                   id="camera"
                   type="file"
                   class="sr-only"
-                  capture
+                  accept="image/*"
+                  capture="environment"
                   on:change={uploadImage}
                 />
                 <div>지금 사진 찍어서 등록하기</div>
@@ -55,7 +56,7 @@
                   id="album"
                   type="file"
                   class="sr-only"
-                  accept=".jpg, .jpeg, .gif, .png"
+                  accept="image/*"
                   on:change={uploadImage}
                 />
                 <div>사진첩 사진으로 등록하기</div>
