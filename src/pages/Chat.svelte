@@ -199,11 +199,11 @@
         return;
       }
 
-      if (isMobile.Android()) {
-        window.emoApp?.godetail();
-      } else if (isMobile.iOS()) {
+      // if (isMobile.Android()) {
+      //   window.emoApp?.godetail();
+      // } else if (isMobile.iOS()) {
         location.href = "godetail://";
-      }
+      // }
     }
   }
 

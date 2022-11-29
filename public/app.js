@@ -13,24 +13,24 @@ let isMobile = {
 };
 
 function godetail() {
-  if (isMobile.Android()) {
-    window.emoApp?.godetail();
+  if (isMobile.Android() && window.emoApp) {
+    location.href = "godetail://";
   } else if (isMobile.iOS()) {
     location.href = "godetail://";
   }
 }
 
 function gohome() {
-  if (isMobile.Android()) {
-    window.emoApp?.gohome();
+  if (isMobile.Android() && window.emoApp) {
+    location.href = "gohome://";
   } else if (isMobile.iOS()) {
     location.href = "gohome://";
   }
 }
 
 function goemoticon() {
-  if (isMobile.Android()) {
-    window.emoApp?.goemoticon();
+  if (isMobile.Android() && window.emoApp) {
+    location.href = "goemoticon://";
   } else if (isMobile.iOS()) {
     location.href = "goemoticon://";
   }
@@ -53,22 +53,40 @@ function goback() {
   const roomInfo = document.getElementById("roomInfo");
   const userInfo2 = document.getElementById("userInfo2");
 
-  if (chatRoom && !imgDetail && !chatRoomSetting && !exitRoom && !chatShare && !roomInfo && !userInfo2) {
+  if (
+    chatRoom &&
+    !imgDetail &&
+    !chatRoomSetting &&
+    !exitRoom &&
+    !chatShare &&
+    !roomInfo &&
+    !userInfo2
+  ) {
     gohome();
   } else if (
-    isMobile.Android() &&
     (myChat || openChat) &&
     !chatRoomSetting &&
     !chatListSetting &&
-    !chatMaking && !roomInfo && !userInfo2
+    !chatMaking &&
+    !roomInfo &&
+    !userInfo2
   ) {
-    window.emoApp?.goMain();
+    if (isMobile.Android() && window.emoApp) {
+      location.href = "gomain://";
+    }
     return;
   }
 
   if (document.referrerm) {
     history.back();
-  } else if (!imgDetail & !chatRoomSetting & !exitRoom & !chatShare & !roomInfo & !userInfo2) {
+  } else if (
+    !imgDetail &
+    !chatRoomSetting &
+    !exitRoom &
+    !chatShare &
+    !roomInfo &
+    !userInfo2
+  ) {
     location.href = `/#/home`;
   } else {
     history.back();
