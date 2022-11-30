@@ -77,6 +77,7 @@ export async function createChannel(name: string, imageUrl: string) {
     linkUrl: "",
     imageUrl: imageUrl,
     members: [],
+    customField: "",
   });
 }
 
@@ -98,6 +99,7 @@ export async function updateChannel(
     linkUrl: "",
     imageUrl: "",
     members: [],
+    customField: "",
   });
 }
 
@@ -126,7 +128,7 @@ export async function sendMessage(
   type: string,
   message: string
 ) {
-  return await nc.sendMessage(channel_id, {
+  return await nc.sendExpressMessage(channel_id, {
     type: type,
     message: message,
   });
