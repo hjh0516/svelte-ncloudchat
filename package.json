@@ -30,7 +30,7 @@
     "vite": "^3.2.4"
   },
   "dependencies": {
-    "ncloudchat": "^1.0.23",
+    "ncloudchat": "^1.0.31",
     "uuid": "^9.0.0"
   }
 }

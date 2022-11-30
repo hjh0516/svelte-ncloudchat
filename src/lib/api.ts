@@ -91,25 +91,30 @@ export async function apiDeleteChannel(channel_id: string) {
   return await handleResponse(response);
 }
 
-export async function apiSubscribe(channel_id: string) {
-  const response = await fetch(`${API_URL}/channels/subscriptions`, {
+export async function apiGetSubscriptions(channel_id: string) {
+  const response = await fetch(`${API_URL}/subscriptions/${channel_id}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
+export async function apiSubscribe(channel_id: string, user_idx?: number) {
+  const response = await fetch(`${API_URL}/subscriptions/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
     body: JSON.stringify({
-      channel_id: channel_id,
+      user_idx: user_idx,
     }),
   });
   return await handleResponse(response);
 }
 
 export async function apiUnsubscribe(channel_id: string) {
-  const response = await fetch(
-    `${API_URL}/channels/subscriptions/${channel_id}`,
-    {
-      method: "DELETE",
-      headers: setHeader(),
-    }
-  );
+  const response = await fetch(`${API_URL}/subscriptions/${channel_id}`, {
+    method: "DELETE",
+    headers: setHeader(),
+  });
   return await handleResponse(response);
 }
 
@@ -233,7 +238,8 @@ export async function apiGetChannelNotification(channel_id: string) {
 
 export async function apiCreateChannelNotification(
   channel_id: string,
-  notification: boolean
+  notification: boolean,
+  user_idx?: number
 ) {
   const response = await fetch(
     `${API_URL}/channels/notifications/${channel_id}`,
@@ -242,6 +248,7 @@ export async function apiCreateChannelNotification(
       headers: setHeader(),
       body: JSON.stringify({
         notification: notification,
+        user_idx: user_idx,
       }),
     }
   );
@@ -344,13 +351,10 @@ export async function apiCreateFollow(user_idx: number) {
 }
 
 export async function apiGetDeletedUserSubscriptions(channel_id: string) {
-  const response = await fetch(
-    `${API_URL}/channels/subscriptions/${channel_id}`,
-    {
-      method: "GET",
-      headers: setHeader(),
-    }
-  );
+  const response = await fetch(`${API_URL}/subscriptions/users/${channel_id}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
   return await handleResponse(response);
 }
 
@@ -358,16 +362,13 @@ export async function apiCreateUserSubscription(
   channel_id: string,
   user_idx: number
 ) {
-  const response = await fetch(
-    `${API_URL}/channels/subscriptions/${channel_id}`,
-    {
-      method: "POST",
-      headers: setHeader(),
-      body: JSON.stringify({
-        user_idx: user_idx,
-      }),
-    }
-  );
+  const response = await fetch(`${API_URL}/subscriptions/users/${channel_id}`, {
+    method: "POST",
+    headers: setHeader(),
+    body: JSON.stringify({
+      user_idx: user_idx,
+    }),
+  });
   return await handleResponse(response);
 }
 
@@ -376,7 +377,7 @@ export async function apiDeleteUserSubscription(
   user_idx: number
 ) {
   const response = await fetch(
-    `${API_URL}/channels/subscriptions/${channel_id}/${user_idx}`,
+    `${API_URL}/subscriptions/users/${channel_id}/${user_idx}`,
     {
       method: "DELETE",
       headers: setHeader(),
