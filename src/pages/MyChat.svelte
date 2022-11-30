@@ -29,7 +29,7 @@
   $: {
     if (chat) {
       const index = data.findIndex((x) => x.channel_id === chat.channel_id);
-      if (index >= 0) {
+      if (index >= 0 && !chat.type.startsWith("system")) {
         data[index].message = chat.type === "file" ? "이미지" : chat.message;
         data[index].last_chat_at = chat.created_at;
         data[index].unread_count += 1;
