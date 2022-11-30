@@ -22,6 +22,7 @@
     sendImage,
     subscribe,
     getSubscriptions,
+    nc,
   } from "$lib/NcloudChat";
   import {
     apiGetMessages,
@@ -30,6 +31,7 @@
     apiGetChatBans,
     apiSendPush,
     apiGetChannel,
+    apiGetSubscriptions,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -199,11 +201,7 @@
         return;
       }
 
-      // if (isMobile.Android()) {
-      //   window.emoApp?.godetail();
-      // } else if (isMobile.iOS()) {
-        location.href = "godetail://";
-      // }
+      location.href = "godetail://";
     }
   }
 
@@ -319,13 +317,11 @@
       window.sessionStorage.setItem("store", JSON.stringify($store));
 
       if (channel.type === "PRIVATE") {
-        const subscriptions = await getSubscriptions({
-          channel_id: channel.channel_id,
-        });
+        const subscriptions = await apiGetSubscriptions(channel.channel_id);
 
         if (
           subscriptions.findIndex(
-            (v) => v.user_id === `chat_${$store.user.id}`
+            (v) => v.user_idx === Number($store.user.id)
           ) === -1
         ) {
           await subscribe(channel.channel_id);

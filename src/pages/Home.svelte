@@ -48,8 +48,7 @@
       }
 
       const privateChannel = await createChannel(
-        `private_channel_${$store.user.id}`,
-        null
+        `private_channel_${$store.user.id}`
       );
       await subscribe(privateChannel.id);
       await apiCreateChannel(
