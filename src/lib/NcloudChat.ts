@@ -15,10 +15,6 @@ export async function connect(id: string, name: string, profile: string) {
   }
 }
 
-export async function disconnect() {
-  await nc.disconnect();
-}
-
 export async function bind(id: string, fn: any) {
   await nc.bind(id, fn);
 }
@@ -31,10 +27,6 @@ export function isConnected() {
   return nc.isConnected();
 }
 
-export async function getUser() {
-  return await nc.getUser();
-}
-
 export async function subscribe(channel_id: string) {
   await nc.subscribe(channel_id);
 }
@@ -43,27 +35,11 @@ export async function unsubscribe(channel_id: string) {
   await nc.unsubscribe(channel_id);
 }
 
-export async function getChannels(
-  filter: any,
-  offset: number,
-  per_page: number
-) {
-  return await nc.getChannels(
-    filter,
-    { unique_id: -1 },
-    { offset: offset, per_page: per_page }
-  );
-}
-
 export async function getSubscriptions(filter: any) {
   return await nc.getSubscriptions(filter, { created_at: 1 }, { offset: 0 });
 }
 
-export async function getChannel(id: string) {
-  return await nc.getChannel(id);
-}
-
-export async function createChannel(name: string, imageUrl: string) {
+export async function createChannel(name: string, imageUrl?: string) {
   const uuid = uuidv4();
   return await nc.createChannel({
     id: uuid,
@@ -74,53 +50,10 @@ export async function createChannel(name: string, imageUrl: string) {
     disabled: false,
     push: false,
     mutes: false,
-    linkUrl: "",
     imageUrl: imageUrl,
     members: [],
     customField: "",
   });
-}
-
-export async function updateChannel(
-  id: string,
-  type: ChannelType,
-  name: string,
-  unique_id: string
-) {
-  return await nc.updateChannel(id, {
-    id: id,
-    type: type,
-    name: name,
-    uniqueId: unique_id,
-    translation: false,
-    disabled: false,
-    push: false,
-    mutes: false,
-    linkUrl: "",
-    imageUrl: "",
-    members: [],
-    customField: "",
-  });
-}
-
-export async function deleteChannel(id: string) {
-  return await nc.deleteChannel(id);
-}
-
-export async function getMessages(
-  channel_id: string,
-  offset: number,
-  per_page: number
-) {
-  return await nc.getMessages(
-    { channel_id: channel_id },
-    { created_at: -1 },
-    { offset: offset, per_page: per_page }
-  );
-}
-
-export async function getMessage(channel_id: string, message_id: string) {
-  return await nc.getMessage(channel_id, message_id);
 }
 
 export async function sendMessage(

@@ -101,3 +101,29 @@ export interface EmojiFile {
   content_idx: number;
   path: string;
 }
+
+export interface Member {
+  id: string;
+  name: string;
+  profile?: string;
+}
+
+export interface Message {
+  message_id: string;
+  sort_id: string;
+  project_id: string;
+  channel_id: string;
+  message_type: string;
+  sender: Member;
+  mentions: string[];
+  mentions_everyone: boolean;
+  content?: string;
+  created_at: string;
+  sended_at?: string;
+  attachment_filenames: {
+    name?: string;
+    size: number;
+    type: string;
+    url?: string;
+  };
+}

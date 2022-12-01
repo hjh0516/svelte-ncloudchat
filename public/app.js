@@ -101,3 +101,7 @@ function getchannelidx() {
 function gochannel(channel_id) {
   location.href = `/#/chat/${channel_id}`;
 }
+
+function privatechat(user_idx) {
+  window.createPrivateChannel(user_idx);
+}

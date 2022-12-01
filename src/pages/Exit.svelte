@@ -27,7 +27,6 @@
   <div class="chat_header">
     <div class="inner">
       <div class="left l_prev">
-        <!-- svelte-ignore a11y-missing-attribute -->
         <a
           on:click={() => {
             history.back();

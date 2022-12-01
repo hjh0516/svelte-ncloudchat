@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { Channel, Chat } from "$lib/types/type";
-  import type { MessageType } from "$lib/types/MessageType";
+  import type { Channel, Chat, Message } from "$lib/types/type";
 
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
@@ -12,8 +11,14 @@
   import { getNotificationsContext } from "svelte-notifications";
   import { onDestroy, onMount } from "svelte";
   import { store } from "$store/store";
-  import { bind, unbindall } from "$lib/NcloudChat";
-  import { apiGetUser } from "$lib/api";
+  import { bind, createChannel, unbindall, subscribe } from "$lib/NcloudChat";
+  import {
+    apiCreateChannel,
+    apiCreateChannelNotification,
+    apiGetPrivateChannel,
+    apiGetUser,
+    apiSubscribe,
+  } from "$lib/api";
 
   let chat: Chat;
   let newChannel: Channel = null;
@@ -25,6 +30,45 @@
   window.setShowSettingModal = (value: boolean) => {
     showCreateChannelModal = false;
     showSettingModal = value;
+  };
+
+  window.createPrivateChannel = async (user_idx: number) => {
+    if (!user_idx) {
+      return;
+    }
+
+    loading = true;
+    try {
+      const channel = await apiGetPrivateChannel(user_idx);
+      if (channel) {
+        location.href = `/#/chat/${channel.channel_id}`;
+        godetail();
+        return;
+      }
+
+      const privateChannel = await createChannel(
+        `private_channel_${$store.user.id}`
+      );
+      await subscribe(privateChannel.id);
+      await apiCreateChannel(
+        privateChannel.id,
+        privateChannel.name,
+        "PRIVATE",
+        privateChannel.image_url,
+        privateChannel.link_url,
+        privateChannel.push
+      );
+      await apiCreateChannelNotification(privateChannel.id, true);
+      await apiCreateChannelNotification(privateChannel.id, true, user_idx);
+      await apiSubscribe(privateChannel.id);
+      await apiSubscribe(privateChannel.id, user_idx);
+
+      location.href = `/#/chat/${privateChannel.id}`;
+      godetail();
+    } catch (err) {
+      console.error(err);
+    }
+    loading = false;
   };
 
   const { addNotification, clearNotifications } = getNotificationsContext();
@@ -70,7 +114,7 @@
     $store.channel = null;
     window.sessionStorage.setItem("store", JSON.stringify($store));
 
-    bind("onMessageReceived", function (channel: string, message: MessageType) {
+    bind("onMessageReceived", function (channel: string, message: Message) {
       chat = {
         channel_id: channel,
         nickname: message.sender.name,

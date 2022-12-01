@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { Channel, Chat } from "$lib/types/type";
-  import type { MessageType } from "$lib/types/MessageType";
+  import type { Channel, Chat, Message } from "$lib/types/type";
 
   import ChatHeader from "$components/ChatHeader.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
@@ -15,7 +14,13 @@
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
   import { store } from "$store/store";
-  import { sendMessage, bind, unbindall, sendImage } from "$lib/NcloudChat";
+  import {
+    sendMessage,
+    bind,
+    unbindall,
+    sendImage,
+    subscribe,
+  } from "$lib/NcloudChat";
   import {
     apiGetMessages,
     apiCreateMessage,
@@ -23,6 +28,7 @@
     apiGetChatBans,
     apiSendPush,
     apiGetChannel,
+    apiGetSubscriptions,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -62,7 +68,7 @@
     showEmojiArea = false;
 
     if (emojiPath) {
-      message = "이미지";
+      message = "사진을 보냈습니다.";
       sendEmoji();
     } else if (input) {
       message = input;
@@ -87,11 +93,10 @@
 
     const res = await fetch(inputEmoji);
     const blob = await res.blob();
-    const file = new File([blob], "emoji", { type: "image/jpg" });
+    const file = new File([blob], "emoji", { type: blob.type });
 
     try {
       sendImage(params.id, file);
-      apiCreateMessage(params.id, "image", null, file);
     } catch (err) {
       console.error(err);
     }
@@ -102,21 +107,24 @@
     input = "";
     emojiPath = "";
 
+    const message = JSON.stringify({
+      user_idx: $store.user.id,
+      type: "text",
+      content: inputMessage,
+    });
+
     try {
-      sendMessage(params.id, "text", inputMessage);
-      apiCreateMessage(params.id, "text", inputMessage);
+      sendMessage(params.id, "text", message);
     } catch (err) {
       console.error(err);
     }
   }
 
   async function uploadImage(e) {
-    const image = e.target.files[0];
+    const image = e.target.files[0] as File;
     input = "";
     try {
-      const file = new File([image], "image", { type: "image/jpg" });
-      sendImage(params.id, file);
-      apiCreateMessage(params.id, "image", null, file);
+      sendImage(params.id, image);
     } catch (err) {
       console.error(err);
     }
@@ -196,78 +204,96 @@
     }
   }
 
+  function sendEnterMessage() {
+    setTimeout(() => {
+      const message = JSON.stringify({
+        user_idx: $store.user.id,
+        type: "system",
+        content: `${$store.user.name}님이 입장했어요.`,
+      });
+      sendMessage(params.id, "text", message);
+    }, 500);
+  }
+
+  function showToast(message: string) {
+    clearNotifications();
+    addNotification({
+      text: message,
+      position: "bottom-center",
+      removeAfter: 1500,
+    });
+  }
+
   onMount(async () => {
-    bind(
-      "onMessageReceived",
-      function (_channel: string, message: MessageType) {
-        element.scrollTop = 0;
+    bind("onMessageReceived", function (_channel: string, message: Message) {
+      console.info(message);
+      element.scrollTop = 0;
 
-        if (channel.channel_id === _channel) {
-          if (message.message_type.split("_")[0] === "system") {
-            const target = message.message_type.split("_")[1];
-            if (target === $store.user.id.toString()) {
-              history.back();
-            } else if (target === channel.user_idx.toString()) {
-              activeInput = false;
-            }
+      const sender_user_idx = Number(message.sender.id.split("_")[1]);
+
+      const content =
+        message.message_type === "text"
+          ? JSON.parse(message.content)
+          : {
+              user_idx: sender_user_idx,
+              type: "file",
+              content: message.attachment_filenames.url,
+            };
+
+      if (channel.channel_id === _channel) {
+        if (content.type === "system") {
+          if (content.target === $store.user.id) {
+            history.back();
+          } else if (channel.type === "PRIVATE") {
+            showToast("대화상대가 없어요.");
+            activeInput = false;
+          } else if (content.user_idx === channel.user_idx) {
+            showToast(
+              "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+            );
+            activeInput = false;
           }
-        }
-
-        let chat: Chat;
-        const sender_user_idx = Number(message.sender.id.split("_")[1]);
-
-        const banUsers = bans.map((x) => x.target);
-        if (banUsers.includes(sender_user_idx)) {
-          return;
-        }
-
-        if (message.message_type === "text") {
-          chat = {
-            user_idx: sender_user_idx,
-            nickname: message.sender.name,
-            profile: message.sender.profile,
-            type: message.message_type,
-            message: message.content,
-            created_at: message.created_at,
-          };
-        } else if (message.message_type === "file") {
-          chat = {
-            user_idx: sender_user_idx,
-            nickname: message.sender.name,
-            profile: message.sender.profile,
-            type: "file",
-            image_url: message.content.replace("http:", ""),
-            created_at: message.created_at,
-          };
-        } else if (message.message_type.split("_")[0] === "system") {
-          chat = {
-            type: "system",
-            message: message.content,
-            created_at: message.created_at,
-          };
-        }
-
-        if (channel.channel_id === _channel) {
-          if (data.length === 0) {
-            data.push({
-              idx: 0,
-              user_idx: 0,
-              channel_idx: 0,
-              type: "date",
-              message: convertChatDate(chat.created_at),
-              created_at: "",
-            });
-          }
-          data = [chat, ...data];
-        }
-
-        try {
-          apiCreateChatRead(params.id);
-        } catch (err) {
-          console.error(err);
         }
       }
-    );
+
+      const banUsers = bans.map((x) => x.target);
+      if (banUsers.includes(sender_user_idx)) {
+        return;
+      }
+
+      const chat = {
+        user_idx: content.user_idx,
+        nickname: message.sender.name,
+        profile: message.sender.profile,
+        type: content.type,
+        message: message.message_type === "text" ? content.content : null,
+        image_url: message.message_type === "file" ? content.content : null,
+        created_at: message.created_at,
+      };
+
+      if (channel.channel_id === _channel) {
+        if (data.length === 0) {
+          data.push({
+            idx: 0,
+            user_idx: 0,
+            channel_idx: 0,
+            type: "date",
+            message: convertChatDate(chat.created_at),
+            created_at: "",
+          });
+        }
+        data = [chat, ...data];
+      }
+
+      try {
+        if (content.user_idx === $store.user.id) {
+          apiCreateMessage(channel.channel_id, content.type, content.content);
+        }
+        apiCreateChatRead(params.id);
+      } catch (err) {
+        console.error(err);
+      }
+    });
 
     bind("onConnected", function () {
       loading = false;
@@ -284,26 +310,37 @@
       $store.channel = channel;
       window.sessionStorage.setItem("store", JSON.stringify($store));
 
-      setTimeout(() => {
-        const p = new URLSearchParams($querystring);
-        if (p.has("subscribe") && p.get("subscribe") === "true") {
-          const message = `${$store.user.name}님이 입장했어요.`;
-          sendMessage(params.id, "system", message);
-          apiCreateMessage(params.id, "system", message);
+      if (channel.type === "PRIVATE") {
+        const subscriptions = await apiGetSubscriptions(channel.channel_id);
+
+        if (
+          subscriptions.findIndex(
+            (v) => v.user_idx === Number($store.user.id)
+          ) === -1
+        ) {
+          await subscribe(channel.channel_id);
         }
-      }, 500);
+      }
+
+      const p = new URLSearchParams($querystring);
+      if (p.has("subscribe") && p.get("subscribe") === "true") {
+        sendEnterMessage();
+      }
+
+      if (channel.type === "PRIVATE" && channel.subscriptions_count === 1) {
+        showToast("대화 상대가 없어요.");
+        activeInput = false;
+      }
 
       if (
+        channel.type !== "PRIVATE" &&
         channel.subscriptions.findIndex(
           (v) => v.user_idx === channel.user_idx
         ) === -1
       ) {
-        clearNotifications();
-        addNotification({
-          text: "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요. ",
-          position: "bottom-center",
-          removeAfter: 1500,
-        });
+        showToast(
+          "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+        );
         activeInput = false;
       }
 

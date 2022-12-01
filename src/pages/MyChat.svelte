@@ -8,7 +8,6 @@
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import {
-    apiCreateMessage,
     apiDeleteChannel,
     apiDeleteChannelNotification,
     apiGetChannel,
@@ -29,8 +28,10 @@
   $: {
     if (chat) {
       const index = data.findIndex((x) => x.channel_id === chat.channel_id);
-      if (index >= 0 && !chat.type.startsWith("system")) {
-        data[index].message = chat.type === "file" ? "이미지" : chat.message;
+      const content = JSON.parse(chat.message);
+      if (index >= 0 && content.type !== "system") {
+        data[index].message =
+          chat.type === "file" ? "사진을 보냈습니다." : content.content;
         data[index].last_chat_at = chat.created_at;
         data[index].unread_count += 1;
 
@@ -59,10 +60,8 @@
   async function exitChannel() {
     loading = true;
 
-    const message = `${$store.user.name}님이 퇴장했어요.`;
     try {
       await apiUnsubscribe(channel_id);
-      apiCreateMessage(channel_id, "system", message);
       apiDeleteChannelNotification(channel_id);
 
       const channel = await apiGetChannel(channel_id);
@@ -74,7 +73,13 @@
     }
 
     try {
-      sendMessage(channel_id, "system", message);
+      const message = JSON.stringify({
+        user_idx: $store.user.id,
+        type: "system",
+        content: `${$store.user.name}님이 퇴장했어요.`,
+      });
+
+      sendMessage(channel_id, "text", message);
       unsubscribe(channel_id);
     } catch (err) {
       console.error(err);
