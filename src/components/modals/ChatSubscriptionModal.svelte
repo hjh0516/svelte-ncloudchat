@@ -10,10 +10,9 @@
   import {
     apiCheckFollow,
     apiCreateChannelNotification,
-    apiCreateMessage,
     apiSubscribe,
   } from "$lib/api";
-  import { sendMessage, subscribe } from "$lib/NcloudChat";
+  import { subscribe } from "$lib/NcloudChat";
   import { convertChannelCreatedAt } from "$lib/Date";
   import { getNotificationsContext } from "svelte-notifications";
   import { apiGetUser } from "$lib/api";

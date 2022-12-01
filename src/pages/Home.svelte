@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { Channel, Chat } from "$lib/types/type";
-  import type { MessageType } from "$lib/types/MessageType";
+  import type { Channel, Chat, Message } from "$lib/types/type";
 
   import Navigation from "$components/Navigation.svelte";
   import MyChat from "$pages/MyChat.svelte";
@@ -115,7 +114,7 @@
     $store.channel = null;
     window.sessionStorage.setItem("store", JSON.stringify($store));
 
-    bind("onMessageReceived", function (channel: string, message: MessageType) {
+    bind("onMessageReceived", function (channel: string, message: Message) {
       chat = {
         channel_id: channel,
         nickname: message.sender.name,

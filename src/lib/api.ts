@@ -137,33 +137,33 @@ const getBase64 = (file) =>
 export async function apiCreateMessage(
   channel_id: string,
   type: string,
-  message?: string,
-  file?: any
+  message: string
+  // file?: any
 ) {
-  let headers = setHeader();
-  let body: any;
+  // let headers = setHeader();
+  // let body: any;
 
-  if (type === "text" || type === "system") {
-    body = JSON.stringify({
-      type: type,
-      message: message,
-    });
-  } else if (type === "image") {
-    body = JSON.stringify({ type: "file", file: await getBase64(file) });
+  // if (type === "text" || type === "system") {
+  //   body = JSON.stringify({
+  //     type: type,
+  //     message: message,
+  //   });
+  // } else if (type === "file") {
+  //   body = JSON.stringify({ type: "file" });
 
-    // delete headers["Content-Type"];
+  //   // delete headers["Content-Type"];
 
-    // const formData = new FormData();
-    // formData.append("type", "file");
-    // formData.append("file", file);
+  //   // const formData = new FormData();
+  //   // formData.append("type", "file");
+  //   // formData.append("file", file);
 
-    // body = formData;
-  }
+  //   // body = formData;
+  // }
 
   const response = await fetch(`${API_URL}/chats/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
-    body: body,
+    body: JSON.stringify({ type: type, message: message }),
   });
   return await handleResponse(response);
 }

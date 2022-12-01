@@ -10,7 +10,6 @@
   <ul class="clear aggro w-full">
     {#each tabItems as item}
       <li on:click={() => dispatch("tabChange", item)}>
-        <!-- svelte-ignore a11y-missing-attribute -->
         <a class={item === activeItem ? "on" : ""}><span>{item}</span></a>
       </li>
     {/each}

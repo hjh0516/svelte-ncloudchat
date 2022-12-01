@@ -86,7 +86,7 @@
               </div>
               <div class="cont">
                 {#if item.chat_type === "file"}
-                  이미지
+                  사진을 보냈습니다.
                 {:else if item.message}
                   {item.message.length >= 50
                     ? item.message.substring(0, 50) + "..."
@@ -108,7 +108,6 @@
     <div class="rt_btn clear">
       {#if item.notification}
         <div class="box2 box_alram off" on:click={updateNotification}>
-          <!-- svelte-ignore a11y-invalid-attribute -->
           <a href="javascript:;">
             <div class="tb">
               <div class="tbc">
@@ -120,7 +119,6 @@
         </div>
       {:else}
         <div class="box2 box_alram on" on:click={updateNotification}>
-          <!-- svelte-ignore a11y-invalid-attribute -->
           <a href="javascript:;">
             <div class="tb">
               <div class="tbc">
@@ -138,7 +136,6 @@
           flicking.moveTo(0);
         }}
       >
-        <!-- svelte-ignore a11y-invalid-attribute -->
         <a href="javascript:;">
           <div class="tb">
             <div class="tbc">

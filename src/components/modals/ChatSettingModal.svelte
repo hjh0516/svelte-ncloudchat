@@ -7,7 +7,6 @@
   import { slide } from "svelte/transition";
   import {
     apiCreateChatBans,
-    apiCreateMessage,
     apiDeleteChannel,
     apiDeleteChannelNotification,
     apiDeleteChatBans,
@@ -45,10 +44,9 @@
   async function exitChannel() {
     loading = true;
 
-    const message = `${$store.user.name}님이 퇴장했어요.`;
+    const content = `${$store.user.name}님이 퇴장했어요.`;
     try {
       await apiUnsubscribe(channel_id);
-      apiCreateMessage(channel_id, "system", message);
       apiDeleteChannelNotification(channel_id);
 
       if (channel.user_idx === Number($store.user.id)) {
@@ -59,7 +57,13 @@
     }
 
     try {
-      sendMessage(channel_id, `system_${$store.user.id}`, message);
+      const message = JSON.stringify({
+        user_idx: $store.user.id,
+        type: "system",
+        content: content,
+      });
+
+      sendMessage(channel_id, "text", message);
       unsubscribe(channel_id);
     } catch (err) {
       console.error(err);
@@ -147,7 +151,6 @@
                   <h4>대화상대</h4>
                   {#if channel}
                     {#if channel.user_idx === Number($store.user.id)}
-                      <!-- svelte-ignore a11y-missing-attribute -->
                       <a
                         class="cBtn3"
                         on:click={() => {

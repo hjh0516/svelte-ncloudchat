@@ -50,10 +50,8 @@ export async function createChannel(name: string, imageUrl?: string) {
     disabled: false,
     push: false,
     mutes: false,
-    linkUrl: "",
     imageUrl: imageUrl,
     members: [],
-    customField: "",
   });
 }
 
