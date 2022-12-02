@@ -29,6 +29,7 @@
     apiGetChatBans,
     apiSendPush,
     apiGetChannel,
+    apiSendChatPush,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -75,13 +76,6 @@
       sendText();
     }
 
-    try {
-      if (message) {
-        apiSendPush(params.id, message);
-      }
-    } catch (err) {
-      console.error(err);
-    }
 
     messageInput.focus();
   }
@@ -225,8 +219,7 @@
   }
 
   onMount(async () => {
-    bind("onMessageReceived", function (_channel: string, message: Message) {
-      console.info(message);
+    bind("onMessageReceived", async function (_channel: string, message: Message) {
       element.scrollTop = 0;
 
       const sender_user_idx = Number(message.sender.id.split("_")[1]);
@@ -287,7 +280,16 @@
 
       try {
         if (content.user_idx === $store.user.id) {
-          apiCreateMessage(channel.channel_id, content.type, content.content);
+          var response = await apiCreateMessage(channel.channel_id, content.type, content.content);
+          console.info(response);
+          
+          try {
+            if (response) {
+              apiSendChatPush(response.idx);
+            }
+          } catch (err) {
+            console.error(err);
+          }
         }
         apiCreateChatRead(params.id);
       } catch (err) {
