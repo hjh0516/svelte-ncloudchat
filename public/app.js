@@ -105,3 +105,7 @@ function gochannel(channel_id) {
 function privatechat(user_idx) {
   window.createPrivateChannel(user_idx);
 }
+
+function checkToken(token) {
+  return token == JSON.parse(sessionStorage.getItem('store')).token;
+}
