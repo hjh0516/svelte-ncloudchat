@@ -293,7 +293,9 @@
 
             try {
               if (response) {
-                apiSendChatPush(response.idx);
+                setTimeout(function(){
+                  apiSendChatPush(response.idx);
+                }, 1000);
               }
             } catch (err) {
               console.error(err);
