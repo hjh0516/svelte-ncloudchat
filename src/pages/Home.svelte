@@ -32,44 +32,44 @@
     showSettingModal = value;
   };
 
-  window.createPrivateChannel = async (user_idx: number) => {
-    if (!user_idx) {
-      return;
-    }
+  // window.createPrivateChannel = async (user_idx: number) => {
+  //   if (!user_idx) {
+  //     return;
+  //   }
 
-    loading = true;
-    try {
-      const channel = await apiGetPrivateChannel(user_idx);
-      if (channel) {
-        location.href = `/#/chat/${channel.channel_id}`;
-        godetail();
-        return;
-      }
+  //   loading = true;
+  //   try {
+  //     const channel = await apiGetPrivateChannel(user_idx);
+  //     if (channel) {
+  //       location.href = `/#/chat/${channel.channel_id}`;
+  //       godetail();
+  //       return;
+  //     }
 
-      const privateChannel = await createChannel(
-        `private_channel_${$store.user.id}`
-      );
-      await subscribe(privateChannel.id);
-      await apiCreateChannel(
-        privateChannel.id,
-        privateChannel.name,
-        "PRIVATE",
-        privateChannel.image_url,
-        privateChannel.link_url,
-        privateChannel.push
-      );
-      await apiCreateChannelNotification(privateChannel.id, true);
-      await apiCreateChannelNotification(privateChannel.id, true, user_idx);
-      await apiSubscribe(privateChannel.id);
-      await apiSubscribe(privateChannel.id, user_idx);
+  //     const privateChannel = await createChannel(
+  //       `private_channel_${$store.user.id}`
+  //     );
+  //     await subscribe(privateChannel.id);
+  //     await apiCreateChannel(
+  //       privateChannel.id,
+  //       privateChannel.name,
+  //       "PRIVATE",
+  //       privateChannel.image_url,
+  //       privateChannel.link_url,
+  //       privateChannel.push
+  //     );
+  //     await apiCreateChannelNotification(privateChannel.id, true);
+  //     await apiCreateChannelNotification(privateChannel.id, true, user_idx);
+  //     await apiSubscribe(privateChannel.id);
+  //     await apiSubscribe(privateChannel.id, user_idx);
 
-      location.href = `/#/chat/${privateChannel.id}`;
-      godetail();
-    } catch (err) {
-      console.error(err);
-    }
-    loading = false;
-  };
+  //     location.href = `/#/chat/${privateChannel.id}`;
+  //     godetail();
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  //   loading = false;
+  // };
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
