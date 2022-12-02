@@ -325,6 +325,13 @@ export async function apiSendPush(channel_id: string, message: string) {
   });
   return await handleResponse(response);
 }
+export async function apiSendChatPush(chat_idx: number) {
+  const response = await fetch(`${API_URL}/chats/push/${chat_idx}`, {
+    method: "POST",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
 
 export async function apiGetChannelId(channel_idx: number) {
   const response = await fetch(`${API_URL}/channels/${channel_idx}`, {
