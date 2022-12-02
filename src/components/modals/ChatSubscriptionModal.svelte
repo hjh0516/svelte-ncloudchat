@@ -52,6 +52,8 @@
     }
 
     if (item.is_subscription) {
+      close();
+
       location.href = `/#/chat/${item.channel_id}`;
       godetail();
       return;
@@ -149,7 +151,7 @@
           </div>
           <div class="hash_list">
             <ul>
-              {#if item.tags.length > 0}
+              {#if item.tags?.length > 0}
                 <li>#{item.tags.map((v) => v.tag).join(" #")}</li>
               {/if}
             </ul>

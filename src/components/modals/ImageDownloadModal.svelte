@@ -13,15 +13,14 @@
   let isBack = false;
 
   async function download() {
-    const filename = item.image_url.split("/").pop();
-
-    const res = await fetch(item.image_url);
+    const image_url = VITE_ARCHIVE_URL + item.image_url;
+    const res = await fetch(image_url);
     const blob = await res.blob();
-    let url = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(blob);
 
     let link = document.createElement("a");
     link.href = url;
-    link.download = "이모만세_" + filename;
+    link.download = `이모만세_${new Date().getTime()}`;
     link.style.display = "none";
     document.body.appendChild(link);
     link.click();

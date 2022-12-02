@@ -226,7 +226,6 @@
 
   onMount(async () => {
     bind("onMessageReceived", function (_channel: string, message: Message) {
-      console.info(message);
       element.scrollTop = 0;
 
       const sender_user_idx = Number(message.sender.id.split("_")[1]);
@@ -286,7 +285,10 @@
       }
 
       try {
-        if (content.user_idx === $store.user.id) {
+        if (
+          content.user_idx === $store.user.id &&
+          channel.channel_id === _channel
+        ) {
           apiCreateMessage(channel.channel_id, content.type, content.content);
         }
         apiCreateChatRead(params.id);

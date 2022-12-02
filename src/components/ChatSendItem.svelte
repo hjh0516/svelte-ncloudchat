@@ -2,16 +2,20 @@
   import type { Chat } from "$lib/types/type";
 
   import ChatImageItem from "$components/ChatImageItem.svelte";
-  import { convertSendAt } from "$lib/Date";
   import { createEventDispatcher } from "svelte";
+  import { convertSendAt } from "$lib/Date";
+
+  export let item: Chat;
 
   const dispatch = createEventDispatcher();
   const VITE_ARCHIVE_URL = import.meta.env.VITE_ARCHIVE_URL;
 
-  export let item: Chat;
-
   function open(item: Chat) {
     dispatch("open", { item: item });
+  }
+
+  async function link(message: string) {
+    dispatch("link", { message: message });
   }
 </script>
 

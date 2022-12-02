@@ -4065,6 +4065,7 @@ em.ent {
 	border-radius: 0 15px 15px 15px;
 	border: 1px solid #d6e3e3;
 	background-color: #fff;
+	max-width: 250px;
 }
 
 .chat_room .chat_info .request::after {
@@ -4088,6 +4089,7 @@ em.ent {
 	border-radius: 15px 15px 0 15px;
 	text-align: left;
 	max-width: 250px;
+	min-height: 45px;
 }
 
 .chat_room .chat_info .request .cont.fir {
@@ -4820,6 +4822,7 @@ em.ent {
 
 #imgDetail .btn_save {
 	display: none;
+	/* display: block; */
 	width: 58px;
 	height: 61px;
 	position: absolute;
