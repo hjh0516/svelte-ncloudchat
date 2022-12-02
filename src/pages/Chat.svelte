@@ -29,6 +29,7 @@
     apiGetChatBans,
     apiSendPush,
     apiGetChannel,
+    apiSendChatPush,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -73,14 +74,6 @@
     } else if (input) {
       message = input;
       sendText();
-    }
-
-    try {
-      if (message) {
-        apiSendPush(params.id, message);
-      }
-    } catch (err) {
-      console.error(err);
     }
 
     messageInput.focus();
@@ -225,75 +218,95 @@
   }
 
   onMount(async () => {
-    bind("onMessageReceived", function (_channel: string, message: Message) {
-      console.info(message);
-      element.scrollTop = 0;
+    bind(
+      "onMessageReceived",
+      async function (_channel: string, message: Message) {
+        element.scrollTop = 0;
 
-      const sender_user_idx = Number(message.sender.id.split("_")[1]);
+        const sender_user_idx = Number(message.sender.id.split("_")[1]);
 
-      const content =
-        message.message_type === "text"
-          ? JSON.parse(message.content)
-          : {
-              user_idx: sender_user_idx,
-              type: "file",
-              content: message.attachment_filenames.url,
-            };
+        const content =
+          message.message_type === "text"
+            ? JSON.parse(message.content)
+            : {
+                user_idx: sender_user_idx,
+                type: "file",
+                content: message.attachment_filenames.url,
+              };
 
-      if (channel.channel_id === _channel) {
-        if (content.type === "system") {
-          if (content.target === $store.user.id) {
-            history.back();
-          } else if (channel.type === "PRIVATE") {
-            showToast("대화상대가 없어요.");
-            activeInput = false;
-          } else if (content.user_idx === channel.user_idx) {
-            showToast(
-              "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
-            );
-            activeInput = false;
+        if (channel.channel_id === _channel) {
+          if (content.type === "system") {
+            if (content.target === $store.user.id) {
+              history.back();
+            } else if (channel.type === "PRIVATE") {
+              showToast("대화상대가 없어요.");
+              activeInput = false;
+            } else if (content.user_idx === channel.user_idx) {
+              showToast(
+                "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+              );
+              activeInput = false;
+            }
           }
         }
-      }
 
-      const banUsers = bans.map((x) => x.target);
-      if (banUsers.includes(sender_user_idx)) {
-        return;
-      }
-
-      const chat = {
-        user_idx: content.user_idx,
-        nickname: message.sender.name,
-        profile: message.sender.profile,
-        type: content.type,
-        message: message.message_type === "text" ? content.content : null,
-        image_url: message.message_type === "file" ? content.content : null,
-        created_at: message.created_at,
-      };
-
-      if (channel.channel_id === _channel) {
-        if (data.length === 0) {
-          data.push({
-            idx: 0,
-            user_idx: 0,
-            channel_idx: 0,
-            type: "date",
-            message: convertChatDate(chat.created_at),
-            created_at: "",
-          });
+        const banUsers = bans.map((x) => x.target);
+        if (banUsers.includes(sender_user_idx)) {
+          return;
         }
-        data = [chat, ...data];
-      }
 
-      try {
-        if (content.user_idx === $store.user.id) {
-          apiCreateMessage(channel.channel_id, content.type, content.content);
+        const chat = {
+          user_idx: content.user_idx,
+          nickname: message.sender.name,
+          profile: message.sender.profile,
+          type: content.type,
+          message: message.message_type === "text" ? content.content : null,
+          image_url: message.message_type === "file" ? content.content : null,
+          created_at: message.created_at,
+        };
+
+        if (channel.channel_id === _channel) {
+          if (data.length === 0) {
+            data.push({
+              idx: 0,
+              user_idx: 0,
+              channel_idx: 0,
+              type: "date",
+              message: convertChatDate(chat.created_at),
+              created_at: "",
+            });
+          }
+          data = [chat, ...data];
         }
-        apiCreateChatRead(params.id);
-      } catch (err) {
-        console.error(err);
+
+        try {
+          if (
+            channel.channel_id === _channel &&
+            content.user_idx === $store.user.id
+          ) {
+            var response = await apiCreateMessage(
+              channel.channel_id,
+              content.type,
+              content.content
+            );
+            console.info(response);
+
+            try {
+              if (response) {
+                setTimeout(function(){
+                  apiSendChatPush(response.idx);
+                }, 1000);
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          }
+          apiCreateChatRead(params.id);
+        } catch (err) {
+          console.error(err);
+        }
       }
-    });
+    );
 
     bind("onConnected", function () {
       loading = false;
