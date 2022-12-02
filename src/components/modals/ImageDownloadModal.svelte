@@ -8,6 +8,7 @@
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+  const VITE_ARCHIVE_URL = import.meta.env.VITE_ARCHIVE_URL;
 
   let isBack = false;
 
@@ -58,7 +59,7 @@
         <div id="close" class="svg btn_close wt" on:click={close}>닫기</div>
         <div class="c_wrap flex justify-center">
           <img
-            src={item.image_url}
+            src={VITE_ARCHIVE_URL + item.image_url}
             alt="image_detail"
             on:error={() => {
               item.image_url = "default.jpg";
