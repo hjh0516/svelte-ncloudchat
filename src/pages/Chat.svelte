@@ -286,7 +286,10 @@
       }
 
       try {
-        if (content.user_idx === $store.user.id) {
+        if (
+          channel.channel_id === _channel &&
+          content.user_idx === $store.user.id
+        ) {
           apiCreateMessage(channel.channel_id, content.type, content.content);
         }
         apiCreateChatRead(params.id);
