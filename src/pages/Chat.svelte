@@ -30,6 +30,7 @@
     apiSendPush,
     apiGetChannel,
     apiSendChatPush,
+    apiGetProfileAll
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -421,8 +422,19 @@
                       chatItem = e.detail.item;
                     }}
                     on:profile={(e) => {
-                      showChatProfileModal = true;
-                      chatItem = e.detail.item;
+                      var result = apiGetProfileAll(e.detail.item.user_idx)
+                      .then((result) =>{
+                        if (result.withdraw == 1){
+                          alert('탈퇴한 사용자에요.');
+                        }else{
+                          showChatProfileModal = true;
+                          chatItem = e.detail.item;
+                        }
+                      }).catch((result) =>{
+
+                        console.info(result);
+                      });
+
                     }}
                   />
                 {/if}
