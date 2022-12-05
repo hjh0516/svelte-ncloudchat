@@ -14,7 +14,7 @@ let isMobile = {
 
 function godetail() {
   if (isMobile.Android() && window.emoApp) {
-    location.href = "godetail://";
+    window.emoApp?.godetail();
   } else if (isMobile.iOS()) {
     location.href = "godetail://";
   }
@@ -22,7 +22,7 @@ function godetail() {
 
 function gohome() {
   if (isMobile.Android() && window.emoApp) {
-    location.href = "gohome://";
+    window.emoApp?.gohome();
   } else if (isMobile.iOS()) {
     location.href = "gohome://";
   }
@@ -30,7 +30,7 @@ function gohome() {
 
 function goemoticon() {
   if (isMobile.Android() && window.emoApp) {
-    location.href = "goemoticon://";
+    window.emoApp?.goemoticon();
   } else if (isMobile.iOS()) {
     location.href = "goemoticon://";
   }
@@ -72,7 +72,7 @@ function goback() {
     !userInfo2
   ) {
     if (isMobile.Android() && window.emoApp) {
-      location.href = "gomain://";
+      window.emoApp?.gomain();
     }
     return;
   }

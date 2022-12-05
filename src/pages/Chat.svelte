@@ -195,7 +195,7 @@
       }
 
       if (isMobile.Android() && window.emoApp) {
-        location.href = "godetail://";
+        window.emoApp?.godetail();
       } else if (isMobile.iOS()) {
         location.href = "godetail://";
       }
