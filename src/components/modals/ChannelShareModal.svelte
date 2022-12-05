@@ -3,6 +3,8 @@
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
 
+  export let channel_id: string;
+
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
   const { addNotification, clearNotifications } = getNotificationsContext();
@@ -17,7 +19,7 @@
   }
 
   function invite() {
-    location.href = "/#/invite";
+    location.href = `/#/invite/${channel_id}`;
   }
 
   // function link() {

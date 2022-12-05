@@ -336,7 +336,10 @@
 {/if}
 
 {#if showChannelShareModal}
-  <ChannelShareModal on:close={() => (showChannelShareModal = false)} />
+  <ChannelShareModal
+    {channel_id}
+    on:close={() => (showChannelShareModal = false)}
+  />
 {/if}
 
 {#if loading}

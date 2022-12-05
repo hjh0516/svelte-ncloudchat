@@ -3937,7 +3937,7 @@ em.ent {
 }
 
 .chat_idx .open_chat .follower_list>ul>li .chk_wrap .c_ing {
-	display: none;
+	display: block;
 	font-size: 13px;
 	font-weight: 500;
 	color: #7c7a82;

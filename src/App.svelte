@@ -19,7 +19,7 @@
     "/home": Home,
     "/chat/:id": Chat,
     "/exit/:id": Exit,
-    "/invite": Invite,
+    "/invite/:id": Invite,
     "/error": Error,
   };
 
