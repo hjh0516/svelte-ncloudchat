@@ -194,7 +194,11 @@
         return;
       }
 
-      location.href = "godetail://";
+      if (isMobile.Android() && window.emoApp) {
+        location.href = "godetail://";
+      } else if (isMobile.iOS()) {
+        location.href = "godetail://";
+      }
     }
   }
 

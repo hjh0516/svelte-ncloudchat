@@ -71,7 +71,6 @@
       const privateChannel = await createChannel(
         `private_channel_${$store.user.id}`
       );
-      await subscribe(privateChannel.id);
       await apiCreateChannel(
         privateChannel.id,
         privateChannel.name,
@@ -85,6 +84,7 @@
       await apiSubscribe(privateChannel.id);
       await apiSubscribe(privateChannel.id, user_idx);
 
+      await subscribe(privateChannel.id);
       // bind("onConnected", function () {
       //   loading = false;
         location.href = `/#/chat/${privateChannel.id}?token=`+$store.token;
