@@ -45,18 +45,22 @@
     await loadFollows(searchText);
     loading = false;
   }
+
+  function submit() {
+    console.info(checked);
+  }
 </script>
 
 <div class="chat_header">
   <div class="inner">
     <div class="left l_prev">
-      <a href="javascript:history.back()" class="svg">이전으로</a>
+      <a on:click={() => history.back()} class="svg">이전으로</a>
     </div>
     <div class="r_title">
       <h2 class="aggro">초대하기</h2>
     </div>
     <div class="right r_txt">
-      <a href="javascript:;" class="aggro">확인</a>
+      <a on:click={submit} class="aggro">확인</a>
     </div>
   </div>
 </div>
@@ -105,7 +109,6 @@
               <input type="button" class="svg" />
             </div>
           </div>
-          <!-- 오픈채팅 -->
           {#await loadFollows()}
             <div
               class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
@@ -124,7 +127,7 @@
                   <ul>
                     {#each data as item}
                       <li>
-                        <FollowItem {item} bind:checked />
+                        <FollowItem {item} bind:group={checked} />
                       </li>
                     {/each}
                   </ul>

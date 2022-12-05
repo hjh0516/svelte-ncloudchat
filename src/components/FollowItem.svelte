@@ -1,11 +1,13 @@
 <script lang="ts">
   export let item: any;
+  export let group: any;
 
-  function click() {
-    const checkbox = document.getElementById(item.idx);
-    if (checkbox) {
-      console.info("check");
-      checkbox.checked = !checkbox.checked;
+  function onChange({ target }) {
+    const { value, checked } = target;
+    if (checked) {
+      group = [...group, value];
+    } else {
+      group = group.filter((item) => item !== value);
     }
   }
 </script>
@@ -38,7 +40,13 @@
             <div class="c_ing">참여중</div>
           {:else}
             <div class="check_box check_box2">
-              <input type="checkbox" id={item.idx} />
+              <input
+                type="checkbox"
+                id={item.idx}
+                value={item.idx}
+                checked={group.includes(item.idx)}
+                on:change={onChange}
+              />
               <label for={item.idx}>선택</label>
             </div>
           {/if}
