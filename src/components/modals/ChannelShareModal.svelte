@@ -3,6 +3,8 @@
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
 
+  export let channel_id: string;
+
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
   const { addNotification, clearNotifications } = getNotificationsContext();
@@ -15,6 +17,24 @@
       removeAfter: 1500,
     });
   }
+
+  function invite() {
+    location.href = `/#/invite/${channel_id}`;
+  }
+
+  // function link() {
+  //   const url = $location;
+  //   window.navigator.clipboard.writeText(url);
+
+  //   clearNotifications();
+  //   addNotification({
+  //     text: "채팅방 링크가 복사되었어요.",
+  //     position: "bottom-center",
+  //     removeAfter: 1500,
+  //   });
+
+  //   close();
+  // }
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={close} />
@@ -28,7 +48,7 @@
       <form>
         <div class="btn_area in_2">
           <div>
-            <div class="cBtn hgt70" on:click={handleButtonClick}>
+            <div class="cBtn hgt70" on:click={invite}>
               <div class="tb">
                 <div class="tbc">
                   <span class="msg">
