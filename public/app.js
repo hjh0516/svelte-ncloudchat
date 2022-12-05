@@ -72,7 +72,7 @@ function goback() {
     !userInfo2
   ) {
     if (isMobile.Android() && window.emoApp) {
-      window.emoApp?.gomain();
+      window.emoApp?.goMain();
       // location.href = "gomain://";
     }
     return;
