@@ -408,3 +408,11 @@ async function handleResponse(response: Response) {
     throw new Error(res.message);
   }
 }
+
+export async function apiGetProfileAll(user_idx: number) {
+  const response = await fetch(`${API_URL}/profileall/${user_idx}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
