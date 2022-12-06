@@ -3,8 +3,10 @@
 
   import Spinner from "$components/Spinner.svelte";
   import ChatExitModal from "./ChatExitModal.svelte";
+  import ChannelShareModal from "./ChannelShareModal.svelte";
   import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { slide } from "svelte/transition";
+  import { getNotificationsContext } from "svelte-notifications";
   import {
     apiCreateChatBans,
     apiDeleteChannel,
@@ -16,10 +18,10 @@
   } from "$lib/api";
   import { store } from "$store/store";
   import { sendMessage, unsubscribe } from "$lib/NcloudChat";
-  import ChannelShareModal from "./ChannelShareModal.svelte";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   export let channel_id: string;
   export let refresh: boolean;
@@ -316,7 +318,18 @@
             <div
               id="btnShare"
               class="cBtn cre svg yel"
-              on:click={() => (showChannelShareModal = true)}
+              on:click={() => {
+                if (["PUBLIC", "FOLLOWER"].includes(channel.type) && leader) {
+                  showChannelShareModal = true;
+                } else {
+                  clearNotifications();
+                  addNotification({
+                    text: "공유할 수 없는 채팅방이에요.",
+                    position: "bottom-center",
+                    removeAfter: 1500,
+                  });
+                }
+              }}
             >
               공유
             </div>

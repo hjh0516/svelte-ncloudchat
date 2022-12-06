@@ -30,7 +30,7 @@
     apiSendPush,
     apiGetChannel,
     apiSendChatPush,
-    apiGetProfileAll
+    apiGetProfileAll,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
@@ -239,7 +239,7 @@
                 content: message.attachment_filenames.url,
               };
 
-        if (channel.channel_id === _channel) {
+        if (params.id === _channel) {
           if (content.type === "system") {
             if (content.target === $store.user.id) {
               history.back();
@@ -270,7 +270,7 @@
           created_at: message.created_at,
         };
 
-        if (channel.channel_id === _channel) {
+        if (params.id === _channel) {
           if (data.length === 0) {
             data.push({
               idx: 0,
@@ -285,12 +285,9 @@
         }
 
         try {
-          if (
-            channel.channel_id === _channel &&
-            content.user_idx === $store.user.id
-          ) {
+          if (params.id === _channel) {
             var response = await apiCreateMessage(
-              channel.channel_id,
+              params.id,
               content.type,
               content.content
             );
@@ -298,7 +295,7 @@
 
             try {
               if (response) {
-                setTimeout(function(){
+                setTimeout(function () {
                   apiSendChatPush(response.idx);
                 }, 1000);
               }
@@ -427,18 +424,17 @@
                     }}
                     on:profile={(e) => {
                       var result = apiGetProfileAll(e.detail.item.user_idx)
-                      .then((result) =>{
-                        if (result.withdraw == 1){
-                          alert('탈퇴한 사용자에요.');
-                        }else{
-                          showChatProfileModal = true;
-                          chatItem = e.detail.item;
-                        }
-                      }).catch((result) =>{
-
-                        console.info(result);
-                      });
-
+                        .then((result) => {
+                          if (result.withdraw == 1) {
+                            alert("탈퇴한 사용자에요.");
+                          } else {
+                            showChatProfileModal = true;
+                            chatItem = e.detail.item;
+                          }
+                        })
+                        .catch((result) => {
+                          console.info(result);
+                        });
                     }}
                   />
                 {/if}

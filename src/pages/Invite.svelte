@@ -2,7 +2,16 @@
   import FollowItem from "$components/FollowItem.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { apiGetFollows } from "$lib/api";
+  import {
+    apiCreateChannel,
+    apiCreateChannelNotification,
+    apiGetFollows,
+    apiGetPrivateChannel,
+    apiSubscribe,
+  } from "$lib/api";
+  import { bind, createChannel, sendMessage, subscribe } from "$lib/NcloudChat";
+  import { store } from "$store/store";
+  import { onMount } from "svelte";
 
   export let params: any;
 
@@ -30,6 +39,7 @@
       tab = s;
       page = 1;
       data = [];
+      checked = [];
 
       loading = true;
       await loadFollows();
@@ -47,7 +57,47 @@
   }
 
   function submit() {
-    console.info(checked);
+    if (!checked.length) {
+      return;
+    }
+
+    try {
+      checked.forEach(async (user_idx) => {
+        let channel_id: string;
+        let channel = await apiGetPrivateChannel(user_idx);
+
+        if (channel) {
+          channel_id = channel.channel_id;
+        } else {
+          channel = await createChannel(`private_channel_${$store.user.id}`);
+          channel_id = channel.id;
+          await apiCreateChannel(
+            channel.id,
+            channel.name,
+            "PRIVATE",
+            channel.image_url,
+            channel.link_url,
+            channel.push
+          );
+          await apiCreateChannelNotification(channel.id, true);
+          await apiCreateChannelNotification(channel.id, true, user_idx);
+          await apiSubscribe(channel.id);
+          await apiSubscribe(channel.id, user_idx);
+          await subscribe(channel.id);
+        }
+
+        const message = JSON.stringify({
+          user_idx: $store.user.id,
+          type: "text",
+          content: `초대`,
+        });
+        await sendMessage(channel_id, "text", message);
+      });
+
+      history.back();
+    } catch (err) {
+      console.error(err);
+    }
   }
 </script>
 
