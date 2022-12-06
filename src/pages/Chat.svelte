@@ -285,8 +285,8 @@
         }
 
         try {
-          if (params.id === _channel) {
-            var response = await apiCreateMessage(
+          if (params.id === _channel && $store.user.id === content.user_idx) {
+            let response = await apiCreateMessage(
               params.id,
               content.type,
               content.content
@@ -423,7 +423,7 @@
                       chatItem = e.detail.item;
                     }}
                     on:profile={(e) => {
-                      var result = apiGetProfileAll(e.detail.item.user_idx)
+                      apiGetProfileAll(e.detail.item.user_idx)
                         .then((result) => {
                           if (result.withdraw == 1) {
                             alert("탈퇴한 사용자에요.");

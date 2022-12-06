@@ -5,6 +5,7 @@
   import {
     apiCreateChannel,
     apiCreateChannelNotification,
+    apiCreateMessage,
     apiGetFollows,
     apiGetPrivateChannel,
     apiSubscribe,
@@ -61,6 +62,7 @@
       return;
     }
 
+    loading = true;
     try {
       checked.forEach(async (user_idx) => {
         let channel_id: string;
@@ -86,18 +88,24 @@
           await subscribe(channel.id);
         }
 
+        const content = "초대";
         const message = JSON.stringify({
           user_idx: $store.user.id,
           type: "text",
-          content: `초대`,
+          content: content,
         });
+        console.info(message);
         await sendMessage(channel_id, "text", message);
+        await apiCreateMessage(channel_id, "text", content);
       });
-
-      history.back();
     } catch (err) {
       console.error(err);
     }
+    loading = false;
+
+    setTimeout(() => {
+      history.back();
+    }, 500);
   }
 </script>
 
