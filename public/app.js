@@ -108,5 +108,5 @@ function privatechat(user_idx) {
 }
 
 function checkToken(token) {
-  return token == JSON.parse(sessionStorage.getItem('store')).token;
+  return token == JSON.parse(sessionStorage.getItem("store")).token;
 }

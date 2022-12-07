@@ -9,32 +9,23 @@
   const close = () => dispatch("close");
   const { addNotification, clearNotifications } = getNotificationsContext();
 
-  function handleButtonClick() {
-    clearNotifications();
-    addNotification({
-      text: "준비 중이에요.",
-      position: "bottom-center",
-      removeAfter: 1500,
-    });
-  }
-
   function invite() {
     location.href = `/#/invite/${channel_id}`;
   }
 
-  // function link() {
-  //   const url = $location;
-  //   window.navigator.clipboard.writeText(url);
+  function link() {
+    const url = `emo://chat?channel_id=${channel_id}`;
+    window.navigator.clipboard.writeText(url);
 
-  //   clearNotifications();
-  //   addNotification({
-  //     text: "채팅방 링크가 복사되었어요.",
-  //     position: "bottom-center",
-  //     removeAfter: 1500,
-  //   });
+    clearNotifications();
+    addNotification({
+      text: "채팅방 링크가 복사되었어요.",
+      position: "bottom-center",
+      removeAfter: 1500,
+    });
 
-  //   close();
-  // }
+    close();
+  }
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={close} />
@@ -58,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <div class="cBtn hgt70" on:click={handleButtonClick}>
+            <div class="cBtn hgt70" on:click={link}>
               <div class="tb">
                 <div class="tbc">
                   <span class="link">

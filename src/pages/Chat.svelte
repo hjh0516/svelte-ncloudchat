@@ -27,7 +27,6 @@
     apiCreateMessage,
     apiCreateChatRead,
     apiGetChatBans,
-    apiSendPush,
     apiGetChannel,
     apiSendChatPush,
     apiGetProfileAll,
@@ -433,7 +432,7 @@
                           }
                         })
                         .catch((result) => {
-                          console.info(result);
+                          console.error(result);
                         });
                     }}
                   />

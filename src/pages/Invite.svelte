@@ -10,11 +10,13 @@
     apiGetPrivateChannel,
     apiSubscribe,
   } from "$lib/api";
-  import { bind, createChannel, sendMessage, subscribe } from "$lib/NcloudChat";
+  import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
-  import { onMount } from "svelte";
+  import { createChannel, sendMessage, subscribe } from "$lib/NcloudChat";
 
   export let params: any;
+
+  const { addNotification, clearNotifications } = getNotificationsContext();
 
   let tab = "follower";
   let page = 1;
@@ -74,29 +76,35 @@
           channel = await createChannel(`private_channel_${$store.user.id}`);
           channel_id = channel.id;
           await apiCreateChannel(
-            channel.id,
+            channel_id,
             channel.name,
             "PRIVATE",
             channel.image_url,
             channel.link_url,
             channel.push
           );
-          await apiCreateChannelNotification(channel.id, true);
-          await apiCreateChannelNotification(channel.id, true, user_idx);
-          await apiSubscribe(channel.id);
-          await apiSubscribe(channel.id, user_idx);
-          await subscribe(channel.id);
+          await apiCreateChannelNotification(channel_id, true);
+          await apiCreateChannelNotification(channel_id, true, user_idx);
+          await apiSubscribe(channel_id);
+          await apiSubscribe(channel_id, user_idx);
+          await subscribe(channel_id);
         }
 
-        const content = "초대";
+        const content = `emo://chat?channe_id=${channel_id}`;
         const message = JSON.stringify({
           user_idx: $store.user.id,
           type: "text",
           content: content,
         });
-        console.info(message);
         await sendMessage(channel_id, "text", message);
         await apiCreateMessage(channel_id, "text", content);
+
+        clearNotifications();
+        addNotification({
+          text: "1:1 채팅방으로 링크가 공유되었어요.",
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
       });
     } catch (err) {
       console.error(err);
