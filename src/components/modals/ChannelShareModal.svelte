@@ -15,7 +15,11 @@
 
   function link() {
     const url = `emo://chat?channel_id=${channel_id}`;
-    window.navigator.clipboard.writeText(url);
+    if (window.isSecureContext && window.navigator.clipboard) {
+      window.navigator.clipboard.writeText(url);
+    } else {
+      unsecureCopy(url);
+    }
 
     clearNotifications();
     addNotification({
@@ -25,6 +29,22 @@
     });
 
     close();
+  }
+
+  function unsecureCopy(text: string) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+
+    const chatShare = document.getElementById("chatShare");
+    chatShare.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error(err);
+    }
+    chatShare.removeChild(textArea);
   }
 </script>
 
