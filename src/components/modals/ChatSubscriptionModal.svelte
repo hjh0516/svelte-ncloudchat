@@ -227,7 +227,10 @@
 </div>
 
 {#if showChannelShareModal}
-  <ChannelShareModal on:close={() => (showChannelShareModal = false)} />
+  <ChannelShareModal
+    channel_id={item.channel_id}
+    on:close={() => (showChannelShareModal = false)}
+  />
 {/if}
 
 {#if showUserFollowModal}

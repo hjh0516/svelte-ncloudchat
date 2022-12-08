@@ -13,10 +13,6 @@
   function open(item: Chat) {
     dispatch("open", { item: item });
   }
-
-  async function link(message: string) {
-    dispatch("link", { message: message });
-  }
 </script>
 
 <div class="request">
@@ -24,6 +20,10 @@
     {#if item.type === "text"}
       <dd class="cont">
         {item.message}
+      </dd>
+    {:else if item.type === "link"}
+      <dd class="cont" style="color: rgb(37 99 235);">
+        {@html item.message}
       </dd>
     {:else if item.type === "file"}
       <div

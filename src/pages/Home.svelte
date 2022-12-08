@@ -10,6 +10,7 @@
   import Spinner from "$components/Spinner.svelte";
   import { onDestroy, onMount } from "svelte";
   import { getNotificationsContext } from "svelte-notifications";
+  import { querystring } from "svelte-spa-router";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
   import { apiGetUser } from "$lib/api";
@@ -64,6 +65,11 @@
   onMount(() => {
     if (!$store.token) {
       location.href = "/#/error";
+    }
+
+    const params = new URLSearchParams($querystring);
+    if (params.has("channel_id")) {
+      $store.activeItem = "오픈 채팅";
     }
 
     $store.channel = null;

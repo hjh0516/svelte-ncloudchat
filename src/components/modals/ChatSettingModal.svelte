@@ -319,15 +319,17 @@
               id="btnShare"
               class="cBtn cre svg yel"
               on:click={() => {
-                if (["PUBLIC", "FOLLOWER"].includes(channel.type) && leader) {
-                  showChannelShareModal = true;
-                } else {
-                  clearNotifications();
-                  addNotification({
-                    text: "공유할 수 없는 채팅방이에요.",
-                    position: "bottom-center",
-                    removeAfter: 1500,
-                  });
+                if (channel) {
+                  if (["PUBLIC", "FOLLOWER"].includes(channel.type) && leader) {
+                    showChannelShareModal = true;
+                  } else {
+                    clearNotifications();
+                    addNotification({
+                      text: "공유할 수 없는 채팅방이에요.",
+                      position: "bottom-center",
+                      removeAfter: 1500,
+                    });
+                  }
                 }
               }}
             >

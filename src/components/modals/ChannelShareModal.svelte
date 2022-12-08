@@ -14,7 +14,8 @@
   }
 
   function link() {
-    const url = `emo://chat?channel_id=${channel_id}`;
+    const API_URL = import.meta.env.VITE_API_URL;
+    const url = `${API_URL}/sharelink?type=chat&channel_id=${channel_id}`;
     if (window.isSecureContext && window.navigator.clipboard) {
       window.navigator.clipboard.writeText(url);
     } else {

@@ -46,6 +46,10 @@
       <dd class="cont">
         {item.message}
       </dd>
+    {:else if item.type === "link"}
+      <dd class="cont" style="color: rgb(37 99 235);">
+        {@html item.message}
+      </dd>
     {:else if item.type === "file"}
       <div
         class="chat_img max-w-fit h-[125px] mt-3 flex justify-center items-center"

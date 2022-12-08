@@ -6,6 +6,7 @@
     apiCreateChannel,
     apiCreateChannelNotification,
     apiCreateMessage,
+    apiGetChannel,
     apiGetFollows,
     apiGetPrivateChannel,
     apiSubscribe,
@@ -69,6 +70,7 @@
       checked.forEach(async (user_idx) => {
         let channel_id: string;
         let channel = await apiGetPrivateChannel(user_idx);
+        const sharedChannel = await apiGetChannel(params.id);
 
         if (channel) {
           channel_id = channel.channel_id;
@@ -90,14 +92,14 @@
           await subscribe(channel_id);
         }
 
-        const content = `emo://chat?channe_id=${channel_id}`;
+        const link = `<a href='${location.protocol}//${location.host}/#/home?channel_id=${params.id}'>${sharedChannel.name}</a>`;
         const message = JSON.stringify({
           user_idx: $store.user.id,
-          type: "text",
-          content: content,
+          type: "link",
+          content: link,
         });
         await sendMessage(channel_id, "text", message);
-        await apiCreateMessage(channel_id, "text", content);
+        await apiCreateMessage(channel_id, "link", link);
 
         clearNotifications();
         addNotification({
