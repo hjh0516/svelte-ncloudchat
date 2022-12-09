@@ -13,6 +13,8 @@
   import ChatSystemItem from "$components/ChatSystemItem.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
+  import { querystring } from "svelte-spa-router";
+  import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
   import {
     sendMessage,
@@ -33,10 +35,8 @@
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
-  import { querystring } from "svelte-spa-router";
   import { apiGetUser } from "$lib/api";
   import { connect, initialize } from "$lib/NcloudChat";
-  import { getNotificationsContext } from "svelte-notifications";
 
   export let params: any;
 
@@ -354,7 +354,11 @@
 
   bind("onMemberJoined", async function (data: any) {
     const user_idx = Number(data.user_id.split("_")[1]);
-    if (channel.type !== "PRIVATE" && user_idx === Number($store.user.id)) {
+    if (
+      channel &&
+      channel.type !== "PRIVATE" &&
+      user_idx === Number($store.user.id)
+    ) {
       const user = await apiGetUser(user_idx);
       const message = JSON.stringify({
         user_idx: user_idx,
@@ -382,6 +386,8 @@
     unbindall("onConnected");
     unbindall("onDisconnected");
     unbindall("onMessageReceived");
+    unbindall("onMemberJoined");
+    unbindall("onMemberLeaved");
   });
 </script>
 

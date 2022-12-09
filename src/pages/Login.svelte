@@ -83,7 +83,6 @@
       return;
     }
 
-    loading = true;
     let channel: Channel;
     try {
       channel = await apiGetPrivateChannel(user_idx);
@@ -100,9 +99,7 @@
     let privateChannel: any;
     try {
       privateChannel = await createChannel(`private_channel_${$store.user.id}`);
-      setTimeout(() => {
-        subscribe(privateChannel.id);
-      }, 1000);
+      await subscribe(privateChannel.id);
     } catch (err) {
       console.error(err);
     }
@@ -120,13 +117,15 @@
       await apiCreateChannelNotification(privateChannel.id, true, user_idx);
       await apiSubscribe(privateChannel.id);
       await apiSubscribe(privateChannel.id, user_idx);
-
-      location.href = `/#/chat/${privateChannel.id}`;
-      godetail();
     } catch (err) {
       console.error(err);
     }
-    loading = false;
+
+    if (privateChannel) {
+      location.href = `/#/chat/${privateChannel.id}`;
+      location.reload();
+      godetail();
+    }
   }
 
   async function goOpenChat(channel_id: string) {
@@ -164,14 +163,3 @@
 >
   <span class="aggro" style="font-size: 16px;">채팅 접속 중입니다...</span>
 </div>
-
-{#if loading}
-  <div
-    class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
-    style="z-index: 200;"
-  >
-    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <Spinner />
-    </div>
-  </div>
-{/if}
