@@ -21,7 +21,6 @@
   } from "$lib/api";
 
   let user: any;
-  let loading = false;
   let id: string;
   let channel: Channel;
 
@@ -123,7 +122,6 @@
 
     if (privateChannel) {
       location.href = `/#/chat/${privateChannel.id}`;
-      location.reload();
       godetail();
     }
   }

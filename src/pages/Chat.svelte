@@ -89,13 +89,13 @@
     const file = new File([blob], "emoji", { type: blob.type });
 
     try {
-      sendImage(params.id, file);
+      await sendImage(params.id, file);
     } catch (err) {
       console.error(err);
     }
   }
 
-  function sendText() {
+  async function sendText() {
     const inputMessage = input;
     input = "";
     emojiPath = "";
@@ -107,7 +107,7 @@
     });
 
     try {
-      sendMessage(params.id, "text", message);
+      await sendMessage(params.id, "text", message);
     } catch (err) {
       console.error(err);
     }
@@ -117,7 +117,7 @@
     const image = e.target.files[0] as File;
     input = "";
     try {
-      sendImage(params.id, image);
+      await sendImage(params.id, image);
     } catch (err) {
       console.error(err);
     }
