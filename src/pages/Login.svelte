@@ -53,29 +53,27 @@
       return;
     }
 
-    try {
       initialize();
-      await connect(id, user.nickname, user.profile);
-      if (
-        params.has("privatechat") &&
-        params.has("user_idx") &&
-        params.get("privatechat") === "true"
-      ) {
-        await createPrivateChannel(Number(params.get("user_idx")));
-      } else if (
-        params.has("openchat") &&
-        params.has("channel_id") &&
-        params.get("openchat") === "true"
-      ) {
-        await goOpenChat(params.get("channel_id"));
-      } else {
-        location.href = "/#/home";
-        gohome();
-      }
-    } catch (err) {
-      console.log(err);
-      return;
-    }
+      connect(id, user.nickname, user.profile).then(() =>{
+        if (
+          params.has("privatechat") &&
+          params.has("user_idx") &&
+          params.get("privatechat") === "true"
+        ) {
+          createPrivateChannel(Number(params.get("user_idx")));
+        } else if (
+          params.has("openchat") &&
+          params.has("channel_id") &&
+          params.get("openchat") === "true"
+        ) {
+          goOpenChat(params.get("channel_id"));
+        } else {
+          location.href = "/#/home";
+          gohome();
+        }
+      }).catch((err) => {
+        console.info(err);
+      });
   });
 
   async function createPrivateChannel(user_idx: number) {
@@ -91,25 +89,34 @@
         godetail();
         return;
       }
-      const privateChannel = await createChannel(
-        `private_channel_${$store.user.id}`
-      );
-      await apiCreateChannel(
-        privateChannel.id,
-        privateChannel.name,
-        "PRIVATE",
-        privateChannel.image_url,
-        privateChannel.link_url,
-        privateChannel.push
-      );
-      await apiCreateChannelNotification(privateChannel.id, true);
-      await apiCreateChannelNotification(privateChannel.id, true, user_idx);
-      await apiSubscribe(privateChannel.id);
-      await apiSubscribe(privateChannel.id, user_idx);
+      // const privateChannel = await createChannel(
+      //   `private_channel_${$store.user.id}`
+      // );
+      createChannel(`private_channel_${$store.user.id}`).then(async (result) => {
 
-      await subscribe(privateChannel.id);
-      location.href = `/#/chat/${privateChannel.id}?token=${$store.token}`;
-      godetail();
+        await apiCreateChannel(
+          result.id,
+          result.name,
+          "PRIVATE",
+          result.image_url,
+          result.link_url,
+          result.push
+        );
+        await apiCreateChannelNotification(result.id, true);
+        await apiCreateChannelNotification(result.id, true, user_idx);
+        await apiSubscribe(result.id);
+        await apiSubscribe(result.id, user_idx);
+
+        subscribe(result.id).then(() => {
+          location.href = `/#/chat/${result.id}?token=${$store.token}`;
+          godetail();
+        }).catch((err) => {
+          console.info(err);
+        });
+      }).catch((err) => {
+        console.info(err);
+      });
+      
     } catch (err) {
       console.error(err);
     }
