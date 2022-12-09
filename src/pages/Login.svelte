@@ -84,16 +84,28 @@
     }
 
     loading = true;
+    let channel: Channel;
     try {
-      const channel = await apiGetPrivateChannel(user_idx);
-      if (channel) {
-        location.href = `/#/chat/${channel.channel_id}`;
-        godetail();
-        return;
-      }
-      const privateChannel = await createChannel(
-        `private_channel_${$store.user.id}`
-      );
+      channel = await apiGetPrivateChannel(user_idx);
+    } catch (err) {
+      console.error(err);
+    }
+
+    if (channel) {
+      location.href = `/#/chat/${channel.channel_id}`;
+      godetail();
+      return;
+    }
+
+    let privateChannel: any;
+    try {
+      privateChannel = await createChannel(`private_channel_${$store.user.id}`);
+      await subscribe(privateChannel.id);
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
       await apiCreateChannel(
         privateChannel.id,
         privateChannel.name,
@@ -106,8 +118,6 @@
       await apiCreateChannelNotification(privateChannel.id, true, user_idx);
       await apiSubscribe(privateChannel.id);
       await apiSubscribe(privateChannel.id, user_idx);
-
-      await subscribe(privateChannel.id);
 
       location.href = `/#/chat/${privateChannel.id}`;
       godetail();
