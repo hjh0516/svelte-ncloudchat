@@ -100,7 +100,9 @@
     let privateChannel: any;
     try {
       privateChannel = await createChannel(`private_channel_${$store.user.id}`);
-      await subscribe(privateChannel.id);
+      setTimeout(() => {
+        subscribe(privateChannel.id);
+      }, 1000);
     } catch (err) {
       console.error(err);
     }
