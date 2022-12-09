@@ -4,8 +4,12 @@ import { get } from "svelte/store";
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-export async function apiGetUser() {
-  const response = await fetch(`${API_URL}/user`, {
+export async function apiGetUser(user_idx?: number) {
+  let url = `${API_URL}/user`;
+  if (user_idx) {
+    url += `?user_idx=${user_idx}`;
+  }
+  const response = await fetch(url, {
     method: "GET",
     headers: setHeader(),
   });

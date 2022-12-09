@@ -84,7 +84,7 @@
     loading = false;
     close();
 
-    location.href = `/#/chat/${item.channel_id}?subscribe=true`;
+    location.href = `/#/chat/${item.channel_id}`;
     godetail();
   }
 

@@ -73,7 +73,7 @@
         gohome();
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
   });
@@ -108,7 +108,8 @@
       await apiSubscribe(privateChannel.id, user_idx);
 
       await subscribe(privateChannel.id);
-      location.href = `/#/chat/${privateChannel.id}?token=${$store.token}`;
+
+      location.href = `/#/chat/${privateChannel.id}`;
       godetail();
     } catch (err) {
       console.error(err);

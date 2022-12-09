@@ -46,7 +46,6 @@
   async function exitChannel() {
     loading = true;
 
-    const content = `${$store.user.name}님이 퇴장했어요.`;
     try {
       await apiUnsubscribe(channel_id);
       apiDeleteChannelNotification(channel_id);
@@ -59,13 +58,6 @@
     }
 
     try {
-      const message = JSON.stringify({
-        user_idx: $store.user.id,
-        type: "system",
-        content: content,
-      });
-
-      sendMessage(channel_id, "text", message);
       unsubscribe(channel_id);
     } catch (err) {
       console.error(err);
@@ -73,7 +65,7 @@
 
     loading = false;
 
-    location.href = "/#/home";
+    location.replace("/#/home");
     gohome();
   }
 
