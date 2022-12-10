@@ -12,6 +12,7 @@
   export let emojiPath: string;
   export let showEmojiArea = false;
   export let messageInput: HTMLElement;
+  export let hiddenInput: HTMLElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 
@@ -44,6 +45,7 @@
             class="svg"
             accept=".jpg, .jpeg, .gif, .png"
             on:click={() => {
+              hiddenInput.focus();
               messageInput.focus();
             }}
             on:change={(e) => {
@@ -62,6 +64,11 @@
                 send();
               }
             }}
+          />
+          <input
+            type="text"
+            bind:this={hiddenInput}
+            type="hidden"
           />
           <span class="clear">
             <input
