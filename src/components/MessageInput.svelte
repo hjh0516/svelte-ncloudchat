@@ -61,6 +61,7 @@
             bind:this={messageInput}
             on:keypress={(e) => {
               if (e.key === "Enter") {
+                hiddenInput.focus();
                 send();
               }
             }}
@@ -81,7 +82,10 @@
             <input
               type="submit"
               class="svg {inputLen > 0 || showEmojiArea ? 'on' : ''}"
-              on:click={send}
+              on:click={() => {
+                hiddenInput.focus();
+                send();
+              }}
             />
           </span>
         </div>

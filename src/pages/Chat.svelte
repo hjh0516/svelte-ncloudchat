@@ -77,7 +77,6 @@
       sendText();
     }
 
-    hiddenInput.focus();
     messageInput.focus();
   }
 
