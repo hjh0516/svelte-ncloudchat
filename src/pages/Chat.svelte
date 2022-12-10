@@ -193,7 +193,9 @@
         return;
       }
 
-      location.href = "godetail://";
+      if (isMobile.Android() && window.emoApp) {
+        window.emoApp?.godetail();
+      }
     }
   }
 
