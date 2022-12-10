@@ -66,9 +66,8 @@
             }}
           />
           <input
-            type="text"
-            bind:this={hiddenInput}
             type="hidden"
+            bind:this={hiddenInput}
           />
           <span class="clear">
             <input
