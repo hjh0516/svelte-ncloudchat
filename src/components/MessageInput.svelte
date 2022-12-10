@@ -84,9 +84,6 @@
               class="svg {inputLen > 0 || showEmojiArea ? 'on' : ''}"
               on:click={() => {
                 messageInput.dispatchEvent(new KeyboardEvent('keypress',{'key':'Enter'}));
-                // hiddenInput.focus();
-                // send();
-                // hiddenInput.focus();
               }}
             />
           </span>
