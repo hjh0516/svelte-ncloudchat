@@ -1,13 +1,28 @@
 <script lang="ts">
+  import type { Channel } from "$lib/types/type";
+
   import Spinner from "$components/Spinner.svelte";
-  import { store } from "$store/store";
-  import { connect, initialize } from "$lib/NcloudChat";
-  import { apiGetUser } from "$lib/api";
   import { onMount } from "svelte";
   import { querystring } from "svelte-spa-router";
+  import { store } from "$store/store";
+  import {
+    connect,
+    createChannel,
+    initialize,
+    subscribe,
+  } from "$lib/NcloudChat";
+  import {
+    apiCreateChannel,
+    apiCreateChannelNotification,
+    apiGetChannel,
+    apiGetPrivateChannel,
+    apiGetUser,
+    apiSubscribe,
+  } from "$lib/api";
 
   let user: any;
   let id: string;
+  let channel: Channel;
 
   onMount(async () => {
     const params = new URLSearchParams($querystring);
@@ -39,14 +54,97 @@
 
     try {
       initialize();
-      connect(id, user.nickname, user.profile);
-      location.href = "/#/home";
-      gohome();
+      await connect(id, user.nickname, user.profile);
+      if (
+        params.has("privatechat") &&
+        params.has("user_idx") &&
+        params.get("privatechat") === "true"
+      ) {
+        await createPrivateChannel(Number(params.get("user_idx")));
+      } else if (
+        params.has("openchat") &&
+        params.has("channel_id") &&
+        params.get("openchat") === "true"
+      ) {
+        await goOpenChat(params.get("channel_id"));
+      } else {
+        location.href = "/#/home";
+        gohome();
+      }
     } catch (err) {
-      location.href = "/#/error";
+      console.error(err);
       return;
     }
   });
+
+  async function createPrivateChannel(user_idx: number) {
+    if (!user_idx) {
+      return;
+    }
+
+    let channel: Channel;
+    try {
+      channel = await apiGetPrivateChannel(user_idx);
+    } catch (err) {
+      console.error(err);
+    }
+
+    if (channel) {
+      location.href = `/#/chat/${channel.channel_id}`;
+      godetail();
+      return;
+    }
+
+    let privateChannel: any;
+    try {
+      privateChannel = await createChannel(`private_channel_${$store.user.id}`);
+      await subscribe(privateChannel.id);
+    } catch (err) {
+      console.error(err);
+    }
+
+    try {
+      await apiCreateChannel(
+        privateChannel.id,
+        privateChannel.name,
+        "PRIVATE",
+        privateChannel.image_url,
+        privateChannel.link_url,
+        privateChannel.push
+      );
+      await apiCreateChannelNotification(privateChannel.id, true);
+      await apiCreateChannelNotification(privateChannel.id, true, user_idx);
+      await apiSubscribe(privateChannel.id);
+      await apiSubscribe(privateChannel.id, user_idx);
+    } catch (err) {
+      console.error(err);
+    }
+
+    if (privateChannel) {
+      location.href = `/#/chat/${privateChannel.id}`;
+      godetail();
+    }
+  }
+
+  async function goOpenChat(channel_id: string) {
+    if (!channel_id) {
+      return;
+    }
+
+    channel = await apiGetChannel(channel_id);
+    const find = channel.subscriptions.findIndex(
+      (x) => x.user_idx === Number($store.user.id)
+    );
+
+    if (find !== -1) {
+      location.href = `/#/chat/${channel_id}`;
+      return;
+    }
+
+    $store.activeItem = "오픈 채팅";
+    window.sessionStorage.setItem("store", JSON.stringify($store));
+    location.href = `/#/home?channel_id=${channel_id}`;
+  }
 </script>
 
 <div
@@ -57,6 +155,9 @@
     <Spinner />
   </div>
 </div>
-<div class="h-screen bg-gray-50 flex justify-center items-center text-center">
+<div
+  class="bg-gray-50 flex justify-center items-center text-center pt-32"
+  style="height: calc(var(--vh, 1vh) * 100)"
+>
   <span class="aggro" style="font-size: 16px;">채팅 접속 중입니다...</span>
 </div>

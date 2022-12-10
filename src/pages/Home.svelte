@@ -8,17 +8,12 @@
   import FloatingActionButton from "$components/FloatingActionButton.svelte";
   import CreateChannelModal from "$components/modals/CreateChannelModal.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { getNotificationsContext } from "svelte-notifications";
   import { onDestroy, onMount } from "svelte";
+  import { getNotificationsContext } from "svelte-notifications";
+  import { querystring } from "svelte-spa-router";
   import { store } from "$store/store";
-  import { bind, createChannel, unbindall, subscribe } from "$lib/NcloudChat";
-  import {
-    apiCreateChannel,
-    apiCreateChannelNotification,
-    apiGetPrivateChannel,
-    apiGetUser,
-    apiSubscribe,
-  } from "$lib/api";
+  import { bind, unbindall } from "$lib/NcloudChat";
+  import { apiGetUser } from "$lib/api";
 
   let chat: Chat;
   let newChannel: Channel = null;
@@ -30,45 +25,6 @@
   window.setShowSettingModal = (value: boolean) => {
     showCreateChannelModal = false;
     showSettingModal = value;
-  };
-
-  window.createPrivateChannel = async (user_idx: number) => {
-    if (!user_idx) {
-      return;
-    }
-
-    loading = true;
-    try {
-      const channel = await apiGetPrivateChannel(user_idx);
-      if (channel) {
-        location.href = `/#/chat/${channel.channel_id}`;
-        godetail();
-        return;
-      }
-
-      const privateChannel = await createChannel(
-        `private_channel_${$store.user.id}`
-      );
-      await subscribe(privateChannel.id);
-      await apiCreateChannel(
-        privateChannel.id,
-        privateChannel.name,
-        "PRIVATE",
-        privateChannel.image_url,
-        privateChannel.link_url,
-        privateChannel.push
-      );
-      await apiCreateChannelNotification(privateChannel.id, true);
-      await apiCreateChannelNotification(privateChannel.id, true, user_idx);
-      await apiSubscribe(privateChannel.id);
-      await apiSubscribe(privateChannel.id, user_idx);
-
-      location.href = `/#/chat/${privateChannel.id}`;
-      godetail();
-    } catch (err) {
-      console.error(err);
-    }
-    loading = false;
   };
 
   const { addNotification, clearNotifications } = getNotificationsContext();
@@ -109,6 +65,11 @@
   onMount(() => {
     if (!$store.token) {
       location.href = "/#/error";
+    }
+
+    const params = new URLSearchParams($querystring);
+    if (params.has("channel_id")) {
+      $store.activeItem = "오픈 채팅";
     }
 
     $store.channel = null;

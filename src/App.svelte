@@ -4,6 +4,7 @@
   import Home from "./pages/Home.svelte";
   import Chat from "./pages/Chat.svelte";
   import Exit from "$pages/Exit.svelte";
+  import Invite from "$pages/Invite.svelte";
   import Error from "$pages/Error.svelte";
   import LoginTemp from "$pages/LoginTemp.svelte";
   import Notifications from "svelte-notifications";
@@ -18,6 +19,7 @@
     "/home": Home,
     "/chat/:id": Chat,
     "/exit/:id": Exit,
+    "/invite/:id": Invite,
     "/error": Error,
   };
 

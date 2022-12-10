@@ -4,8 +4,12 @@ import { get } from "svelte/store";
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-export async function apiGetUser() {
-  const response = await fetch(`${API_URL}/user`, {
+export async function apiGetUser(user_idx?: number) {
+  let url = `${API_URL}/user`;
+  if (user_idx) {
+    url += `?user_idx=${user_idx}`;
+  }
+  const response = await fetch(url, {
     method: "GET",
     headers: setHeader(),
   });
@@ -126,40 +130,11 @@ export async function apiGetMessages(channel_id: string, page: number) {
   return await handleResponse(response);
 }
 
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-
 export async function apiCreateMessage(
   channel_id: string,
   type: string,
   message: string
-  // file?: any
 ) {
-  // let headers = setHeader();
-  // let body: any;
-
-  // if (type === "text" || type === "system") {
-  //   body = JSON.stringify({
-  //     type: type,
-  //     message: message,
-  //   });
-  // } else if (type === "file") {
-  //   body = JSON.stringify({ type: "file" });
-
-  //   // delete headers["Content-Type"];
-
-  //   // const formData = new FormData();
-  //   // formData.append("type", "file");
-  //   // formData.append("file", file);
-
-  //   // body = formData;
-  // }
-
   const response = await fetch(`${API_URL}/chats/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
@@ -401,6 +376,25 @@ export async function apiGetPrivateChannel(user_idx: number) {
   return await handleResponse(response);
 }
 
+export async function apiGetFollows(
+  type: string,
+  channel_id: string,
+  page: number,
+  search_text?: string
+) {
+  let url = `${API_URL}/profile/follows/${
+    get(store).user.id
+  }?type=${type}&channel_id=${channel_id}&page=${page}`;
+  if (search_text) {
+    url += `&search_text=${search_text}`;
+  }
+  const response = await fetch(url, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,
@@ -417,4 +411,12 @@ async function handleResponse(response: Response) {
   } else {
     throw new Error(res.message);
   }
+}
+
+export async function apiGetProfileAll(user_idx: number) {
+  const response = await fetch(`${API_URL}/profileall/${user_idx}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
 }

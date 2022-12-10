@@ -3309,14 +3309,14 @@ em.ent {
 	background-image: url('../img/ico_emoge_on.svg');
 }
 
-.chat_util2 .ipt_area span input[type="submit"] {
+.chat_util2 .ipt_area span input[type="search"] {
 	margin-left: 5px;
 	width: 24px;
 	height: 24px;
 	background-image: url('../img/ico_submit_off.svg');
 }
 
-.chat_util2 .ipt_area span input[type="submit"].on {
+.chat_util2 .ipt_area span input[type="search"].on {
 	margin-left: 5px;
 	width: 24px;
 	height: 24px;
@@ -3937,7 +3937,7 @@ em.ent {
 }
 
 .chat_idx .open_chat .follower_list>ul>li .chk_wrap .c_ing {
-	display: none;
+	display: block;
 	font-size: 13px;
 	font-weight: 500;
 	color: #7c7a82;
@@ -4065,6 +4065,7 @@ em.ent {
 	border-radius: 0 15px 15px 15px;
 	border: 1px solid #d6e3e3;
 	background-color: #fff;
+	max-width: 250px;
 }
 
 .chat_room .chat_info .request::after {
@@ -4088,6 +4089,7 @@ em.ent {
 	border-radius: 15px 15px 0 15px;
 	text-align: left;
 	max-width: 250px;
+	min-height: 45px;
 }
 
 .chat_room .chat_info .request .cont.fir {
@@ -4819,7 +4821,7 @@ em.ent {
 }
 
 #imgDetail .btn_save {
-	display: none;
+	display: block;
 	width: 58px;
 	height: 61px;
 	position: absolute;

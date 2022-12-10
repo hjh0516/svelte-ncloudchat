@@ -52,6 +52,8 @@
     }
 
     if (item.is_subscription) {
+      close();
+
       location.href = `/#/chat/${item.channel_id}`;
       godetail();
       return;
@@ -82,7 +84,7 @@
     loading = false;
     close();
 
-    location.href = `/#/chat/${item.channel_id}?subscribe=true`;
+    location.href = `/#/chat/${item.channel_id}`;
     godetail();
   }
 
@@ -149,7 +151,7 @@
           </div>
           <div class="hash_list">
             <ul>
-              {#if item.tags.length > 0}
+              {#if item.tags?.length > 0}
                 <li>#{item.tags.map((v) => v.tag).join(" #")}</li>
               {/if}
             </ul>
@@ -225,7 +227,10 @@
 </div>
 
 {#if showChannelShareModal}
-  <ChannelShareModal on:close={() => (showChannelShareModal = false)} />
+  <ChannelShareModal
+    channel_id={item.channel_id}
+    on:close={() => (showChannelShareModal = false)}
+  />
 {/if}
 
 {#if showUserFollowModal}

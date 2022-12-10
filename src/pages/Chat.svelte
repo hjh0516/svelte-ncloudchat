@@ -13,6 +13,8 @@
   import ChatSystemItem from "$components/ChatSystemItem.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
+  import { querystring } from "svelte-spa-router";
+  import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
   import {
     sendMessage,
@@ -27,16 +29,14 @@
     apiCreateMessage,
     apiCreateChatRead,
     apiGetChatBans,
-    apiSendPush,
     apiGetChannel,
     apiSendChatPush,
+    apiGetProfileAll,
   } from "$lib/api";
   import { updateChatItems } from "$lib/Chat";
   import { convertChatDate } from "$lib/Date";
-  import { querystring } from "svelte-spa-router";
   import { apiGetUser } from "$lib/api";
   import { connect, initialize } from "$lib/NcloudChat";
-  import { getNotificationsContext } from "svelte-notifications";
 
   export let params: any;
 
@@ -57,6 +57,7 @@
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
+  let hiddenInput: HTMLElement;
   let user: any;
   let id: string;
   let activeInput = true;
@@ -89,13 +90,13 @@
     const file = new File([blob], "emoji", { type: blob.type });
 
     try {
-      sendImage(params.id, file);
+      await sendImage(params.id, file);
     } catch (err) {
       console.error(err);
     }
   }
 
-  function sendText() {
+  async function sendText() {
     const inputMessage = input;
     input = "";
     emojiPath = "";
@@ -107,7 +108,7 @@
     });
 
     try {
-      sendMessage(params.id, "text", message);
+      await sendMessage(params.id, "text", message);
     } catch (err) {
       console.error(err);
     }
@@ -117,7 +118,7 @@
     const image = e.target.files[0] as File;
     input = "";
     try {
-      sendImage(params.id, image);
+      await sendImage(params.id, image);
     } catch (err) {
       console.error(err);
     }
@@ -195,19 +196,10 @@
 
       if (isMobile.Android() && window.emoApp) {
         window.emoApp?.godetail();
+      } else if (isMobile.iOS()) {
+        location.href = "godetail://";
       }
     }
-  }
-
-  function sendEnterMessage() {
-    setTimeout(() => {
-      const message = JSON.stringify({
-        user_idx: $store.user.id,
-        type: "system",
-        content: `${$store.user.name}님이 입장했어요.`,
-      });
-      sendMessage(params.id, "text", message);
-    }, 500);
   }
 
   function showToast(message: string) {
@@ -220,105 +212,6 @@
   }
 
   onMount(async () => {
-    bind(
-      "onMessageReceived",
-      async function (_channel: string, message: Message) {
-        element.scrollTop = 0;
-
-        const sender_user_idx = Number(message.sender.id.split("_")[1]);
-
-        const content =
-          message.message_type === "text"
-            ? JSON.parse(message.content)
-            : {
-                user_idx: sender_user_idx,
-                type: "file",
-                content: message.attachment_filenames.url,
-              };
-
-        if (channel.channel_id === _channel) {
-          if (content.type === "system") {
-            if (content.target === $store.user.id) {
-              history.back();
-            } else if (channel.type === "PRIVATE") {
-              showToast("대화상대가 없어요.");
-              activeInput = false;
-            } else if (content.user_idx === channel.user_idx) {
-              showToast(
-                "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
-              );
-              activeInput = false;
-            }
-          }
-        }
-
-        const banUsers = bans.map((x) => x.target);
-        if (banUsers.includes(sender_user_idx)) {
-          return;
-        }
-
-        const chat = {
-          user_idx: content.user_idx,
-          nickname: message.sender.name,
-          profile: message.sender.profile,
-          type: content.type,
-          message: message.message_type === "text" ? content.content : null,
-          image_url: message.message_type === "file" ? content.content : null,
-          created_at: message.created_at,
-        };
-
-        if (channel.channel_id === _channel) {
-          if (data.length === 0) {
-            data.push({
-              idx: 0,
-              user_idx: 0,
-              channel_idx: 0,
-              type: "date",
-              message: convertChatDate(chat.created_at),
-              created_at: "",
-            });
-          }
-          data = [chat, ...data];
-        }
-
-        try {
-          if (
-            channel.channel_id === _channel &&
-            content.user_idx === $store.user.id
-          ) {
-            var response = await apiCreateMessage(
-              channel.channel_id,
-              content.type,
-              content.content
-            );
-            console.info(response);
-
-            try {
-              if (response) {
-                setTimeout(function(){
-                  apiSendChatPush(response.idx);
-                }, 1000);
-              }
-            } catch (err) {
-              console.error(err);
-            }
-          }
-          apiCreateChatRead(params.id);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    );
-
-    bind("onConnected", function () {
-      loading = false;
-    });
-
-    bind("onDisconnected", function (reason: string) {
-      loading = true;
-      console.error(reason);
-    });
-
     loading = true;
     try {
       channel = await apiGetChannel(params.id);
@@ -339,26 +232,22 @@
         }
       }
 
-      const p = new URLSearchParams($querystring);
-      if (p.has("subscribe") && p.get("subscribe") === "true") {
-        sendEnterMessage();
-      }
-
-      if (channel.type === "PRIVATE" && channel.subscriptions_count === 1) {
-        showToast("대화 상대가 없어요.");
-        activeInput = false;
-      }
-
-      if (
-        channel.type !== "PRIVATE" &&
-        channel.subscriptions.findIndex(
-          (v) => v.user_idx === channel.user_idx
-        ) === -1
-      ) {
-        showToast(
-          "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
-        );
-        activeInput = false;
+      if (channel.type === "PRIVATE") {
+        if (channel.subscriptions_count === 1) {
+          showToast("대화 상대가 없어요.");
+          activeInput = false;
+        }
+      } else {
+        if (
+          channel.subscriptions.findIndex(
+            (v) => v.user_idx === channel.user_idx
+          ) === -1
+        ) {
+          showToast(
+            "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+          );
+          activeInput = false;
+        }
       }
 
       apiCreateChatRead(params.id);
@@ -369,10 +258,137 @@
     loading = false;
   });
 
+  bind(
+    "onMessageReceived",
+    async function (channel_id: string, message: Message) {
+      element.scrollTop = 0;
+
+      const sender_user_idx = Number(message.sender.id.split("_")[1]);
+      const content =
+        message.message_type === "text"
+          ? JSON.parse(message.content)
+          : {
+              user_idx: sender_user_idx,
+              type: "file",
+              content: message.attachment_filenames.url,
+            };
+
+      if (params.id === channel_id) {
+        if (content.type === "system") {
+          if (content.target === $store.user.id) {
+            history.back();
+          } else if (channel && channel.type === "PRIVATE") {
+            showToast("대화상대가 없어요.");
+            activeInput = false;
+          } else if (channel && channel.user_idx === content.user_idx) {
+            showToast(
+              "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+            );
+            activeInput = false;
+          }
+        }
+      }
+
+      const banUsers = bans.map((x) => x.target);
+      if (banUsers.includes(sender_user_idx)) {
+        return;
+      }
+
+      const chat = {
+        user_idx: content.user_idx,
+        nickname: message.sender.name,
+        profile: message.sender.profile,
+        type: content.type,
+        message: message.message_type === "text" ? content.content : null,
+        image_url: message.message_type === "file" ? content.content : null,
+        created_at: message.created_at,
+      };
+
+      if (params.id === channel_id) {
+        if (data.length === 0) {
+          data.push({
+            idx: 0,
+            user_idx: 0,
+            channel_idx: 0,
+            type: "date",
+            message: convertChatDate(chat.created_at),
+            created_at: "",
+          });
+        }
+        data = [chat, ...data];
+      }
+
+      try {
+        if (params.id === channel_id && $store.user.id === content.user_idx) {
+          let response = await apiCreateMessage(
+            params.id,
+            content.type,
+            content.content
+          );
+          console.info(response);
+
+          try {
+            if (response) {
+              setTimeout(function () {
+                apiSendChatPush(response.idx);
+              }, 1000);
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        apiCreateChatRead(params.id);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  );
+
+  bind("onConnected", function () {
+    loading = false;
+  });
+
+  bind("onDisconnected", function (reason: string) {
+    loading = true;
+    console.error(reason);
+  });
+
+  bind("onMemberJoined", async function (data: any) {
+    const user_idx = Number(data.user_id.split("_")[1]);
+    if (
+      channel &&
+      channel.type !== "PRIVATE" &&
+      user_idx === Number($store.user.id)
+    ) {
+      const user = await apiGetUser(user_idx);
+      const message = JSON.stringify({
+        user_idx: user_idx,
+        type: "system",
+        content: `${user.nickname}님이 입장했어요.`,
+      });
+      await sendMessage(data.channel_id, "text", message);
+    }
+  });
+
+  bind("onMemberLeaved", async function (data: any) {
+    const user_idx = Number(data.user_id.split("_")[1]);
+    const user = await apiGetUser(user_idx);
+    const content = `${user.nickname}님이 퇴장했어요.`;
+    const message = JSON.stringify({
+      user_idx: user_idx,
+      type: "system",
+      content: content,
+    });
+    await sendMessage(data.channel_id, "text", message);
+    await apiCreateMessage(data.channel_id, "system", content);
+  });
+
   onDestroy(() => {
     unbindall("onConnected");
     unbindall("onDisconnected");
     unbindall("onMessageReceived");
+    unbindall("onMemberJoined");
+    unbindall("onMemberLeaved");
   });
 </script>
 
@@ -423,8 +439,18 @@
                       chatItem = e.detail.item;
                     }}
                     on:profile={(e) => {
-                      showChatProfileModal = true;
-                      chatItem = e.detail.item;
+                      apiGetProfileAll(e.detail.item.user_idx)
+                        .then((result) => {
+                          if (result.withdraw == 1) {
+                            alert("탈퇴한 사용자에요.");
+                          } else {
+                            showChatProfileModal = true;
+                            chatItem = e.detail.item;
+                          }
+                        })
+                        .catch((result) => {
+                          console.error(result);
+                        });
                     }}
                   />
                 {/if}
@@ -451,6 +477,7 @@
   {activeInput}
   bind:input
   bind:messageInput
+  bind:hiddenInput
   bind:showEmojiArea
   bind:emojiPath
 />

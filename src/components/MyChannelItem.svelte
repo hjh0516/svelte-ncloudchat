@@ -87,6 +87,8 @@
               <div class="cont">
                 {#if item.chat_type === "file"}
                   사진을 보냈습니다.
+                {:else if item.chat_type === "link"}
+                  {item.message.replace(/(<([^>]+)>)/gi, "")}
                 {:else if item.message}
                   {item.message.length >= 50
                     ? item.message.substring(0, 50) + "..."

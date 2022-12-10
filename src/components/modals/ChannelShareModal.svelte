@@ -3,17 +3,49 @@
   import { slide } from "svelte/transition";
   import { getNotificationsContext } from "svelte-notifications";
 
+  export let channel_id: string;
+
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
   const { addNotification, clearNotifications } = getNotificationsContext();
 
-  function handleButtonClick() {
+  function invite() {
+    location.href = `/#/invite/${channel_id}`;
+  }
+
+  function link() {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const url = `${API_URL}/sharelink?type=chat&channel_id=${channel_id}`;
+    if (window.isSecureContext && window.navigator.clipboard) {
+      window.navigator.clipboard.writeText(url);
+    } else {
+      unsecureCopy(url);
+    }
+
     clearNotifications();
     addNotification({
-      text: "준비 중이에요.",
+      text: "채팅방 링크가 복사되었어요.",
       position: "bottom-center",
       removeAfter: 1500,
     });
+
+    close();
+  }
+
+  function unsecureCopy(text: string) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+
+    const chatShare = document.getElementById("chatShare");
+    chatShare.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error(err);
+    }
+    chatShare.removeChild(textArea);
   }
 </script>
 
@@ -28,7 +60,7 @@
       <form>
         <div class="btn_area in_2">
           <div>
-            <div class="cBtn hgt70" on:click={handleButtonClick}>
+            <div class="cBtn hgt70" on:click={invite}>
               <div class="tb">
                 <div class="tbc">
                   <span class="msg">
@@ -38,7 +70,7 @@
                 </div>
               </div>
             </div>
-            <div class="cBtn hgt70" on:click={handleButtonClick}>
+            <div class="cBtn hgt70" on:click={link}>
               <div class="tb">
                 <div class="tbc">
                   <span class="link">

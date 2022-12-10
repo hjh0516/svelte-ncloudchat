@@ -13,21 +13,25 @@
   let isBack = false;
 
   async function download() {
-    const filename = item.image_url.split("/").pop();
+    const image_url = VITE_ARCHIVE_URL + item.image_url;
+    
+    if (isMobile.Android() && window.emoApp) {
+      window.emoApp?.godownload(image_url);
+    }else{
+      const res = await fetch(image_url);
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
 
-    const res = await fetch(item.image_url);
-    const blob = await res.blob();
-    let url = window.URL.createObjectURL(blob);
-
-    let link = document.createElement("a");
-    link.href = url;
-    link.download = "이모만세_" + filename;
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    setTimeout(() => {
-      document.body.removeChild(link);
-    }, 100);
+      let link = document.createElement("a");
+      link.href = url;
+      link.download = `이모만세_${new Date().getTime()}`;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        document.body.removeChild(link);
+      }, 100);
+    }
   }
 
   function back() {

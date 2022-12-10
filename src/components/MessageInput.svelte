@@ -12,6 +12,7 @@
   export let emojiPath: string;
   export let showEmojiArea = false;
   export let messageInput: HTMLElement;
+  export let hiddenInput: HTMLElement;
   export let send = () => {};
   export let uploadImage = (e) => {};
 
@@ -44,6 +45,7 @@
             class="svg"
             accept=".jpg, .jpeg, .gif, .png"
             on:click={() => {
+              hiddenInput.focus();
               messageInput.focus();
             }}
             on:change={(e) => {
@@ -59,9 +61,14 @@
             bind:this={messageInput}
             on:keypress={(e) => {
               if (e.key === "Enter") {
+                hiddenInput.focus();
                 send();
               }
             }}
+          />
+          <input
+            type="hidden"
+            bind:this={hiddenInput}
           />
           <span class="clear">
             <input
@@ -73,9 +80,11 @@
               }}
             />
             <input
-              type="submit"
+              type="search"
               class="svg {inputLen > 0 || showEmojiArea ? 'on' : ''}"
-              on:click={send}
+              on:click={() => {
+                messageInput.dispatchEvent(new KeyboardEvent('keypress',{'key':'Enter'}));
+              }}
             />
           </span>
         </div>

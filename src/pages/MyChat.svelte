@@ -30,8 +30,15 @@
       const index = data.findIndex((x) => x.channel_id === chat.channel_id);
       const content = JSON.parse(chat.message);
       if (index >= 0 && content.type !== "system") {
-        data[index].message =
-          chat.type === "file" ? "사진을 보냈습니다." : content.content;
+        if (chat.type === "file") {
+          data[index].message = "사진을 보냈습니다.";
+        } else {
+          if (content.type === "link") {
+            data[index].message = content.content.replace(/(<([^>]+)>)/gi, "");
+          } else {
+            data[index].message = content.content;
+          }
+        }
         data[index].last_chat_at = chat.created_at;
         data[index].unread_count += 1;
 
