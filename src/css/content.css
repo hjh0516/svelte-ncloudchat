@@ -3309,14 +3309,14 @@ em.ent {
 	background-image: url('../img/ico_emoge_on.svg');
 }
 
-.chat_util2 .ipt_area span input[type="submit"] {
+.chat_util2 .ipt_area span input[type="search"] {
 	margin-left: 5px;
 	width: 24px;
 	height: 24px;
 	background-image: url('../img/ico_submit_off.svg');
 }
 
-.chat_util2 .ipt_area span input[type="submit"].on {
+.chat_util2 .ipt_area span input[type="search"].on {
 	margin-left: 5px;
 	width: 24px;
 	height: 24px;

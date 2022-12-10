@@ -80,11 +80,13 @@
               }}
             />
             <input
-              type="submit"
+              type="search"
               class="svg {inputLen > 0 || showEmojiArea ? 'on' : ''}"
               on:click={() => {
-                hiddenInput.focus();
-                send();
+                messageInput.dispatchEvent(new KeyboardEvent('keypress',{'key':'Enter'}));
+                // hiddenInput.focus();
+                // send();
+                // hiddenInput.focus();
               }}
             />
           </span>
