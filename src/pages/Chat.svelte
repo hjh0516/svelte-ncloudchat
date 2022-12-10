@@ -57,6 +57,7 @@
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
+  let hiddenInput: HTMLElement;
   let user: any;
   let id: string;
   let activeInput = true;
@@ -76,6 +77,7 @@
       sendText();
     }
 
+    hiddenInput.focus();
     messageInput.focus();
   }
 
@@ -476,6 +478,7 @@
   {activeInput}
   bind:input
   bind:messageInput
+  bind:hiddenInput
   bind:showEmojiArea
   bind:emojiPath
 />

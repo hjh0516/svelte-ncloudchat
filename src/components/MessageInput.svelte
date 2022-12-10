@@ -62,8 +62,6 @@
             on:keypress={(e) => {
               if (e.key === "Enter") {
                 send();
-                hiddenInput.focus();
-                messageInput.focus();
               }
             }}
           />
