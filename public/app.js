@@ -73,7 +73,6 @@ function goback() {
   ) {
     if (isMobile.Android() && window.emoApp) {
       window.emoApp?.goMain();
-      // location.href = "gomain://";
     }
     return;
   }
