@@ -76,6 +76,9 @@
               value="이모티콘"
               class="svg"
               on:click={() => {
+                apiGetEmoticonAvailables().then((res) => {
+                  emojis = res.data;
+                });
                 showEmojiArea = !showEmojiArea;
               }}
             />
