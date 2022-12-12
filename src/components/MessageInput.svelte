@@ -73,6 +73,9 @@
               value="이모티콘"
               class="emoji {showEmojiArea ? 'on' : ''}"
               on:click={() => {
+                apiGetEmoticonAvailables().then((res) => {
+                  emojis = res.data;
+                });
                 showEmojiArea = !showEmojiArea;
               }}
             />
