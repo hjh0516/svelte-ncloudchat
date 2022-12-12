@@ -66,24 +66,23 @@
               }
             }}
           />
-          <input
-            type="hidden"
-            bind:this={hiddenInput}
-          />
+          <input type="hidden" bind:this={hiddenInput} />
           <span class="clear">
             <input
               type="button"
               value="이모티콘"
-              class="svg"
+              class="emoji {showEmojiArea ? 'on' : ''}"
               on:click={() => {
                 showEmojiArea = !showEmojiArea;
               }}
             />
             <input
-              type="search"
-              class="svg {inputLen > 0 || showEmojiArea ? 'on' : ''}"
+              type="button"
+              class="submit {inputLen > 0 || showEmojiArea ? 'on' : ''}"
               on:click={() => {
-                messageInput.dispatchEvent(new KeyboardEvent('keypress',{'key':'Enter'}));
+                messageInput.dispatchEvent(
+                  new KeyboardEvent("keypress", { key: "Enter" })
+                );
               }}
             />
           </span>

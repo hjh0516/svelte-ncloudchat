@@ -85,6 +85,7 @@
     input = "";
     emojiPath = "";
 
+    loading = true;
     const res = await fetch(inputEmoji);
     const blob = await res.blob();
     const file = new File([blob], "emoji", { type: blob.type });
@@ -94,6 +95,7 @@
     } catch (err) {
       console.error(err);
     }
+    loading = false;
   }
 
   async function sendText() {
@@ -117,11 +119,14 @@
   async function uploadImage(e) {
     const image = e.target.files[0] as File;
     input = "";
+
+    loading = true;
     try {
       await sendImage(params.id, image);
     } catch (err) {
       console.error(err);
     }
+    loading = false;
   }
 
   async function loadMessages() {
@@ -325,7 +330,6 @@
             content.type,
             content.content
           );
-          console.info(response);
 
           try {
             if (response) {

@@ -30,10 +30,7 @@
         class="chat_img h-[125px] mt-3 flex justify-center items-center"
         on:click={() => open(item)}
       >
-        <ChatImageItem
-          src={VITE_ARCHIVE_URL + item.image_url}
-          className={"rounded-2xl"}
-        />
+        <ChatImageItem src={VITE_ARCHIVE_URL + item.image_url} />
       </div>
     {/if}
     {#if item.show_date}

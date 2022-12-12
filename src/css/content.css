@@ -2869,8 +2869,8 @@ em.ent {
 
 .r_leader2 .c_avata::before {
 	content: '';
-	display: none;
-	/* display:block */
+	/* display: none; */
+	display: block;
 	clear: both;
 	width: 12.5px;
 	height: 11.5px;
@@ -2887,8 +2887,8 @@ em.ent {
 
 .r_leader3 .c_avata::before {
 	content: '';
-	display: none;
-	/* display:block */
+	/* display: none; */
+	display: block;
 	clear: both;
 	width: 25px;
 	height: 24px;
@@ -2949,8 +2949,8 @@ em.ent {
 }
 
 .cBtn2 {
-	display: none;
-	/* display: inline-block; */
+	/* display: none; */
+	display: inline-block;
 	width: 100%;
 	max-width: 160px;
 	height: 45px;
@@ -2977,8 +2977,8 @@ em.ent {
 }
 
 .cBtn3 {
-	display: none;
-	/* display: inline-block; */
+	/* display: none; */
+	display: inline-block;
 	padding: 0 5px;
 	box-sizing: border-box;
 	height: 22px;
@@ -3300,24 +3300,24 @@ em.ent {
 	padding: 0;
 }
 
-.chat_util2 .ipt_area span input[type="button"] {
+.chat_util2 .ipt_area span .emoji {
 	width: 22px;
 	height: 22px;
 	background-image: url('../img/ico_emoge_off.svg');
 }
 
-.chat_util2 .ipt_area span input[type="button"].on {
+.chat_util2 .ipt_area span .emoji.on {
 	background-image: url('../img/ico_emoge_on.svg');
 }
 
-.chat_util2 .ipt_area span input[type="search"] {
+.chat_util2 .ipt_area span .submit {
 	margin-left: 5px;
 	width: 24px;
 	height: 24px;
 	background-image: url('../img/ico_submit_off.svg');
 }
 
-.chat_util2 .ipt_area span input[type="search"].on {
+.chat_util2 .ipt_area span .submit.on {
 	margin-left: 5px;
 	width: 24px;
 	height: 24px;
@@ -4497,8 +4497,8 @@ em.ent {
 }
 
 .chat_setting .setting_list .chat_list2 .a_state {
-	display: none;
-	/* display: block; */
+	/* display: none; */
+	display: block;
 	position: absolute;
 	right: 15px;
 	top: 50%;

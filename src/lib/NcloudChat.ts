@@ -2,7 +2,7 @@ import { ChannelType } from "ncloudchat/esm/Type";
 import { v4 as uuidv4 } from "uuid";
 import { Chat } from "ncloudchat";
 
-export const nc = new Chat(true);
+export const nc = new Chat();
 
 export function initialize() {
   nc.initialize(import.meta.env.VITE_PROJECT_ID);

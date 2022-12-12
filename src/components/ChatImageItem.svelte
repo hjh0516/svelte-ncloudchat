@@ -3,7 +3,6 @@
   import { onMount } from "svelte";
 
   export let src: string;
-  export let className: string;
 
   let loading = false;
   let failed = false;
@@ -26,7 +25,7 @@
 </script>
 
 {#if loading}
-  <div class="w-12 h-12">
+  <div class="w-12 h-12 mr-5 ml-5">
     <Spinner />
   </div>
 {:else if failed}
@@ -40,7 +39,7 @@
   <img
     {src}
     alt="image_url"
-    class={className}
+    class="rounded-2xl"
     style="height: -webkit-fill-available"
   />
 {/if}
