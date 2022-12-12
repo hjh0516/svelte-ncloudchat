@@ -70,6 +70,9 @@
     const params = new URLSearchParams($querystring);
     if (params.has("channel_id")) {
       $store.activeItem = "오픈 채팅";
+    } else if (params.has("openchat")) {
+      showCreateChannelModal = true;
+      location.replace("/#/home");
     }
 
     $store.channel = null;

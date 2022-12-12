@@ -67,6 +67,8 @@
         params.get("openchat") === "true"
       ) {
         await goOpenChat(params.get("channel_id"));
+      } else if (params.has("openchat") && params.get("openchat") === "true") {
+        await createOpenChat();
       } else {
         location.href = "/#/home";
         gohome();
@@ -131,19 +133,23 @@
       return;
     }
 
-    channel = await apiGetChannel(channel_id);
-    const find = channel.subscriptions.findIndex(
-      (x) => x.user_idx === Number($store.user.id)
-    );
+    // channel = await apiGetChannel(channel_id);
+    // const find = channel.subscriptions.findIndex(
+    //   (x) => x.user_idx === Number($store.user.id)
+    // );
 
-    if (find !== -1) {
-      location.href = `/#/chat/${channel_id}`;
-      return;
-    }
+    // if (find !== -1) {
+    //   location.replace(`/#/chat/${channel_id}`);
+    //   return;
+    // }
 
     $store.activeItem = "오픈 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
-    location.href = `/#/home?channel_id=${channel_id}`;
+    location.replace(`/#/home?channel_id=${channel_id}`);
+  }
+
+  async function createOpenChat() {
+    location.replace("/#/home?openchat=true");
   }
 </script>
 

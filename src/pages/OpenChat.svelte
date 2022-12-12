@@ -20,7 +20,6 @@
   let item = null;
   let loading = false;
   let showSubscriptionModal = false;
-  let params = null;
 
   $: {
     if (showSettingModal) {
@@ -66,7 +65,7 @@
     $store.activeItem = "오픈 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
 
-    params = new URLSearchParams($querystring);
+    const params = new URLSearchParams($querystring);
     if (params.has("channel_id")) {
       item = await apiGetChannel(params.get("channel_id"));
       showSubscriptionModal = true;

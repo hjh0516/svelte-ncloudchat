@@ -67,7 +67,7 @@
 
     loading = true;
     try {
-      checked.forEach(async (user_idx) => {
+      checked.forEach(async (user_idx: number) => {
         let channel_id: string;
         let channel = await apiGetPrivateChannel(user_idx);
         const sharedChannel = await apiGetChannel(params.id);

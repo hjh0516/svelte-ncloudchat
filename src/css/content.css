@@ -3010,7 +3010,7 @@ em.ent {
 }
 
 #btnShare {
-	display: none;
+	/* display: none; */
 	background-image: url('../img/ico_share.svg');
 	background-size: 19px 20.5px;
 }
@@ -4822,6 +4822,7 @@ em.ent {
 }
 
 #imgDetail .btn_save {
+	/* display: none; */
 	display: block;
 	width: 58px;
 	height: 61px;
