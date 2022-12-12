@@ -22,7 +22,9 @@
 
 <div class="receive">
   <dl
-    class={$store.channel && $store.channel.user_idx === item.user_idx
+    class={$store.channel &&
+    $store.channel.type !== "PRIVATE" &&
+    $store.channel.user_idx === item.user_idx
       ? "r_leader2"
       : ""}
   >

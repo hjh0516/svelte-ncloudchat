@@ -95,7 +95,9 @@
       <div class="tbc">
         <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
         <div
-          class="c_wrap {channel && item.user_idx === channel.user_idx
+          class="c_wrap {channel &&
+          channel.type !== 'PRIVATE' &&
+          item.user_idx === channel.user_idx
             ? 'r_leader3'
             : ''}"
         >
@@ -113,53 +115,55 @@
             <em class="aggro">{item.nickname}</em>
           </div>
         </div>
-        {#if channel.user_idx === Number($store.user.id)}
-          <div class="btn_area in_2">
-            {#if isBan}
+        {#if channel.type !== "PRIVATE"}
+          {#if channel.user_idx === Number($store.user.id)}
+            <div class="btn_area in_2">
+              {#if isBan}
+                <div
+                  id="blockPause"
+                  class="cBtn2 lined aggro"
+                  on:click={() => unban(item.user_idx)}
+                >
+                  <span>차단해제</span>
+                </div>
+              {:else}
+                <div
+                  id="btnBlock"
+                  class="cBtn2 aggro"
+                  on:click={() => ban(item.user_idx)}
+                >
+                  <span>차단하기</span>
+                </div>
+              {/if}
               <div
                 id="blockPause"
-                class="cBtn2 lined aggro"
-                on:click={() => unban(item.user_idx)}
+                class="cBtn2 gr aggro"
+                on:click={() => forcedExit(item.user_idx)}
               >
-                <span>차단해제</span>
+                <span>내보내기</span>
               </div>
-            {:else}
-              <div
-                id="btnBlock"
-                class="cBtn2 aggro"
-                on:click={() => ban(item.user_idx)}
-              >
-                <span>차단하기</span>
-              </div>
-            {/if}
-            <div
-              id="blockPause"
-              class="cBtn2 gr aggro"
-              on:click={() => forcedExit(item.user_idx)}
-            >
-              <span>내보내기</span>
             </div>
-          </div>
-        {:else if channel.user_idx !== item.user_idx}
-          <div class="btn_area">
-            {#if isBan}
-              <div
-                id="blockPause"
-                class="cBtn2 lined aggro"
-                on:click={() => unban(item.user_idx)}
-              >
-                <span>차단해제</span>
-              </div>
-            {:else}
-              <div
-                id="btnBlock"
-                class="cBtn2 aggro"
-                on:click={() => ban(item.user_idx)}
-              >
-                <span>차단하기</span>
-              </div>
-            {/if}
-          </div>
+          {:else if channel.user_idx !== item.user_idx}
+            <div class="btn_area">
+              {#if isBan}
+                <div
+                  id="blockPause"
+                  class="cBtn2 lined aggro"
+                  on:click={() => unban(item.user_idx)}
+                >
+                  <span>차단해제</span>
+                </div>
+              {:else}
+                <div
+                  id="btnBlock"
+                  class="cBtn2 aggro"
+                  on:click={() => ban(item.user_idx)}
+                >
+                  <span>차단하기</span>
+                </div>
+              {/if}
+            </div>
+          {/if}
         {/if}
       </div>
     </div>

@@ -144,7 +144,7 @@
                 <div class="top">
                   <h4>대화상대</h4>
                   {#if channel}
-                    {#if channel.user_idx === Number($store.user.id)}
+                    {#if channel.type !== "PRIVATE" && channel.user_idx === Number($store.user.id)}
                       <a
                         class="cBtn3"
                         on:click={() => {
@@ -164,6 +164,7 @@
                     <li>
                       <div
                         class="box my_info {channel &&
+                        channel.type !== 'PRIVATE' &&
                         channel.user_idx === Number($store.user.id)
                           ? 'r_leader2'
                           : ''}"
