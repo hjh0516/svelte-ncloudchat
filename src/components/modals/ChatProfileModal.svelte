@@ -95,7 +95,7 @@
       <div class="tbc">
         <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
         <div
-          class="c_wrap {channel &&
+          class="c_wrap -translate-x-1/2 -translate-y-1/2 {channel &&
           channel.type !== 'PRIVATE' &&
           item.user_idx === channel.user_idx
             ? 'r_leader3'

@@ -2893,8 +2893,8 @@ em.ent {
 	width: 25px;
 	height: 24px;
 	position: absolute;
-	right: 40%;
-	/* top: 0; */
+	right: 1px;
+	top: 0;
 	background-image: url('../img/ico_star1.svg');
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
@@ -4260,9 +4260,9 @@ em.ent {
 }
 
 .profile_pop .c_wrap {
-	width: 100%;
+	/* width: 100%; */
 	position: absolute;
-	left: 0;
+	left: 50%;
 	top: 50%;
 	text-align: center;
 	font-size: 0;
@@ -4759,7 +4759,7 @@ em.ent {
 }
 
 #userInfo2 .c_wrap {
-	position: static;
+	/* position: static; */
 }
 
 #userInfo2 .btn_area {
