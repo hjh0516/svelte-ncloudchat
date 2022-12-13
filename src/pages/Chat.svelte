@@ -311,14 +311,17 @@
 
       if (params.id === channel_id) {
         if (data.length === 0) {
-          data.push({
-            idx: 0,
-            user_idx: 0,
-            channel_idx: 0,
-            type: "date",
-            message: convertChatDate(chat.created_at),
-            created_at: "",
-          });
+          data = [
+            ...data,
+            {
+              idx: 0,
+              user_idx: 0,
+              channel_idx: 0,
+              type: "date",
+              message: convertChatDate(chat.created_at),
+              created_at: "",
+            },
+          ];
         }
         data = [chat, ...data];
       }

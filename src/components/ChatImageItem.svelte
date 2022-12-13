@@ -9,7 +9,6 @@
 
   onMount(() => {
     const img = new Image();
-    img.src = src;
     loading = true;
 
     img.onload = () => {
@@ -21,6 +20,8 @@
       loading = false;
       failed = true;
     };
+
+    img.src = src;
   });
 </script>
 
@@ -38,8 +39,9 @@
 {:else}
   <img
     {src}
-    alt="image_url"
+    alt="sended_image"
     class="rounded-2xl"
     style="height: -webkit-fill-available"
+    loading="lazy"
   />
 {/if}
