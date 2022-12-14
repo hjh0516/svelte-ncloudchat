@@ -14,7 +14,6 @@
   export let messageInput: HTMLElement;
   export let hiddenInput: HTMLElement;
   export let send = () => {};
-  export let uploadImage = (e) => {};
 
   let emojis: Emoji[];
 

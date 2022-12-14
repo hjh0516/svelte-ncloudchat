@@ -26,7 +26,7 @@
   transition:slide={{ delay: 100, duration: 300 }}
 >
   <div class="pop_inner">
-    <div class="pop_cont">
+    <div class="pop_cont" style="margin-top: 0;">
       <form>
         <div class="ipt_area2">
           <ul>
