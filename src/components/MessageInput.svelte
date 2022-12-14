@@ -66,6 +66,7 @@
               on:click={async () => {
                 const res = await apiGetEmoticonAvailables();
                 emojis = res.data;
+                contentPath = "";
                 showContentArea = false;
                 showEmojiArea = !showEmojiArea;
               }}

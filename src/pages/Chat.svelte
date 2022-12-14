@@ -556,6 +556,7 @@
     bind:contents
     bind:showContentArea
     bind:showEmojiArea
+    bind:emojiPath
     on:close={() => (showSendImageModal = false)}
   />
 {/if}

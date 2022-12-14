@@ -9,6 +9,7 @@
   export let showContentArea = false;
   export let contents: Content[];
   export let showEmojiArea = false;
+  export let emojiPath: string;
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
@@ -31,6 +32,7 @@
                   close();
                   const res = await apiGetContents(1);
                   contents = res.data;
+                  emojiPath = "";
                   showEmojiArea = false;
                   showContentArea = !showContentArea;
                 }}
