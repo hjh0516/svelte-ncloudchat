@@ -3,7 +3,6 @@
 
   import EmojiArea from "./EmojiArea.svelte";
   import { apiGetEmoticonAvailables } from "$lib/api";
-  import { onMount } from "svelte";
 
   export let input = "";
   $: inputLen = input.length;
@@ -11,6 +10,7 @@
   export let activeInput = true;
   export let emojiPath: string;
   export let showEmojiArea = false;
+  export let showSendImageModal = false;
   export let messageInput: HTMLElement;
   export let hiddenInput: HTMLElement;
   export let send = () => {};
@@ -23,15 +23,6 @@
       input.disabled = true;
     });
   }
-
-  onMount(async () => {
-    try {
-      const res = await apiGetEmoticonAvailables();
-      emojis = res.data;
-    } catch (err) {
-      console.error(err);
-    }
-  });
 </script>
 
 <div class="chat_util2">
@@ -40,18 +31,9 @@
       <div class="req_wrap">
         <div class="more">
           <input
-            id="upload_image"
-            type="file"
+            type="button"
             class="svg"
-            accept=".jpg, .jpeg, .gif, .png"
-            on:click={() => {
-              hiddenInput.focus();
-              messageInput.focus();
-            }}
-            on:change={(e) => {
-              messageInput.blur();
-              uploadImage(e);
-            }}
+            on:click={() => (showSendImageModal = true)}
           />
         </div>
         <div class="ipt_area">
@@ -72,10 +54,9 @@
               type="button"
               value="이모티콘"
               class="emoji {showEmojiArea ? 'on' : ''}"
-              on:click={() => {
-                apiGetEmoticonAvailables().then((res) => {
-                  emojis = res.data;
-                });
+              on:click={async () => {
+                const res = await apiGetEmoticonAvailables();
+                emojis = res.data;
                 showEmojiArea = !showEmojiArea;
               }}
             />

@@ -3259,7 +3259,7 @@ em.ent {
 	top: 0;
 }
 
-.chat_util2 .more input[type="file"] {
+.chat_util2 .more input[type="button"] {
 	width: 40px;
 	height: 40px;
 	background-image: url('../img/ico_more2.svg');

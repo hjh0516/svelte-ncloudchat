@@ -6,11 +6,12 @@
   import ChatSendItem from "$components/ChatSendItem.svelte";
   import ChatReceiveItem from "$components/ChatReceiveItem.svelte";
   import ChatDateItem from "$components/ChatDateItem.svelte";
+  import ChatSystemItem from "$components/ChatSystemItem.svelte";
   import MessageInput from "$components/MessageInput.svelte";
   import ChatSettingModal from "$components/modals/ChatSettingModal.svelte";
   import ChatProfileModal from "$components/modals/ChatProfileModal.svelte";
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
-  import ChatSystemItem from "$components/ChatSystemItem.svelte";
+  import SendImageModal from "$components/modals/SendImageModal.svelte";
   import Spinner from "$components/Spinner.svelte";
   import { onMount, onDestroy } from "svelte";
   import { querystring } from "svelte-spa-router";
@@ -53,6 +54,7 @@
   let showImageDownloadModal = false;
   let showChatProfileModal = false;
   let showEmojiArea = false;
+  let showSendImageModal = false;
   let chatItem = null;
   let bans = [];
   let refresh = false;
@@ -486,6 +488,7 @@
   bind:messageInput
   bind:hiddenInput
   bind:showEmojiArea
+  bind:showSendImageModal
   bind:emojiPath
 />
 
@@ -511,6 +514,10 @@
     bind:refresh
     on:close={closeChatProfileModal}
   />
+{/if}
+
+{#if showSendImageModal}
+  <SendImageModal {uploadImage} on:close={() => (showSendImageModal = false)} />
 {/if}
 
 {#if loading}
