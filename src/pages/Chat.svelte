@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Channel, Chat, Message } from "$lib/types/type";
+  import type { Channel, Chat, Content, Message } from "$lib/types/type";
 
   import ChatHeader from "$components/ChatHeader.svelte";
   import InfiniteScroll from "$components/InfiniteScroll.svelte";
@@ -45,7 +45,6 @@
 
   let channel: Channel;
   let input: string;
-  let emojiPath: string;
   let page = 1;
   let data: Chat[] = [];
   let newData: Chat[] = [];
@@ -55,6 +54,10 @@
   let showChatProfileModal = false;
   let showEmojiArea = false;
   let showSendImageModal = false;
+  let showContentArea = false;
+  let emojiPath: string;
+  let contentPath: string;
+  let contents: Content[];
   let chatItem = null;
   let bans = [];
   let refresh = false;
@@ -70,10 +73,14 @@
   function send() {
     let message = "";
     showEmojiArea = false;
+    showContentArea = false;
 
     if (emojiPath) {
       message = "사진을 보냈습니다.";
       sendEmoji();
+    } else if (contentPath) {
+      message = "사진을 보냈습니다.";
+      sendContent();
     } else if (input) {
       message = input;
       sendText();
@@ -88,11 +95,27 @@
     emojiPath = "";
 
     loading = true;
-    const res = await fetch(inputEmoji);
-    const blob = await res.blob();
-    const file = new File([blob], "emoji", { type: blob.type });
-
     try {
+      const res = await fetch(inputEmoji);
+      const blob = await res.blob();
+      const file = new File([blob], "emoji", { type: blob.type });
+      await sendImage(params.id, file);
+    } catch (err) {
+      console.error(err);
+    }
+    loading = false;
+  }
+
+  async function sendContent() {
+    const inputContent = contentPath;
+    input = "";
+    contentPath = "";
+
+    loading = true;
+    try {
+      const res = await fetch(inputContent);
+      const blob = await res.blob();
+      const file = new File([blob], "content", { type: blob.type });
       await sendImage(params.id, file);
     } catch (err) {
       console.error(err);
@@ -409,7 +432,16 @@
 >
   <div class="section">
     <div class="size">
-      <div class="inner">
+      <div
+        class="inner"
+        style={showEmojiArea || showContentArea ? "padding-bottom: 290px;" : ""}
+        on:click={() => {
+          emojiPath = "";
+          contentPath = "";
+          showEmojiArea = false;
+          showContentArea = false;
+        }}
+      >
         <div
           class="chat_area w-full flex flex-col-reverse scrollbar-hide"
           bind:this={element}
@@ -482,14 +514,16 @@
 </div>
 <MessageInput
   {send}
-  {uploadImage}
   {activeInput}
+  {contents}
   bind:input
   bind:messageInput
   bind:hiddenInput
   bind:showEmojiArea
   bind:showSendImageModal
+  bind:showContentArea
   bind:emojiPath
+  bind:contentPath
 />
 
 {#if showSettingModal}
@@ -517,7 +551,13 @@
 {/if}
 
 {#if showSendImageModal}
-  <SendImageModal {uploadImage} on:close={() => (showSendImageModal = false)} />
+  <SendImageModal
+    {uploadImage}
+    bind:contents
+    bind:showContentArea
+    bind:showEmojiArea
+    on:close={() => (showSendImageModal = false)}
+  />
 {/if}
 
 {#if loading}

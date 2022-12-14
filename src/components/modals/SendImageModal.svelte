@@ -1,22 +1,17 @@
 <script lang="ts">
+  import type { Content } from "$lib/types/type";
+
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import { getNotificationsContext } from "svelte-notifications";
+  import { apiGetContents } from "$lib/api";
 
   export let uploadImage = (e) => {};
-  const { addNotification, clearNotifications } = getNotificationsContext();
+  export let showContentArea = false;
+  export let contents: Content[];
+  export let showEmojiArea = false;
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
-
-  function handleButtonClick() {
-    clearNotifications();
-    addNotification({
-      text: "준비 중이에요.",
-      position: "bottom-center",
-      removeAfter: 1500,
-    });
-  }
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={close} />
@@ -31,7 +26,17 @@
         <div class="ipt_area2">
           <ul>
             <li>
-              <div on:click={handleButtonClick}>내 컨텐츠에서 선택하기</div>
+              <div
+                on:click={async () => {
+                  close();
+                  const res = await apiGetContents(1);
+                  contents = res.data;
+                  showEmojiArea = false;
+                  showContentArea = !showContentArea;
+                }}
+              >
+                내 컨텐츠에서 선택하기
+              </div>
             </li>
             <li>
               <label for="camera">

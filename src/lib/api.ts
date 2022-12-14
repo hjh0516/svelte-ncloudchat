@@ -395,6 +395,14 @@ export async function apiGetFollows(
   return await handleResponse(response);
 }
 
+export async function apiGetContents(page: number) {
+  const response = await fetch(`${API_URL}/chats/contents?page=${page}`, {
+    method: "GET",
+    headers: setHeader(),
+  });
+  return await handleResponse(response);
+}
+
 function setHeader() {
   return {
     Authorization: `Bearer ${get(store).token.trim()}`,

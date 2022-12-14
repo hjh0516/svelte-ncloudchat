@@ -127,3 +127,10 @@ export interface Message {
     url?: string;
   };
 }
+
+export interface Content {
+  idx: number;
+  content_idx: number;
+  origin_path: string;
+  path: string;
+}

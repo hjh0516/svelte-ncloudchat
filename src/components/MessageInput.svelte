@@ -1,15 +1,19 @@
 <script lang="ts">
-  import type { Emoji } from "$lib/types/type";
+  import type { Content, Emoji } from "$lib/types/type";
 
   import EmojiArea from "./EmojiArea.svelte";
+  import ContentArea from "./ContentArea.svelte";
   import { apiGetEmoticonAvailables } from "$lib/api";
 
   export let input = "";
   $: inputLen = input.length;
 
   export let activeInput = true;
-  export let emojiPath: string;
   export let showEmojiArea = false;
+  export let emojiPath: string;
+  export let showContentArea = false;
+  export let contents: Content[];
+  export let contentPath: string;
   export let showSendImageModal = false;
   export let messageInput: HTMLElement;
   export let hiddenInput: HTMLElement;
@@ -40,6 +44,12 @@
             type="text"
             bind:value={input}
             bind:this={messageInput}
+            on:focus={() => {
+              emojiPath = "";
+              contentPath = "";
+              showEmojiArea = false;
+              showContentArea = false;
+            }}
             on:keypress={(e) => {
               if (e.key === "Enter") {
                 hiddenInput.focus();
@@ -56,12 +66,15 @@
               on:click={async () => {
                 const res = await apiGetEmoticonAvailables();
                 emojis = res.data;
+                showContentArea = false;
                 showEmojiArea = !showEmojiArea;
               }}
             />
             <input
               type="button"
-              class="submit {inputLen > 0 || showEmojiArea ? 'on' : ''}"
+              class="submit {inputLen > 0 || showEmojiArea || showContentArea
+                ? 'on'
+                : ''}"
               on:click={() => {
                 messageInput.dispatchEvent(
                   new KeyboardEvent("keypress", { key: "Enter" })
@@ -74,6 +87,9 @@
     </div>
     {#if showEmojiArea}
       <EmojiArea {emojis} bind:emojiPath />
+    {/if}
+    {#if showContentArea}
+      <ContentArea {contents} bind:contentPath />
     {/if}
   </div>
 </div>

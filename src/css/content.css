@@ -3373,7 +3373,7 @@ em.ent {
 
 .chat_util2 .emoge_list ul li {
 	float: left;
-	/* width: 20%; */
+	width: 20%;
 }
 
 .chat_util2 .emoge_list ul li img {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Emoji } from "$lib/types/type";
+  import { onMount } from "svelte";
 
   import { slide } from "svelte/transition";
 
@@ -18,11 +19,18 @@
     item = i;
     emojiPath = emojis[index].files[item].path;
   }
+
+  onMount(() => {
+    if (emojis.length > 0) {
+      selectEmojiList(0);
+      selectEmoji(0);
+    }
+  });
 </script>
 
 <div class="emoge_area" transition:slide={{ delay: 100, duration: 300 }}>
   <div class="emoge_case">
-    <ul class="scroll scrollbar-hide">
+    <ul class="scroll">
       {#if emojis.length > 0}
         {#each emojis as emoji, i}
           <li on:click={() => selectEmojiList(i)}>
@@ -40,7 +48,7 @@
     </div>
   </div>
   <div class="emoge_list">
-    <ul class="scroll clear scrollbar-hide">
+    <ul class="scroll clear">
       {#if emojis.length > 0}
         {#each emojis[index].files as file, i}
           <li on:click={() => selectEmoji(i)}>
