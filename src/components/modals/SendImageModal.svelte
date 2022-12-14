@@ -13,6 +13,12 @@
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
+
+  function reset() {
+    emojiPath = "";
+    showEmojiArea = false;
+    showContentArea = false;
+  }
 </script>
 
 <div class="c_mbg block" style="z-index: 150;" on:click={close} />
@@ -51,6 +57,7 @@
                   on:change={(e) => {
                     uploadImage(e);
                     close();
+                    reset();
                   }}
                 />
                 <div>지금 사진 찍어서 등록하기</div>
@@ -66,6 +73,7 @@
                   on:change={(e) => {
                     uploadImage(e);
                     close();
+                    reset();
                   }}
                 />
                 <div>사진첩 사진으로 등록하기</div>
