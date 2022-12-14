@@ -92,6 +92,7 @@
     }
 
     if (channel) {
+      location.replace("/#/home");
       location.href = `/#/chat/${channel.channel_id}`;
       godetail();
       return;
@@ -123,6 +124,7 @@
     }
 
     if (privateChannel) {
+      location.replace("/#/home");
       location.href = `/#/chat/${privateChannel.id}`;
       godetail();
     }
@@ -132,16 +134,6 @@
     if (!channel_id) {
       return;
     }
-
-    // channel = await apiGetChannel(channel_id);
-    // const find = channel.subscriptions.findIndex(
-    //   (x) => x.user_idx === Number($store.user.id)
-    // );
-
-    // if (find !== -1) {
-    //   location.replace(`/#/chat/${channel_id}`);
-    //   return;
-    // }
 
     $store.activeItem = "오픈 채팅";
     window.sessionStorage.setItem("store", JSON.stringify($store));
