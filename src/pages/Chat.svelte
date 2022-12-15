@@ -159,10 +159,10 @@
       await login();
 
       const res = await apiGetMessages(params.id, page);
-      newData = res.data;
+      newData = res.data.sort().reverse();
 
       if (newData.length > 0 && !res.next_page_url) {
-        newData.push({
+        newData.unshift({
           idx: 0,
           user_idx: 0,
           channel_idx: newData[newData.length - 1].channel_idx,
@@ -172,7 +172,10 @@
         });
       }
 
-      data = [...data, ...newData];
+      data = [...newData, ...data];
+      setTimeout(() => {
+        element.scrollTop = element.scrollHeight;
+      }, 100);
     } catch (err) {
       console.error(err);
     }
@@ -291,7 +294,6 @@
   bind(
     "onMessageReceived",
     async function (channel_id: string, message: Message) {
-      element.scrollTop = 0;
 
       const sender_user_idx = Number(message.sender.id.split("_")[1]);
       const content =
@@ -348,7 +350,7 @@
             },
           ];
         }
-        data = [chat, ...data];
+        data = [...data, chat];
       }
 
       try {
@@ -373,6 +375,7 @@
       } catch (err) {
         console.error(err);
       }
+      element.scrollTop = element.scrollHeight;
     }
   );
 
@@ -443,10 +446,10 @@
         }}
       >
         <div
-          class="chat_area w-full flex flex-col-reverse scrollbar-hide"
+          class="chat_area w-full scrollbar-hide"
           bind:this={element}
         >
-          <div class="chat_info flex flex-col-reverse">
+          <div class="chat_info">
             {#await loadMessages()}
               <div
                 class="fixed top-0 left-0 w-full h-full bg-gray-400 bg-opacity-10"
@@ -499,7 +502,6 @@
             {/await}
           </div>
           <InfiniteScroll
-            reverse
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
