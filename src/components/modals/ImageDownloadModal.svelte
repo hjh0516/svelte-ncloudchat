@@ -16,7 +16,7 @@
     const image_url = VITE_ARCHIVE_URL + item.image_url;
     
     if (isMobile.Android() && window.emoApp) {
-      window.emoApp?.godownload(image_url);
+      window.emoApp?.godownload();
     }else{
       const res = await fetch(image_url);
       const blob = await res.blob();
