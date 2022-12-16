@@ -375,7 +375,9 @@
           console.error(err);
         }
 
-        element.scrollTop = element.scrollHeight;
+        setTimeout(() => {
+          element.scrollTop = element.scrollHeight;
+        }, 100);
       }
     );
 

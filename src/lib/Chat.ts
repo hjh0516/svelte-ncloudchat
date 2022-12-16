@@ -41,9 +41,9 @@ export function updateChatItems(data: Chat[]) {
       previous.user_idx === item.user_idx &&
       convertSendAt(previous.created_at) === convertSendAt(item.created_at)
     ) {
-      previous.show_profile = false;
-      previous.show_nickname = false;
-      item.show_date = false;
+      item.show_profile = false;
+      item.show_nickname = false;
+      previous.show_date = false;
     }
 
     result.push(item);
