@@ -32,8 +32,7 @@
     let offset = 0;
 
     if (reverse) {
-      offset =
-        e.target.scrollHeight - e.target.clientHeight + e.target.scrollTop;
+      offset = e.target.scrollTop;
     } else {
       offset =
         e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop;
@@ -45,7 +44,6 @@
         beforeScrollHeight = e.target.scrollHeight;
         beforeScrollTop = e.target.scrollTop;
       }
-
       isLoadMore = true;
     } else {
       isLoadMore = false;

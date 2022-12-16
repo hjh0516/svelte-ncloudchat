@@ -173,9 +173,6 @@
       }
 
       data = [...newData, ...data];
-      setTimeout(() => {
-        element.scrollTop = element.scrollHeight;
-      }, 100);
     } catch (err) {
       console.error(err);
     }
@@ -288,134 +285,136 @@
     } catch (err) {
       console.error(err);
     }
+
+    element.scrollTop = element.scrollHeight;
     loading = false;
-  });
 
-  bind(
-    "onMessageReceived",
-    async function (channel_id: string, message: Message) {
+    bind(
+      "onMessageReceived",
+      async function (channel_id: string, message: Message) {
+        const sender_user_idx = Number(message.sender.id.split("_")[1]);
+        const content =
+          message.message_type === "text"
+            ? JSON.parse(message.content)
+            : {
+                user_idx: sender_user_idx,
+                type: "file",
+                content: message.attachment_filenames.url,
+              };
 
-      const sender_user_idx = Number(message.sender.id.split("_")[1]);
-      const content =
-        message.message_type === "text"
-          ? JSON.parse(message.content)
-          : {
-              user_idx: sender_user_idx,
-              type: "file",
-              content: message.attachment_filenames.url,
-            };
-
-      if (params.id === channel_id) {
-        if (content.type === "system") {
-          if (content.target === $store.user.id) {
-            history.back();
-          } else if (channel && channel.type === "PRIVATE") {
-            showToast("대화상대가 없어요.");
-            activeInput = false;
-          } else if (channel && channel.user_idx === content.user_idx) {
-            showToast(
-              "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
-            );
-            activeInput = false;
-          }
-        }
-      }
-
-      const banUsers = bans.map((x) => x.target);
-      if (banUsers.includes(sender_user_idx)) {
-        return;
-      }
-
-      const chat = {
-        user_idx: content.user_idx,
-        nickname: message.sender.name,
-        profile: message.sender.profile,
-        type: content.type,
-        message: message.message_type === "text" ? content.content : null,
-        image_url: message.message_type === "file" ? content.content : null,
-        created_at: message.created_at,
-      };
-
-      if (params.id === channel_id) {
-        if (data.length === 0) {
-          data = [
-            ...data,
-            {
-              idx: 0,
-              user_idx: 0,
-              channel_idx: 0,
-              type: "date",
-              message: convertChatDate(chat.created_at),
-              created_at: "",
-            },
-          ];
-        }
-        data = [...data, chat];
-      }
-
-      try {
-        if (params.id === channel_id && $store.user.id === content.user_idx) {
-          let response = await apiCreateMessage(
-            params.id,
-            content.type,
-            content.content
-          );
-
-          try {
-            if (response) {
-              setTimeout(function () {
-                apiSendChatPush(response.idx);
-              }, 1000);
+        if (params.id === channel_id) {
+          if (content.type === "system") {
+            if (content.target === $store.user.id) {
+              history.back();
+            } else if (channel && channel.type === "PRIVATE") {
+              showToast("대화상대가 없어요.");
+              activeInput = false;
+            } else if (channel && channel.user_idx === content.user_idx) {
+              showToast(
+                "대화목록에는 존재하지만 참여자가 진입 시 참여할 수 없는 방이에요."
+              );
+              activeInput = false;
             }
-          } catch (err) {
-            console.error(err);
           }
         }
-        apiCreateChatRead(params.id);
-      } catch (err) {
-        console.error(err);
+
+        const banUsers = bans.map((x) => x.target);
+        if (banUsers.includes(sender_user_idx)) {
+          return;
+        }
+
+        const chat = {
+          user_idx: content.user_idx,
+          nickname: message.sender.name,
+          profile: message.sender.profile,
+          type: content.type,
+          message: message.message_type === "text" ? content.content : null,
+          image_url: message.message_type === "file" ? content.content : null,
+          created_at: message.created_at,
+        };
+
+        if (params.id === channel_id) {
+          if (data.length === 0) {
+            data = [
+              ...data,
+              {
+                idx: 0,
+                user_idx: 0,
+                channel_idx: 0,
+                type: "date",
+                message: convertChatDate(chat.created_at),
+                created_at: "",
+              },
+            ];
+          }
+          data = [...data, chat];
+        }
+
+        try {
+          if (params.id === channel_id && $store.user.id === content.user_idx) {
+            let response = await apiCreateMessage(
+              params.id,
+              content.type,
+              content.content
+            );
+
+            try {
+              if (response) {
+                setTimeout(function () {
+                  apiSendChatPush(response.idx);
+                }, 1000);
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          }
+          apiCreateChatRead(params.id);
+        } catch (err) {
+          console.error(err);
+        }
+
+        element.scrollTop = element.scrollHeight;
       }
-      element.scrollTop = element.scrollHeight;
-    }
-  );
+    );
 
-  bind("onConnected", function () {
-    loading = false;
-  });
+    bind("onConnected", function () {
+      loading = false;
+    });
 
-  bind("onDisconnected", function (reason: string) {
-    loading = true;
-    console.error(reason);
-  });
+    bind("onDisconnected", function (reason: string) {
+      loading = true;
+      console.error(reason);
+    });
 
-  bind("onMemberJoined", async function (data: any) {
-    const user_idx = Number(data.user_id.split("_")[1]);
-    if (
-      channel &&
-      channel.type !== "PRIVATE" &&
-      user_idx === Number($store.user.id)
-    ) {
+    bind("onMemberJoined", async function (data: any) {
+      const user_idx = Number(data.user_id.split("_")[1]);
+      if (
+        channel &&
+        channel.type !== "PRIVATE" &&
+        user_idx === Number($store.user.id)
+      ) {
+        const user = await apiGetUser(user_idx);
+        const message = JSON.stringify({
+          user_idx: user_idx,
+          type: "system",
+          content: `${user.nickname}님이 입장했어요.`,
+        });
+        await sendMessage(data.channel_id, "text", message);
+      }
+    });
+
+    bind("onMemberLeaved", async function (data: any) {
+      const user_idx = Number(data.user_id.split("_")[1]);
       const user = await apiGetUser(user_idx);
+      const content = `${user.nickname}님이 퇴장했어요.`;
       const message = JSON.stringify({
         user_idx: user_idx,
         type: "system",
-        content: `${user.nickname}님이 입장했어요.`,
+        content: content,
       });
       await sendMessage(data.channel_id, "text", message);
-    }
-  });
-
-  bind("onMemberLeaved", async function (data: any) {
-    const user_idx = Number(data.user_id.split("_")[1]);
-    const user = await apiGetUser(user_idx);
-    const content = `${user.nickname}님이 퇴장했어요.`;
-    const message = JSON.stringify({
-      user_idx: user_idx,
-      type: "system",
-      content: content,
+      await apiCreateMessage(data.channel_id, "system", content);
     });
-    await sendMessage(data.channel_id, "text", message);
-    await apiCreateMessage(data.channel_id, "system", content);
   });
 
   onDestroy(() => {
@@ -445,10 +444,7 @@
           showContentArea = false;
         }}
       >
-        <div
-          class="chat_area w-full scrollbar-hide"
-          bind:this={element}
-        >
+        <div class="scroll chat_area w-full" bind:this={element}>
           <div class="chat_info">
             {#await loadMessages()}
               <div
@@ -502,6 +498,7 @@
             {/await}
           </div>
           <InfiniteScroll
+            reverse
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
