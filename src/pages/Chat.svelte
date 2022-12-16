@@ -67,6 +67,8 @@
   let id: string;
   let activeInput = true;
   let loading = false;
+  let beforeScrollHeight: number;
+  let beforeScrollTop: number;
 
   $: data = updateChatItems(data);
 
@@ -502,8 +504,14 @@
             hasMore={newData.length > 0}
             threshold={200}
             on:loadMore={async () => {
+              beforeScrollHeight = element.scrollHeight;
+              beforeScrollTop = element.scrollTop;
+
               page++;
               await loadMessages();
+
+              element.scrollTop =
+                element.scrollHeight - beforeScrollHeight + beforeScrollTop;
             }}
           />
         </div>

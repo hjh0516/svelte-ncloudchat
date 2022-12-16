@@ -19,12 +19,12 @@
     element.addEventListener("resize", onScroll);
   }
 
-  $: if (isLoadMore && reverse) {
-    const element = elementScroll ? elementScroll : component.parentNode;
+  // $: if (isLoadMore && reverse) {
+  //   const element = elementScroll ? elementScroll : component.parentNode;
 
-    element.scrollTop =
-      element.scrollHeight - beforeScrollHeight + beforeScrollTop;
-  }
+  //   element.scrollTop =
+  //     element.scrollHeight - beforeScrollHeight + beforeScrollTop;
+  // }
 
   const onScroll = (e) => {
     if (!hasMore) return;
