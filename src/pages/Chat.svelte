@@ -13,7 +13,7 @@
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import SendImageModal from "$components/modals/SendImageModal.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
   import { querystring } from "svelte-spa-router";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
@@ -375,9 +375,8 @@
           console.error(err);
         }
 
-        setTimeout(() => {
-          element.scrollTop = element.scrollHeight;
-        }, 100);
+        await tick();
+        element.scrollTop = element.scrollHeight;
       }
     );
 
