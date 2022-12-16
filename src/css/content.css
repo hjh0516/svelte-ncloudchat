@@ -3335,6 +3335,8 @@ em.ent {
 .chat_util2 .emoge_case ul {
 	overflow: auto;
 	width: 1700px;
+	height: 45px;
+	;
 }
 
 .chat_util2 .emoge_case ul li {
