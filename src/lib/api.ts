@@ -122,8 +122,13 @@ export async function apiUnsubscribe(channel_id: string) {
   return await handleResponse(response);
 }
 
-export async function apiGetMessages(channel_id: string, page: number) {
-  const response = await fetch(`${API_URL}/chats/${channel_id}?page=${page}`, {
+export async function apiGetMessages(channel_id: string, cursor?: string) {
+  let url = `${API_URL}/chats/${channel_id}`;
+  if (cursor) {
+    url += `?cursor=${cursor}`;
+  }
+
+  const response = await fetch(url, {
     method: "GET",
     headers: setHeader(),
   });

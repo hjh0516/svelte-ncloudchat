@@ -45,7 +45,7 @@
 
   let channel: Channel;
   let input: string;
-  let page = 1;
+  let cursor: string;
   let data: Chat[] = [];
   let newData: Chat[] = [];
   let element: HTMLElement;
@@ -160,11 +160,12 @@
     try {
       await login();
 
-      const res = await apiGetMessages(params.id, page);
-      newData = res.data.sort().reverse();
+      const res = await apiGetMessages(params.id, cursor);
+      newData = res.data;
+      cursor = res.next_cursor;
 
-      if (newData.length > 0 && !res.next_page_url) {
-        newData.unshift({
+      if (newData.length > 0 && !cursor) {
+        newData.push({
           idx: 0,
           user_idx: 0,
           channel_idx: newData[newData.length - 1].channel_idx,
@@ -173,8 +174,7 @@
           created_at: "",
         });
       }
-
-      data = [...newData, ...data];
+      data = [...newData.reverse(), ...data];
     } catch (err) {
       console.error(err);
     }
@@ -502,15 +502,13 @@
           </div>
           <InfiniteScroll
             reverse
-            hasMore={newData.length > 0}
-            threshold={200}
+            hasMore={cursor !== null}
+            threshold={100}
             on:loadMore={async () => {
               beforeScrollHeight = element.scrollHeight;
               beforeScrollTop = element.scrollTop;
-
-              page++;
               await loadMessages();
-
+              await tick();
               element.scrollTop =
                 element.scrollHeight - beforeScrollHeight + beforeScrollTop;
             }}

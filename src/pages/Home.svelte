@@ -111,7 +111,7 @@
     <div class="size">
       <div class="inner overflow-hidden">
         <Navigation />
-        <div class="chat_area scrollbar-hide">
+        <div class="chat_area scroll">
           {#if $store.activeItem === "My 채팅"}
             <MyChat {chat} />
           {:else if $store.activeItem === "오픈 채팅"}
