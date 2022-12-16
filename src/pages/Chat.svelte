@@ -282,7 +282,14 @@
         }
       }
 
-      apiCreateChatRead(params.id);
+      var unread = await apiCreateChatRead(params.id);
+      if (unread.unread_count > 0 ){
+        if (isMobile.Android() && window.emoApp) {
+          window.emoApp?.gohidenew();
+        } else if (isMobile.iOS()) {
+          location.href = "gohidenew://";
+        }
+      }
       bans = await apiGetChatBans(params.id);
     } catch (err) {
       console.error(err);
@@ -370,7 +377,15 @@
               console.error(err);
             }
           }
-          apiCreateChatRead(params.id);
+          var unread = await apiCreateChatRead(params.id);
+          if (unread.unread_count > 0 ){
+            if (isMobile.Android() && window.emoApp) {
+              window.emoApp?.gohidenew();
+            } else if (isMobile.iOS()) {
+              location.href = "gohidenew://";
+            }
+          }
+
         } catch (err) {
           console.error(err);
         }
