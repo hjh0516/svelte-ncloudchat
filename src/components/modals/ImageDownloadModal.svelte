@@ -17,6 +17,8 @@
     
     if (isMobile.Android() && window.emoApp) {
       window.emoApp?.godownload(image_url);
+    } else if (isMobile.iOS()) {
+      location.href = "godownload://"+image_url;
     }else{
       const res = await fetch(image_url);
       const blob = await res.blob();
