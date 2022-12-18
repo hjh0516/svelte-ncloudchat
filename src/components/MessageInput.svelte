@@ -19,7 +19,7 @@
   export let messageDiv: HTMLElement;
   export let hiddenInput: HTMLElement;
   export let send = () => {};
-  export let resizeContent = () => {};
+  export let resizeContent = (val) => {};
 
   let emojis: Emoji[];
 
@@ -52,15 +52,10 @@ bind:this={messageDiv}>
               contentPath = "";
               showEmojiArea = false;
               showContentArea = false;
-resizeContent();
-
-            }}
-            on:focusin={() =>{
-
+              resizeContent('on');
             }}
             on:focusout={() =>{
-
-resizeContent();
+              resizeContent('off');
             }}
             on:keypress={(e) => {
               if (e.key === "Enter") {

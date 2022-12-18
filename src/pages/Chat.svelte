@@ -93,11 +93,15 @@
     messageInput.focus();
   }
 
-  function resizeContent(){
+  function resizeContent(val){
     if (isMobile.iOS()) {
-      setTimeout(() => {
-        elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
-      }, 200);
+      if (val == 'on') {
+        setTimeout(() => {
+          elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
+        }, 200);
+      }else if (val == 'off'){
+        elementDiv.style.height = "";
+      }
     }
 }
   async function sendEmoji() {
