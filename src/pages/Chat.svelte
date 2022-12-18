@@ -49,6 +49,7 @@
   let data: Chat[] = [];
   let newData: Chat[] = [];
   let element: HTMLElement;
+  let elementDiv: HTMLElement;
   let showSettingModal = false;
   let showImageDownloadModal = false;
   let showChatProfileModal = false;
@@ -62,6 +63,7 @@
   let bans = [];
   let refresh = false;
   let messageInput: HTMLElement;
+  let messageDiv: HTMLElement;
   let hiddenInput: HTMLElement;
   let user: any;
   let id: string;
@@ -91,6 +93,13 @@
     messageInput.focus();
   }
 
+  function resizeContent(){
+    if (isMobile.iOS()) {
+      setTimeout(() => {
+        elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
+      }, 100);
+    }
+}
   async function sendEmoji() {
     const inputEmoji = emojiPath;
     input = "";
@@ -453,6 +462,7 @@
   <div class="section">
     <div class="size">
       <div
+      bind:this = {elementDiv}
         class="inner"
         style={showEmojiArea || showContentArea ? "padding-bottom: 290px;" : ""}
         on:click={() => {
@@ -535,10 +545,12 @@
 </div>
 <MessageInput
   {send}
+  {resizeContent}
   {activeInput}
   {contents}
   bind:input
   bind:messageInput
+  bind:messageDiv
   bind:hiddenInput
   bind:showEmojiArea
   bind:showSendImageModal

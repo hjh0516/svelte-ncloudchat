@@ -9,6 +9,7 @@
     apiGetChannel,
     apiGetFollows,
     apiGetPrivateChannel,
+    apiSendChatPush,
     apiSubscribe,
   } from "$lib/api";
   import { getNotificationsContext } from "svelte-notifications";
@@ -99,8 +100,11 @@
           content: link,
         });
         await sendMessage(channel_id, "text", message);
-        await apiCreateMessage(channel_id, "link", link);
+        let response = await apiCreateMessage(channel_id, "link", link);
 
+        setTimeout(function () {
+          apiSendChatPush(response.idx);
+        }, 1000);
         clearNotifications();
         addNotification({
           text: "1:1 채팅방으로 링크가 공유되었어요.",
@@ -117,6 +121,8 @@
       history.back();
     }, 500);
   }
+
+
 </script>
 
 <div class="chat_header">

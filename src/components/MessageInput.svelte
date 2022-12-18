@@ -16,8 +16,10 @@
   export let contentPath: string;
   export let showSendImageModal = false;
   export let messageInput: HTMLElement;
+  export let messageDiv: HTMLElement;
   export let hiddenInput: HTMLElement;
   export let send = () => {};
+  export let resizeContent = () => {};
 
   let emojis: Emoji[];
 
@@ -28,7 +30,8 @@
   }
 </script>
 
-<div class="chat_util2">
+<div class="chat_util2" 
+bind:this={messageDiv}>
   <div class="util_area">
     <div class="req_area">
       <div class="req_wrap">
@@ -49,6 +52,15 @@
               contentPath = "";
               showEmojiArea = false;
               showContentArea = false;
+resizeContent();
+
+            }}
+            on:focusin={() =>{
+
+            }}
+            on:focusout={() =>{
+
+resizeContent();
             }}
             on:keypress={(e) => {
               if (e.key === "Enter") {
