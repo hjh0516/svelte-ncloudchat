@@ -97,7 +97,7 @@
     if (isMobile.iOS()) {
       setTimeout(() => {
         elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
-      }, 100);
+      }, 200);
     }
 }
   async function sendEmoji() {
