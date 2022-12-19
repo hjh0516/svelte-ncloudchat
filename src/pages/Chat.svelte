@@ -69,8 +69,6 @@
   let id: string;
   let activeInput = true;
   let loading = false;
-  let beforeScrollHeight: number;
-  let beforeScrollTop: number;
 
   $: data = updateChatItems(data);
 
@@ -93,17 +91,18 @@
     messageInput.focus();
   }
 
-  function resizeContent(val){
+  function resizeContent(val) {
     if (isMobile.iOS()) {
-      if (val == 'on') {
+      if (val == "on") {
         setTimeout(() => {
-          elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
+          elementDiv.style.height =
+            messageDiv.getBoundingClientRect().y + 54 + "px";
         }, 200);
-      }else if (val == 'off'){
+      } else if (val == "off") {
         elementDiv.style.height = "";
       }
     }
-}
+  }
   async function sendEmoji() {
     const inputEmoji = emojiPath;
     input = "";
@@ -296,7 +295,7 @@
       }
 
       var unread = await apiCreateChatRead(params.id);
-      if (unread.unread_count > 0 ){
+      if (unread.unread_count > 0) {
         if (isMobile.Android() && window.emoApp) {
           window.emoApp?.gohidenew();
         } else if (isMobile.iOS()) {
@@ -391,14 +390,13 @@
             }
           }
           var unread = await apiCreateChatRead(params.id);
-          if (unread.unread_count > 0 ){
+          if (unread.unread_count > 0) {
             if (isMobile.Android() && window.emoApp) {
               window.emoApp?.gohidenew();
             } else if (isMobile.iOS()) {
               location.href = "gohidenew://";
             }
           }
-
         } catch (err) {
           console.error(err);
         }
@@ -466,7 +464,7 @@
   <div class="section">
     <div class="size">
       <div
-      bind:this = {elementDiv}
+        bind:this={elementDiv}
         class="inner"
         style={showEmojiArea || showContentArea ? "padding-bottom: 290px;" : ""}
         on:click={() => {
@@ -534,8 +532,8 @@
             hasMore={cursor !== null}
             threshold={100}
             on:loadMore={async () => {
-              beforeScrollHeight = element.scrollHeight;
-              beforeScrollTop = element.scrollTop;
+              const beforeScrollHeight = element.scrollHeight;
+              const beforeScrollTop = element.scrollTop;
               await loadMessages();
               await tick();
               element.scrollTop =
