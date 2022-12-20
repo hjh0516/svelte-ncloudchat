@@ -94,15 +94,15 @@
   }
 
   function resizeContent(val){
-    if (isMobile.iOS()) {
-      if (val == 'on') {
-        setTimeout(() => {
-          elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
-        }, 200);
-      }else if (val == 'off'){
-        elementDiv.style.height = "";
-      }
-    }
+    // if (isMobile.iOS()) {
+    //   if (val == 'on') {
+    //     setTimeout(() => {
+    //       elementDiv.style.height = (messageDiv.getBoundingClientRect().y + 54)+"px"
+    //     }, 200);
+    //   }else if (val == 'off'){
+    //     elementDiv.style.height = "";
+    //   }
+    // }
 }
   async function sendEmoji() {
     const inputEmoji = emojiPath;
@@ -377,7 +377,8 @@
             let response = await apiCreateMessage(
               params.id,
               content.type,
-              content.content
+              content.content, 
+              message.message_id
             );
 
             try {
@@ -444,7 +445,7 @@
         content: content,
       });
       await sendMessage(data.channel_id, "text", message);
-      await apiCreateMessage(data.channel_id, "system", content);
+      await apiCreateMessage(data.channel_id, "system", content, null);
     });
   });
 

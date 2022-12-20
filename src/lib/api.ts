@@ -138,12 +138,17 @@ export async function apiGetMessages(channel_id: string, cursor?: string) {
 export async function apiCreateMessage(
   channel_id: string,
   type: string,
-  message: string
+  message: string,
+  message_id: string
 ) {
   const response = await fetch(`${API_URL}/chats/${channel_id}`, {
     method: "POST",
     headers: setHeader(),
-    body: JSON.stringify({ type: type, message: message }),
+    body: JSON.stringify({
+      type: type,
+      message: message,
+      message_id: message_id,
+    }),
   });
   return await handleResponse(response);
 }

@@ -100,7 +100,7 @@
           content: link,
         });
         await sendMessage(channel_id, "text", message);
-        let response = await apiCreateMessage(channel_id, "link", link);
+        let response = await apiCreateMessage(channel_id, "link", link, null);
 
         setTimeout(function () {
           apiSendChatPush(response.idx);
