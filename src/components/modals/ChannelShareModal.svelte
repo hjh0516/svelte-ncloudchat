@@ -16,10 +16,15 @@
   function link() {
     const API_URL = import.meta.env.VITE_API_URL;
     const url = `${API_URL}/sharelink?type=chat&channel_id=${channel_id}`;
-    if (window.isSecureContext && window.navigator.clipboard) {
-      window.navigator.clipboard.writeText(url);
-    } else {
-      unsecureCopy(url);
+
+    if (isMobile.Android() && window.emoApp) {
+        window.emoApp?.goclipboard(url);
+    }else{
+      if (window.isSecureContext && window.navigator.clipboard) {
+        window.navigator.clipboard.writeText(url);
+      } else {
+        unsecureCopy(url);
+      }
     }
 
     clearNotifications();
