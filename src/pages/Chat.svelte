@@ -92,16 +92,16 @@
   }
 
   function resizeContent(val) {
-    if (isMobile.iOS()) {
-      if (val == "on") {
-        setTimeout(() => {
-          elementDiv.style.height =
-            messageDiv.getBoundingClientRect().y + 54 + "px";
-        }, 200);
-      } else if (val == "off") {
-        elementDiv.style.height = "";
-      }
-    }
+    // if (isMobile.iOS()) {
+    //   if (val == "on") {
+    //     setTimeout(() => {
+    //       elementDiv.style.height =
+    //         messageDiv.getBoundingClientRect().y + 54 + "px";
+    //     }, 200);
+    //   } else if (val == "off") {
+    //     elementDiv.style.height = "";
+    //   }
+    // }
   }
   async function sendEmoji() {
     const inputEmoji = emojiPath;
