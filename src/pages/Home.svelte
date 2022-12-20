@@ -13,7 +13,7 @@
   import { querystring } from "svelte-spa-router";
   import { store } from "$store/store";
   import { bind, unbindall } from "$lib/NcloudChat";
-  import { apiGetUser } from "$lib/api";
+  import { apiGetChatBans, apiGetUser } from "$lib/api";
 
   let chat: Chat;
   let newChannel: Channel = null;
@@ -21,6 +21,7 @@
   let showCreateChannelModal = false;
   let loading = false;
   let user: any;
+  let bans = [];
 
   window.setShowSettingModal = (value: boolean) => {
     showCreateChannelModal = false;
@@ -78,7 +79,16 @@
     $store.channel = null;
     window.sessionStorage.setItem("store", JSON.stringify($store));
 
-    bind("onMessageReceived", function (channel: string, message: Message) {
+
+    bind("onMessageReceived", async function (channel: string, message: Message) {
+      const sender_user_idx = Number(message.sender.id.split("_")[1]);
+      bans = await apiGetChatBans(channel);
+
+      const banUsers = bans.map((x) => x.target);
+        if (banUsers.includes(sender_user_idx)) {
+          return;
+        }
+
       chat = {
         channel_id: channel,
         nickname: message.sender.name,
