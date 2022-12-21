@@ -113,7 +113,7 @@
       const res = await fetch(inputEmoji);
       const blob = await res.blob();
       const file = new File([blob], "emoji", { type: blob.type });
-      await sendImage(params.id, file);
+      sendImage(params.id, file);
     } catch (err) {
       console.error(err);
     }
@@ -130,14 +130,14 @@
       const res = await fetch(inputContent);
       const blob = await res.blob();
       const file = new File([blob], "content", { type: blob.type });
-      await sendImage(params.id, file);
+      sendImage(params.id, file);
     } catch (err) {
       console.error(err);
     }
     loading = false;
   }
 
-  async function sendText() {
+  function sendText() {
     const inputMessage = input;
     input = "";
     emojiPath = "";
@@ -149,8 +149,7 @@
     });
 
     try {
-      await sendMessage(params.id, "text", message);
-      await apiCreateMessage(params.id, "text", message, null);
+      sendMessage(params.id, "text", message);
     } catch (err) {
       console.error(err);
     }
@@ -198,7 +197,7 @@
     if (refresh) {
       if (isMobile.Android() && window.emoApp) {
         window.emoApp?.goreload();
-      }else{
+      } else {
         location.reload();
       }
     }
@@ -209,7 +208,7 @@
     if (refresh) {
       if (isMobile.Android() && window.emoApp) {
         window.emoApp?.goreload();
-      }else{
+      } else {
         location.reload();
       }
     }
