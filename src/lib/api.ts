@@ -366,15 +366,18 @@ export async function apiCreateUserSubscription(
 
 export async function apiDeleteUserSubscription(
   channel_id: string,
-  user_idx: number
+  user_idx: number,
+  forced_exit?: number
 ) {
-  const response = await fetch(
-    `${API_URL}/subscriptions/users/${channel_id}/${user_idx}`,
-    {
-      method: "DELETE",
-      headers: setHeader(),
-    }
-  );
+  let url = `${API_URL}/subscriptions/users/${channel_id}/${user_idx}`;
+  if (forced_exit) {
+    url += `?forced_exit=${forced_exit}`;
+  }
+
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: setHeader(),
+  });
   return await handleResponse(response);
 }
 

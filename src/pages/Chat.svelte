@@ -24,6 +24,7 @@
     sendImage,
     subscribe,
     getSubscriptions,
+    unsubscribe,
   } from "$lib/NcloudChat";
   import {
     apiGetMessages,
@@ -335,6 +336,7 @@
           if (content.type === "system") {
             if (content.target === $store.user.id) {
               history.back();
+              unsubscribe(params.id);
             } else if (channel && channel.type === "PRIVATE") {
               showToast("대화상대가 없어요.");
               activeInput = false;
@@ -380,7 +382,11 @@
         }
 
         try {
-          if (params.id === channel_id && $store.user.id === content.user_idx) {
+          if (
+            params.id === channel_id &&
+            $store.user.id === content.user_idx &&
+            content.type !== "system"
+          ) {
             let response = await apiCreateMessage(
               params.id,
               content.type,
@@ -426,7 +432,6 @@
     });
 
     bind("onMemberJoined", async function (data: any) {
-      console.info(data);
       const user_idx = Number(data.user_id.split("_")[1]);
       if (channel && channel.type !== "PRIVATE") {
         const user = await apiGetUser(user_idx);

@@ -46,7 +46,7 @@
 
   async function forcedExit(target: number) {
     try {
-      await apiDeleteUserSubscription(channel.channel_id, target);
+      await apiDeleteUserSubscription(channel.channel_id, target, 1);
 
       const content = `${item.nickname}님이 내보내졌어요.`;
       const message = JSON.stringify({

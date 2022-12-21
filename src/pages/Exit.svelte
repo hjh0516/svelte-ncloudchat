@@ -18,7 +18,11 @@
   }
 
   function clear(idx: number) {
-    apiCreateUserSubscription(params.id, idx);
+    try {
+      apiCreateUserSubscription(params.id, idx);
+    } catch (err) {
+      console.error(err);
+    }
     users = users.filter((v) => v.idx !== idx);
   }
 </script>

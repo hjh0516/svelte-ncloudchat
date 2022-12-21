@@ -10,6 +10,7 @@
   import {
     apiCheckFollow,
     apiCreateChannelNotification,
+    apiGetDeletedUserSubscriptions,
     apiSubscribe,
   } from "$lib/api";
   import { subscribe } from "$lib/NcloudChat";
@@ -65,6 +66,23 @@
         showUserFollowModal = true;
         return;
       }
+    }
+
+    try {
+      const deletedUser = await apiGetDeletedUserSubscriptions(item.channel_id);
+      if (
+        deletedUser.findIndex((x) => x.idx === Number($store.user.id)) !== -1
+      ) {
+        clearNotifications();
+        addNotification({
+          text: "내보내진 사용자는 채팅방에 참여할 수 없어요.",
+          position: "bottom-center",
+          removeAfter: 1500,
+        });
+        return;
+      }
+    } catch (err) {
+      console.error(err);
     }
 
     loading = true;
