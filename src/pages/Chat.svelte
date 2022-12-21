@@ -196,14 +196,22 @@
   function closeChatSettingModal() {
     showSettingModal = false;
     if (refresh) {
-      location.reload();
+      if (isMobile.Android() && window.emoApp) {
+        window.emoApp?.goreload();
+      }else{
+        location.reload();
+      }
     }
   }
 
   function closeChatProfileModal() {
     showChatProfileModal = false;
     if (refresh) {
-      location.reload();
+      if (isMobile.Android() && window.emoApp) {
+        window.emoApp?.goreload();
+      }else{
+        location.reload();
+      }
     }
   }
 
