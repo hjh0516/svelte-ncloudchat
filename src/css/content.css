@@ -4753,7 +4753,7 @@ em.ent {
 }
 
 #roomInfo .c_wrap {
-	margin-top: -80px;
+	/* margin-top: -80px; */
 }
 
 #roomInfo .btn_area {

@@ -115,7 +115,7 @@
     <div class="tb">
       <div class="tbbtm">
         <div id="close" class="svg btn_close bl" on:click={close}>닫기</div>
-        <div class="c_wrap">
+        <div class="c_wrap -translate-x-1/2 -translate-y-1/2">
           {#if item.image_url}
             <div
               class="c_avata back_img"

@@ -3,6 +3,7 @@
 
   import {
     apiCreateChatBans,
+    apiCreateMessage,
     apiDeleteChatBans,
     apiDeleteUserSubscription,
   } from "$lib/api";
@@ -47,14 +48,16 @@
     try {
       await apiDeleteUserSubscription(channel.channel_id, target);
 
+      const content = `${item.nickname}님이 내보내졌어요.`;
       const message = JSON.stringify({
-        user_idx: $store.user.id,
+        user_idx: 0,
         type: "system",
-        content: `${item.nickname}님이 내보내졌어요.`,
+        content: content,
         target: target,
       });
 
       sendMessage(channel.channel_id, "text", message);
+      apiCreateMessage(channel.channel_id, "system", content, null);
       close();
     } catch (err) {
       clearNotifications();

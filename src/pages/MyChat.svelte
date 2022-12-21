@@ -8,6 +8,7 @@
   import { onMount } from "svelte";
   import { store } from "$store/store";
   import {
+    apiCreateMessage,
     apiDeleteChannel,
     apiDeleteChannelNotification,
     apiGetChannel,
@@ -80,13 +81,15 @@
     }
 
     try {
+      const content = `${$store.user.name}님이 퇴장했어요.`;
       const message = JSON.stringify({
-        user_idx: $store.user.id,
+        user_idx: 0,
         type: "system",
-        content: `${$store.user.name}님이 퇴장했어요.`,
+        content: content,
       });
 
       sendMessage(channel_id, "text", message);
+      apiCreateMessage(channel_id, "system", content, null);
       unsubscribe(channel_id);
     } catch (err) {
       console.error(err);

@@ -17,7 +17,7 @@
     apiUpdateChannelNotification,
   } from "$lib/api";
   import { store } from "$store/store";
-  import { sendMessage, unsubscribe } from "$lib/NcloudChat";
+  import { unsubscribe } from "$lib/NcloudChat";
 
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");

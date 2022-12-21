@@ -150,6 +150,7 @@
 
     try {
       await sendMessage(params.id, "text", message);
+      await apiCreateMessage(params.id, "text", message, null);
     } catch (err) {
       console.error(err);
     }
@@ -294,7 +295,7 @@
         }
       }
 
-      var unread = await apiCreateChatRead(params.id);
+      let unread = await apiCreateChatRead(params.id);
       if (unread.unread_count > 0) {
         if (isMobile.Android() && window.emoApp) {
           window.emoApp?.gohidenew();
@@ -376,7 +377,7 @@
             let response = await apiCreateMessage(
               params.id,
               content.type,
-              content.content, 
+              content.content,
               message.message_id
             );
 
@@ -390,7 +391,8 @@
               console.error(err);
             }
           }
-          var unread = await apiCreateChatRead(params.id);
+
+          let unread = await apiCreateChatRead(params.id);
           if (unread.unread_count > 0) {
             if (isMobile.Android() && window.emoApp) {
               window.emoApp?.gohidenew();
@@ -417,33 +419,34 @@
     });
 
     bind("onMemberJoined", async function (data: any) {
+      console.info(data);
       const user_idx = Number(data.user_id.split("_")[1]);
-      if (
-        channel &&
-        channel.type !== "PRIVATE" &&
-        user_idx === Number($store.user.id)
-      ) {
+      if (channel && channel.type !== "PRIVATE") {
         const user = await apiGetUser(user_idx);
+        const content = `${user.nickname}님이 입장했어요.`;
         const message = JSON.stringify({
-          user_idx: user_idx,
+          user_idx: 0,
           type: "system",
-          content: `${user.nickname}님이 입장했어요.`,
+          content: content,
         });
-        await sendMessage(data.channel_id, "text", message);
+        sendMessage(data.channel_id, "text", message);
+        apiCreateMessage(data.channel_id, "system", content, null);
       }
     });
 
     bind("onMemberLeaved", async function (data: any) {
       const user_idx = Number(data.user_id.split("_")[1]);
-      const user = await apiGetUser(user_idx);
-      const content = `${user.nickname}님이 퇴장했어요.`;
-      const message = JSON.stringify({
-        user_idx: user_idx,
-        type: "system",
-        content: content,
-      });
-      await sendMessage(data.channel_id, "text", message);
-      await apiCreateMessage(data.channel_id, "system", content, null);
+      if (channel) {
+        const user = await apiGetUser(user_idx);
+        const content = `${user.nickname}님이 퇴장했어요.`;
+        const message = JSON.stringify({
+          user_idx: 0,
+          type: "system",
+          content: content,
+        });
+        sendMessage(data.channel_id, "text", message);
+        apiCreateMessage(data.channel_id, "system", content, null);
+      }
     });
   });
 
