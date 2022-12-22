@@ -254,6 +254,7 @@
 
   function resizeContent() {
     if (isMobile.iOS()) {
+      console.info(messageDiv.getBoundingClientRect().bottom);
       setTimeout(() => {
         elementDiv.style.height = `${
           messageDiv.getBoundingClientRect().bottom
@@ -471,11 +472,7 @@
 </script>
 
 <ChatHeader {channel} bind:showSettingModal />
-<div
-  id="chatRoom"
-  class="chatting chat_room"
-  on:click={() => (showEmojiArea = false)}
->
+<div id="chatRoom" class="chatting chat_room">
   <div class="section">
     <div class="size">
       <div
@@ -486,6 +483,7 @@
           contentPath = "";
           showEmojiArea = false;
           showContentArea = false;
+          resizeContent();
         }}
       >
         <div class="scroll chat_area w-full" bind:this={element}>

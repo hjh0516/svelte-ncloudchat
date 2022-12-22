@@ -28,7 +28,7 @@
   });
 </script>
 
-<div class="emoge_area" transition:slide={{ delay: 100, duration: 300 }}>
+<div class="emoge_area" transition:slide={{ delay: 0, duration: 200 }}>
   <div class="emoge_case">
     <ul class="scroll">
       {#if emojis.length > 0}

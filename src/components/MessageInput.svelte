@@ -30,9 +30,9 @@
   }
 </script>
 
-<div class="chat_util2" bind:this={messageDiv}>
+<div class="chat_util2">
   <div class="util_area">
-    <div class="req_area">
+    <div class="req_area" bind:this={messageDiv}>
       <div class="req_wrap">
         <div class="more">
           <input

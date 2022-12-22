@@ -19,6 +19,7 @@
     emojiPath = "";
     showEmojiArea = false;
     showContentArea = false;
+    resizeContent();
   }
 </script>
 
