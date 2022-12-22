@@ -19,7 +19,7 @@
   export let messageDiv: HTMLElement;
   export let hiddenInput: HTMLElement;
   export let send = () => {};
-  export let resizeContent = (val) => {};
+  export let resizeContent = () => {};
 
   let emojis: Emoji[];
 
@@ -30,8 +30,7 @@
   }
 </script>
 
-<div class="chat_util2" 
-bind:this={messageDiv}>
+<div class="chat_util2" bind:this={messageDiv}>
   <div class="util_area">
     <div class="req_area">
       <div class="req_wrap">
@@ -52,10 +51,10 @@ bind:this={messageDiv}>
               contentPath = "";
               showEmojiArea = false;
               showContentArea = false;
-              resizeContent('on');
+              resizeContent();
             }}
-            on:focusout={() =>{
-              resizeContent('off');
+            on:focusout={() => {
+              resizeContent();
             }}
             on:keypress={(e) => {
               if (e.key === "Enter") {
@@ -76,6 +75,7 @@ bind:this={messageDiv}>
                 contentPath = "";
                 showContentArea = false;
                 showEmojiArea = !showEmojiArea;
+                resizeContent();
               }}
             />
             <input

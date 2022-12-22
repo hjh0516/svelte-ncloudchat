@@ -92,18 +92,6 @@
     messageInput.focus();
   }
 
-  function resizeContent(val) {
-    if (isMobile.iOS()) {
-      if (val == "on") {
-        setTimeout(() => {
-          elementDiv.style.height =
-            messageDiv.getBoundingClientRect().y + 54 + "px";
-        }, 200);
-      } else if (val == "off") {
-        elementDiv.style.height = "";
-      }
-    }
-  }
   async function sendEmoji() {
     const inputEmoji = emojiPath;
     input = "";
@@ -262,6 +250,17 @@
       position: "bottom-center",
       removeAfter: 1500,
     });
+  }
+
+  function resizeContent() {
+    if (isMobile.iOS()) {
+      setTimeout(() => {
+        elementDiv.style.height = `${
+          messageDiv.getBoundingClientRect().bottom
+        }px`;
+        element.scrollTop = element.scrollHeight;
+      }, 200);
+    }
   }
 
   onMount(async () => {
@@ -482,7 +481,6 @@
       <div
         bind:this={elementDiv}
         class="inner"
-        style={showEmojiArea || showContentArea ? "padding-bottom: 290px;" : ""}
         on:click={() => {
           emojiPath = "";
           contentPath = "";
@@ -546,14 +544,17 @@
           <InfiniteScroll
             reverse
             hasMore={cursor !== null}
-            threshold={100}
+            threshold={200}
             on:loadMore={async () => {
               const beforeScrollHeight = element.scrollHeight;
               const beforeScrollTop = element.scrollTop;
               await loadMessages();
               await tick();
               element.scrollTop =
-                element.scrollHeight - beforeScrollHeight + beforeScrollTop;
+                element.scrollHeight -
+                beforeScrollHeight +
+                beforeScrollTop -
+                185;
             }}
           />
         </div>
@@ -604,6 +605,7 @@
 {#if showSendImageModal}
   <SendImageModal
     {uploadImage}
+    {resizeContent}
     bind:contents
     bind:showContentArea
     bind:showEmojiArea

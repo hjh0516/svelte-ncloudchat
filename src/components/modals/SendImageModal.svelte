@@ -6,6 +6,7 @@
   import { apiGetContents } from "$lib/api";
 
   export let uploadImage = (e) => {};
+  export let resizeContent = () => {};
   export let showContentArea = false;
   export let contents: Content[];
   export let showEmojiArea = false;
@@ -41,6 +42,7 @@
                   emojiPath = "";
                   showEmojiArea = false;
                   showContentArea = !showContentArea;
+                  resizeContent();
                 }}
               >
                 내 컨텐츠에서 선택하기
