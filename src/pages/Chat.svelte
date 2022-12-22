@@ -254,13 +254,12 @@
 
   function resizeContent() {
     if (isMobile.iOS()) {
-      console.info(messageDiv.getBoundingClientRect().bottom);
       setTimeout(() => {
         elementDiv.style.height = `${
           messageDiv.getBoundingClientRect().bottom
         }px`;
         element.scrollTop = element.scrollHeight;
-      }, 200);
+      }, 300);
     }
   }
 
