@@ -315,8 +315,10 @@
       console.error(err);
     }
 
-    element.scrollTop = element.scrollHeight;
-    loading = false;
+    setTimeout(() => {
+      element.scrollTop = element.scrollHeight;
+      loading = false;
+    }, 300);
 
     bind(
       "onMessageReceived",
