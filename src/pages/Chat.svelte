@@ -261,8 +261,13 @@
         elementDiv.style.height = `${
           messageDiv.getBoundingClientRect().bottom
         }px`;
-        element.scrollTop = element.scrollHeight;
       }, 300);
+    }
+  }
+
+  function scrollToBottom() {
+    if (!loadMore) {
+      element.scrollTo(0, element.scrollHeight);
     }
   }
 
@@ -463,9 +468,7 @@
   });
 
   afterUpdate(() => {
-    if (!loadMore) {
-      element.scrollTo(0, element.scrollHeight);
-    }
+    scrollToBottom();
   });
 
   onDestroy(() => {
