@@ -13,7 +13,7 @@
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import SendImageModal from "$components/modals/SendImageModal.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { onMount, onDestroy, tick } from "svelte";
+  import { onMount, onDestroy, afterUpdate } from "svelte";
   import { querystring } from "svelte-spa-router";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
@@ -44,31 +44,34 @@
 
   const { addNotification, clearNotifications } = getNotificationsContext();
 
+  let id: string;
   let channel: Channel;
   let input: string;
   let cursor: string;
+  let user: any;
   let data: Chat[] = [];
   let newData: Chat[] = [];
-  let element: HTMLElement;
-  let elementDiv: HTMLElement;
-  let showSettingModal = false;
-  let showImageDownloadModal = false;
-  let showChatProfileModal = false;
-  let showEmojiArea = false;
-  let showSendImageModal = false;
-  let showContentArea = false;
   let emojiPath: string;
   let contentPath: string;
   let contents: Content[];
   let chatItem = null;
   let bans = [];
-  let refresh = false;
+
+  let element: HTMLElement;
+  let elementDiv: HTMLElement;
   let messageInput: HTMLElement;
   let messageDiv: HTMLElement;
   let hiddenInput: HTMLElement;
-  let user: any;
-  let id: string;
+
+  let showSettingModal = false;
+  let showImageDownloadModal = false;
+  let showChatProfileModal = false;
+  let showSendImageModal = false;
+  let showEmojiArea = false;
+  let showContentArea = false;
+  let refresh = false;
   let activeInput = true;
+  let loadMore = false;
   let loading = false;
 
   $: data = updateChatItems(data);
@@ -315,14 +318,13 @@
       console.error(err);
     }
 
-    setTimeout(() => {
-      element.scrollTop = element.scrollHeight;
-      loading = false;
-    }, 300);
+    loading = false;
 
     bind(
       "onMessageReceived",
       async function (channel_id: string, message: Message) {
+        loadMore = false;
+
         const sender_user_idx = Number(message.sender.id.split("_")[1]);
         const content =
           message.message_type === "text"
@@ -417,9 +419,6 @@
         } catch (err) {
           console.error(err);
         }
-
-        await tick();
-        element.scrollTop = element.scrollHeight;
       }
     );
 
@@ -461,6 +460,12 @@
         apiCreateMessage(data.channel_id, "system", content, null);
       }
     });
+  });
+
+  afterUpdate(() => {
+    if (!loadMore) {
+      element.scrollTo(0, element.scrollHeight);
+    }
   });
 
   onDestroy(() => {
@@ -545,10 +550,10 @@
             hasMore={cursor !== null}
             threshold={200}
             on:loadMore={async () => {
+              loadMore = true;
               const beforeScrollHeight = element.scrollHeight;
               const beforeScrollTop = element.scrollTop;
               await loadMessages();
-              await tick();
               element.scrollTop =
                 element.scrollHeight -
                 beforeScrollHeight +
