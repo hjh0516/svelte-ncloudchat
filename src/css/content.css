@@ -4007,6 +4007,7 @@ em.ent {
 	overflow-y: scroll;
 	background-color: #f4f4f4;
 	font-size: 0;
+	-webkit-transform: translate3d(0, 0, 0);
 }
 
 .chat_room .chat_info>div {

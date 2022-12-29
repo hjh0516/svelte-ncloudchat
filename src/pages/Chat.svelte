@@ -13,7 +13,7 @@
   import ImageDownloadModal from "$components/modals/ImageDownloadModal.svelte";
   import SendImageModal from "$components/modals/SendImageModal.svelte";
   import Spinner from "$components/Spinner.svelte";
-  import { onMount, onDestroy, afterUpdate, tick } from "svelte";
+  import { onMount, onDestroy, afterUpdate } from "svelte";
   import { querystring } from "svelte-spa-router";
   import { getNotificationsContext } from "svelte-notifications";
   import { store } from "$store/store";
@@ -559,7 +559,6 @@
               const beforeScrollHeight = element.scrollHeight;
 
               await loadMessages();
-              await tick();
 
               element.scrollTop =
                 element.scrollHeight -
