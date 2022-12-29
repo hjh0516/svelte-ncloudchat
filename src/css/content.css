@@ -3992,7 +3992,8 @@ em.ent {
 
 /* 유저 채팅방 */
 .chat_room {
-	position: relative;
+	position: fixed;
+	width: 100%;
 }
 
 .chat_room .inner {
@@ -4004,10 +4005,9 @@ em.ent {
 	padding: 20px;
 	box-sizing: border-box;
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 	background-color: #f4f4f4;
 	font-size: 0;
-	-webkit-transform: translate3d(0, 0, 0);
 }
 
 .chat_room .chat_info>div {
