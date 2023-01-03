@@ -102,7 +102,7 @@
 
     loading = true;
     try {
-      const res = await fetch(inputEmoji, {mode: 'cors'});
+      const res = await fetch(inputEmoji);
       const blob = await res.blob();
       const file = new File([blob], "emoji", { type: blob.type });
       sendImage(params.id, file);
@@ -119,7 +119,7 @@
 
     loading = true;
     try {
-      const res = await fetch(inputContent, {mode: 'cors'});
+      const res = await fetch(inputContent);
       const blob = await res.blob();
       const file = new File([blob], "content", { type: blob.type });
       sendImage(params.id, file);
